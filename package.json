@@ -8,13 +8,13 @@
     "build": "vite build",
     "preview": "vite preview",
     "watch": "tsc --watch",
-    "lint": "pnpm lint:base src",
+    "lint": "npm run lint:base src",
     "lint:base": "eslint --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "pnpm lint --fix"
+    "lint:fix": "npm run lint --fix"
   },
   "type": "module",
   "author": "Kaspian devs",
-  "license": "UNLICENSED",
+  "license": "GPL-3",
   "devDependencies": {
     "@crxjs/vite-plugin": "2.0.0-beta.18",
     "@types/chrome": "^0.0.254",
