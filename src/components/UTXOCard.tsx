@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/smaller-card"
-import nf from "@/lib/numberFormatter"
+import nf from "@/components/lib/numberFormatter"
 interface UTXOCardProps {
   amount: number
   value: number
