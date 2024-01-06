@@ -41,7 +41,7 @@ export default class Store {
 
   async unlock(index: number, password: string) {
     const unlockingWallet = this.wallets[index]
-    kaspa.unlockingWallet.mnemonics = await Cryptography.decryptMnemonics(
+    unlockingWallet.mnemonics = await Cryptography.decryptMnemonics(
       unlockingWallet.encrypted_mnemonics,
       password
     )
