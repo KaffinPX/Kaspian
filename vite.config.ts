@@ -11,18 +11,16 @@ const manifest: ManifestV3Export = {
   action: {
     default_popup: "index.html"
   },
-  /*background: {
-        service_worker: "src/controller/Background.ts",
-        type: "module"
-    },*/
-  content_scripts: [
-    {
-      matches: ["<all_urls>"],
-      js: ["src/provider/inject.ts"],
-      run_at: "document_start"
-    }
-  ],
-  permissions: ["storage", "alarms"],
+  background: {
+    service_worker: "src/wallet/index.ts",
+    type: "module"
+  },
+  content_scripts: [{
+    matches: [ "<all_urls>" ],
+    js: [ "src/provider/inject.ts" ],
+    run_at: "document_start"
+  }],
+  permissions: [ "storage", "alarms", "notifications" ],
   // this is an ID for firefox, but the `ManifestV3Export` type doesn't have it
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -39,7 +37,7 @@ const manifest: ManifestV3Export = {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), crx({ manifest })],
+  plugins: [ react(), crx({ manifest }) ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src")
@@ -47,7 +45,7 @@ export default defineConfig({
   },
   css: {
     postcss: {
-      plugins: [tailwindcss]
+      plugins: [ tailwindcss ]
     }
   },
   server: {
