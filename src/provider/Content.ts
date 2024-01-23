@@ -1,5 +1,19 @@
-window.kaspa = {
-  network: "TESTNET"
+interface ProviderInfo {
+  name: string
 }
 
-export {}
+function announceProvider() {
+  const info: ProviderInfo = {
+    name: "Kaspian"
+  }
+
+  window.dispatchEvent(new CustomEvent("kaspa:provider", {
+    detail: Object.freeze({ info }),
+  }))
+}
+
+window.addEventListener("kaspa:requestProviders", () => {
+  announceProvider()
+})
+
+announceProvider()
