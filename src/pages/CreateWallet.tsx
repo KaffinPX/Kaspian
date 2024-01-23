@@ -18,27 +18,23 @@ export enum Tabs {
   Success
 }
 
-export default function CreateWallet() {
+export default function CreateWallet () {
   const [tab, setTab] = useState(Tabs.Landing)
   const [mnemonics, setMnemonics] = useState<string | undefined>(undefined)
 
   return (
     <>
       {tab === Tabs.Landing && (
-        <Landing
-          forward={tab => {
-            setTab(tab)
-          }}
-        />
+        <Landing forward={tab => {
+          setTab(tab)
+        }}/>
       )}
       {tab === Tabs.Intro && (
-        <Intro
-          onConfirm={() => {
-            setMnemonics("wawa") // FIXME generate mnemonics
+        <Intro onConfirm={() => {
+          setMnemonics("wawa") // FIXME generate mnemonics
 
-            setTab(Tabs.Create)
-          }}
-        />
+          setTab(Tabs.Create)
+        }}/>
       )}
       {typeof mnemonics !== "undefined" && tab === Tabs.Create && (
         <Create

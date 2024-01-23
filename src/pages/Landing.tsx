@@ -7,7 +7,7 @@ export default function Landing() {
   const settings = useSettings()
   const navigate = useNavigate()
 
-  const [loadedSettings] = usePromise(() => {
+  const [ loadedSettings ] = usePromise(() => {
     return settings.load()
   }, [])
 
@@ -15,7 +15,7 @@ export default function Landing() {
     if (loadedSettings) {
       navigate("/wallet")
     }
-  }, [loadedSettings])
+  }, [ loadedSettings ])
 
   return null
 }
