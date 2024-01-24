@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Download, RefreshCw } from "lucide-react"
+import { Download } from "lucide-react"
 import Heading from "@/components/Heading"
 import { ThemeToggler } from "@/components/ThemeToggler"
 import nf from "@/components/lib/numberFormatter"
@@ -20,11 +20,7 @@ export default function Landing () {
         </div>
 
         <div className={"flex flex-col items-center"}>
-          <p className={"text-4xl font-extrabold"}>100 KAS
-            <Button className={"gap-2"} size={"icon"} variant={"ghost"} onClick={() => {}}>
-              <RefreshCw />
-            </Button>
-          </p>
+          <p className={"text-4xl font-extrabold"}>100 KAS</p>
           <p className={"text-xl font-bold"}>{nf.format(11.2)}</p>
         </div>
       </div>
