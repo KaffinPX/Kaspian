@@ -3,21 +3,20 @@ import { ISettings } from "../contexts/Settings"
 import Storage from "./Storage"
 
 export interface IWallet {
-  name: string
-  encrypted_mnemonics: string
+  encryptedKey: string
   accounts: IAccount[]
-  mnemonics?: string
 }
 
 export interface IAccount {
   name: string
-  receiveKeys: number
-  changeKeys: number
+  encryptedKey: string
+  receiveCount: number
+  changeCount: number
 }
 
 export interface ILocalStorage {
   settings: ISettings
-  wallets: IWallet[]
+  wallet: IWallet | undefined
 }
 
 export default new (class LocalStorage extends Storage<ILocalStorage> {
