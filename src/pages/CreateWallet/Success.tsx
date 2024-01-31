@@ -1,15 +1,14 @@
 import Heading from "@/components/Heading"
 import { Button } from "@/components/ui/button"
 import { ArrowRightCircle } from "lucide-react"
+import { i18n } from "webextension-polyfill"
 
 export default function Success() {
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6"}>
       <Heading
-        title={"Success"}
-        subtitle={
-          "It's about to get exciting. You're all set up and ready to go!"
-        }
+        title={i18n.getMessage('success')}
+        subtitle={i18n.getMessage('welcoming')}
       />
       <div className={"mx-auto"}>
         <img
@@ -25,7 +24,7 @@ export default function Success() {
           className={"gap-2"}
         >
           <ArrowRightCircle />
-          Continue
+          {i18n.getMessage('continue')}
         </Button>
       </div>
     </main>

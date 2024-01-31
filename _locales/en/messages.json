@@ -90,8 +90,15 @@
   "confirmPassword": {
     "message": "Confirm password",
     "description": "Affirm the strength of your magical barrier! 'Confirm Password' is your declaration that the chosen passphrase aligns with the enchanting pattern you desire for securing your Kaspian wallet."
-  }
-  //
+  },
+  "success": {
+    "message": "Success",
+    "description": "Celebrate the enchanting moment of success! You've navigated the magical journey within Kaspian with grace and skill, and now, the mystical gates of achievement swing open before you."
+  },
+  "welcoming": {
+    "message": "It's about to get exciting. You're all set up and ready to go!",
+    "description": "Feel the anticipation of enchantment! With everything in place, you stand at the threshold of excitement within Kaspian. The magical wonders await, and you're fully prepared to embark on an exhilarating journey."
+  },
   "unlockIntro": {
     "message": "We're happy you're back! Please enter your password to unlock your wallet",
     "description": "A warm welcome back! Unlock your magical wallet by entering the secret key to resume your enchanting journey."
