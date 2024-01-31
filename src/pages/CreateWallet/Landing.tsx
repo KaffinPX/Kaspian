@@ -4,7 +4,9 @@ import Heading from "@/components/Heading"
 import { Tabs } from "../CreateWallet"
 import { i18n } from "webextension-polyfill"
 
-export default function Landing({ forward }: { forward: (tab: Tabs) => void }) {
+export default function Landing({ forward }: { 
+  forward: (tab: Tabs) => void
+}) {
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6"}>
       <Heading

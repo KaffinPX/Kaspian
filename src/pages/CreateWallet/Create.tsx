@@ -5,10 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
 
-export default function Create({
-  mnemonics,
-  onSaved
-}: {
+export default function Create({ mnemonics, onSaved }: {
   mnemonics: string
   onSaved: () => void
 }) {
