@@ -16,19 +16,21 @@ import {
   CarouselItem
 } from "@/components/ui/carousel"
 import { type CarouselApi } from "@/components/ui/carousel"
+
 export default function Intro({ onConfirm }: { onConfirm: () => void }) {
-  const [api, setApi] = useState<CarouselApi>()
-  const [step, setStep] = useState(1)
-  const navigate = useNavigate()
+  const [ api, setApi ] = useState<CarouselApi>()
+  const [ step, setStep ] = useState(1)
+
   useEffect(() => {
     if (!api) return
-    console.log("api")
+
     api.on("slidesInView", () => {
       const currentSlide = api.slidesInView()
       console.log(`Step ${currentSlide[0]}`)
       setStep(currentSlide[0] + 1)
     })
-  }, [api])
+  }, [ api ])
+
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6"}>
       <Heading
@@ -76,29 +78,23 @@ export default function Intro({ onConfirm }: { onConfirm: () => void }) {
         </Carousel>
       </div>
       <div className={"mx-auto"}>
-        <Button
-          onClick={() => {
+        <Button onClick={() => {
             if (step === 3) {
               onConfirm()
             }
+
             api!.scrollNext()
-          }}
-          className={"gap-2"}
-        >
-          {
-            {
-              1: <ChevronRight className={"w-6 h-6"} />,
-              2: <ChevronRight className={"w-6 h-6"} />,
-              3: <ArrowRightCircle className={"w-6 h-6"} />
-            }[step]
-          }
-          {
-            {
-              1: "Next",
-              2: "Next",
-              3: "Continue"
-            }[step]
-          }
+        }} className={"gap-2"}>
+          {{
+            1: <ChevronRight className={"w-6 h-6"} />,
+            2: <ChevronRight className={"w-6 h-6"} />,
+            3: <ArrowRightCircle className={"w-6 h-6"} />
+          }[step]}
+          {{
+            1: "Next",
+            2: "Next",
+            3: "Continue"
+          }[step]}
         </Button>
       </div>
     </main>
