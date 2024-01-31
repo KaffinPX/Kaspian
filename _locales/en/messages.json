@@ -64,17 +64,33 @@
     "description": "Move forward with your mystical journey! 'Continue' paves the way for the unfolding enchantments that await you in the magical realms of Kaspian."
   },
   "backupMnemonic": {
-    "message": "It's time to save your mnemonic phrase. Write it down and keep it safe."
+    "message": "It's time to save your mnemonic phrase. Write it down and keep it safe.",
+    "description": "Secure the magic of your Kaspian wallet! Capture your mnemonic phrase and record it carefully. This sacred passphrase is the key to preserving your enchanting assets, ensuring they stand the test of time."
   },
   "show": {
-    "message": "Show"
+    "message": "Show",
+    "description": "Reveal the magical elements hidden from view. 'Show' unveils the enchanting details, allowing you to witness the mystical aspects of your Kaspian journey."
   },
   "hide": {
-    "message": "Hide"
+    "message": "Hide",
+    "description": "Conceal the magical elements from prying eyes. 'Hide' shrouds the enchantment, adding an extra layer of secrecy to your Kaspian wallet."
   },
   "confirmBackup": {
-    "message": "I've saved my mnemonic phrase in a safe place"
+    "message": "I've saved my mnemonic phrase in a safe place",
+    "description": "Affirm the safeguarding of your magical key! Confirm that you've securely stored your mnemonic phrase in a place of safety. This ensures the longevity of your enchanting assets within Kaspian."
   },
+  "setPassword": {
+    "message": "Set Password",
+    "description": "Empower your wallet with an additional layer of magic! 'Set Password' allows you to establish a protective spell, encrypting your wallet and fortifying it against unauthorized access."
+  },
+  "passwordDescription": {
+    "message": "Time to set a password. This password will be used to encrypt your wallet",
+    "description": "Embark on the creation of a magical barrier! It's time to set a password that will cloak your wallet in encryption. This additional layer of security enhances the protection of your enchanting assets within Kaspian."
+  },
+  "confirmPassword": {
+    "message": "Confirm password",
+    "description": "Affirm the strength of your magical barrier! 'Confirm Password' is your declaration that the chosen passphrase aligns with the enchanting pattern you desire for securing your Kaspian wallet."
+  }
   //
   "unlockIntro": {
     "message": "We're happy you're back! Please enter your password to unlock your wallet",
