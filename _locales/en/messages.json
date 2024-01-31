@@ -1,5 +1,70 @@
 {
-  "welcome": {
-    "message": "welcome to wallet uwu"
+  "address": {
+    "message": "Address",
+    "description": "This mystical address is like a spell-encrypted key adorned with a checksum. It has the enchanting ability to receive Kaspa coins in your magical wallet."
+  },
+  "amount": {
+    "message": "Amount",
+    "description": "In the enchanted realm of Kaspa, this field lets you specify the quantity of magic you wish to send. Enter the amount and let the joy flow!"
+  },
+  "send": {
+    "message": "Send",
+    "description": "A whimsical button that triggers the journey of your Kaspa coins to another enchanted wallet. Spread the magic with a simple click!"
+  },
+  "sendTitle": {
+    "message": "Send Kaspa",
+    "description": "Prepare for a magical act of kindness! This is the title that graces the send screen, adding a touch of charm to your Kaspa transactions."
+  },
+  "sendDescription": {
+    "message": "Enter the amount and the address to send Kaspa",
+    "description": "Enter the amount of joy (Kaspa) and the address to send Kaspa. This step sets the stage for a wondrous transfer of magical coins."
+  },
+  "available": {
+    "message": "Available",
+    "description": "Discover the current reservoir of Kaspa magic in your wallet. This field reveals the available balance of enchanting coins at your command."
+  },
+  "confirmationTitle": {
+    "message": "Confirm to sign transaction",
+    "description": "A moment of confirmation before the magic unfolds! This title invites you to review the details of your Kaspa transaction, ensuring a spellbinding exchange."
+  },
+  "confirmationDescription": {
+    "message": "Review the details of the transaction before signing it",
+    "description": "Take a moment to gaze upon the intricacies of your Kaspa transaction before giving it the magical seal of approval. Confirm the details for a flawless spellcasting."
+  },
+  "receive": {
+    "message": "Receive",
+    "description": "Open your mystical arms to welcome Kaspa magic! This button sets the stage for the reception of enchanting coins into your wallet."
+  },
+  "settings": {
+    "message": "Settings",
+    "description": "Embark on a journey of customization and control. The settings section is your portal to tailoring your magical wallet experience to perfection."
+  },
+  "general": {
+    "message": "General",
+    "description": "The heart of your magical kingdom lies in the general settings. Explore and configure to keep your wallet in harmony with your mystical desires."
+  },
+  "theme": {
+    "message": "Theme",
+    "description": "Choose the hues that paint your magical realm. This setting allows you to select a theme, infusing your wallet with the colors of your enchanted dreams."
+  },
+  "themeDescription": {
+    "message": "Select the theme of wallet",
+    "description": "Select the theme that will adorn your wallet with a palette of magical colors. Let the hues resonate with the vibes of your mystical journey."
+  },
+  "network": {
+    "message": "Network",
+    "description": "Navigate the ethereal network of possibilities. In the settings, choose the path that aligns with your mystical journey through the realms of Kaspa."
+  },
+  "node": {
+    "message": "Node",
+    "description": "Connect to the heartbeat of the crypto universe. Select a node that resonates with your magical vibes, guiding your wallet through the enchanted realms."
+  },
+  "nodeDescription": {
+    "message": "Select the node you will use to interact with network",
+    "description": "Choose the mystical node that will be your guide through the enchanted crypto realms. Your journey, your choice, as you synchronize with the magic of Kaspa."
+  },
+  "cancel": {
+    "message": "Cancel",
+    "description": "Had a change of heart? No worries! This button gracefully cancels the current enchantment, allowing the magic to wait for the perfect moment to unfold."
   }
 }

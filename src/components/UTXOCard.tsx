@@ -5,10 +5,9 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/smaller-card"
-import nf from "@/components/lib/numberFormatter"
+
 interface UTXOCardProps {
   amount: number
-  value: number
   txId: string
   address: string
 }
@@ -18,7 +17,7 @@ export default function UTXOCard(props: UTXOCardProps) {
     <Card className={"break-all mx-4"}>
       <CardHeader>
         <CardTitle className={"text-base"}>
-          {props.amount} KAS ({nf.format(props.value)})
+          {props.amount} KAS
         </CardTitle>
         <CardDescription className={"text-xs"}>{props.txId}</CardDescription>
       </CardHeader>

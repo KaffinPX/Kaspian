@@ -6,6 +6,7 @@ import nf from "@/components/lib/numberFormatter"
 import UTXOCard from "@/components/UTXOCard"
 import SendDrawer from "@/pages/Wallet/Send"
 import SettingsSheet from "@/pages/Wallet/Settings"
+import { i18n } from "webextension-polyfill"
 
 export default function Landing () {
   return (
@@ -21,27 +22,21 @@ export default function Landing () {
 
         <div className={"flex flex-col items-center"}>
           <p className={"text-4xl font-extrabold"}>100 KAS</p>
-          <p className={"text-xl font-bold"}>{nf.format(11.2)}</p>
         </div>
       </div>
 
       <div className={"flex flex-col overflow-y-scroll no-scrollbar gap-2 h-80"}>
         <UTXOCard
           amount={100}
-          value={11.2}
-          txId={
-            "700c62a084a1b0559a10a70fcd5b9f3d9caca7d5075e5eec4cc9bf53c54b06c3"
-          }
-          address={
-            "kaspa:qrlksu3pxp6w7gxe8gw7lpajz8u64t5u958ucwveq49gxttaddetg8300l73p"
-          }
+          txId={"700c62a084a1b0559a10a70fcd5b9f3d9caca7d5075e5eec4cc9bf53c54b06c3"}
+          address={"kaspa:qrlksu3pxp6w7gxe8gw7lpajz8u64t5u958ucwveq49gxttaddetg8300l73p"}
         />
       </div>
       <div className={"flex flex-row justify-center gap-5"}>
         <SendDrawer />
         <Button className={"gap-2"} onClick={() => {}}>
           <Download />
-          Receive KAS
+          {i18n.getMessage('receive')}
         </Button>
       </div>
     </main>

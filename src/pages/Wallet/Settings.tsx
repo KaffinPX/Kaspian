@@ -25,6 +25,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { i18n } from "webextension-polyfill"
 
 export default function Settings () {
   return (
@@ -36,30 +37,16 @@ export default function Settings () {
       </SheetTrigger>
       <SheetContent side={"right"}>
         <SheetHeader>
-          <SheetTitle>Settings</SheetTitle>
+          <SheetTitle>{i18n.getMessage('settings')}</SheetTitle>
         </SheetHeader>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="general">
-            <AccordionTrigger>General</AccordionTrigger>
+            <AccordionTrigger>{i18n.getMessage('general')}</AccordionTrigger>
             <AccordionContent>
               <div className={"flex flex-col gap-2"}>
                 <div className={"px-3"}>
-                  <h3 className={"font-bold"}>Language</h3>
-                </div>
-                <div className={"flex gap-1"}>
-                  <Select>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="English" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="en">English</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className={"px-3"}>
-                  <h3 className={"font-bold"}>Theme</h3>
-                  <h4>Select the theme of wallet.</h4>
-
+                  <h3 className={"font-bold"}>{i18n.getMessage('theme')}</h3>
+                  <h4>{i18n.getMessage('themeDescription')}</h4>
                 </div>
                 <div className={"flex gap-1"}>
                  {/* FIXME make this automatically select the active one */}
@@ -79,12 +66,12 @@ export default function Settings () {
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="network">
-            <AccordionTrigger>Network</AccordionTrigger>
+            <AccordionTrigger>{i18n.getMessage('network')}</AccordionTrigger>
             <AccordionContent>
               <div className={"flex flex-col gap-2"}>
                 <div className={"px-3"}>
-                  <h3 className={"font-bold"}>Node Selection</h3>
-                  <h4>Select the node you will use to interact with network.</h4>
+                  <h3 className={"font-bold"}>{i18n.getMessage('node')}</h3>
+                  <h4>{i18n.getMessage('nodeDescription')}</h4>
                 </div>
                 <div className={"flex gap-1"}>
                   <Select>
