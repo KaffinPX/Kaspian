@@ -1,4 +1,4 @@
-import { Mnemonic, encryptXChaCha20Poly1305, decryptXChaCha20Poly1305, XPrv, XPub, XPublicKey, XPrivateKey } from "wasm"
+import { Mnemonic, encryptXChaCha20Poly1305, decryptXChaCha20Poly1305, XPrv, XPub, XPublicKey, XPrivateKey } from "@/../wasm"
 
 import LocalStorage from "@/storage/LocalStorage"
 import SessionStorage from "@/storage/SessionStorage"

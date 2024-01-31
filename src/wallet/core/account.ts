@@ -1,4 +1,4 @@
-import { createAddress, NetworkType, XPublicKey } from "wasm"
+import { createAddress, NetworkType, XPublicKey } from "@/../wasm"
 
 export default class Account {
   publicKey: XPublicKey
