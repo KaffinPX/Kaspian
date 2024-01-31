@@ -27,6 +27,33 @@
     "message": "Mnemonic phrase",
     "description": "The secret 24-word passphrase that encapsulates the magic of your existing wallet. Enter it to import and continue your enchanting journey within Kaspian."
   },
+  "rules": {
+    "message": "This journey will be exciting, but you have to follow some rules."
+  },
+  "backupWallet": {
+    "message": "Backup your wallet"
+  },
+  "selfCustody": {
+    "message": "Your wallet is stored locally on your device. If you lose access to your device, or forget the password, you won't be able to recover your wallet without your mnemonic phrase."
+  },
+  "shareMnemonic": {
+    "message": "Never share your mnemonic phrase"
+  },
+  "walletAccess": {
+    "message": "Your mnemonic phrase is the key to your wallet. Anyone who has access to it can steal your funds."
+  },
+  "verifyAddresses": {
+    "message": "Verify the addresses you send to"
+  },
+  "immutabillity": {
+    "message": "Always verify the address you are sending to. If you send to the wrong address, your funds will be lost forever."
+  },
+  "next": {
+    "message": "Next"
+  },
+  "continue": {
+    "message": "Continue"
+  },
   "unlockIntro": {
     "message": "We're happy you're back! Please enter your password to unlock your wallet",
     "description": "A warm welcome back! Unlock your magical wallet by entering the secret key to resume your enchanting journey."
