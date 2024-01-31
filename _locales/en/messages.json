@@ -1,11 +1,15 @@
 {
-  "address": {
-    "message": "Address",
-    "description": "This mystical address is like a spell-encrypted key adorned with a checksum. It has the enchanting ability to receive Kaspa coins in your magical wallet."
+  "unlockIntro": {
+    "message": "We're happy you're back! Please enter your password to unlock your wallet",
+    "description": "A warm welcome back! Unlock your magical wallet by entering the secret key to resume your enchanting journey."
   },
-  "amount": {
-    "message": "Amount",
-    "description": "In the enchanted realm of Kaspa, this field lets you specify the quantity of magic you wish to send. Enter the amount and let the joy flow!"
+  "password": {
+    "message": "Password",
+    "description": "Enter your secret passphrase to unlock the magical gateway to your wallet."
+  },
+  "unlock": {
+    "message": "Unlock",
+    "description": "Initiate the unlocking process of your magical wallet."
   },
   "send": {
     "message": "Send",
@@ -23,6 +27,14 @@
     "message": "Available",
     "description": "Discover the current reservoir of Kaspa magic in your wallet. This field reveals the available balance of enchanting coins at your command."
   },
+  "address": {
+    "message": "Address",
+    "description": "This mystical address is like a spell-encrypted key adorned with a checksum. It has the enchanting ability to receive Kaspa coins in your magical wallet."
+  },
+  "amount": {
+    "message": "Amount",
+    "description": "In the enchanted realm of Kaspa, this field lets you specify the quantity of magic you wish to send. Enter the amount and let the joy flow!"
+  },
   "confirmationTitle": {
     "message": "Confirm to sign transaction",
     "description": "A moment of confirmation before the magic unfolds! This title invites you to review the details of your Kaspa transaction, ensuring a spellbinding exchange."
@@ -30,6 +42,10 @@
   "confirmationDescription": {
     "message": "Review the details of the transaction before signing it",
     "description": "Take a moment to gaze upon the intricacies of your Kaspa transaction before giving it the magical seal of approval. Confirm the details for a flawless spellcasting."
+  },
+  "cancel": {
+    "message": "Cancel",
+    "description": "Had a change of heart? No worries! This button gracefully cancels the current enchantment, allowing the magic to wait for the perfect moment to unfold."
   },
   "receive": {
     "message": "Receive",
@@ -62,9 +78,5 @@
   "nodeDescription": {
     "message": "Select the node you will use to interact with network",
     "description": "Choose the mystical node that will be your guide through the enchanted crypto realms. Your journey, your choice, as you synchronize with the magic of Kaspa."
-  },
-  "cancel": {
-    "message": "Cancel",
-    "description": "Had a change of heart? No worries! This button gracefully cancels the current enchantment, allowing the magic to wait for the perfect moment to unfold."
   }
 }
