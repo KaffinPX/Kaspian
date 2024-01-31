@@ -1,24 +1,22 @@
 import { Button } from "@/components/ui/button"
-import { Eye, EyeOff, Import, PlusCircle } from "lucide-react"
+import { Eye, EyeOff } from "lucide-react"
 import Heading from "@/components/Heading"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
 import { useState } from "react"
+import { i18n } from "webextension-polyfill"
 
 export default function Create({ mnemonics, onSaved }: {
   mnemonics: string
   onSaved: () => void
 }) {
-  const [isSaved, setIsSaved] = useState(false)
-  const [isHidden, setIsHidden] = useState(true)
+  const [ isSaved, setIsSaved ] = useState(false)
+  const [ isHidden, setIsHidden ] = useState(true)
 
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6"}>
       <Heading
-        title={"Backup your wallet"}
-        subtitle={
-          "It's time to save your mnemonic phrase. Write it down and keep it safe."
-        }
+        title={i18n.getMessage('backupWallet')}
+        subtitle={i18n.getMessage('backupMnemonic')}
       />
       <div className={"flex flex-col items-center gap-2"}>
         <div className={"border-2 border-green-500 p-3 mx-5 rounded-xl"}>
@@ -34,7 +32,7 @@ export default function Create({ mnemonics, onSaved }: {
           }}
         >
           {!isHidden ? <EyeOff /> : <Eye />}
-          {!isHidden ? "Show" : "Hide"}
+          {!isHidden ? i18n.getMessage('show') : i18n.getMessage('hide')}
         </Button>
       </div>
 
@@ -50,22 +48,13 @@ export default function Create({ mnemonics, onSaved }: {
             htmlFor="savedConfirmation"
             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
-            I've saved my mnemonic phrase in a safe place
+            {i18n.getMessage('confirmBackup')}
           </label>
         </div>
         <Button disabled={!isSaved} onClick={onSaved}>
-          Continue
+          {i18n.getMessage('continue')}
         </Button>
       </div>
     </main>
-  )
-}
-
-function MnemonicWord(props: { word: string; no: number }) {
-  return (
-    <div className={"flex flex-col items-center justify-center"}>
-      <p className={"text-2xl"}>{props.no}</p>
-      <p className={"text-2xl"}>{props.word}</p>
-    </div>
   )
 }
