@@ -1,24 +1,31 @@
 {
   "kaspianIntro": {
-    "message": "Welcome to Kaspian. Let's get you started!"
+    "message": "Welcome to Kaspian. Let's get you started!",
+    "description": "A warm greeting to the enchanting world of Kaspian. Let the magic unfold as you embark on your journey."
   },
   "createIntro": {
-    "message": "Create a wallet to get started"
+    "message": "Create a wallet to get started",
+    "description": "Begin your magical journey by creating a new wallet. This step will pave the way for your personal realm of Kaspian wonders."
   },
   "importIntro": {
-    "message": "Already have a wallet? Import it here"
+    "message": "Already have a wallet? Import it here",
+    "description": "If you possess a magical wallet elsewhere, bring it into the realm of Kaspian by importing it here. Let the enchantment continue seamlessly."
   },
   "createWallet": {
-    "message": "Create Wallet"
+    "message": "Create Wallet",
+    "description": "Initiate the creation process for your very own magical wallet. Craft a space that resonates with your mystical desires in the world of Kaspian."
   },
   "importWallet": {
-    "message": "Import Wallet"
+    "message": "Import Wallet",
+    "description": "Bring an existing magical wallet into Kaspian by importing it here. Let the enchanting journey continue with your familiar mystical belongings."
   },
   "importDescription": {
-    "message": "Enter your 24-word mnemonic phrase below to import your wallet"
+    "message": "Enter your 24-word mnemonic phrase below to import your wallet",
+    "description": "Reconnect with your magical belongings by entering the secret 24-word mnemonic phrase. This key will transport your existing enchantment into Kaspian."
   },
   "mnemonic": {
-    "message": "Mnemonic phrase"
+    "message": "Mnemonic phrase",
+    "description": "The secret 24-word passphrase that encapsulates the magic of your existing wallet. Enter it to import and continue your enchanting journey within Kaspian."
   },
   "unlockIntro": {
     "message": "We're happy you're back! Please enter your password to unlock your wallet",
