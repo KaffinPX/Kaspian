@@ -9,7 +9,6 @@ export interface IWallet {
 
 export interface IAccount {
   name: string
-  encryptedKey: string
   receiveCount: number
   changeCount: number
 }
