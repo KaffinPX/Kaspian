@@ -36,8 +36,8 @@ export default function SendDrawer () {
             </div>
             <div className={"text-center flex flex-col gap-3"}>
               {/* FIXME add max amount */}
-              <Input type={"text"} placeholder={"Address"} className={"w-60"} />
-              <Input type={"number"} placeholder={"Amount"} />
+              <Input type={"text"} placeholder={i18n.getMessage('address')} className={"w-60"} />
+              <Input type={"number"} placeholder={i18n.getMessage('amount')} />
             </div>
 
             <ConfirmationSheet></ConfirmationSheet>
