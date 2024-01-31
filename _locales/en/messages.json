@@ -28,31 +28,40 @@
     "description": "The secret 24-word passphrase that encapsulates the magic of your existing wallet. Enter it to import and continue your enchanting journey within Kaspian."
   },
   "rules": {
-    "message": "This journey will be exciting, but you have to follow some rules."
+    "message": "This journey will be exciting, but you have to follow some rules.",
+    "description": "Embark on this thrilling journey within Kaspian, but remember to adhere to some essential rules that will safeguard your magical experience."
   },
   "backupWallet": {
-    "message": "Backup your wallet"
+    "message": "Backup your wallet",
+    "description": "Ensure the longevity of your magical wallet by creating a backup. This step is crucial for preserving your enchanting assets within Kaspian."
   },
   "selfCustody": {
-    "message": "Your wallet is stored locally on your device. If you lose access to your device, or forget the password, you won't be able to recover your wallet without your mnemonic phrase."
+    "message": "Your wallet is stored locally on your device. If you lose access to your device, or forget the password, you won't be able to recover your wallet without your mnemonic phrase.",
+    "description": "Take control of your magical destiny! Your wallet resides securely on your device. However, be cautious—losing access or forgetting your password may require the secret mnemonic phrase for recovery."
   },
   "shareMnemonic": {
-    "message": "Never share your mnemonic phrase"
+    "message": "Never share your mnemonic phrase",
+    "description": "Guard the key to your magical realm! Never disclose your mnemonic phrase, as it is the secret passphrase holding the essence of your wallet's enchantment within Kaspian."
   },
   "walletAccess": {
-    "message": "Your mnemonic phrase is the key to your wallet. Anyone who has access to it can steal your funds."
+    "message": "Your mnemonic phrase is the key to your wallet. Anyone who has access to it can steal your funds.",
+    "description": "Treat your mnemonic phrase as the sacred key to your magical vault. Safeguard it diligently, as unauthorized access can jeopardize the security of your enchanted funds within Kaspian."
   },
   "verifyAddresses": {
-    "message": "Verify the addresses you send to"
+    "message": "Verify the addresses you send to",
+    "description": "Exercise caution on your magical journey! Before sending magical coins, always verify the destination address. This ensures the safe passage of your enchanted funds within Kaspian."
   },
-  "immutabillity": {
-    "message": "Always verify the address you are sending to. If you send to the wrong address, your funds will be lost forever."
+  "immutability": {
+    "message": "Always verify the address you are sending to. If you send to the wrong address, your funds will be lost forever.",
+    "description": "Embrace the immutability of your magical decisions! Double-check and confirm the accuracy of the recipient address before initiating a transfer. Sending to the wrong address may lead to the irreversible loss of your enchanted funds within Kaspian."
   },
   "next": {
-    "message": "Next"
+    "message": "Next",
+    "description": "Proceed to the next enchanting step on your Kaspian journey. May each 'Next' unveil new magical possibilities and experiences within the realm."
   },
   "continue": {
-    "message": "Continue"
+    "message": "Continue",
+    "description": "Move forward with your mystical journey! 'Continue' paves the way for the unfolding enchantments that await you in the magical realms of Kaspian."
   },
   "unlockIntro": {
     "message": "We're happy you're back! Please enter your password to unlock your wallet",
