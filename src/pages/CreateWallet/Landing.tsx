@@ -2,20 +2,21 @@ import { Button } from "@/components/ui/button"
 import { Import, PlusCircle } from "lucide-react"
 import Heading from "@/components/Heading"
 import { Tabs } from "../CreateWallet"
+import { i18n } from "webextension-polyfill"
 
 export default function Landing({ forward }: { forward: (tab: Tabs) => void }) {
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6"}>
       <Heading
         title={"Kaspian"}
-        subtitle={"Welcome to Kaspian. Let's get you started!"}
+        subtitle={i18n.getMessage('kaspianIntro')}
       />
       <div className={"mx-auto"}>
         <img src={"favicon.png"} alt={"Landing"} className={"w-60"} />
       </div>
       <div className={"flex flex-col items-center justify-center"}>
         <div className={"flex flex-col items-center"}>
-          <p className={"text-lg"}>Create a wallet to get started</p>
+          <p className={"text-lg"}>{i18n.getMessage('createIntro')}</p>
           <Button
             onClick={() => {
               forward(Tabs.Intro)
@@ -23,11 +24,11 @@ export default function Landing({ forward }: { forward: (tab: Tabs) => void }) {
             className={"gap-2"}
           >
             <PlusCircle />
-            Create wallet
+            {i18n.getMessage('createWallet')}
           </Button>
         </div>
         <div className={"flex flex-col items-center"}>
-          <p className={"text-lg"}>Already have a wallet? Import it here.</p>
+          <p className={"text-lg"}>{i18n.getMessage('importIntro')}</p>
           <Button
             className={"gap-2"}
             onClick={() => {
@@ -35,7 +36,7 @@ export default function Landing({ forward }: { forward: (tab: Tabs) => void }) {
             }}
           >
             <Import />
-            Import wallet
+            {i18n.getMessage('importWallet')}
           </Button>
         </div>
       </div>
