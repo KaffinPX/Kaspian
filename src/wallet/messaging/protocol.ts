@@ -26,7 +26,7 @@ interface ResponseMappings {
 }
 
 export function isRequestOfType<Method extends keyof RequestMappings>(
-  request: Request<any>,
+  request: Request<keyof RequestMappings>,
   method: Method
 ): request is Request<Method> {
   return request.method === method;

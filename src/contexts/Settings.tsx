@@ -22,15 +22,14 @@ export const defaultSettings: ISettings = {
   selectedNode: 0
 }
 
-export const SettingsContext = createContext<
-  | {
-      state: ISettings
-      setState: React.Dispatch<React.SetStateAction<ISettings>>
-    }
-  | undefined
->(undefined)
+export const SettingsContext = createContext<{
+  state: ISettings
+  setState: React.Dispatch<React.SetStateAction<ISettings>>
+} | undefined>(undefined)
 
-export function SettingsProvider({ children }: { children: ReactNode }) {
+export function SettingsProvider({ children }: {
+  children: ReactNode
+}) {
   const [state, setState] = useState(defaultSettings)
 
   return (

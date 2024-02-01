@@ -5,7 +5,7 @@ import SessionStorage from "@/storage/SessionStorage"
 import Account from "./account"
 
 export enum Status {
-  Synchronizing,
+  NotReady,
   Uninitialized,
   Locked,
   Unlocked
@@ -18,7 +18,7 @@ export default class Wallet {
   activeAccount: Account | undefined
 
   constructor () {
-    this.status = Status.Synchronizing
+    this.status = Status.NotReady
 
     this.sync()
   }

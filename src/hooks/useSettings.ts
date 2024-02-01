@@ -40,8 +40,7 @@ class SettingsInterface {
   }
 
   changeNode(id: number) {
-    if (typeof this.state.nodes[id] === "undefined")
-      throw Error("Inexistent node")
+    if (typeof this.state.nodes[id] === "undefined") throw Error("Inexistent node")
 
     this.state.selectedNode = id
   }
