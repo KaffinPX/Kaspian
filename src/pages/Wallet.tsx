@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Download } from "lucide-react"
 import Heading from "@/components/Heading"
-import { ThemeToggler } from "@/components/ThemeToggler"
 import UTXOCard from "@/components/UTXOCard"
 import SendDrawer from "@/pages/Wallet/Send"
 import SettingsSheet from "@/pages/Wallet/Settings"
@@ -15,7 +14,6 @@ export default function Landing () {
           <Heading title={"Kaspian"} />
           <div className={"flex items-center gap-3 mr-2"}>
             <SettingsSheet />
-            <ThemeToggler />
           </div>
         </div>
 
