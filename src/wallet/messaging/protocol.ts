@@ -19,7 +19,7 @@ export interface Response<Method extends keyof RequestMappings> {
   }
 }
 
-interface ResponseMappings {
+export interface ResponseMappings {
   'wallet:import': boolean // If successfully done(Disabled(&& ignored) for now)
   'wallet:create': string // Returns mnemonics(Could be moved to frontend)
   'node:change': boolean // If successfully done

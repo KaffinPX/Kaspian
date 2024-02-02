@@ -1,7 +1,12 @@
 import { useContext } from "react"
 import { runtime, type Runtime } from "webextension-polyfill"
 import { IKaspa, KaspaContext } from "../contexts/Kaspa"
-import { Request, Response, RequestMappings } from "../wallet/messaging/protocol"
+import { Request, Response, ResponseMappings, RequestMappings } from "../wallet/messaging/protocol"
+
+interface RequestCallback {
+  success: (result: ResponseMappings[keyof RequestMappings]) => void;
+  error: (reason?: string) => void;
+}
 
 class KaspaInterface {
   private connection: Runtime.Port
@@ -9,9 +14,9 @@ class KaspaInterface {
   private setState: React.Dispatch<React.SetStateAction<IKaspa>>
 
   private nonce: number = 0
-  private pendingMessages: Map<number, [ Function, Function ]> = new Map()
+  private pendingMessages: Map<number, [ RequestCallback['success'], RequestCallback['error'] ]> = new Map()
 
-  constructor(connection: Runtime.Port ,state: IKaspa, setState: any) {
+  constructor(connection: Runtime.Port, state: IKaspa, setState: any) {
     this.connection = connection
     this.state = state
     this.setState = setState
@@ -32,7 +37,10 @@ class KaspaInterface {
       params
     }
 
-    return new Promise((resolve, reject) => {
+    return new Promise((
+      resolve: RequestCallback['success'],
+      reject: RequestCallback['error']
+    ) => {
       this.pendingMessages.set(message.id, [ resolve, reject ])
 
       this.connection.postMessage(message)
