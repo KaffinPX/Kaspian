@@ -12,6 +12,7 @@ export default function usePromise<Value = any, Err = Error>(
     setFinished(false)
     setResult(undefined)
     setError(undefined)
+    
     const params = {
       cancel: false
     }

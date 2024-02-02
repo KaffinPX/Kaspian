@@ -53,9 +53,7 @@ class SettingsInterface {
 export default function useSettings() {
   const context = useContext(SettingsContext)
 
-  if (!context) {
-    throw new Error("Missing Settings context")
-  }
+  if (!context) throw new Error("Missing Settings context")
 
   return new SettingsInterface(context.state, context.setState)
 }

@@ -15,8 +15,8 @@ function App () {
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/create" element={<CreateWallet />} />
-            <Route path="/wallet" element={<Wallet />} />
             <Route path="/unlock" element={<UnlockWallet />} />
+            <Route path="/wallet" element={<Wallet />} />
           </Routes>
         </MemoryRouter>
       </SettingsProvider>

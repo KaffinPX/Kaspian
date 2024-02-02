@@ -6,7 +6,7 @@ import SendDrawer from "@/pages/Wallet/Send"
 import SettingsSheet from "@/pages/Wallet/Settings"
 import { i18n } from "webextension-polyfill"
 
-export default function Landing () {
+export default function Wallet () {
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6"}>
       <div className={"flex flex-col gap-2"}>
