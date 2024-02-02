@@ -49,10 +49,7 @@ class KaspaInterface {
 
   async registerListener () {
     this.connection.onMessage.addListener((message: Response<keyof RequestMappings>) => {
-      const pendingMessage = this.pendingMessages.get(message.id)
-      if (!pendingMessage) throw Error('Invalid pending message id')
-
-      const [ resolve, reject ] = pendingMessage
+      const [ resolve, reject ] = this.pendingMessages.get(message.id)!
 
       if (message.error) reject(message.error.message)
 
