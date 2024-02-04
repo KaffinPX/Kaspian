@@ -1,22 +1,13 @@
+export interface RequestMappings {
+  'wallet:import': [ string, string ] // Mnemonics + password
+  'wallet:create': [ string ] // Password
+  'node:change': [ string ] // Node address
+}
+
 export interface Request<Method extends keyof ResponseMappings> {
   id: number;
   method: Method;
   params: RequestMappings[Method];
-}
-
-export interface RequestMappings {
-  'wallet:import': string // Mnemonics(TODO: add password(&& ignored for now))
-  'wallet:create': string // Password
-  'node:change': string // Node address
-}
-
-export interface Response<Method extends keyof RequestMappings> {
-  id: number
-  result: ResponseMappings[Method]
-  error?: {
-    code: number
-    message: string
-  }
 }
 
 export interface ResponseMappings {
@@ -25,9 +16,10 @@ export interface ResponseMappings {
   'node:change': boolean // If successfully done
 }
 
-export function isRequestOfType<Method extends keyof RequestMappings>(
-  request: Request<keyof RequestMappings>,
-  method: Method
-): request is Request<Method> {
-  return request.method === method;
+export interface Response<Method extends keyof RequestMappings> {
+  id: number
+  result: ResponseMappings[Method] | false
+  error?: {
+    message: string
+  }
 }

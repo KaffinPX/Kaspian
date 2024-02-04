@@ -1,4 +1,4 @@
-import { Request, Response, RequestMappings, isRequestOfType } from "./protocol"
+import { Request, Response, RequestMappings } from "./protocol"
 
 import type Wallet from "../core/wallet"
 import type Node from "../core/node"
@@ -6,10 +6,15 @@ import type Node from "../core/node"
 export default class Router {
   wallet: Wallet
   node: Node
+  mappings: Record<string, Function>
 
   constructor (wallet: Wallet, node: Node) {
     this.wallet = wallet
     this.node = node
+
+    this.mappings = {
+      'wallet:create': this.wallet.create
+    }
   }
 
   async routeMessage (request: Request<keyof RequestMappings>) {
@@ -17,19 +22,14 @@ export default class Router {
       id: request.id,
       result: false,
       error: {
-        code: 404,
-        message: "Unknown module."
+        message: "Unknown method"
       }
     }
 
-    if (request.method.startsWith('wallet')) {
-      if (isRequestOfType(request, 'wallet:create')) {
-        response.result = await this.wallet.create(request.params)
-      }
-    } else if (request.method.startsWith('node')) {
+    const methodHandler = this.mappings[request.method]
 
-    } else if (request.method.startsWith('account')) {
-
+    if (methodHandler) {
+      response.result = await methodHandler(...request.params)
     }
 
     return response

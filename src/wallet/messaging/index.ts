@@ -1,5 +1,5 @@
 import browser from "webextension-polyfill"
-import { Request } from "./protocol"
+import { Request, RequestMappings } from "./protocol"
 import Router from "./router"
 
 export default class RPC {
@@ -15,7 +15,7 @@ export default class RPC {
     browser.runtime.onConnect.addListener((port) => {
       if (port.sender?.id !== browser.runtime.id) return port.disconnect()
 
-      port.onMessage.addListener(async (request: Request<any>) => {
+      port.onMessage.addListener(async (request: Request<keyof RequestMappings>) => {
         port.postMessage(await this.router.routeMessage(request))
       })
     })
