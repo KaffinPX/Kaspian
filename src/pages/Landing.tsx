@@ -6,20 +6,20 @@ import usePromise from "../hooks/usePromise"
 import { Status } from "@/wallet/core/wallet"
 
 export default function Landing() {
-  const kaspa = useKaspa()
   const settings = useSettings()
+  const kaspa = useKaspa()
   const navigate = useNavigate()
-
-  const [ connectedKaspa ] = usePromise(() => {
-    return kaspa.connect()
-  }, [])
 
   const [ loadedSettings ] = usePromise(() => {
     return settings.load()
   }, [])
 
+  const [ loadedKaspa ] = usePromise(() => {
+    return kaspa.synchronize()
+  }, [])
+
   useEffect(() => {
-    if (loadedSettings && connectedKaspa) {
+    if (loadedSettings && loadedKaspa) {
       if (kaspa.status === Status.Uninitialized) {
         navigate("/create")
       } else if (kaspa.status === Status.Locked) {
@@ -28,7 +28,7 @@ export default function Landing() {
         navigate("/wallet") // TODO: Consider if we should add some checkers to avoid misnavigation
       } else throw Error('Something is wrong with the worker')
     }
-  }, [ connectedKaspa, loadedSettings ])
+  }, [ loadedSettings, loadedKaspa ])
 
   return null
 }
