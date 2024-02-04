@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode } from "react"
-import { type Runtime } from "webextension-polyfill"
+import { runtime, type Runtime } from "webextension-polyfill"
 
 import { Status } from "@/wallet/core/wallet"
 
@@ -12,7 +12,7 @@ export const defaultState: IKaspa = {
 }
 
 export const KaspaContext = createContext<{
-  connection?: Runtime.Port
+  connection: Runtime.Port
   state: IKaspa
   setState: React.Dispatch<React.SetStateAction<IKaspa>>
 } | undefined>(undefined)
@@ -21,9 +21,10 @@ export function KaspaProvider ({ children }: {
   children: ReactNode
 }) {
   const [state, setState] = useState(defaultState)
-
+  const connection = runtime.connect()
+  
   return (
-    <KaspaContext.Provider value={{ state, setState }}>
+    <KaspaContext.Provider value={{ connection, state, setState }}>
       {children}
     </KaspaContext.Provider>
   )

@@ -16,7 +16,10 @@ export default class RPC {
       if (port.sender?.id !== browser.runtime.id) return port.disconnect()
 
       port.onMessage.addListener(async (request: Request<keyof RequestMappings>) => {
-        port.postMessage(await this.router.routeMessage(request))
+        console.log('Got a request!!!', request)
+        const response = await this.router.routeMessage(request)
+        console.log('Sending response', response)
+        port.postMessage(response)
       })
     })
   }

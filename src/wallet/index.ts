@@ -1,6 +1,7 @@
 import Wallet from './core/wallet'
 import Node from './core/node'
 import RPC from './messaging'
+import Router from './messaging/router'
 
 import load from "@/../wasm"
 
@@ -11,5 +12,7 @@ load().then(() => {
     console.log('Connected!')
   })
 
+  new RPC(new Router(wallet, node))
 
+  console.log('RPC(must be enabled ig)!!!')
 })

@@ -20,6 +20,8 @@ class KaspaInterface {
     this.connection = connection
     this.state = state
     this.setState = setState
+
+    this.registerListener()
   }
 
   get status () {
@@ -27,9 +29,9 @@ class KaspaInterface {
   }
 
   async synchronize () {
-    this.state.status = await this.request<'wallet:status'>('wallet:status', [])
+    const status = await this.request<'wallet:status'>('wallet:status', [])
 
-    console.log('Worked?', this.state.status)
+    this.updateState('status', status)
   }
 
   async request <M extends keyof RequestMappings>(method: M, params: RequestMappings[M]) {
@@ -46,7 +48,7 @@ class KaspaInterface {
     })
   }
 
-  async registerListener () {
+  private registerListener () {
     this.connection.onMessage.addListener((message: Response<keyof RequestMappings>) => {
       const [ resolve, reject ] = this.pendingMessages.get(message.id)!
 
@@ -55,16 +57,20 @@ class KaspaInterface {
       resolve(message.result)
     })
   }
+
+  private updateState <K extends keyof IKaspa>(key: K, value: IKaspa[K]) {
+    this.setState((previousState) => {
+      previousState[key] = value
+
+      return previousState
+    })
+  }
 }
 
 export default function useKaspa () {
   const context = useContext(KaspaContext)
   
   if (!context) throw new Error("Missing Kaspa context")
-
-  if (!context.connection) { 
-    context.connection = runtime.connect() // synchronous -- could be slow?
-  }
 
   return new KaspaInterface(context.connection, context.state, context.setState)
 }
