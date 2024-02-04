@@ -1,5 +1,4 @@
 import { Request, Response, RequestMappings } from "./protocol"
-
 import type Wallet from "../core/wallet"
 import type Node from "../core/node"
 
@@ -13,7 +12,7 @@ export default class Router {
     this.node = node
 
     this.mappings = {
-      'wallet:create': this.wallet.create
+      'wallet:status': () => this.wallet.status
     }
   }
 

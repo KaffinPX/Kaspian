@@ -3,7 +3,6 @@ import { useState } from "react"
 import Landing from "@/pages/CreateWallet/Landing"
 import Intro from "@/pages/CreateWallet/Intro"
 import Create from "@/pages/CreateWallet/Create"
-import Verify from "@/pages/CreateWallet/Verify"
 import Password from "@/pages/CreateWallet/Password"
 import Success from "@/pages/CreateWallet/Success"
 import Import from "@/pages/CreateWallet/Import"
@@ -14,7 +13,6 @@ export enum Tabs {
   Create,
   Import,
   Password,
-  Verify,
   Success
 }
 
@@ -40,7 +38,7 @@ export default function CreateWallet () {
         <Create
           mnemonics={mnemonics}
           onSaved={() => {
-            setTab(Tabs.Verify)
+            setTab(Tabs.Password)
           }}
         />
       )}
@@ -52,13 +50,6 @@ export default function CreateWallet () {
           }}
         />
         // TODO
-      )}
-      {tab === Tabs.Verify && (
-        <Verify
-          onVerify={() => {
-            setTab(Tabs.Password)
-          }}
-        />
       )}
       {tab === Tabs.Password && (
         <Password

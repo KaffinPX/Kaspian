@@ -3,9 +3,9 @@ import { runtime, type Runtime } from "webextension-polyfill"
 import { IKaspa, KaspaContext } from "../contexts/Kaspa"
 import { Request, Response, ResponseMappings, RequestMappings } from "../wallet/messaging/protocol"
 
-interface RequestCallback {
-  success: (result: ResponseMappings[keyof RequestMappings]) => void;
-  error: (reason?: string) => void;
+interface RequestCallback<M extends keyof RequestMappings> {
+  success: (result: ResponseMappings[M]) => void
+  error: (reason?: string) => void
 }
 
 class KaspaInterface {
@@ -14,7 +14,7 @@ class KaspaInterface {
   private setState: React.Dispatch<React.SetStateAction<IKaspa>>
 
   private nonce: number = 0
-  private pendingMessages: Map<number, [ RequestCallback['success'], RequestCallback['error'] ]> = new Map()
+  private pendingMessages: Map<number, [ RequestCallback<any>['success'], RequestCallback<any>['error'] ]> = new Map()
 
   constructor(connection: Runtime.Port, state: IKaspa, setState: any) {
     this.connection = connection
@@ -27,7 +27,9 @@ class KaspaInterface {
   }
 
   async synchronize () {
-    // todo: call for telemetry on backend
+    this.state.status = await this.request<'wallet:status'>('wallet:status', [])
+
+    console.log('Worked?', this.state.status)
   }
 
   async request <M extends keyof RequestMappings>(method: M, params: RequestMappings[M]) {
@@ -37,10 +39,7 @@ class KaspaInterface {
       params
     }
 
-    return new Promise((
-      resolve: RequestCallback['success'],
-      reject: RequestCallback['error']
-    ) => {
+    return new Promise<ResponseMappings[M]>((resolve, reject) => {
       this.pendingMessages.set(message.id, [ resolve, reject ])
 
       this.connection.postMessage(message)

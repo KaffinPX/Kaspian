@@ -1,4 +1,7 @@
+import { Status } from "../core/wallet";
+
 export interface RequestMappings {
+  'wallet:status': []
   'wallet:import': [ string, string ] // Mnemonics + password
   'wallet:create': [ string ] // Password
   'node:change': [ string ] // Node address
@@ -11,6 +14,7 @@ export interface Request<Method extends keyof ResponseMappings> {
 }
 
 export interface ResponseMappings {
+  'wallet:status': Status
   'wallet:import': boolean // If successfully done(Disabled(&& ignored) for now)
   'wallet:create': string // Returns mnemonics(Could be moved to frontend)
   'node:change': boolean // If successfully done
