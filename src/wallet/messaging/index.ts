@@ -23,7 +23,7 @@ export default class RPC {
       }
 
       port.onMessage.addListener(onMessageListener)
-      
+
       port.onDisconnect.addListener(() => {
         port.onMessage.removeListener(onMessageListener)
       })

@@ -29,7 +29,7 @@ export default class Router {
 
     if (methodHandler) {
       delete response.error
-      
+
       response.result = await methodHandler(...request.params)
     }
 
