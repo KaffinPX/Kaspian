@@ -23,7 +23,15 @@ export default class Router {
     const methodHandler = this.mappings[request.method]
 
     if (methodHandler) {
-      response.result = await methodHandler(...request.params)
+      try {
+        response.result = await methodHandler(...request.params)
+      } catch (error) {
+        if (!(error instanceof Error)) return console.error('Non-standard error', error)
+
+        response.error = { 
+          message: error.message
+        }
+      }
     } else {
       response.error = {
         message: 'Unknown method'
