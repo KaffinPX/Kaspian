@@ -14,12 +14,18 @@ export default class RPC {
   listen () {
     browser.runtime.onConnect.addListener((port) => {
       if (port.sender?.id !== browser.runtime.id) return port.disconnect()
+      if (port.name !== '@kaspian/client') return
 
-      port.onMessage.addListener(async (request: Request<keyof RequestMappings>) => {
-        console.log('Got a request!!!', request)
+      const onMessageListener = async (request: Request<keyof RequestMappings>) => {
         const response = await this.router.routeMessage(request)
-        console.log('Sending response', response)
+
         port.postMessage(response)
+      }
+
+      port.onMessage.addListener(onMessageListener)
+      
+      port.onDisconnect.addListener(() => {
+        port.onMessage.removeListener(onMessageListener)
       })
     })
   }

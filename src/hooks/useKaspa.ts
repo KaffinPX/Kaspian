@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { runtime, type Runtime } from "webextension-polyfill"
+import { type Runtime } from "webextension-polyfill"
 import { IKaspa, KaspaContext } from "../contexts/Kaspa"
 import { Request, Response, ResponseMappings, RequestMappings } from "../wallet/messaging/protocol"
 
@@ -29,7 +29,7 @@ class KaspaInterface {
   }
 
   async synchronize () {
-    const status = await this.request<'wallet:status'>('wallet:status', [])
+    const status = await this.request('wallet:status', [])
 
     this.updateState('status', status)
   }
@@ -49,13 +49,19 @@ class KaspaInterface {
   }
 
   private registerListener () {
-    this.connection.onMessage.addListener((message: Response<keyof RequestMappings>) => {
-      const [ resolve, reject ] = this.pendingMessages.get(message.id)!
+    const onMessageListener = (message: Response<keyof RequestMappings>) => {
+      const messageCallbacks = this.pendingMessages.get(message.id)
 
-      if (message.error) reject(message.error.message)
+      if (!messageCallbacks) return this.connection.onMessage.removeListener(onMessageListener)
+      const [ resolve, reject ] = messageCallbacks
 
+      this.pendingMessages.delete(message.id)
+
+      if (message.error) return reject(message.error.message)
       resolve(message.result)
-    })
+    }
+
+    this.connection.onMessage.addListener(onMessageListener)
   }
 
   private updateState <K extends keyof IKaspa>(key: K, value: IKaspa[K]) {
