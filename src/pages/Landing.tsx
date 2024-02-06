@@ -15,8 +15,6 @@ export default function Landing() {
   }, [])
 
   const [ loadedKaspa ] = usePromise(() => {
-    console.log('synchronizing kaspa')
-    
     return kaspa.synchronize()
   }, [])
 
@@ -28,7 +26,7 @@ export default function Landing() {
         navigate("/unlock")
       } else if (kaspa.status === Status.Unlocked) {
         navigate("/wallet") // TODO: Consider if we should add some checkers to avoid misnavigation
-      } else throw Error('Something is wrong with the worker')
+      }
     }
   }, [ loadedSettings, loadedKaspa ])
 

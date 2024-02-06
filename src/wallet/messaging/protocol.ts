@@ -5,9 +5,9 @@ export interface RequestMappings {
 }
 
 export interface Request<M extends keyof ResponseMappings> {
-  id: number;
-  method: M;
-  params: RequestMappings[M];
+  id: number
+  method: M
+  params: RequestMappings[M]
 }
 
 export interface ResponseMappings {

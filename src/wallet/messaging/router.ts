@@ -1,11 +1,15 @@
-import { Request, Response, RequestMappings } from "./protocol"
+import { Request, Response, RequestMappings, ResponseMappings } from "./protocol"
 import type Wallet from "../core/wallet"
 import type Node from "../core/node"
+
+type MappingsRecord<M extends keyof RequestMappings> = {
+  [ K in M ]: (...params: RequestMappings[M]) => Promise<ResponseMappings[M]> | ResponseMappings[M]
+}
 
 export default class Router {
   wallet: Wallet
   node: Node
-  mappings: Record<keyof RequestMappings, Function> = { // TODO: Improve Function typing
+  mappings: MappingsRecord<keyof RequestMappings> = {
     'wallet:status': () => this.wallet.status
   }
 
@@ -24,7 +28,7 @@ export default class Router {
 
     if (methodHandler) {
       try {
-        response.result = await methodHandler(...request.params)
+        response.result = await methodHandler(...(request.params as [])) // TODO: Better typings(non-hacky solution)
       } catch (error) {
         if (!(error instanceof Error)) return console.error('Non-standard error', error)
 
