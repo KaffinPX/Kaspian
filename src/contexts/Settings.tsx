@@ -14,8 +14,8 @@ export const defaultSettings: ISettings = {
   version: 1,
   nodes: [
     {
-      name: "Kaspr Mainnet",
-      address: "https://kaspr-wallet.wawa.com",
+      name: "Aspectron",
+      address: "wss://kaspa.aspectron.com:443/mainnet",
       locked: true
     }
   ],
