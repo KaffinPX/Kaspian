@@ -28,7 +28,7 @@ export default class Router {
 
     if (methodHandler) {
       try {
-        response.result = await methodHandler(...(request.params as [])) // TODO: Better typings(non-hacky solution)
+        response.result = await methodHandler(...(request.params as []))
       } catch (error) {
         if (!(error instanceof Error)) return console.error('Non-standard error', error)
 
