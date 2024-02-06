@@ -26,12 +26,11 @@ export default class Router {
     }
 
     const methodHandler = this.mappings[request.method]
-    console.log('Selected method handler:', methodHandler)
+
     if (methodHandler) {
-      console.log('executing funct')
       delete response.error
+      
       response.result = await methodHandler(...request.params)
-      console.log('executed, new response result', response.result)
     }
 
     return response
