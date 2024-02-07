@@ -28,7 +28,8 @@ export default class Router {
 
     if (methodHandler) {
       try {
-        response.result = await methodHandler(...(request.params as []))
+        // @ts-ignore https://github.com/microsoft/TypeScript/issues/57322
+        response.result = await methodHandler(...request.params)
       } catch (error) {
         if (!(error instanceof Error)) return console.error('Non-standard error', error)
 
