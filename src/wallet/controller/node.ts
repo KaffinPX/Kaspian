@@ -9,10 +9,10 @@ export default class Node {
   status: Status = Status.Disconnected
   kaspa: RpcClient
 
-  constructor (nodeAddress: string, readyCallback: Function) {
+  constructor (nodeAddress: string) {
     this.kaspa = new RpcClient(nodeAddress, Encoding.Borsh)
 
-    this.reconnect().then(() => readyCallback())
+    this.reconnect()
   }
 
   async reconnect (nodeAddress?: string) {

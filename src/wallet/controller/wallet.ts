@@ -5,20 +5,17 @@ import SessionStorage from "@/storage/SessionStorage"
 import Account from "./account"
 
 export enum Status {
-  NotReady,
   Uninitialized,
   Locked,
   Unlocked
 }
 
 export default class Wallet {
-  status: Status
+  status: Status = Status.Uninitialized
   activeAccount: Account | undefined
 
-  constructor () {
-    this.status = Status.NotReady
-
-    this.sync()
+  constructor (readyCallback: () => void) {
+    this.sync().then(() => readyCallback())
   }
 
   async unlock (id: number, password: string) {
