@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import useSettings from "../hooks/useSettings"
 import useKaspa from "../hooks/useKaspa"
 import usePromise from "../hooks/usePromise"
-import { Status } from "@/wallet/core/wallet"
+import { Status } from "@/wallet/controller/wallet"
 
 export default function Landing() {
   const settings = useSettings()

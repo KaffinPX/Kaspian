@@ -1,5 +1,5 @@
-import Wallet from './core/wallet'
-import Node from './core/node'
+import Wallet from './controller/wallet'
+import Node from './controller/node'
 import RPC from './messaging'
 import Router from './messaging/router'
 

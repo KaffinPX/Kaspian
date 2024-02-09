@@ -1,7 +1,7 @@
 import { createContext, useState, ReactNode } from "react"
 import { runtime, type Runtime } from "webextension-polyfill"
 
-import { Status } from "@/wallet/core/wallet"
+import { Status } from "@/wallet/controller/wallet"
 
 export interface IKaspa {
   status: Status

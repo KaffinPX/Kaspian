@@ -1,4 +1,4 @@
-import { Status } from "../core/wallet";
+import { Status } from "../controller/wallet";
 
 export interface RequestMappings {
   'wallet:status': []

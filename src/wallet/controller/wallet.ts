@@ -11,8 +11,6 @@ export enum Status {
   Unlocked
 }
 
-// XPrv => XPublicKey && XPrivateKey
-
 export default class Wallet {
   status: Status
   activeAccount: Account | undefined
@@ -23,8 +21,33 @@ export default class Wallet {
     this.sync()
   }
 
+  async unlock (id: number, password: string) {
+    const wallet = await LocalStorage.get('wallet', undefined)
+
+    if (!wallet) throw Error('Wallet is not initialized')
+
+    const mnemonic = new Mnemonic(decryptXChaCha20Poly1305(wallet.encryptedKey, password))
+    const extendedKey = new XPrv(mnemonic.toSeed())
+    const publicKey = await XPublicKey.fromMasterXPrv(
+      extendedKey.intoString('xprv'),
+      false,
+      0n
+    )
+    // experimental as WASM is limited on functionality x-x
+    // await SessionStorage.set('session', {
+    //  activeAccount: id,
+    //  publicKey: publicKey
+    // })
+  }
+
   async import (mnemonics: string, password: string) {
-    // TODO: Validate mnemonics
+    try {
+      const mnemonic = new Mnemonic(mnemonics)
+
+      mnemonic.free()
+    } catch (err) {
+      throw Error('Invalid mnemonic')
+    }
   
     await LocalStorage.set("wallet", {
       encryptedKey: encryptXChaCha20Poly1305(mnemonics, password),
@@ -33,30 +56,29 @@ export default class Wallet {
   }
 
   async create (password: string) {
-    const mnemonics = Mnemonic.random(24)
-    const phrase = mnemonics.phrase
-    mnemonics.free()
-  
+    const mnemonic = Mnemonic.random(24)
+    const phrase = mnemonic.phrase
+
+    mnemonic.free()
     await this.import(phrase, password)
-  
+
     return phrase
   }
 
   async sync () {
     const wallet = await LocalStorage.get('wallet', undefined)
 
-    if (typeof wallet === 'undefined') {
+    if (!wallet) {
       this.status = Status.Uninitialized
     } else {
       const session = await SessionStorage.get('session', undefined)
 
-      if (typeof session === 'undefined') {
+      if (!session) {
         this.status = Status.Locked
       } else {
         this.status = Status.Unlocked
 
         this.activeAccount = new Account(await XPublicKey.fromXPub(session.publicKey))
-        // TODO: parse session and export account
       }
     }
   }
