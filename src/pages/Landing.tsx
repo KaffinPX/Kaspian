@@ -15,7 +15,7 @@ export default function Landing() {
   }, [])
 
   const [ loadedKaspa ] = usePromise(() => {
-    return kaspa.synchronize()
+    return kaspa.load()
   }, [])
 
   useEffect(() => {

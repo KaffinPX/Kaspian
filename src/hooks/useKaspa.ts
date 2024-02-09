@@ -28,7 +28,7 @@ class KaspaInterface {
     return this.state.status
   }
 
-  async synchronize () {
+  async load () {
     const status = await this.request('wallet:status', [])
 
     this.updateState('status', status)
