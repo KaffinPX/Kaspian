@@ -30,11 +30,11 @@ export default class Wallet {
       false,
       0n
     )
-    // experimental as WASM is limited on functionality x-x
-    // await SessionStorage.set('session', {
-    //  activeAccount: id,
-    //  publicKey: publicKey
-    // })
+    
+    await SessionStorage.set('session', {
+      activeAccount: id,
+      publicKey: publicKey.toKPub()
+    })
   }
 
   async import (mnemonics: string, password: string) {

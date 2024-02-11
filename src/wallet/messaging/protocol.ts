@@ -1,7 +1,9 @@
-import { Status } from "../controller/wallet";
+import { Status as WalletStatus } from "../controller/wallet"
+import { Status as NodeStatus } from "../controller/node"
 
 export interface RequestMappings {
   'wallet:status': []
+  'node:status': []
 }
 
 export interface Request<M extends keyof ResponseMappings> {
@@ -11,7 +13,8 @@ export interface Request<M extends keyof ResponseMappings> {
 }
 
 export interface ResponseMappings {
-  'wallet:status': Status
+  'wallet:status': WalletStatus
+  'node:status': NodeStatus
 }
 
 export interface Response<M extends keyof RequestMappings> {

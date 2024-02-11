@@ -24,21 +24,29 @@ class KaspaInterface {
     this.registerListener()
   }
 
-  get status () {
+  get status () { 
     return this.state.status
+  }
+
+  get nodeStatus () { 
+    return this.state.nodeStatus
   }
 
   async load () {
     const status = await this.request('wallet:status', [])
+    const nodeStatus = await this.request('node:status', [])
 
-    this.updateState('status', status)
+    this.setState({
+      status,
+      nodeStatus
+    })
   }
 
-  async request <M extends keyof RequestMappings>(method: M, params: RequestMappings[M]) {
+  async request <M extends keyof RequestMappings>(method: M, params?: RequestMappings[M]) {
     const message: Request<M> = {
       id: this.nonce += 1,
       method,
-      params
+      params: params ?? []
     }
 
     return new Promise<ResponseMappings[M]>((resolve, reject) => {
@@ -62,14 +70,6 @@ class KaspaInterface {
     }
 
     this.connection.onMessage.addListener(onMessageListener)
-  }
-
-  private updateState <K extends keyof IKaspa>(key: K, value: IKaspa[K]) {
-    this.setState((previousState) => {
-      previousState[key] = value
-
-      return previousState
-    })
   }
 }
 

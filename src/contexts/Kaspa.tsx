@@ -1,14 +1,16 @@
 import { createContext, useState, ReactNode } from "react"
 import { runtime, type Runtime } from "webextension-polyfill"
-
-import { Status } from "@/wallet/controller/wallet"
+import { Status as WalletStatus } from "@/wallet/controller/wallet"
+import { Status as NodeStatus } from "@/wallet/controller/node"
 
 export interface IKaspa {
-  status: Status
+  status: WalletStatus
+  nodeStatus: NodeStatus
 }
 
 export const defaultState: IKaspa = {
-  status: Status.NotReady
+  status: WalletStatus.Uninitialized,
+  nodeStatus: NodeStatus.Disconnected
 }
 
 export const KaspaContext = createContext<{
