@@ -23,7 +23,7 @@ export function KaspaProvider ({ children }: {
   children: ReactNode
 }) {
   const connection = runtime.connect({ name: "@kaspian/client" }) 
-  const [state, setState] = useState(defaultState)
+  const [ state, setState ] = useState(defaultState)
 
   return (
     <KaspaContext.Provider value={{ connection, state, setState }}>

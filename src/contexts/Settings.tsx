@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode } from "react"
+import { createContext, useState, type ReactNode } from "react"
 
 export interface ISettings {
   version: number
@@ -30,7 +30,7 @@ export const SettingsContext = createContext<{
 export function SettingsProvider({ children }: {
   children: ReactNode
 }) {
-  const [state, setState] = useState(defaultSettings)
+  const [ state, setState ] = useState(defaultSettings)
 
   return (
     <SettingsContext.Provider value={{ state, setState }}>

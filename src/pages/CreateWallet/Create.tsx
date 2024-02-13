@@ -5,8 +5,8 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useState } from "react"
 import { i18n } from "webextension-polyfill"
 
-export default function Create({ mnemonics, onSaved }: {
-  mnemonics: string
+export default function Create({ mnemonic, onSaved }: {
+  mnemonic: string
   onSaved: () => void
 }) {
   const [ isSaved, setIsSaved ] = useState(false)
@@ -21,7 +21,7 @@ export default function Create({ mnemonics, onSaved }: {
       <div className={"flex flex-col items-center gap-2"}>
         <div className={"border-2 border-green-500 p-3 mx-5 rounded-xl"}>
           <p className={"text-xl font-mono"}>
-            {isHidden ? mnemonics : mnemonics.replace(/[^ ]/g, "*")}
+            {isHidden ? mnemonic : mnemonic.replace(/[^ ]/g, "*")}
           </p>
         </div>
         <Button

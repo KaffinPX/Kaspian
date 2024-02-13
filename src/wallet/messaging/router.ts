@@ -18,7 +18,8 @@ export default class Router {
 
     this.mappings = {
       'wallet:status': () => this.wallet.status,
-      'wallet:import': this.wallet.import,
+      'wallet:create': async (password: string) => await this.wallet.create(password), // refactor
+      'wallet:unlock': async (password: string) => await this.wallet.unlock(0, password),
       'node:status': () => this.node.status
     }  
   }
@@ -32,9 +33,11 @@ export default class Router {
     const methodHandler = this.mappings[request.method]
 
     try {
-      response.result = await methodHandler(...request.params)
+      response.result = await methodHandler(...request.params) // improve later by making possible to accept void and returns true by true as Response<M>["result"]
     } catch (error) {
       if (!(error instanceof Error)) return console.error('Non-standard error', error)
+
+      console.error(error)
 
       response.error = error.message
     }

@@ -1,12 +1,15 @@
+import { useState } from "react"
+import { i18n } from "webextension-polyfill"
 import Heading from "@/components/Heading"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ArrowRightCircle } from "lucide-react"
-import { i18n } from "webextension-polyfill"
 
 export default function Password ({ onPasswordSet }: {
-  onPasswordSet: () => void
+  onPasswordSet: (password: string) => void
 }) {
+  const [ password, setPassword ] = useState("")
+
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6"}>
       <Heading
@@ -14,14 +17,19 @@ export default function Password ({ onPasswordSet }: {
         subtitle={i18n.getMessage('passwordDescription')}
       />
       <div className={"flex flex-col w-60 gap-3 mx-auto"}>
-        <Input type={"password"} placeholder={i18n.getMessage('password')} />
-        <Input type={"password"} placeholder={i18n.getMessage('confirmPassword')} />
+        <Input
+          placeholder={i18n.getMessage('password')}
+          value={password}
+          onChange={(e) =>
+            // TODO: Password check and disable button if needed + reveal/hide password by type
+            setPassword(e.target.value)
+          }
+        />
       </div>
       <div className={"mx-auto"}>
         <Button
           onClick={() => {
-            onPasswordSet()
-            // FIXME - Placeholder
+            onPasswordSet(password)
           }}
           className={"gap-2"}
         >

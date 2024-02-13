@@ -1,9 +1,12 @@
+import { useNavigate } from "react-router-dom"
+import { i18n } from "webextension-polyfill"
 import Heading from "@/components/Heading"
 import { Button } from "@/components/ui/button"
 import { ArrowRightCircle } from "lucide-react"
-import { i18n } from "webextension-polyfill"
 
-export default function Success() {
+export default function Success () {
+  const navigate = useNavigate()
+
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6"}>
       <Heading
@@ -19,7 +22,7 @@ export default function Success() {
       <div className={"mx-auto"}>
         <Button
           onClick={() => {
-            // FIXME - Placeholder
+            navigate("/wallet")
           }}
           className={"gap-2"}
         >

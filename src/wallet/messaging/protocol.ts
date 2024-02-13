@@ -3,7 +3,8 @@ import { Status as NodeStatus } from "../controller/node"
 
 export interface RequestMappings {
   'wallet:status': []
-  'wallet:import': [ string, string ] // Mnemonics, password
+  'wallet:create': [ string ] // Password
+  'wallet:unlock': [ string ] // Password
   'node:status': []
 }
 
@@ -15,7 +16,8 @@ export interface Request<M extends keyof ResponseMappings> {
 
 export interface ResponseMappings {
   'wallet:status': WalletStatus
-  'wallet:import': boolean
+  'wallet:create': string
+  'wallet:unlock': boolean
   'node:status': NodeStatus
 }
 

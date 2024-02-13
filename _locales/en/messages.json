@@ -59,6 +59,9 @@
     "message": "Next",
     "description": "Proceed to the next enchanting step on your Kaspian journey. May each 'Next' unveil new magical possibilities and experiences within the realm."
   },
+  "confirm": {
+    "message": "Confirm"
+  },
   "continue": {
     "message": "Continue",
     "description": "Move forward with your mystical journey! 'Continue' paves the way for the unfolding enchantments that await you in the magical realms of Kaspian."

@@ -5,14 +5,12 @@ import { Input } from "@/components/ui/input"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { i18n } from "webextension-polyfill"
+import useKaspa from "@/hooks/useKaspa"
 
 export default function UnlockWallet() {
-  const [password, setPassword] = useState<string>("")
+  const [ password, setPassword ] = useState<string>("")
   const navigate = useNavigate()
-  const unlockWallet = () => {
-    // FIXME - Placeholder
-    navigate("/main")
-  }
+  const kaspa = useKaspa()
   
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6"}>
@@ -30,8 +28,10 @@ export default function UnlockWallet() {
       </div>
       <div className={"mx-auto"}>
         <Button
-          onClick={() => {
-            unlockWallet()
+          onClick={async () => {
+            if (await kaspa.request('wallet:unlock', [ password ])) {
+              navigate("/wallet")
+            }
           }}
           disabled={password === ""}
           className={"gap-2"}

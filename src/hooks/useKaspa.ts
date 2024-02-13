@@ -42,11 +42,11 @@ class KaspaInterface {
     })
   }
 
-  async request <M extends keyof RequestMappings>(method: M, params?: RequestMappings[M]) {
+  async request <M extends keyof RequestMappings>(method: M, params: RequestMappings[M]) {
     const message: Request<M> = {
       id: this.nonce += 1,
       method,
-      params: params ?? []
+      params: params
     }
 
     return new Promise<ResponseMappings[M]>((resolve, reject) => {
@@ -65,7 +65,7 @@ class KaspaInterface {
 
       this.pendingMessages.delete(message.id)
 
-      if (message.error) return reject(message.error.message)
+      if (message.error) return reject(message.error)
       resolve(message.result)
     }
 

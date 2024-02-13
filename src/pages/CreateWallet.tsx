@@ -6,6 +6,7 @@ import Create from "@/pages/CreateWallet/Create"
 import Password from "@/pages/CreateWallet/Password"
 import Success from "@/pages/CreateWallet/Success"
 import Import from "@/pages/CreateWallet/Import"
+import useKaspa from "@/hooks/useKaspa"
 
 export enum Tabs {
   Landing,
@@ -16,9 +17,11 @@ export enum Tabs {
   Success
 }
 
-export default function CreateWallet () {
-  const [tab, setTab] = useState(Tabs.Landing)
-  const [mnemonics, setMnemonics] = useState<string | undefined>(undefined)
+export default function CreateWallet () {  
+  const [ tab, setTab ] = useState(Tabs.Landing)
+  const [ mnemonic, setMnemonic ] = useState<string | undefined>()
+
+  const kaspa = useKaspa()
 
   return (
     <>
@@ -29,34 +32,38 @@ export default function CreateWallet () {
       )}
       {tab === Tabs.Intro && (
         <Intro onConfirm={() => {
-          setMnemonics("wawa") // FIXME generate mnemonics
-
-          setTab(Tabs.Create)
+          setTab(Tabs.Password)
         }}/>
       )}
-      {typeof mnemonics !== "undefined" && tab === Tabs.Create && (
+      {tab === Tabs.Password && (
+        <Password onPasswordSet={(password) => {
+          if (!mnemonic) {
+            kaspa.request('wallet:create', [ password ]).then((generatedMnemonic) => {
+              console.log(generatedMnemonic)
+              setMnemonic(generatedMnemonic)
+
+              setTab(Tabs.Create)
+            })
+          } else {
+            // Handle import
+          }
+        }} />
+      )}
+      {!mnemonic && tab === Tabs.Create && (
         <Create
-          mnemonics={mnemonics}
+          mnemonic={mnemonic!}
           onSaved={() => {
-            setTab(Tabs.Password)
+            setTab(Tabs.Success)
           }}
         />
       )}
       {tab === Tabs.Import && (
         <Import
           onMnemonicsSubmit={mnemonics => {
-            // FIXME save the mnemonics
+            setMnemonic(mnemonics)
             setTab(Tabs.Password)
           }}
         />
-        // TODO
-      )}
-      {tab === Tabs.Password && (
-        <Password
-          onPasswordSet={() => {
-            setTab(Tabs.Success)
-          }}
-        /> // TODO
       )}
       {tab === Tabs.Success && (
         <Success />

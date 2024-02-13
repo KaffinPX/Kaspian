@@ -35,6 +35,11 @@ export default class Wallet {
       activeAccount: id,
       publicKey: publicKey.toKPub()
     })
+    
+    this.status = Status.Unlocked
+    this.activeAccount = new Account(publicKey)
+
+    return true
   }
 
   async import (mnemonics: string, password: string) {
