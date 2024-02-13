@@ -50,6 +50,8 @@ export default class Wallet {
       encryptedKey: encryptXChaCha20Poly1305(mnemonics, password),
       accounts: []
     })
+
+    return true // a simple workaround on some weird ts problem, will be thinked over it more in future
   }
 
   async create (password: string) {
