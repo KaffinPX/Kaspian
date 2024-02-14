@@ -25,7 +25,7 @@ export default function Landing() {
       } else if (kaspa.status === Status.Locked) {
         navigate("/unlock")
       } else if (kaspa.status === Status.Unlocked) {
-        navigate("/wallet") // TODO: Consider if we should add some checkers to avoid misnavigation
+        navigate("/wallet")
       }
     }
   }, [ loadedSettings, loadedKaspa ])

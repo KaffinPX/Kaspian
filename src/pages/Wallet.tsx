@@ -15,7 +15,7 @@ export default function Wallet () {
   const kaspa = useKaspa()
   const navigate = useNavigate()
 
-  useEffect(() => { // TODO: update status by calling init() on hook by forwarding to landing?
+  useEffect(() => {
     if (kaspa.status === Status.Uninitialized) {
       navigate("/create")
     } else if (kaspa.status === Status.Locked) {
