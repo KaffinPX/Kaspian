@@ -9,15 +9,15 @@ interface RequestCallback<M extends keyof RequestMappings> {
 }
 
 class KaspaInterface {
-  private connection: Runtime.Port
+  private port: Runtime.Port
   private state: IKaspa
   private setState: React.Dispatch<React.SetStateAction<IKaspa>>
 
   private nonce: number = 0
   private pendingMessages: Map<number, [ RequestCallback<any>['success'], RequestCallback<any>['error'] ]> = new Map()
 
-  constructor(connection: Runtime.Port, state: IKaspa, setState: any) {
-    this.connection = connection
+  constructor(port: Runtime.Port, state: IKaspa, setState: any) {
+    this.port = port
     this.state = state
     this.setState = setState
 
@@ -28,19 +28,17 @@ class KaspaInterface {
     return this.state.status
   }
 
-  get nodeStatus () { 
-    return this.state.nodeStatus
+  get connection () { 
+    return this.state.connection
   }
 
   async load () {
     const status = await this.request('wallet:status', [])
-    const nodeStatus = await this.request('node:status', [])
-
-    console.error(status, nodeStatus)
+    const connection = await this.request('node:status', [])
 
     this.setState({
       status,
-      nodeStatus
+      connection
     })
   }
 
@@ -54,7 +52,7 @@ class KaspaInterface {
     return new Promise<ResponseMappings[M]>((resolve, reject) => {
       this.pendingMessages.set(message.id, [ resolve, reject ])
 
-      this.connection.postMessage(message)
+      this.port.postMessage(message)
     })
   }
 
@@ -62,7 +60,7 @@ class KaspaInterface {
     const onMessageListener = (message: Response<keyof RequestMappings>) => {
       const messageCallbacks = this.pendingMessages.get(message.id)
 
-      if (!messageCallbacks) return this.connection.onMessage.removeListener(onMessageListener)
+      if (!messageCallbacks) return this.port.onMessage.removeListener(onMessageListener)
       const [ resolve, reject ] = messageCallbacks
 
       this.pendingMessages.delete(message.id)
@@ -71,7 +69,7 @@ class KaspaInterface {
       resolve(message.result)
     }
 
-    this.connection.onMessage.addListener(onMessageListener)
+    this.port.onMessage.addListener(onMessageListener)
   }
 }
 

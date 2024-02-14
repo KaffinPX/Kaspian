@@ -5,12 +5,12 @@ import { Status as NodeStatus } from "@/wallet/controller/node"
 
 export interface IKaspa {
   status: WalletStatus
-  nodeStatus: NodeStatus
+  connection: NodeStatus
 }
 
 export const defaultState: IKaspa = {
   status: WalletStatus.Uninitialized,
-  nodeStatus: NodeStatus.Disconnected
+  connection: NodeStatus.Disconnected
 }
 
 export const KaspaContext = createContext<{
