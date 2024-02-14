@@ -23,7 +23,7 @@ export default class Wallet {
     const phrase = mnemonic.phrase
 
     mnemonic.free()
-    await this.import(phrase, password)
+    await this.import(mnemonic.phrase, password)
 
     return phrase
   }
@@ -42,6 +42,7 @@ export default class Wallet {
       accounts: []
     })
 
+    await this.unlock(0, password)
     await this.sync()
     
     return true // a simple workaround on some weird ts problem, will be thinked over it more in future
@@ -57,16 +58,19 @@ export default class Wallet {
     const publicKey = await XPublicKey.fromMasterXPrv(
       extendedKey.intoString('xprv'),
       false,
-      0n
+      BigInt(id)
     )
     
     await SessionStorage.set('session', {
       activeAccount: id,
       publicKey: publicKey.toKPub()
     })
-    
-    this.status = Status.Unlocked
-    this.activeAccount = new Account(publicKey)
+
+    await this.sync()
+
+    mnemonic.free()
+    extendedKey.free()
+    publicKey.free()
 
     return true
   }
@@ -96,16 +100,4 @@ export default class Wallet {
       }
     }
   }
-}
-
-export async function createAccount (password: string) {
-  const wallet = await LocalStorage.get('wallet', undefined)
-
-  if (typeof wallet === 'undefined') throw Error('create wallet first')
-
-  await wallet.accounts.push({
-    name: "Unknown",
-    receiveCount: 0,
-    changeCount: 0
-  })
 }
