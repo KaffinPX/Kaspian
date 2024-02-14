@@ -36,6 +36,8 @@ class KaspaInterface {
     const status = await this.request('wallet:status', [])
     const nodeStatus = await this.request('node:status', [])
 
+    console.error(status, nodeStatus)
+
     this.setState({
       status,
       nodeStatus

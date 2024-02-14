@@ -1,7 +1,6 @@
 import browser from "webextension-polyfill"
 
 export default abstract class Storage<
-  // TODO: Maybe rename to index
   IStorage extends Record<string, any> = Record<string, any>
 > {
   abstract storage: browser.Storage.StorageArea

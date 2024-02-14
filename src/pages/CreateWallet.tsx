@@ -36,20 +36,18 @@ export default function CreateWallet () {
         }}/>
       )}
       {tab === Tabs.Password && (
-        <Password onPasswordSet={(password) => {
+        <Password onPasswordSet={async (password) => {
           if (!mnemonic) {
-            kaspa.request('wallet:create', [ password ]).then((generatedMnemonic) => {
-              console.log(generatedMnemonic)
-              setMnemonic(generatedMnemonic)
+            const generatedMnemonic = await kaspa.request('wallet:create', [ password ])
 
-              setTab(Tabs.Create)
-            })
+            setMnemonic(generatedMnemonic)
+            setTab(Tabs.Create)
           } else {
             // Handle import
           }
         }} />
       )}
-      {!mnemonic && tab === Tabs.Create && (
+      {tab === Tabs.Create && (
         <Create
           mnemonic={mnemonic!}
           onSaved={() => {

@@ -5,8 +5,23 @@ import UTXOCard from "@/components/UTXOCard"
 import SendDrawer from "@/pages/Wallet/Send"
 import SettingsSheet from "@/pages/Wallet/Settings"
 import { i18n } from "webextension-polyfill"
+import useKaspa from "@/hooks/useKaspa"
+import { useEffect } from "react"
+import { Status } from "@/wallet/controller/wallet"
+import { useNavigate } from "react-router-dom"
 
 export default function Wallet () {
+  const kaspa = useKaspa()
+  const navigate = useNavigate()
+
+  useEffect(() => { // TODO: update status by calling init() on hook by forwarding to landing?
+    if (kaspa.status === Status.Uninitialized) {
+      navigate("/create")
+    } else if (kaspa.status === Status.Locked) {
+      navigate("/unlock")
+    }
+  }, [ kaspa.status ])
+
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6"}>
       <div className={"flex flex-col gap-2"}>

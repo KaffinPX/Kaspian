@@ -26,8 +26,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { i18n } from "webextension-polyfill"
+import useKaspa from "@/hooks/useKaspa"
 
 export default function Settings () {
+  const kaspa = useKaspa()
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -88,6 +91,12 @@ export default function Settings () {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+        <Button onClick={async () => {
+          await kaspa.request('wallet:reset', [])
+          await kaspa.load()
+        }} variant={"destructive"}>
+          Reset wallet
+        </Button>
       </SheetContent>
     </Sheet>
   )

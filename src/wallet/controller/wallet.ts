@@ -18,6 +18,35 @@ export default class Wallet {
     this.sync().then(() => readyCallback())
   }
 
+  async create (password: string) {
+    const mnemonic = Mnemonic.random(24)
+    const phrase = mnemonic.phrase
+
+    mnemonic.free()
+    await this.import(phrase, password)
+
+    return phrase
+  }
+
+  async import (mnemonics: string, password: string) {
+    try {
+      const mnemonic = new Mnemonic(mnemonics)
+
+      mnemonic.free()
+    } catch (err) {
+      throw Error('Invalid mnemonic')
+    }
+  
+    await LocalStorage.set("wallet", {
+      encryptedKey: encryptXChaCha20Poly1305(mnemonics, password),
+      accounts: []
+    })
+
+    await this.sync()
+    
+    return true // a simple workaround on some weird ts problem, will be thinked over it more in future
+  }
+
   async unlock (id: number, password: string) {
     const wallet = await LocalStorage.get('wallet', undefined)
 
@@ -42,31 +71,12 @@ export default class Wallet {
     return true
   }
 
-  async import (mnemonics: string, password: string) {
-    try {
-      const mnemonic = new Mnemonic(mnemonics)
+  async reset () {
+    await LocalStorage.remove('wallet')
+    await SessionStorage.clear()
+    await this.sync()
 
-      mnemonic.free()
-    } catch (err) {
-      throw Error('Invalid mnemonic')
-    }
-  
-    await LocalStorage.set("wallet", {
-      encryptedKey: encryptXChaCha20Poly1305(mnemonics, password),
-      accounts: []
-    })
-
-    return true // a simple workaround on some weird ts problem, will be thinked over it more in future
-  }
-
-  async create (password: string) {
-    const mnemonic = Mnemonic.random(24)
-    const phrase = mnemonic.phrase
-
-    mnemonic.free()
-    await this.import(phrase, password)
-
-    return phrase
+    return true
   }
 
   async sync () {
