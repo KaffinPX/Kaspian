@@ -59,6 +59,9 @@
     "message": "Next",
     "description": "Proceed to the next enchanting step on your Kaspian journey. May each 'Next' unveil new magical possibilities and experiences within the realm."
   },
+  "confirm": {
+    "message": "Confirm"
+  },
   "finish": {
     "message": "Finish"
   },
@@ -89,10 +92,6 @@
   "passwordDescription": {
     "message": "Time to set a password. This password will be used to encrypt your wallet",
     "description": "Embark on the creation of a magical barrier! It's time to set a password that will cloak your wallet in encryption. This additional layer of security enhances the protection of your enchanting assets within Kaspian."
-  },
-  "confirmPassword": {
-    "message": "Confirm password",
-    "description": "Affirm the strength of your magical barrier! 'Confirm Password' is your declaration that the chosen passphrase aligns with the enchanting pattern you desire for securing your Kaspian wallet."
   },
   "success": {
     "message": "Success",

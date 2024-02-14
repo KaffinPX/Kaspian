@@ -23,7 +23,7 @@ export default class Wallet {
     const phrase = mnemonic.phrase
 
     mnemonic.free()
-    await this.import(mnemonic.phrase, password)
+    await this.import(phrase, password)
 
     return phrase
   }
@@ -42,7 +42,7 @@ export default class Wallet {
       accounts: []
     })
 
-    await this.unlock(0, password)
+    await this.unlock(0, password) // instead of this, implement low level functs to reuse classes/available things to make it faster
     await this.sync()
     
     return true // a simple workaround on some weird ts problem, will be thinked over it more in future

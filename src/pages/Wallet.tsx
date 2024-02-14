@@ -16,10 +16,8 @@ export default function Wallet () {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (kaspa.status === Status.Uninitialized) {
-      navigate("/create")
-    } else if (kaspa.status === Status.Locked) {
-      navigate("/unlock")
+    if (kaspa.status !== Status.Unlocked) {
+      navigate("/")
     }
   }, [ kaspa.status ])
 
@@ -36,7 +34,7 @@ export default function Wallet () {
           <p className={"text-4xl font-extrabold"}>100 KAS</p>
           <p className={"text-xl font-bold"}>$ 0.00</p>
           <Input
-            defaultValue={"kaspa:qpamkvhgh0kzx50gwvvp5xs8ktmqutcy3dfs9dc3w7lm9rq0zs76vf959mmrp"}
+            defaultValue={"address here"}
             className={"text-s w-72"}
             disabled={true}
           />

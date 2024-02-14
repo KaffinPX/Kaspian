@@ -21,6 +21,7 @@ export default class Router {
       'wallet:create': (password: string) => this.wallet.create(password), // refactor
       'wallet:unlock': (password: string) => this.wallet.unlock(0, password),
       'wallet:reset': () => this.wallet.reset(),
+      'account:address': () => this.wallet.activeAccount!.deriveReceive(),
       'node:status': () => this.node.status
     }  
   }

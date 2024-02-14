@@ -6,6 +6,7 @@ export interface RequestMappings {
   'wallet:create': [ string ] // Password
   'wallet:unlock': [ string ] // Password
   'wallet:reset': []
+  'account:address': []
   'node:status': []
 }
 
@@ -20,6 +21,7 @@ export interface ResponseMappings {
   'wallet:create': string
   'wallet:unlock': boolean
   'wallet:reset': boolean
+  'account:address': string
   'node:status': NodeStatus
 }
 

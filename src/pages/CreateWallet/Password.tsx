@@ -3,12 +3,13 @@ import { i18n } from "webextension-polyfill"
 import Heading from "@/components/Heading"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { ArrowRightCircle } from "lucide-react"
+import { ArrowRightCircle, Eye, EyeOff } from "lucide-react"
 
 export default function Password ({ onPasswordSet }: {
   onPasswordSet: (password: string) => void
 }) {
   const [ password, setPassword ] = useState("")
+  const [ isHidden, setIsHidden ] = useState(true)
 
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6"}>
@@ -19,12 +20,22 @@ export default function Password ({ onPasswordSet }: {
       <div className={"flex flex-col w-60 gap-3 mx-auto"}>
         <Input
           placeholder={i18n.getMessage('password')}
-          value={password}
+          value={isHidden ? password : password.replace(/[^ ]/g, "*")}
           onChange={(e) =>
-            // TODO: Password check and disable button if needed + reveal/hide password by type
+            // TODO: Password check and disable button if needed
             setPassword(e.target.value)
           }
         />
+        <Button
+          variant={"ghost"}
+          className={"text-green-400 gap-1?" + ""}
+          onClick={() => {
+            setIsHidden(!isHidden)
+          }
+        }>
+          {!isHidden ? <EyeOff /> : <Eye />}
+          {!isHidden ? i18n.getMessage('show') : i18n.getMessage('hide')}
+        </Button>
       </div>
       <div className={"mx-auto"}>
         <Button

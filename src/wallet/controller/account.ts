@@ -9,6 +9,8 @@ export default class Account {
   }
 
   async deriveReceive () {
-    return createAddress(await this.publicKey.receivePubkeys(0, 0), NetworkType.Mainnet)
+    const address = createAddress(await this.publicKey.receivePubkeys(0, 0), NetworkType.Mainnet)
+    
+    return address.toString()
   }
 }
