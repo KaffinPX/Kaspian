@@ -32,7 +32,7 @@
     "description": "Embark on this thrilling journey within Kaspian, but remember to adhere to some essential rules that will safeguard your magical experience."
   },
   "backupWallet": {
-    "message": "Backup your wallet",
+    "message": "Backup Wallet",
     "description": "Ensure the longevity of your magical wallet by creating a backup. This step is crucial for preserving your enchanting assets within Kaspian."
   },
   "selfCustody": {
@@ -59,8 +59,8 @@
     "message": "Next",
     "description": "Proceed to the next enchanting step on your Kaspian journey. May each 'Next' unveil new magical possibilities and experiences within the realm."
   },
-  "confirm": {
-    "message": "Confirm"
+  "finish": {
+    "message": "Finish"
   },
   "continue": {
     "message": "Continue",

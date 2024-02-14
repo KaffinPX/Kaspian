@@ -30,7 +30,7 @@ export default function UnlockWallet() {
         <Button
           onClick={async () => {
             if (await kaspa.request('wallet:unlock', [ password ])) {
-              navigate("/wallet")
+              navigate("/")
             }
           }}
           disabled={password === ""}

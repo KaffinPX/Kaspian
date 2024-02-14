@@ -52,7 +52,7 @@ export default function Create({ mnemonic, onSaved }: {
           </label>
         </div>
         <Button disabled={!isSaved} onClick={onSaved}>
-          {i18n.getMessage('continue')}
+          {i18n.getMessage('finish')}
         </Button>
       </div>
     </main>
