@@ -4,7 +4,7 @@ import type Wallet from "../controller/wallet"
 import type Node from "../controller/node"
 
 type MappingsRecord<M extends keyof RequestMappings> = {
-  [ K in M ]: (...params: RequestMappings[K]) => Promise<ResponseMappings[K]> | ResponseMappings[K]
+  [ K in M ]: (...params: RequestMappings[K]) => ResponseMappings[K] extends boolean ? void : (Promise<ResponseMappings[K]> | ResponseMappings[K])
 }
 
 export default class Router {
@@ -35,11 +35,11 @@ export default class Router {
     const methodHandler = this.mappings[request.method]
 
     try {
-      response.result = await methodHandler(...request.params) // improve later by making possible to accept void and returns true by true as Response<M>["result"]
+      response.result = (await methodHandler(...request.params) ?? true) as ResponseMappings[M]
     } catch (error) {
       if (!(error instanceof Error)) return console.error('Non-standard error', error)
 
-      console.error(error)
+      console.error(error) // Temporary
 
       response.error = error.message
     }

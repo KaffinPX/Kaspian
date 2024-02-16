@@ -44,8 +44,6 @@ export default class Wallet {
 
     await this.unlock(0, password) // instead of this, implement low level functs to reuse classes/available things to make it faster
     await this.sync()
-    
-    return true // a simple workaround on some weird ts problem, will be thinked over it more in future
   }
 
   async unlock (id: number, password: string) {
@@ -71,16 +69,12 @@ export default class Wallet {
     mnemonic.free()
     extendedKey.free()
     publicKey.free()
-
-    return true
   }
 
   async reset () {
     await LocalStorage.remove('wallet')
     await SessionStorage.clear()
     await this.sync()
-
-    return true
   }
 
   async sync () {
