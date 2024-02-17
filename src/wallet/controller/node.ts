@@ -1,15 +1,17 @@
 import { RpcClient, Encoding } from "@/../wasm"
+import { EventEmitter } from "events"
 
 export enum Status {
   Disconnected,
   Connected
 }
 
-export default class Node {
+export default class Node extends EventEmitter {
   status: Status = Status.Disconnected
   kaspa: RpcClient
 
   constructor (nodeAddress: string) {
+    super()
     this.kaspa = new RpcClient(nodeAddress, Encoding.Borsh)
 
     this.reconnect()
