@@ -10,7 +10,7 @@ export interface RequestMappings {
   'node:status': []
 }
 
-export interface Request<M extends keyof ResponseMappings> {
+export interface Request<M extends keyof ResponseMappings = keyof ResponseMappings> {
   id: number
   method: M
   params: RequestMappings[M]
@@ -25,8 +25,21 @@ export interface ResponseMappings {
   'node:status': NodeStatus
 }
 
-export interface Response<M extends keyof RequestMappings> {
+export interface Response<M extends keyof RequestMappings = keyof RequestMappings> {
   id: number
   result: ResponseMappings[M] | false
   error?: string
+}
+
+export interface EventMappings {
+  "wallet:status": WalletStatus
+}
+
+export interface Event<M extends keyof EventMappings = keyof EventMappings> {
+  event: M
+  data: EventMappings[M]
+}
+
+export function isEvent (message: any): message is Event {
+  return message && message.event
 }
