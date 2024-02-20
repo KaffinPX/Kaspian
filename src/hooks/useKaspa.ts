@@ -34,7 +34,7 @@ class KaspaInterface {
 
   async load () {
     const status = await this.request('wallet:status', [])
-    const connection = await this.request('node:status', [])
+    const connection = await this.request('node:connection', [])
 
     this.setState({
       status,

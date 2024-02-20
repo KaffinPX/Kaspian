@@ -1,5 +1,5 @@
-import { Status as WalletStatus } from "../controller/wallet"
-import { Status as NodeStatus } from "../controller/node"
+import { Status } from "../controller/wallet"
+import { Connection } from "../controller/node"
 
 export interface RequestMappings {
   'wallet:status': []
@@ -7,7 +7,7 @@ export interface RequestMappings {
   'wallet:unlock': [ string ] // Password
   'wallet:reset': []
   'account:address': []
-  'node:status': []
+  'node:connection': []
 }
 
 export interface Request<M extends keyof ResponseMappings = keyof ResponseMappings> {
@@ -17,12 +17,12 @@ export interface Request<M extends keyof ResponseMappings = keyof ResponseMappin
 }
 
 export interface ResponseMappings {
-  'wallet:status': WalletStatus
+  'wallet:status': Status
   'wallet:create': string
   'wallet:unlock': boolean
   'wallet:reset': boolean
   'account:address': string
-  'node:status': NodeStatus
+  'node:connection': Connection
 }
 
 export interface Response<M extends keyof RequestMappings = keyof RequestMappings> {
@@ -32,7 +32,7 @@ export interface Response<M extends keyof RequestMappings = keyof RequestMapping
 }
 
 export interface EventMappings {
-  "node:connection": NodeStatus
+  "node:connection": Connection
 }
 
 export interface Event<M extends keyof EventMappings = keyof EventMappings> {

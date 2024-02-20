@@ -1,17 +1,18 @@
 import { RpcClient, ConnectStrategy } from "@/../wasm"
 import { EventEmitter } from "events"
 
-export enum Status {
+export enum Connection {
   Disconnected,
   Connected
 }
 
 export default class Node extends EventEmitter {
-  status: Status = Status.Disconnected
+  status: Connection = Connection.Disconnected
   kaspa: RpcClient
 
   constructor (nodeAddress: string) {
     super()
+    
     this.kaspa = new RpcClient()
 
     this.reconnect(nodeAddress)
@@ -30,11 +31,11 @@ export default class Node extends EventEmitter {
 
     if (!isSynced) {
       await this.kaspa.disconnect()
-      this.status = Status.Disconnected
+      this.status = Connection.Disconnected
       
       throw Error('Node is not synchronized')
     }
 
-    this.status = Status.Connected
+    this.status = Connection.Connected
   }
 }

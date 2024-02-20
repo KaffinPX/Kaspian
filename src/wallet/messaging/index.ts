@@ -1,7 +1,7 @@
 import browser from "webextension-polyfill"
 import Router from "./server/router"
-import { type Request } from "./protocol"
 import Notifier from "./server/notifier"
+import { type Request } from "./protocol"
 
 export default class RPC {
   router: Router
