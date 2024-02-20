@@ -2,26 +2,38 @@ import browser from "webextension-polyfill"
 import Router from "./server/router"
 import Notifier from "./server/notifier"
 import type { Request } from "./protocol"
+import type Wallet from "../controller/wallet"
+import type Node from "../controller/node"
 
 export default class RPC {
   router: Router
   notifier: Notifier
   ports: Set<browser.Runtime.Port> = new Set()
  
-  constructor (identity: string, { router, notifier }: {
+  constructor ({ router, notifier }: {
     router: Router
     notifier: Notifier
   }) {
     this.router = router
     this.notifier = notifier
 
-    this.listen(identity)
+    this.listen()
   }
 
-  private listen (identity: string) {
+  static fromComponents ({ wallet, node }: { 
+    wallet: Wallet,
+    node: Node
+  }) {
+    return new RPC({
+      router: new Router({ wallet, node }),
+      notifier: new Notifier({ wallet, node }),
+    })
+  }
+
+  private listen () {
     browser.runtime.onConnect.addListener((port) => {
       if (port.sender?.id !== browser.runtime.id) return port.disconnect()
-      if (port.name !== identity) return
+      if (port.name !== '@kaspian/client') return
 
       this.permitPort(port)
     })
