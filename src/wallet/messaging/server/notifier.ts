@@ -5,7 +5,7 @@ import { type Event, EventMappings } from "../protocol"
 export default class Notifications {
   wallet: Wallet
   node: Node
-  activeFlow: ((event: Event) => void) | undefined
+  callback: ((event: Event) => void) | undefined
 
   constructor ({ wallet, node }: { 
     wallet: Wallet,
@@ -17,15 +17,15 @@ export default class Notifications {
     this.registerListeners()
   }
 
-  stream (flow: (event: Event) => void) {
-    this.activeFlow = flow
+  registerCallback (flow: (event: Event) => void) {
+    this.callback = flow
   }
 
   private registerListeners () {
     this.node.on('connection', (status: EventMappings['node:connection']) => {
-      if (!this.activeFlow) return
+      if (!this.callback) return
 
-      this.activeFlow({ 
+      this.callback({ 
         event: 'node:connection',
         data: status
       })

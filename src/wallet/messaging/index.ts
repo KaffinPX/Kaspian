@@ -1,7 +1,7 @@
 import browser from "webextension-polyfill"
 import Router from "./server/router"
 import Notifier from "./server/notifier"
-import { type Request } from "./protocol"
+import type { Request } from "./protocol"
 
 export default class RPC {
   router: Router
@@ -23,13 +23,13 @@ export default class RPC {
       if (port.sender?.id !== browser.runtime.id) return port.disconnect()
       if (port.name !== identity) return
 
-      this.registerPort(port)
+      this.permitPort(port)
     })
 
     this.streamEvents()
   }
 
-  private registerPort (port: browser.Runtime.Port) {
+  private permitPort (port: browser.Runtime.Port) {
     this.ports.add(port)
 
     const onMessageListener = async (request: Request) => {
@@ -48,7 +48,7 @@ export default class RPC {
   }
 
   private streamEvents () {
-    this.notifier.stream((event) => {
+    this.notifier.registerCallback((event) => {
       this.ports.forEach(port => {
         port.postMessage(event)
       })
