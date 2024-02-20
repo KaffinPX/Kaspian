@@ -34,9 +34,8 @@ export default function Landing({ forward }: {
           <Button
             className={"gap-2"}
             onClick={() => {
-              forward(Tabs.Import)
+              forward(Tabs.Password)
             }}
-            disabled={true} // temporarily
           >
             <Import />
             {i18n.getMessage('importWallet')}

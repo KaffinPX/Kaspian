@@ -4,6 +4,7 @@ import { Connection } from "../controller/node"
 export interface RequestMappings {
   'wallet:status': []
   'wallet:create': [ string ] // Password
+  'wallet:import': [ string, string ] // Mnemo, Password
   'wallet:unlock': [ string ] // Password
   'wallet:reset': []
   'account:address': []
@@ -19,6 +20,7 @@ export interface Request<M extends keyof ResponseMappings = keyof ResponseMappin
 export interface ResponseMappings {
   'wallet:status': Status
   'wallet:create': string
+  'wallet:import': boolean
   'wallet:unlock': boolean
   'wallet:reset': boolean
   'account:address': string
@@ -41,5 +43,5 @@ export interface Event<M extends keyof EventMappings = keyof EventMappings> {
 }
 
 export function isEvent (message: any): message is Event {
-  return message && message.event
+  return message && message.event && message.data
 }

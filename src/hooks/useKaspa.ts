@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { type Runtime } from "webextension-polyfill"
 import { IKaspa, KaspaContext } from "../contexts/Kaspa"
-import { Request, Response, ResponseMappings, RequestMappings } from "../wallet/messaging/protocol"
+import { Event, Request, Response, ResponseMappings, RequestMappings, isEvent } from "../wallet/messaging/protocol"
 
 interface RequestCallback<M extends keyof RequestMappings> {
   success: (result: ResponseMappings[M]) => void
@@ -24,14 +24,9 @@ class KaspaInterface {
     this.registerListener()
   }
 
-  get status () { 
-    return this.state.status
-  }
-
-  get connection () { 
-    return this.state.connection
-  }
-
+  get status () { return this.state.status }
+  get connection () { return this.state.connection }
+  
   async load () {
     const status = await this.request('wallet:status', [])
     const connection = await this.request('node:connection', [])
@@ -57,20 +52,26 @@ class KaspaInterface {
   }
 
   private registerListener () {
-    const onMessageListener = (message: Response) => {
-      const messageCallbacks = this.pendingMessages.get(message.id)
+    const onMessageListener = (message: Event | Response) => {
+      if (isEvent(message)) {
+        if (message.event === 'node:connection') {
+          // Update state
+        }
+      } else {
+        const messageCallbacks = this.pendingMessages.get(message.id)
 
-      if (!messageCallbacks) return this.port.onMessage.removeListener(onMessageListener)
-      const [ resolve, reject ] = messageCallbacks
-
-      this.pendingMessages.delete(message.id)
-
-      if (message.error) return reject(message.error)
-      resolve(message.result)
+        if (!messageCallbacks) return this.port.onMessage.removeListener(onMessageListener) // should be moved to server(deprecation of class case)
+        const [ resolve, reject ] = messageCallbacks
+  
+        this.pendingMessages.delete(message.id)
+  
+        if (message.error) return reject(message.error)
+        resolve(message.result)
+      }
     }
 
     this.port.onMessage.addListener(onMessageListener)
-  } // add notification conditions to handle state(and possibly refactor account to be not "undefined" by events)
+  }
 }
 
 export default function useKaspa () {
