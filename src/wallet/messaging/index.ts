@@ -1,25 +1,21 @@
 import browser from "webextension-polyfill"
 import Router from "./server/router"
 import { type Request } from "./protocol"
-import type Wallet from "../controller/wallet"
-import type Node from "../controller/node"
 import Notifier from "./server/notifier"
 
 export default class RPC {
-  router: Router | undefined
-  notifier: Notifier | undefined
+  router: Router
+  notifier: Notifier
   ports: Set<browser.Runtime.Port> = new Set()
  
-  constructor (identity: string) {
-    this.listen(identity)
-  }
-
-  registerModules ({ wallet, node }: {
-    wallet: Wallet,
-    node: Node
+  constructor (identity: string, { router, notifier }: {
+    router: Router
+    notifier: Notifier
   }) {
-    this.router = new Router(wallet, node)
-    this.notifier = new Notifier({ wallet, node })
+    this.router = router
+    this.notifier = notifier
+
+    this.listen(identity)
   }
 
   private listen (identity: string) {
@@ -29,13 +25,15 @@ export default class RPC {
 
       this.registerPort(port)
     })
+
+    this.streamEvents()
   }
 
   private registerPort (port: browser.Runtime.Port) {
     this.ports.add(port)
 
     const onMessageListener = async (request: Request) => {
-      const response = await this.router!.routeMessage(request)
+      const response = await this.router.routeMessage(request)
 
       port.postMessage(response)
     }
@@ -46,6 +44,14 @@ export default class RPC {
       port.onMessage.removeListener(onMessageListener)
 
       this.ports.delete(port)
+    })
+  }
+
+  private streamEvents () {
+    this.notifier.stream((event) => {
+      this.ports.forEach(port => {
+        port.postMessage(event)
+      })
     })
   }
 }

@@ -12,7 +12,10 @@ export default class Router {
   node: Node
   mappings: MappingsRecord
 
-  constructor (wallet: Wallet, node: Node) {
+  constructor ({ wallet, node }: { 
+    wallet: Wallet,
+    node: Node
+  }) {
     this.wallet = wallet
     this.node = node
 
