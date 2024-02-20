@@ -1,32 +1,51 @@
 import browser from "webextension-polyfill"
-import { Request, RequestMappings } from "./protocol"
-import Router from "./router"
+import Router from "./server/router"
+import { type Request } from "./protocol"
+import type Wallet from "../controller/wallet"
+import type Node from "../controller/node"
+import Notifier from "./server/notifier"
 
 export default class RPC {
-  router: Router
-
-  constructor (router: Router) {
-    this.router = router
-
-    this.listen()
+  router: Router | undefined
+  notifier: Notifier | undefined
+  ports: Set<browser.Runtime.Port> = new Set()
+ 
+  constructor (identity: string) {
+    this.listen(identity)
   }
 
-  listen () {
+  registerModules ({ wallet, node }: {
+    wallet: Wallet,
+    node: Node
+  }) {
+    this.router = new Router(wallet, node)
+    this.notifier = new Notifier({ wallet, node })
+  }
+
+  private listen (identity: string) {
     browser.runtime.onConnect.addListener((port) => {
       if (port.sender?.id !== browser.runtime.id) return port.disconnect()
-      if (port.name !== '@kaspian/client') return
+      if (port.name !== identity) return
 
-      const onMessageListener = async (request: Request<keyof RequestMappings>) => {
-        const response = await this.router.routeMessage(request)
+      this.registerPort(port)
+    })
+  }
 
-        port.postMessage(response)
-      }
+  private registerPort (port: browser.Runtime.Port) {
+    this.ports.add(port)
 
-      port.onMessage.addListener(onMessageListener)
+    const onMessageListener = async (request: Request) => {
+      const response = await this.router!.routeMessage(request)
 
-      port.onDisconnect.addListener(() => {
-        port.onMessage.removeListener(onMessageListener)
-      })
+      port.postMessage(response)
+    }
+
+    port.onMessage.addListener(onMessageListener)
+
+    port.onDisconnect.addListener(() => {
+      port.onMessage.removeListener(onMessageListener)
+
+      this.ports.delete(port)
     })
   }
 }

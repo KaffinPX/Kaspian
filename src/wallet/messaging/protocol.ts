@@ -32,7 +32,7 @@ export interface Response<M extends keyof RequestMappings = keyof RequestMapping
 }
 
 export interface EventMappings {
-  "wallet:status": WalletStatus
+  "node:connection": NodeStatus
 }
 
 export interface Event<M extends keyof EventMappings = keyof EventMappings> {

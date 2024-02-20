@@ -57,7 +57,7 @@ class KaspaInterface {
   }
 
   private registerListener () {
-    const onMessageListener = (message: Response<keyof RequestMappings>) => {
+    const onMessageListener = (message: Response) => {
       const messageCallbacks = this.pendingMessages.get(message.id)
 
       if (!messageCallbacks) return this.port.onMessage.removeListener(onMessageListener)
@@ -70,7 +70,7 @@ class KaspaInterface {
     }
 
     this.port.onMessage.addListener(onMessageListener)
-  }
+  } // add notification conditions to handle state(and possibly refactor account to be not "undefined" by events)
 }
 
 export default function useKaspa () {

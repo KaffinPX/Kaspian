@@ -1,16 +1,16 @@
-import { Request, Response, RequestMappings, ResponseMappings } from "./protocol"
+import { Request, Response, RequestMappings, ResponseMappings } from "../protocol"
 
-import type Wallet from "../controller/wallet"
-import type Node from "../controller/node"
+import type Wallet from "../../controller/wallet"
+import type Node from "../../controller/node"
 
-type MappingsRecord<M extends keyof RequestMappings> = {
+type MappingsRecord<M extends keyof RequestMappings = keyof RequestMappings> = {
   [ K in M ]: (...params: RequestMappings[K]) => ResponseMappings[K] extends boolean ? void : (Promise<ResponseMappings[K]> | ResponseMappings[K])
 }
 
 export default class Router {
   wallet: Wallet
   node: Node
-  mappings: MappingsRecord<keyof RequestMappings>
+  mappings: MappingsRecord
 
   constructor (wallet: Wallet, node: Node) {
     this.wallet = wallet
