@@ -1,15 +1,15 @@
-import { createAddress, NetworkType, XPublicKey } from "@/../wasm"
+import { createAddress, NetworkType, PublicKeyGenerator } from "@/../wasm"
 
 export default class Account {
-  publicKey: XPublicKey
+  publicKey: PublicKeyGenerator
   // TODO: support networks && indexing of index
 
-  constructor (publicKey: XPublicKey) {
+  constructor (publicKey: PublicKeyGenerator) {
     this.publicKey = publicKey
   }
 
   async deriveReceive () {
-    const address = createAddress(await this.publicKey.receivePubkeys(0, 0), NetworkType.Mainnet)
+    const address = createAddress((await this.publicKey.receivePubkeys(0, 0))[0], NetworkType.Mainnet)
     
     return address.toString()
   }

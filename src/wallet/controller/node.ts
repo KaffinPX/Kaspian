@@ -1,4 +1,4 @@
-import { RpcClient, Encoding } from "@/../wasm"
+import { RpcClient, ConnectStrategy } from "@/../wasm"
 import { EventEmitter } from "events"
 
 export enum Status {
@@ -12,13 +12,19 @@ export default class Node extends EventEmitter {
 
   constructor (nodeAddress: string) {
     super()
-    this.kaspa = new RpcClient(nodeAddress, Encoding.Borsh)
+    this.kaspa = new RpcClient()
 
-    this.reconnect()
+    this.reconnect(nodeAddress)
   }
 
   async reconnect (nodeAddress?: string) {
-    await this.kaspa.connect({ url: nodeAddress ?? this.kaspa.url })
+    await this.kaspa.connect({
+      blockAsyncConnect: true,
+      url: nodeAddress,
+      strategy: ConnectStrategy.Retry,
+      timeoutDurationMsec: 1000,
+      retryIntervalMsec: 1000
+    })
 
     const { isSynced } = await this.kaspa.getServerInfo()
 

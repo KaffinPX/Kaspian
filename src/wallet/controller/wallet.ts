@@ -1,4 +1,4 @@
-import { Mnemonic, encryptXChaCha20Poly1305, decryptXChaCha20Poly1305, XPrv, XPub, XPublicKey, XPrivateKey } from "@/../wasm"
+import { Mnemonic, encryptXChaCha20Poly1305, decryptXChaCha20Poly1305, XPrv, PublicKeyGenerator } from "@/../wasm"
 
 import LocalStorage from "@/storage/LocalStorage"
 import SessionStorage from "@/storage/SessionStorage"
@@ -29,13 +29,7 @@ export default class Wallet {
   }
 
   async import (mnemonics: string, password: string) {
-    try {
-      const mnemonic = new Mnemonic(mnemonics)
-
-      mnemonic.free()
-    } catch (err) {
-      throw Error('Invalid mnemonic')
-    }
+    if (!Mnemonic.validate(mnemonics)) throw Error('Invalid mnemonic')
   
     await LocalStorage.set("wallet", {
       encryptedKey: encryptXChaCha20Poly1305(mnemonics, password),
@@ -53,7 +47,7 @@ export default class Wallet {
 
     const mnemonic = new Mnemonic(decryptXChaCha20Poly1305(wallet.encryptedKey, password))
     const extendedKey = new XPrv(mnemonic.toSeed())
-    const publicKey = await XPublicKey.fromMasterXPrv(
+    const publicKey = await PublicKeyGenerator.fromMasterXPrv(
       extendedKey.intoString('xprv'),
       false,
       BigInt(id)
@@ -61,7 +55,7 @@ export default class Wallet {
     
     await SessionStorage.set('session', {
       activeAccount: id,
-      publicKey: publicKey.toKPub()
+      publicKey: publicKey.toString()
     })
 
     await this.sync()
@@ -90,7 +84,7 @@ export default class Wallet {
       } else {
         this.status = Status.Unlocked
 
-        this.activeAccount = new Account(await XPublicKey.fromXPub(session.publicKey))
+        this.activeAccount = new Account(await PublicKeyGenerator.fromXPub(session.publicKey))
       }
     }
   }
