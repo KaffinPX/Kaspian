@@ -36,6 +36,7 @@ export default function Landing({ forward }: {
             onClick={() => {
               forward(Tabs.Password)
             }}
+            disabled={true} // Temporary
           >
             <Import />
             {i18n.getMessage('importWallet')}

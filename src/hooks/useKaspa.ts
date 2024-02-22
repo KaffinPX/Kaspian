@@ -2,6 +2,7 @@ import { useContext } from "react"
 import { type Runtime } from "webextension-polyfill"
 import { IKaspa, KaspaContext } from "../contexts/Kaspa"
 import { Event, Request, Response, ResponseMappings, RequestMappings, isEvent } from "../wallet/messaging/protocol"
+import { Status } from "@/wallet/controller/wallet"
 
 interface RequestCallback<M extends keyof RequestMappings> {
   success: (result: ResponseMappings[M]) => void
@@ -26,14 +27,21 @@ class KaspaInterface {
 
   get status () { return this.state.status }
   get connection () { return this.state.connection }
+  get address () { return this.state.address }
   
   async load () {
     const status = await this.request('wallet:status', [])
     const connection = await this.request('node:connection', [])
+    let address = undefined
+
+    if (status === Status.Unlocked) {
+      address = await this.request('account:address', []) // soon will be addresses
+    }
 
     this.setState({
       status,
-      connection
+      connection,
+      address
     })
   }
 

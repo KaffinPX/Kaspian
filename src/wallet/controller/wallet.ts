@@ -1,8 +1,7 @@
-import { Mnemonic, encryptXChaCha20Poly1305, decryptXChaCha20Poly1305, XPrv, PublicKeyGenerator } from "@/../wasm"
-
 import LocalStorage from "@/storage/LocalStorage"
 import SessionStorage from "@/storage/SessionStorage"
-import Account from "./account"
+import { Mnemonic, encryptXChaCha20Poly1305, decryptXChaCha20Poly1305, XPrv, PublicKeyGenerator } from "@/../wasm"
+import { EventEmitter } from "events"
 
 export enum Status {
   Uninitialized,
@@ -10,11 +9,12 @@ export enum Status {
   Unlocked
 }
 
-export default class Wallet {
+export default class Wallet extends EventEmitter {
   status: Status = Status.Uninitialized
-  activeAccount: Account | undefined
 
   constructor (readyCallback: () => void) {
+    super()
+
     this.sync().then(() => readyCallback())
   }
 
@@ -83,9 +83,9 @@ export default class Wallet {
         this.status = Status.Locked
       } else {
         this.status = Status.Unlocked
-
-        this.activeAccount = new Account(await PublicKeyGenerator.fromXPub(session.publicKey))
       }
     }
+
+    this.emit('status', this.status)
   }
 }

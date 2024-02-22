@@ -2,6 +2,7 @@ import { Request, Response, RequestMappings, ResponseMappings } from "../protoco
 
 import type Wallet from "../../controller/wallet"
 import type Node from "../../controller/node"
+import type Account from "../../controller/account"
 
 type MappingsRecord<M extends keyof RequestMappings = keyof RequestMappings> = {
   [ K in M ]: (...params: RequestMappings[K]) => ResponseMappings[K] extends boolean ? void : (Promise<ResponseMappings[K]> | ResponseMappings[K])
@@ -10,14 +11,17 @@ type MappingsRecord<M extends keyof RequestMappings = keyof RequestMappings> = {
 export default class Router {
   wallet: Wallet
   node: Node
+  account: Account
   mappings: MappingsRecord
 
-  constructor ({ wallet, node }: { 
+  constructor ({ wallet, node, account }: { 
     wallet: Wallet,
-    node: Node
+    node: Node,
+    account: Account
   }) {
     this.wallet = wallet
     this.node = node
+    this.account = account
 
     this.mappings = {
       'wallet:status': () => this.wallet.status,
@@ -25,7 +29,7 @@ export default class Router {
       'wallet:import': (mnemonic: string, password: string) => this.wallet.import(mnemonic, password),
       'wallet:unlock': (password: string) => this.wallet.unlock(0, password),
       'wallet:reset': () => this.wallet.reset(),
-      'account:address': () => this.wallet.activeAccount!.deriveReceive(),
+      'account:address': () => this.account.deriveReceive(),
       'node:connection': () => this.node.status
     }  
   }

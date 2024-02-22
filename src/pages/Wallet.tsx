@@ -34,7 +34,7 @@ export default function Wallet () {
           <p className={"text-4xl font-extrabold"}>100 KAS</p>
           <p className={"text-xl font-bold"}>$ 0.00</p>
           <Input
-            defaultValue={"address here"}
+            defaultValue={kaspa.address}
             className={"text-s w-72"}
             disabled={true}
           />

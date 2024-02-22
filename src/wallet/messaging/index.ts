@@ -4,6 +4,7 @@ import Notifier from "./server/notifier"
 import type { Request } from "./protocol"
 import type Wallet from "../controller/wallet"
 import type Node from "../controller/node"
+import type Account from "../controller/account"
 
 export default class RPC {
   router: Router
@@ -20,12 +21,13 @@ export default class RPC {
     this.listen()
   }
 
-  static fromComponents ({ wallet, node }: { 
+  static fromComponents ({ wallet, node, account }: { 
     wallet: Wallet,
-    node: Node
+    node: Node,
+    account: Account
   }) {
     return new RPC({
-      router: new Router({ wallet, node }),
+      router: new Router({ wallet, node, account }),
       notifier: new Notifier({ wallet, node }),
     })
   }
