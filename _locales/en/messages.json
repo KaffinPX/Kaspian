@@ -90,7 +90,7 @@
     "description": "Empower your wallet with an additional layer of magic! 'Set Password' allows you to establish a protective spell, encrypting your wallet and fortifying it against unauthorized access."
   },
   "passwordDescription": {
-    "message": "Time to set a password. This password will be used to encrypt your wallet",
+    "message": "Set a password, this password will be used to encrypt your mnemonic.",
     "description": "Embark on the creation of a magical barrier! It's time to set a password that will cloak your wallet in encryption. This additional layer of security enhances the protection of your enchanting assets within Kaspian."
   },
   "success": {

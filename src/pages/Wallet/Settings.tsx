@@ -17,7 +17,9 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
+  SheetFooter,
+  SheetPortal
 } from "@/components/ui/sheet"
 import {
   Accordion,
@@ -91,12 +93,14 @@ export default function Settings () {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-        <Button onClick={async () => {
-          await kaspa.request('wallet:reset', [])
-          await kaspa.load()
-        }} variant={"destructive"}>
-          Reset wallet
-        </Button>
+        <SheetFooter>
+          <Button onClick={async () => {
+            await kaspa.request('wallet:reset', [])
+            await kaspa.load()
+          }} variant={"destructive"}>
+            Reset wallet
+          </Button>
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   )
