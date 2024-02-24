@@ -1,15 +1,38 @@
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { i18n } from "webextension-polyfill"
 import Heading from "@/components/Heading"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ArrowRightCircle, Eye, EyeOff } from "lucide-react"
+import { Label } from "@/components/ui/label"
+
+enum PasswordErrors {
+  TooShort,
+  UpperCase,
+  LowerCase,
+  Number,
+  SpecialCharacter
+}
+
+const specialCharacters = new Set([ "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "=", "+", "[", "]", "{", "}", "|", ";", ":", "'", "\"", "<", ">", ",", ".", "?", "/" ])
 
 export default function Password ({ onPasswordSet }: {
   onPasswordSet: (password: string) => void
 }) {
   const [ password, setPassword ] = useState("")
   const [ isHidden, setIsHidden ] = useState(true)
+
+  const errors = useMemo(() => {
+    const errors = new Set<PasswordErrors>()
+
+    if (password.length < 8) errors.add(PasswordErrors.TooShort)
+    if (!/[A-Z]/.test(password)) errors.add(PasswordErrors.UpperCase)
+    if (!/[a-z]/.test(password)) errors.add(PasswordErrors.LowerCase)
+    if (!/[0-9]/.test(password)) errors.add(PasswordErrors.Number)
+    if (![...password].some((character) => specialCharacters.has(character))) errors.add(PasswordErrors.SpecialCharacter)
+
+    return errors
+  }, [password])
 
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6"}>
@@ -18,27 +41,50 @@ export default function Password ({ onPasswordSet }: {
         subtitle={i18n.getMessage('passwordDescription')}
       />
       <div className={"flex flex-col w-60 gap-3 mx-auto"}>
-        <Input
-          placeholder={i18n.getMessage('password')}
-          value={isHidden ? password : password.replace(/[^ ]/g, "*")}
-          onChange={(e) =>
-            // TODO: Password check and disable button if needed
-            setPassword(e.target.value)
-          }
-        />
-        <Button
-          variant={"ghost"}
-          className={"text-green-400 gap-1?" + ""}
-          onClick={() => {
-            setIsHidden(!isHidden)
-          }
-        }>
-          {!isHidden ? <EyeOff /> : <Eye />}
-          {!isHidden ? i18n.getMessage('show') : i18n.getMessage('hide')}
-        </Button>
+        <div className="flex space-x-2">
+          <Input
+            id="password"
+            placeholder={i18n.getMessage('password')}
+            type={isHidden ? 'password' : 'text'}
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+          />
+          <Button
+            size={"icon"}
+            variant={"outline"}
+            onClick={() => {
+              setIsHidden(!isHidden)
+            }
+          }>
+            {!isHidden ? <EyeOff /> : <Eye />}
+          </Button>
+        </div>
+        <Label color={errors.has(PasswordErrors.TooShort) ? "error.main" : "text.primary"}>
+          {errors.has(PasswordErrors.TooShort) ? "❌ " : "✅ "} 
+          At least 8 characters long.
+        </Label>
+        <Label color={errors.has(PasswordErrors.UpperCase) ? "error.main" : "text.primary"}>
+          {errors.has(PasswordErrors.UpperCase) ? "❌ " : "✅ "} 
+          At least one uppercase character.
+        </Label>
+        <Label color={errors.has(PasswordErrors.LowerCase) ? "error.main" : "text.primary"}>
+          {errors.has(PasswordErrors.LowerCase) ? "❌ " : "✅ "} 
+          At least one lowercase character.
+        </Label>
+        <Label color={errors.has(PasswordErrors.Number) ? "error.main" : "text.primary"}>
+          {errors.has(PasswordErrors.Number) ? "❌ " : "✅ "} 
+          At least one number.
+        </Label>
+        <Label color={errors.has(PasswordErrors.SpecialCharacter) ? "error.main" : "text.primary"}>
+          {errors.has(PasswordErrors.SpecialCharacter) ? "❌ " : "✅ "} 
+          At least one special character.
+        </Label>
       </div>
       <div className={"mx-auto"}>
         <Button
+          disabled={!!errors.size}
           onClick={() => {
             onPasswordSet(password)
           }}
