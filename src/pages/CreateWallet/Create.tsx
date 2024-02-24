@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Eye, EyeOff } from "lucide-react"
+import { BookCheck, Eye, EyeOff } from "lucide-react"
 import Heading from "@/components/Heading"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useState } from "react"
@@ -52,6 +52,7 @@ export default function Create({ mnemonic, onSaved }: {
           </label>
         </div>
         <Button disabled={!isSaved} onClick={onSaved}>
+          <BookCheck />
           {i18n.getMessage('finish')}
         </Button>
       </div>
