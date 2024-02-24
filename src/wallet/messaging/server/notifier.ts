@@ -7,28 +7,30 @@ export default class Notifications {
   node: Node
   callback: ((event: Event) => void) | undefined
 
-  constructor ({ wallet, node }: { 
-    wallet: Wallet,
+  constructor({ wallet, node }: { 
+    wallet: Wallet
     node: Node
   }) {
-    this.wallet = wallet
-    this.node = node
-    
+    this.wallet = wallet;
+    this.node = node;
+
     this.registerListeners()
   }
 
-  registerCallback (flow: (event: Event) => void) {
+  registerCallback(flow: (event: Event) => void) {
     this.callback = flow
   }
 
-  private registerListeners () {
-    this.node.on('connection', (status: EventMappings['node:connection']) => {
-      if (!this.callback) return
+  private handleEvent <E extends keyof EventMappings>(eventName: E, data: EventMappings[E]) {
+    if (!this.callback) return
 
-      this.callback({ 
-        event: 'node:connection',
-        data: status
-      })
+    this.callback({
+      event: eventName,
+      data,
     })
+  }
+
+  private registerListeners() {
+    this.node.on('connection', (status) => this.handleEvent('node:connection', status))
   }
 }

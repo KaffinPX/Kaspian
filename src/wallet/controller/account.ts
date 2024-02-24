@@ -4,6 +4,8 @@ import { createAddress, NetworkType, PublicKeyGenerator } from "@/../wasm"
 
 export default class Account {
   publicKey: PublicKeyGenerator | undefined
+
+  // TODO: have an index of addresses :sunglasses:
   // TODO: support networks && indexing of index
 
   async deriveReceive () {
