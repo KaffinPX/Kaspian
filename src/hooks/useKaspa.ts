@@ -82,10 +82,9 @@ class KaspaInterface {
   }
 
   private updateState <K extends keyof IKaspa>(key: K, value: IKaspa[K]) {
-    this.setState((prevState) => {
-      prevState[key] = value
-
-      return prevState
+    this.setState({
+      ...this.state,
+      [ key ]: value
     })
   }
 }
