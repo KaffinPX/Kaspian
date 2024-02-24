@@ -28,7 +28,7 @@ export default class RPC {
   }) {
     return new RPC({
       router: new Router({ wallet, node, account }),
-      notifier: new Notifier({ wallet, node }),
+      notifier: new Notifier({ wallet, node, account }),
     })
   }
 

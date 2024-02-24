@@ -19,6 +19,8 @@ export default class Node extends EventEmitter {
   }
 
   async reconnect (nodeAddress?: string) {
+    return
+    
     await this.kaspa.connect({
       blockAsyncConnect: true,
       url: nodeAddress,

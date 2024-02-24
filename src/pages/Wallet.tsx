@@ -16,10 +16,16 @@ export default function Wallet () {
   const navigate = useNavigate()
 
   useEffect(() => {
+    console.log(kaspa.status)
+
     if (kaspa.status !== Status.Unlocked) {
       navigate("/")
     }
   }, [ kaspa.status ])
+
+  setInterval(() => {
+    console.log('current', kaspa.status)
+  }, 1000)
 
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6 gap-2"}>

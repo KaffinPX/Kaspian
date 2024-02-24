@@ -34,6 +34,7 @@ export interface Response<M extends keyof RequestMappings = keyof RequestMapping
 }
 
 export interface EventMappings {
+  "wallet:status": Status
   "node:connection": Connection
 }
 
@@ -43,5 +44,5 @@ export interface Event<M extends keyof EventMappings = keyof EventMappings> {
 }
 
 export function isEvent (message: any): message is Event {
-  return message && message.event && message.data
+  return message && typeof message.event === 'string' && typeof message.data !== 'undefined'
 }

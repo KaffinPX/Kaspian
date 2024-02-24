@@ -62,13 +62,13 @@ class KaspaInterface {
   private registerListener () {
     const onMessageListener = (message: Event | Response) => {
       if (isEvent(message)) {
-        if (message.event === 'node:connection') {
-          // Update state
+        if (message.event === 'wallet:status') {
+          this.updateState('status', message.data as Status)
         }
       } else {
         const messageCallbacks = this.pendingMessages.get(message.id)
 
-        if (!messageCallbacks) return this.port.onMessage.removeListener(onMessageListener) // should be moved to server(deprecation of class case)
+        if (!messageCallbacks) return // this.port.onMessage.removeListener(onMessageListener) // should be moved to context(deprecation of class case)
         const [ resolve, reject ] = messageCallbacks
   
         this.pendingMessages.delete(message.id)
@@ -79,6 +79,14 @@ class KaspaInterface {
     }
 
     this.port.onMessage.addListener(onMessageListener)
+  }
+
+  private updateState <K extends keyof IKaspa>(key: K, value: IKaspa[K]) {
+    this.setState((prevState) => {
+      prevState[key] = value
+
+      return prevState
+    })
   }
 }
 

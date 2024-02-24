@@ -1,8 +1,7 @@
-import { Request, Response, RequestMappings, ResponseMappings } from "../protocol"
-
 import type Wallet from "../../controller/wallet"
 import type Node from "../../controller/node"
 import type Account from "../../controller/account"
+import type { Request, Response, RequestMappings, ResponseMappings } from "../protocol"
 
 type MappingsRecord<M extends keyof RequestMappings = keyof RequestMappings> = {
   [ K in M ]: (...params: RequestMappings[K]) => ResponseMappings[K] extends boolean ? void : (Promise<ResponseMappings[K]> | ResponseMappings[K])

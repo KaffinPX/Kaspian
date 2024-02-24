@@ -75,17 +75,21 @@ export default class Wallet extends EventEmitter {
     const wallet = await LocalStorage.get('wallet', undefined)
 
     if (!wallet) {
-      this.status = Status.Uninitialized
+      this.markStatus(Status.Uninitialized)
     } else {
       const session = await SessionStorage.get('session', undefined)
 
       if (!session) {
-        this.status = Status.Locked
+        this.markStatus(Status.Locked)
       } else {
-        this.status = Status.Unlocked
+        this.markStatus(Status.Unlocked)
       }
     }
+  }
 
-    this.emit('status', this.status)
+  private async markStatus (status: Status) {
+    this.status = status
+
+    this.emit('status', status)
   }
 }

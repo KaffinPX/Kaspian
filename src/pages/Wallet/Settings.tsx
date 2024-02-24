@@ -96,7 +96,6 @@ export default function Settings () {
         <SheetFooter>
           <Button onClick={async () => {
             await kaspa.request('wallet:reset', [])
-            await kaspa.load()
           }} variant={"destructive"}>
             Reset wallet
           </Button>
