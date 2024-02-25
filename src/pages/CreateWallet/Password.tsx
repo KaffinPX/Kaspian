@@ -61,23 +61,23 @@ export default function Password ({ onPasswordSet }: {
             {!isHidden ? <EyeOff /> : <Eye />}
           </Button>
         </div>
-        <Label color={errors.has(PasswordErrors.TooShort) ? "error.main" : "text.primary"}>
+        <Label>
           {errors.has(PasswordErrors.TooShort) ? "❌ " : "✅ "} 
           At least 8 characters long.
         </Label>
-        <Label color={errors.has(PasswordErrors.UpperCase) ? "error.main" : "text.primary"}>
+        <Label>
           {errors.has(PasswordErrors.UpperCase) ? "❌ " : "✅ "} 
           At least one uppercase character.
         </Label>
-        <Label color={errors.has(PasswordErrors.LowerCase) ? "error.main" : "text.primary"}>
+        <Label>
           {errors.has(PasswordErrors.LowerCase) ? "❌ " : "✅ "} 
           At least one lowercase character.
         </Label>
-        <Label color={errors.has(PasswordErrors.Number) ? "error.main" : "text.primary"}>
+        <Label>
           {errors.has(PasswordErrors.Number) ? "❌ " : "✅ "} 
           At least one number.
         </Label>
-        <Label color={errors.has(PasswordErrors.SpecialCharacter) ? "error.main" : "text.primary"}>
+        <Label>
           {errors.has(PasswordErrors.SpecialCharacter) ? "❌ " : "✅ "} 
           At least one special character.
         </Label>
