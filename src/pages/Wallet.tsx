@@ -52,10 +52,7 @@ export default function Wallet () {
         </div>
       </div>
       <div className={"grid grid-cols-3 mx-4 h-full overflow-y-scroll no-scrollbar gap-2"}>
-        <div className="flex flex-col items-center text-center py-2 bg-primary rounded-xl w-24 h-24">
-          <p className={"text-xl font-bold"}>1 KAS</p>
-          <Button variant="link" className={"text-white font-extrabold"}>4e7726c...</Button>
-        </div>
+
       </div>
       <div className={"flex flex-row justify-center gap-5"}>
         <SendDrawer />

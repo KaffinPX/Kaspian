@@ -2,17 +2,21 @@ import LocalStorage from "@/storage/LocalStorage"
 import SessionStorage from "@/storage/SessionStorage"
 import { UtxoContext, UtxoProcessor, createAddress, NetworkType, PublicKeyGenerator } from "@/../wasm"
 import type Node from "./node"
+import { EventEmitter } from "events"
 
-export default class Account {
+export default class Account extends EventEmitter {
   processor: UtxoProcessor
   publicKey: PublicKeyGenerator | undefined
   addresses: [ string[], string[] ] = [[], []]
   context: UtxoContext
 
   constructor (node: Node) {
+    super()
+
     this.processor = new UtxoProcessor({ rpc: node.kaspa, networkId: 'MAINNET' })
     this.context = new UtxoContext({ processor: this.processor })
 
+    this.registerProcessor()
     this.listenSession()
   }
 
@@ -32,6 +36,12 @@ export default class Account {
     }
   }
 
+  private async registerProcessor () {
+    this.processor.addEventListener('balance', () => {
+      this.emit('balance', this.balance)
+    })
+  }
+
   private listenSession () {
     SessionStorage.storage.onChanged.addListener(async () => {
       const session = await SessionStorage.get('session', undefined)
@@ -45,16 +55,12 @@ export default class Account {
         await this.processor.start()
         await this.context.trackAddresses([ ...this.addresses[0], ...this.addresses[1] ])
       } else {
-        await this.reset()
+        this.publicKey!.free()
+
+        delete this.publicKey
+        this.addresses = [[], []]
+        await this.context.clear()
       }
     })
-  }
-
-  private async reset () {
-    this.publicKey!.free()
-
-    delete this.publicKey
-    this.addresses = [[], []]
-    await this.context.clear()
   }
 }

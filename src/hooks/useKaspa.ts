@@ -63,6 +63,8 @@ class KaspaInterface {
       if (isEvent(message)) {
         if (message.event === 'wallet:status') {
           this.updateState('status', message.data as Status)
+        } else if (message.event === 'account:balance') {
+          this.updateState('balance', message.data as string)
         }
       } else {
         const messageCallbacks = this.pendingMessages.get(message.id)
