@@ -69,13 +69,18 @@ export default class Wallet extends EventEmitter {
     publicKey.free()
   }
 
+  async lock () {
+    await SessionStorage.remove('session')
+    await this.sync()
+  }
+
   async reset () {
     await LocalStorage.remove('wallet')
     await SessionStorage.clear()
     await this.sync()
   }
 
-  async sync () {
+  private async sync () {
     const wallet = await LocalStorage.get('wallet', undefined)
 
     if (!wallet) {

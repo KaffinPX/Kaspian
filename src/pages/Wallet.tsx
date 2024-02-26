@@ -31,8 +31,8 @@ export default function Wallet () {
             <Button
               size={"icon"}
               variant={"outline"}
-              onClick={() => {
-                
+              onClick={async () => {
+                await kaspa.request('wallet:lock', [])
               }}
             >
               <LogOutIcon />
