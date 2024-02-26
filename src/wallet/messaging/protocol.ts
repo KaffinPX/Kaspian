@@ -6,9 +6,11 @@ export interface RequestMappings {
   'wallet:create': [ string ] // Password
   'wallet:import': [ string, string ] // Mnemo, Password
   'wallet:unlock': [ string ] // Password
+  'wallet:lock': []
   'wallet:reset': []
-  'account:address': []
   'node:connection': []
+  'account:addresses': []
+  'account:balance': []
 }
 
 export interface Request<M extends keyof ResponseMappings = keyof ResponseMappings> {
@@ -22,9 +24,11 @@ export interface ResponseMappings {
   'wallet:create': string
   'wallet:import': boolean
   'wallet:unlock': boolean
+  'wallet:lock': boolean
   'wallet:reset': boolean
-  'account:address': string
   'node:connection': Connection
+  'account:addresses': [ string[], string[] ]
+  'account:balance': string
 }
 
 export interface Response<M extends keyof RequestMappings = keyof RequestMappings> {

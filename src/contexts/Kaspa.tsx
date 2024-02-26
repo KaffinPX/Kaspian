@@ -6,13 +6,15 @@ import { Connection } from "@/wallet/controller/node"
 export interface IKaspa {
   status: Status
   connection: Connection
-  address: string | undefined
+  addresses: [ string[], string[] ]
+  balance: string
 }
 
 export const defaultState: IKaspa = {
   status: Status.Uninitialized,
   connection: Connection.Disconnected,
-  address: undefined
+  addresses: [[], []],
+  balance: "0 KAS"
 }
 
 export const KaspaContext = createContext<{

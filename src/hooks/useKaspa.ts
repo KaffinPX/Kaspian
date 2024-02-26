@@ -27,21 +27,20 @@ class KaspaInterface {
 
   get status () { return this.state.status }
   get connection () { return this.state.connection }
-  get address () { return this.state.address }
+  get addresses () { return this.state.addresses }
+  get balance () { return this.state.balance }
   
   async load () {
     const status = await this.request('wallet:status', [])
     const connection = await this.request('node:connection', [])
-    let address = undefined
-
-    if (status === Status.Unlocked) {
-      address = await this.request('account:address', []) // soon will be addresses
-    }
+    const addresses = await this.request('account:addresses', [])
+    const balance = await this.request('account:balance', [])
 
     this.setState({
       status,
       connection,
-      address
+      addresses,
+      balance
     })
   }
 

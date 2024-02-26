@@ -33,7 +33,11 @@ export default class Wallet extends EventEmitter {
   
     await LocalStorage.set("wallet", {
       encryptedKey: encryptXChaCha20Poly1305(mnemonics, password),
-      accounts: []
+      accounts: [{
+        name: "Wallet",
+        receiveCount: 1,
+        changeCount: 1      
+      }]
     })
 
     await this.unlock(0, password) // instead of this, implement low level functs to reuse classes/available things to make it faster

@@ -1,28 +1,60 @@
 import LocalStorage from "@/storage/LocalStorage"
 import SessionStorage from "@/storage/SessionStorage"
-import { createAddress, NetworkType, PublicKeyGenerator } from "@/../wasm"
+import { UtxoContext, UtxoProcessor, createAddress, NetworkType, PublicKeyGenerator } from "@/../wasm"
+import type Node from "./node"
 
 export default class Account {
+  processor: UtxoProcessor
   publicKey: PublicKeyGenerator | undefined
+  addresses: [ string[], string[] ] = [[], []]
+  context: UtxoContext
 
-  // TODO: have an index of addresses :sunglasses:
-  // TODO: support networks && indexing of index
+  constructor (node: Node) {
+    this.processor = new UtxoProcessor({ rpc: node.kaspa, networkId: 'MAINNET' })
+    this.context = new UtxoContext({ processor: this.processor })
 
-  async deriveReceive () {
-    if (!this.publicKey) throw Error('Account is not imported')
-
-    const publicKey = (await this.publicKey.receivePubkeys(0, 1))[0]
-    const address = createAddress(publicKey, NetworkType.Mainnet)
-    
-    return address.toString()
+    this.listenSession()
   }
 
-  async import () {
-    const session = await SessionStorage.get('session', undefined)
+  get balance () {
+    return this.context.balance?.toBalanceStrings('MAINNET').mature ?? "0 KAS"
+  }
 
-    if (!session) throw Error('Cant import while theres no any active account')
+  private async deriveAddresses (receiveCount: number, changeCount: number) {
+    const receiveKeys = await this.publicKey!.receivePubkeys(0, receiveCount)
+    // const changeKeys = await this.publicKey!.changePubkeys(0, changeCount)
 
-    this.publicKey = await PublicKeyGenerator.fromXPub(session.publicKey)
-    // const account = (await LocalStorage.get('wallet', undefined)!)?.accounts[session.activeAccount]
+    for (const publicKey of receiveKeys) {
+      const address = createAddress(publicKey, NetworkType.Mainnet)
+
+      this.addresses[0].push(address.toString())
+      address.free()
+    }
+  }
+
+  private listenSession () {
+    SessionStorage.storage.onChanged.addListener(async () => {
+      const session = await SessionStorage.get('session', undefined)
+    
+      if (session) {
+        const account = (await LocalStorage.get('wallet', undefined))!.accounts[session.activeAccount]
+
+        this.publicKey = await PublicKeyGenerator.fromXPub(session.publicKey)
+
+        await this.deriveAddresses(account.receiveCount, account.changeCount)
+        await this.processor.start()
+        await this.context.trackAddresses([ ...this.addresses[0], ...this.addresses[1] ])
+      } else {
+        await this.reset()
+      }
+    })
+  }
+
+  private async reset () {
+    this.publicKey!.free()
+
+    delete this.publicKey
+    this.addresses = [[], []]
+    await this.context.clear()
   }
 }

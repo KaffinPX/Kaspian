@@ -19,14 +19,12 @@ export default class Node extends EventEmitter {
   }
 
   async reconnect (nodeAddress?: string) {
-    return
-    
     await this.kaspa.connect({
       blockAsyncConnect: true,
       url: nodeAddress,
       strategy: ConnectStrategy.Retry,
-      timeoutDurationMsec: 1000,
-      retryIntervalMsec: 1000
+      timeoutDuration: 1000,
+      retryInterval: 1000
     })
 
     const { isSynced } = await this.kaspa.getServerInfo()
