@@ -4,6 +4,7 @@ import useSettings from "../hooks/useSettings"
 import useKaspa from "../hooks/useKaspa"
 import usePromise from "../hooks/usePromise"
 import { Status } from "@/wallet/controller/wallet"
+import { Connection } from "@/wallet/controller/node"
 
 export default function Landing() {
   const settings = useSettings()
@@ -20,6 +21,10 @@ export default function Landing() {
 
   useEffect(() => {
     if (loadedSettings && loadedKaspa) {
+      if (kaspa.connection === Connection.Disconnected) {
+        kaspa.request('node:connect', [ settings.nodes[settings.selectedNode].address ])
+      }
+
       if (kaspa.status === Status.Uninitialized) {
         navigate("/create")
       } else if (kaspa.status === Status.Locked) {

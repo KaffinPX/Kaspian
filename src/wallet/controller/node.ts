@@ -10,15 +10,14 @@ export default class Node extends EventEmitter {
   status: Connection = Connection.Disconnected
   kaspa: RpcClient
 
-  constructor (nodeAddress: string) {
+  constructor () {
     super()
     
     this.kaspa = new RpcClient()
-
-    this.reconnect(nodeAddress)
   }
 
-  async reconnect (nodeAddress?: string) {
+  async reconnect (nodeAddress: string) {
+    if (this.kaspa.isConnected) await this.kaspa.disconnect()
     await this.kaspa.connect({
       blockAsyncConnect: true,
       url: nodeAddress,

@@ -7,7 +7,7 @@ import load from "@/../wasm"
 
 load().then(() => {
   const wallet = new Wallet(() => {
-    const node = new Node("wss://eu-1.kaspa-ng.io/mainnet")
+    const node = new Node()
     const account = new Account(node)
 
     const messaging = RPC.fromComponents({ wallet, node, account })

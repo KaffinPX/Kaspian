@@ -55,18 +55,7 @@ export default function Settings () {
                   <h4>{i18n.getMessage('themeDescription')}</h4>
                 </div>
                 <div className={"flex gap-1"}>
-                 {/* FIXME make this automatically select the active one */}
-                  <ToggleGroup type="single">
-                    <ToggleGroupItem value="light">
-                      <Sun />
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="dark">
-                      <Moon />
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="system">
-                      <Laptop />
-                    </ToggleGroupItem>
-                  </ToggleGroup>
+                  {/* theme ++ price provider */}
                 </div>
               </div>
             </AccordionContent>
@@ -82,8 +71,8 @@ export default function Settings () {
                 <div className={"flex gap-1 mx-1"}>
                   <Select defaultValue={settings.selectedNode.toString()} 
                     onValueChange={async (id) => {
+                      await kaspa.request('node:connect', [ settings.nodes[parseInt(id)].address ])
                       await settings.changeNode(parseInt(id))
-                      // todo: kaspa
                     }}
                   >
                     <SelectTrigger className="w-full">

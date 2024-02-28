@@ -9,6 +9,7 @@ export interface RequestMappings {
   'wallet:lock': []
   'wallet:reset': []
   'node:connection': []
+  'node:connect': [ string ]
   'account:addresses': []
   'account:balance': []
 }
@@ -27,6 +28,7 @@ export interface ResponseMappings {
   'wallet:lock': boolean
   'wallet:reset': boolean
   'node:connection': Connection
+  "node:connect": boolean
   'account:addresses': [ string[], string[] ]
   'account:balance': string
 }
