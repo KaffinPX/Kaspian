@@ -24,12 +24,13 @@ export default class Router {
 
     this.mappings = {
       'wallet:status': () => this.wallet.status,
-      'wallet:create': (password: string) => this.wallet.create(password),
-      'wallet:import': (mnemonic: string, password: string) => this.wallet.import(mnemonic, password),
-      'wallet:unlock': (password: string) => this.wallet.unlock(0, password),
+      'wallet:create': (password) => this.wallet.create(password),
+      'wallet:import': (mnemonic, password) => this.wallet.import(mnemonic, password),
+      'wallet:unlock': (password) => this.wallet.unlock(0, password),
       'wallet:lock': () => this.wallet.lock(),
       'wallet:reset': () => this.wallet.reset(),
       'node:connection': () => this.node.status,
+      'node:connect': (address) => this.node.reconnect(address),
       'account:addresses': () => this.account.addresses,
       'account:balance': () => this.account.balance
     }  
@@ -46,11 +47,11 @@ export default class Router {
     try {
       response.result = (await methodHandler(...request.params) ?? true) as ResponseMappings[M]
     } catch (error) {
-      if (!(error instanceof Error)) return console.error('Non-standard error', error)
-
-      console.error(error) // Temporary
-
-      response.error = error.message
+      if (typeof error === 'string') {
+        response.error = error
+      } else if (error instanceof Error) {
+        response.error = error.message
+      }
     }
     
     return response
