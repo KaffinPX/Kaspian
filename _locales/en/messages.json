@@ -1,63 +1,48 @@
 {
   "kaspianIntro": {
-    "message": "Welcome to Kaspian. Let's get you started!",
-    "description": "A warm greeting to the enchanting world of Kaspian. Let the magic unfold as you embark on your journey."
+    "message": "Welcome to Kaspian. Let's get you started!"
   },
   "createIntro": {
-    "message": "Create a wallet to get started",
-    "description": "Begin your magical journey by creating a new wallet. This step will pave the way for your personal realm of Kaspian wonders."
+    "message": "Create a wallet to get started"
   },
   "importIntro": {
-    "message": "Already have a wallet? Import it here",
-    "description": "If you possess a magical wallet elsewhere, bring it into the realm of Kaspian by importing it here. Let the enchantment continue seamlessly."
+    "message": "Already have a wallet? Import it here"
   },
   "createWallet": {
-    "message": "Create Wallet",
-    "description": "Initiate the creation process for your very own magical wallet. Craft a space that resonates with your mystical desires in the world of Kaspian."
+    "message": "Create Wallet"
   },
   "importWallet": {
-    "message": "Import Wallet",
-    "description": "Bring an existing magical wallet into Kaspian by importing it here. Let the enchanting journey continue with your familiar mystical belongings."
+    "message": "Import Wallet"
   },
   "importDescription": {
-    "message": "Enter your 24-word mnemonic phrase below to import your wallet",
-    "description": "Reconnect with your magical belongings by entering the secret 24-word mnemonic phrase. This key will transport your existing enchantment into Kaspian."
+    "message": "Enter your 24-word mnemonic phrase below to import your wallet"
   },
   "mnemonic": {
-    "message": "Mnemonic phrase",
-    "description": "The secret 24-word passphrase that encapsulates the magic of your existing wallet. Enter it to import and continue your enchanting journey within Kaspian."
+    "message": "Mnemonic phrase"
   },
   "rules": {
-    "message": "This journey will be exciting, but you have to follow some rules.",
-    "description": "Embark on this thrilling journey within Kaspian, but remember to adhere to some essential rules that will safeguard your magical experience."
+    "message": "This journey will be exciting, but you have to follow some rules."
   },
   "backupWallet": {
-    "message": "Backup Wallet",
-    "description": "Ensure the longevity of your magical wallet by creating a backup. This step is crucial for preserving your enchanting assets within Kaspian."
+    "message": "Backup Wallet"
   },
   "selfCustody": {
-    "message": "Your wallet is stored locally on your device. If you lose access to your device, or forget the password, you won't be able to recover your wallet without your mnemonic phrase.",
-    "description": "Take control of your magical destiny! Your wallet resides securely on your device. However, be cautious—losing access or forgetting your password may require the secret mnemonic phrase for recovery."
+    "message": "Your wallet is stored locally on your device. If you lose access to your device, or forget the password, you won't be able to recover your wallet without your mnemonic phrase."
   },
   "shareMnemonic": {
-    "message": "Never share your mnemonic phrase",
-    "description": "Guard the key to your magical realm! Never disclose your mnemonic phrase, as it is the secret passphrase holding the essence of your wallet's enchantment within Kaspian."
+    "message": "Never share your mnemonic phrase"
   },
   "walletAccess": {
-    "message": "Your mnemonic phrase is the key to your wallet. Anyone who has access to it can steal your funds.",
-    "description": "Treat your mnemonic phrase as the sacred key to your magical vault. Safeguard it diligently, as unauthorized access can jeopardize the security of your enchanted funds within Kaspian."
+    "message": "Your mnemonic phrase is the key to your wallet. Anyone who has access to it can steal your funds."
   },
   "verifyAddresses": {
-    "message": "Verify the addresses you send to",
-    "description": "Exercise caution on your magical journey! Before sending magical coins, always verify the destination address. This ensures the safe passage of your enchanted funds within Kaspian."
+    "message": "Verify the addresses you send to"
   },
   "immutability": {
-    "message": "Always verify the address you are sending to. If you send to the wrong address, your funds will be lost forever.",
-    "description": "Embrace the immutability of your magical decisions! Double-check and confirm the accuracy of the recipient address before initiating a transfer. Sending to the wrong address may lead to the irreversible loss of your enchanted funds within Kaspian."
+    "message": "Always verify the address you are sending to. If you send to the wrong address, your funds will be lost forever."
   },
   "next": {
-    "message": "Next",
-    "description": "Proceed to the next enchanting step on your Kaspian journey. May each 'Next' unveil new magical possibilities and experiences within the realm."
+    "message": "Next"
   },
   "confirm": {
     "message": "Confirm"
@@ -66,119 +51,90 @@
     "message": "Finish"
   },
   "continue": {
-    "message": "Continue",
-    "description": "Move forward with your mystical journey! 'Continue' paves the way for the unfolding enchantments that await you in the magical realms of Kaspian."
+    "message": "Continue"
   },
   "backupMnemonic": {
-    "message": "It's time to save your mnemonic phrase. Write it down and keep it safe.",
-    "description": "Secure the magic of your Kaspian wallet! Capture your mnemonic phrase and record it carefully. This sacred passphrase is the key to preserving your enchanting assets, ensuring they stand the test of time."
+    "message": "It's time to save your mnemonic phrase. Write it down and keep it safe."
   },
   "show": {
-    "message": "Show",
-    "description": "Reveal the magical elements hidden from view. 'Show' unveils the enchanting details, allowing you to witness the mystical aspects of your Kaspian journey."
+    "message": "Show"
   },
   "hide": {
-    "message": "Hide",
-    "description": "Conceal the magical elements from prying eyes. 'Hide' shrouds the enchantment, adding an extra layer of secrecy to your Kaspian wallet."
+    "message": "Hide"
   },
   "confirmBackup": {
-    "message": "I've saved my mnemonic phrase in a safe place",
-    "description": "Affirm the safeguarding of your magical key! Confirm that you've securely stored your mnemonic phrase in a place of safety. This ensures the longevity of your enchanting assets within Kaspian."
+    "message": "I've saved my mnemonic phrase in a safe place"
   },
   "setPassword": {
-    "message": "Set Password",
-    "description": "Empower your wallet with an additional layer of magic! 'Set Password' allows you to establish a protective spell, encrypting your wallet and fortifying it against unauthorized access."
+    "message": "Set Password"
   },
   "passwordDescription": {
-    "message": "Set a password, this password will be used to encrypt your mnemonic.",
-    "description": "Embark on the creation of a magical barrier! It's time to set a password that will cloak your wallet in encryption. This additional layer of security enhances the protection of your enchanting assets within Kaspian."
+    "message": "Set a password, this password will be used to encrypt your mnemonic."
   },
   "success": {
-    "message": "Success",
-    "description": "Celebrate the enchanting moment of success! You've navigated the magical journey within Kaspian with grace and skill, and now, the mystical gates of achievement swing open before you."
+    "message": "Success"
   },
   "welcoming": {
-    "message": "It's about to get exciting. You're all set up and ready to go!",
-    "description": "Feel the anticipation of enchantment! With everything in place, you stand at the threshold of excitement within Kaspian. The magical wonders await, and you're fully prepared to embark on an exhilarating journey."
+    "message": "It's about to get exciting. You're all set up and ready to go!"
   },
   "unlockIntro": {
-    "message": "We're happy you're back! Please enter your password to unlock your wallet",
-    "description": "A warm welcome back! Unlock your magical wallet by entering the secret key to resume your enchanting journey."
+    "message": "We're happy you're back! Please enter your password to unlock your wallet"
   },
   "password": {
-    "message": "Password",
-    "description": "Enter your secret passphrase to unlock the magical gateway to your wallet."
+    "message": "Password"
   },
   "unlock": {
-    "message": "Unlock",
-    "description": "Initiate the unlocking process of your magical wallet."
+    "message": "Unlock"
   },
   "send": {
-    "message": "Send",
-    "description": "A whimsical button that triggers the journey of your Kaspa coins to another enchanted wallet. Spread the magic with a simple click!"
+    "message": "Send"
   },
   "sendTitle": {
-    "message": "Send Kaspa",
-    "description": "Prepare for a magical act of kindness! This is the title that graces the send screen, adding a touch of charm to your Kaspa transactions."
+    "message": "Send Kaspa"
   },
   "sendDescription": {
-    "message": "Enter the amount and the address to send Kaspa",
-    "description": "Enter the amount of joy (Kaspa) and the address to send Kaspa. This step sets the stage for a wondrous transfer of magical coins."
+    "message": "Enter the amount and the address to send Kaspa"
   },
   "available": {
-    "message": "Available",
-    "description": "Discover the current reservoir of Kaspa magic in your wallet. This field reveals the available balance of enchanting coins at your command."
+    "message": "Available"
   },
   "address": {
-    "message": "Address",
-    "description": "This mystical address is like a spell-encrypted key adorned with a checksum. It has the enchanting ability to receive Kaspa coins in your magical wallet."
+    "message": "Address"
   },
   "amount": {
-    "message": "Amount",
-    "description": "In the enchanted realm of Kaspa, this field lets you specify the quantity of magic you wish to send. Enter the amount and let the joy flow!"
+    "message": "Amount"
   },
   "confirmationTitle": {
-    "message": "Confirm to sign transaction",
-    "description": "A moment of confirmation before the magic unfolds! This title invites you to review the details of your Kaspa transaction, ensuring a spellbinding exchange."
+    "message": "Confirm to sign transaction"
   },
   "confirmationDescription": {
-    "message": "Review the details of the transaction before signing it",
-    "description": "Take a moment to gaze upon the intricacies of your Kaspa transaction before giving it the magical seal of approval. Confirm the details for a flawless spellcasting."
+    "message": "Review the details of the transaction before signing it"
   },
   "cancel": {
-    "message": "Cancel",
-    "description": "Had a change of heart? No worries! This button gracefully cancels the current enchantment, allowing the magic to wait for the perfect moment to unfold."
+    "message": "Cancel"
   },
   "receive": {
-    "message": "Receive",
-    "description": "Open your mystical arms to welcome Kaspa magic! This button sets the stage for the reception of enchanting coins into your wallet."
+    "message": "Receive"
   },
   "settings": {
-    "message": "Settings",
-    "description": "Embark on a journey of customization and control. The settings section is your portal to tailoring your magical wallet experience to perfection."
+    "message": "Settings"
   },
   "general": {
-    "message": "General",
-    "description": "The heart of your magical kingdom lies in the general settings. Explore and configure to keep your wallet in harmony with your mystical desires."
+    "message": "General"
   },
   "theme": {
-    "message": "Theme",
-    "description": "Choose the hues that paint your magical realm. This setting allows you to select a theme, infusing your wallet with the colors of your enchanted dreams."
+    "message": "Theme"
   },
   "themeDescription": {
-    "message": "Select the theme of wallet",
-    "description": "Select the theme that will adorn your wallet with a palette of magical colors. Let the hues resonate with the vibes of your mystical journey."
+    "message": "Select the theme of wallet"
   },
   "network": {
-    "message": "Network",
-    "description": "Navigate the ethereal network of possibilities. In the settings, choose the path that aligns with your mystical journey through the realms of Kaspa."
+    "message": "Network"
   },
   "node": {
-    "message": "Node",
-    "description": "Connect to the heartbeat of the crypto universe. Select a node that resonates with your magical vibes, guiding your wallet through the enchanted realms."
+    "message": "Node"
   },
   "nodeDescription": {
-    "message": "Select the node you will use to interact with network",
-    "description": "Choose the mystical node that will be your guide through the enchanted crypto realms. Your journey, your choice, as you synchronize with the magic of Kaspa."
+    "message": "Select the node you will use to interact with network"
   }
 }
