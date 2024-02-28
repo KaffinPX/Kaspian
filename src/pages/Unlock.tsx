@@ -8,9 +8,10 @@ import { i18n } from "webextension-polyfill"
 import useKaspa from "@/hooks/useKaspa"
 
 export default function UnlockWallet() {
-  const [ password, setPassword ] = useState<string>("")
   const navigate = useNavigate()
   const kaspa = useKaspa()
+
+  const [ password, setPassword ] = useState("")
   
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6"}>
@@ -29,7 +30,9 @@ export default function UnlockWallet() {
       <div className={"mx-auto"}>
         <Button
           onClick={async () => {
-            if (await kaspa.request('wallet:unlock', [ password ])) {
+            if (await kaspa.request('wallet:unlock', [ password ]).catch(() => {
+              return console.error('Wrong password.')
+            })) {
               navigate("/")
             }
           }}
