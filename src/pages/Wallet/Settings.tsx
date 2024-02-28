@@ -9,8 +9,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select"
-import NewNodeDrawer from "@/components/NewNodeDrawer"
-import SendConfirmation from "@/components/SendConfirmation"
+import NodeDrawer from "@/pages/Wallet/Settings/Node"
 import {
   Sheet,
   SheetContent,
@@ -29,10 +28,12 @@ import {
 } from "@/components/ui/accordion"
 import { i18n } from "webextension-polyfill"
 import useKaspa from "@/hooks/useKaspa"
+import useSettings from "@/hooks/useSettings"
 
 export default function Settings () {
+  const settings = useSettings()
   const kaspa = useKaspa()
-
+  
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -78,16 +79,28 @@ export default function Settings () {
                   <h3 className={"font-bold"}>{i18n.getMessage('node')}</h3>
                   <h4>{i18n.getMessage('nodeDescription')}</h4>
                 </div>
-                <div className={"flex gap-1"}>
-                  <Select>
+                <div className={"flex gap-1 mx-1"}>
+                  <Select defaultValue={settings.selectedNode.toString()} 
+                    onValueChange={async (id) => {
+                      await settings.changeNode(parseInt(id))
+                      // todo: kaspa
+                    }}
+                  >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="node.kaspian.app" />
+                      <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="0">node.kaspian.app</SelectItem>
+                      {settings.nodes.map((node, id) => {
+                        return (
+                          <SelectItem key={id} value={id.toString()}>
+                            {node.name}
+                            <p className={"text-xs"}>{node.address}</p>
+                          </SelectItem>
+                        )
+                      })}
                     </SelectContent>
                   </Select>
-                  <NewNodeDrawer />
+                  <NodeDrawer />
                 </div>
               </div>
             </AccordionContent>

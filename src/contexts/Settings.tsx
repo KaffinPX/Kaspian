@@ -14,8 +14,8 @@ export const defaultSettings: ISettings = {
   version: 1,
   nodes: [
     {
-      name: "Aspectron",
-      address: "wss://kaspa.aspectron.com:443/mainnet",
+      name: "Kaspa-NG EU",
+      address: "wss://eu-1.kaspa-ng.io/mainnet",
       locked: true
     }
   ],
