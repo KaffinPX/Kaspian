@@ -17,10 +17,9 @@ export default class Node extends EventEmitter {
   }
 
   async reconnect (nodeAddress: string) {
-    if (this.kaspa.isConnected) await this.kaspa.disconnect()
     await this.kaspa.connect({
       blockAsyncConnect: true,
-      url: nodeAddress,
+      url: "wss://eu-1.kaspa-ng.io/mainnet",
       strategy: ConnectStrategy.Retry,
       timeoutDuration: 1000,
       retryInterval: 1000

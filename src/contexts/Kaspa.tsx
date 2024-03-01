@@ -8,13 +8,15 @@ export interface IKaspa {
   connection: Connection
   addresses: [ string[], string[] ]
   balance: string
+  utxos: [ string, string ][]
 }
 
 export const defaultState: IKaspa = {
   status: Status.Uninitialized,
   connection: Connection.Disconnected,
   addresses: [[], []],
-  balance: "0 KAS"
+  balance: '0 KAS',
+  utxos: []
 }
 
 export const KaspaContext = createContext<{

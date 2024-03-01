@@ -20,12 +20,9 @@ export default class Wallet extends EventEmitter {
 
   async create (password: string) {
     const mnemonic = Mnemonic.random(24)
-    const phrase = mnemonic.phrase
+    await this.import(mnemonic.phrase, password)
 
-    mnemonic.free()
-    await this.import(phrase, password)
-
-    return phrase
+    return mnemonic.phrase
   }
 
   async import (mnemonics: string, password: string) {
@@ -52,7 +49,7 @@ export default class Wallet extends EventEmitter {
     const mnemonic = new Mnemonic(decryptXChaCha20Poly1305(wallet.encryptedKey, password))
     const extendedKey = new XPrv(mnemonic.toSeed())
     const publicKey = await PublicKeyGenerator.fromMasterXPrv(
-      extendedKey.intoString('xprv'),
+      extendedKey,
       false,
       BigInt(id)
     )
@@ -63,10 +60,6 @@ export default class Wallet extends EventEmitter {
     })
 
     await this.sync()
-
-    mnemonic.free()
-    extendedKey.free()
-    publicKey.free()
   }
 
   async lock () {

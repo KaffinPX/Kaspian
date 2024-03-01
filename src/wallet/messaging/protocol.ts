@@ -12,6 +12,7 @@ export interface RequestMappings {
   'node:connect': [ string ]
   'account:addresses': []
   'account:balance': []
+  'account:utxos': []
 }
 
 export interface Request<M extends keyof ResponseMappings = keyof ResponseMappings> {
@@ -30,7 +31,8 @@ export interface ResponseMappings {
   'node:connection': Connection
   "node:connect": boolean
   'account:addresses': [ string[], string[] ]
-  'account:balance': string
+  'account:balance': string,
+  'account:utxos': [ string, string ][]
 }
 
 export interface Response<M extends keyof RequestMappings = keyof RequestMappings> {

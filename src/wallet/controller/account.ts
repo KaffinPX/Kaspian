@@ -1,6 +1,6 @@
 import LocalStorage from "@/storage/LocalStorage"
 import SessionStorage from "@/storage/SessionStorage"
-import { UtxoContext, UtxoProcessor, createAddress, NetworkType, PublicKeyGenerator } from "@/../wasm"
+import { UtxoContext, UtxoProcessor, createAddress, NetworkType, PublicKeyGenerator, createTransactions, sompiToKaspaStringWithSuffix } from "@/../wasm"
 import type Node from "./node"
 import { EventEmitter } from "events"
 
@@ -24,15 +24,33 @@ export default class Account extends EventEmitter {
     return this.context.balance?.toBalanceStrings('MAINNET').mature ?? "0 KAS"
   }
 
+  get utxos (): [ string, string ][] {
+    const utxos = this.context.getMatureRange(0, this.context.getMatureLength)
+
+    return utxos.map(utxo => [ sompiToKaspaStringWithSuffix(utxo.amount, this.processor.networkId!), utxo.getId() ])
+  }
+
+  async createTransactions (recipient: string, amount: string) {
+    const transaction = await createTransactions({
+      entries: this.context,
+      outputs: [{ address: recipient, amount: BigInt(amount) }],
+      changeAddress: this.addresses[0][0],
+    })
+
+    transaction.transactions.forEach(transaction => {
+      transaction.getUtxoEntries
+    })
+
+  }
+
   private async deriveAddresses (receiveCount: number, changeCount: number) {
-    const receiveKeys = await this.publicKey!.receivePubkeys(0, receiveCount)
+    const receiveKeys = await this.publicKey!.receivePubkeysAsStrings(0, receiveCount)
     // const changeKeys = await this.publicKey!.changePubkeys(0, changeCount)
 
     for (const publicKey of receiveKeys) {
       const address = createAddress(publicKey, NetworkType.Mainnet)
 
       this.addresses[0].push(address.toString())
-      address.free()
     }
   }
 
@@ -55,10 +73,9 @@ export default class Account extends EventEmitter {
         await this.processor.start()
         await this.context.trackAddresses([ ...this.addresses[0], ...this.addresses[1] ])
       } else {
-        this.publicKey!.free()
-
         delete this.publicKey
         this.addresses = [[], []]
+        await this.processor.stop()
         await this.context.clear()
       }
     })

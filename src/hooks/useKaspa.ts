@@ -29,18 +29,21 @@ class KaspaInterface {
   get connection () { return this.state.connection }
   get addresses () { return this.state.addresses }
   get balance () { return this.state.balance }
+  get utxos () { return this.state.utxos }
   
   async load () {
     const status = await this.request('wallet:status', [])
     const connection = await this.request('node:connection', [])
     const addresses = await this.request('account:addresses', [])
     const balance = await this.request('account:balance', [])
+    const utxos = await this.request('account:utxos', [])
 
     this.setState({
       status,
       connection,
       addresses,
-      balance
+      balance,
+      utxos
     })
   }
 

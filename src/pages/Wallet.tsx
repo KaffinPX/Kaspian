@@ -22,7 +22,7 @@ export default function Wallet () {
   }, [ kaspa.status ])
 
   return (
-    <main className={"flex flex-col justify-between min-h-screen py-6 gap-2"}>
+    <main className={"flex flex-col justify-between min-h-screen py-6 gap-3"}>
       <div className={"flex flex-col gap-2"}>
         <div className={"flex flex-row justify-between items-center"}>
           <Heading title={"Kaspian"} />
@@ -46,13 +46,20 @@ export default function Wallet () {
         <div className={"flex flex-col items-center"}>
           <Textarea
             defaultValue={kaspa.addresses[0][kaspa.addresses[0].length - 1]}
-            className={"text-s w-72"}
+            className={"w-72"}
             disabled={true}
           />
         </div>
       </div>
       <div className={"grid grid-cols-3 mx-4 h-full overflow-y-scroll no-scrollbar gap-2"}>
-
+        {kaspa.utxos.map((utxo, id) => {
+          return (
+            <div key={id} className="flex flex-col items-center text-center py-2 border-solid border-2 border-orange-800 hover:border-dashed rounded-xl w-24 h-24">
+              <p className={"text-xl font-bold"}>{utxo[0]}</p>
+              <Button variant="link" className={"text-white font-extrabold"}>{utxo[1].substring(0, 7)}...</Button>
+            </div>
+          )
+        })}
       </div>
       <div className={"flex flex-row justify-center gap-5"}>
         <SendDrawer />

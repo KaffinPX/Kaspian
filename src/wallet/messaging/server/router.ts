@@ -32,7 +32,8 @@ export default class Router {
       'node:connection': () => this.node.status,
       'node:connect': (address) => this.node.reconnect(address),
       'account:addresses': () => this.account.addresses,
-      'account:balance': () => this.account.balance
+      'account:balance': () => this.account.balance,
+      'account:utxos': () => this.account.utxos
     }  
   }
 
