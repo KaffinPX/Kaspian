@@ -1,4 +1,4 @@
-import { Send } from "lucide-react"
+import { SendToBack } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -17,7 +17,7 @@ export default function SendDrawer () {
     <Sheet>
       <SheetTrigger asChild>
         <Button className={"gap-2"}>
-          <Send />
+          <SendToBack />
           {i18n.getMessage('send')}
         </Button>
       </SheetTrigger>
@@ -42,7 +42,7 @@ export default function SendDrawer () {
 
             <ConfirmationSheet></ConfirmationSheet>
             <Button className={"flex gap-2"}>
-              <Send />
+              <SendToBack />
               {i18n.getMessage('send')}
             </Button>
           </div>
