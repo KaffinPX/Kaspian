@@ -3,6 +3,7 @@ import { Download, LogOutIcon } from "lucide-react"
 import Heading from "@/components/Heading"
 // import UTXOCard from "@/components/UTXOCard"
 import SendDrawer from "@/pages/Wallet/Send"
+import ReceiveDrawer from "@/pages/Wallet/Receive"
 import SettingsSheet from "@/pages/Wallet/Settings"
 import { i18n } from "webextension-polyfill"
 import useKaspa from "@/hooks/useKaspa"
@@ -63,10 +64,7 @@ export default function Wallet () {
       </div>
       <div className={"flex flex-row justify-center gap-5"}>
         <SendDrawer />
-        <Button className={"gap-2"} disabled={true} onClick={() => {}}>
-          <Download />
-          {i18n.getMessage('receive')}
-        </Button>
+        <ReceiveDrawer />
       </div>
     </main>
   )
