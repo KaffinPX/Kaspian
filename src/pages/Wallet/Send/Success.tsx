@@ -6,6 +6,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
 
 export default function Submit ({ hash }: {
   hash: string
@@ -15,10 +16,9 @@ export default function Submit ({ hash }: {
       <AlertDialogHeader>
         <AlertDialogTitle>Success!</AlertDialogTitle>
         <AlertDialogDescription>
-          Your transaction is valid on network now.
+          Your transactions are on blocks of network now.
         </AlertDialogDescription>
       </AlertDialogHeader>
-      Hash: {hash}
       <AlertDialogFooter>
         <AlertDialogCancel>Close</AlertDialogCancel>
       </AlertDialogFooter>

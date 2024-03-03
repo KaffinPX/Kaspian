@@ -83,13 +83,9 @@ export default class Account extends EventEmitter {
   }
 
   async submitSigned () {
-    let lastHash = ""
-
     for (const transaction of this.pendingTxs) {
-      lastHash = await transaction.submit(this.processor.rpc)
+      await transaction.submit(this.processor.rpc)
     }
-
-    return lastHash
   }
 
   private async deriveAddresses (receiveCount: number, changeCount: number) {

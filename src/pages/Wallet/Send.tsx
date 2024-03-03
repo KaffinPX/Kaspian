@@ -80,8 +80,10 @@ export default function SendDrawer () {
 
             <Button className={"gap-2"} onClick={async () => {
               const summary = await kaspa.request('account:initiateSend', [ recipient, amount ])
-              setTab(Tabs.Sign)
+              setRecipient("")
+              setAmount("")
               setSummary(summary)
+              setTab(Tabs.Sign)
             }}>
               <SendToBack />
               {i18n.getMessage('send')}

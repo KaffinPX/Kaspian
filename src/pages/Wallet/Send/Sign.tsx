@@ -40,7 +40,7 @@ export default function Sign ({ summary, onSigned }: {
         </div>
       </div>
       <Input
-        type={"text"}
+        type={"password"}
         placeholder={i18n.getMessage('password')}
         className={"flex"}
         value={password}

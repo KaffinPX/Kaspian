@@ -40,7 +40,7 @@ export interface ResponseMappings {
   'account:utxos': [ string, string ][]
   'account:initiateSend': Summary
   'account:signPendings': boolean
-  'account:submitSigned': string
+  'account:submitSigned': boolean
 }
 
 export interface Response<M extends keyof RequestMappings = keyof RequestMappings> {
