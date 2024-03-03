@@ -36,10 +36,15 @@ export default function SendDrawer () {
           <div className="h-max w-36 bg-white mx-auto p-1">
             <QRCode
               style={{ height: "auto", width: "100%" }}
-              value={kaspa.addresses[0][kaspa.addresses[0].length - 1]}
+              value={`${kaspa.addresses[0][kaspa.addresses[0].length - 1]}?amount=${amount}`}
             />
           </div>
-          <Input placeholder="Amount" />
+          <Input
+            type={"number"}
+            placeholder={"Amount"}
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
         </div>
       </SheetContent>
     </Sheet>

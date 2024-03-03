@@ -89,10 +89,6 @@ export default class Account extends EventEmitter {
   }
 
   private async registerProcessor () {
-    this.processor.addEventListener((event) => {
-      console.debug(event)
-    })
-    
     this.processor.addEventListener('balance', () => {
       this.emit('balance', this.balance)
     })

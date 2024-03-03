@@ -12,17 +12,7 @@ import { Input } from "@/components/ui/input"
 import { i18n } from "webextension-polyfill"
 import useKaspa from "@/hooks/useKaspa"
 import { useState } from "react"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+import { AlertDialog } from "@/components/ui/alert-dialog"
 import Sign from "./Send/Sign"
 import Submit from "./Send/Submit"
 import Success from "./Send/Success"
