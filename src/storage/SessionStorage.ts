@@ -4,6 +4,7 @@ import Storage from "./Storage"
 export interface ISession {
   activeAccount: number
   publicKey: string
+  encryptedKey: string
 }
 
 export interface ISessionStorage {

@@ -56,7 +56,8 @@ export default class Wallet extends EventEmitter {
     
     await SessionStorage.set('session', {
       activeAccount: id,
-      publicKey: publicKey.toString()
+      publicKey: publicKey.toString(),
+      encryptedKey: encryptXChaCha20Poly1305(extendedKey.toString(), password)
     })
 
     await this.sync()

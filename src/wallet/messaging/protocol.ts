@@ -1,5 +1,6 @@
 import { Status } from "../controller/wallet"
 import { Connection } from "../controller/node"
+import { Summary } from "../controller/account"
 
 export interface RequestMappings {
   'wallet:status': []
@@ -13,6 +14,10 @@ export interface RequestMappings {
   'account:addresses': []
   'account:balance': []
   'account:utxos': []
+  'account:initiateSend': [ string, string ]
+  'account:signPendings': [ string ]
+  'account:submitSigned': []
+
 }
 
 export interface Request<M extends keyof ResponseMappings = keyof ResponseMappings> {
@@ -33,6 +38,9 @@ export interface ResponseMappings {
   'account:addresses': [ string[], string[] ]
   'account:balance': string,
   'account:utxos': [ string, string ][]
+  'account:initiateSend': Summary
+  'account:signPendings': boolean
+  'account:submitSigned': string
 }
 
 export interface Response<M extends keyof RequestMappings = keyof RequestMappings> {
@@ -44,7 +52,8 @@ export interface Response<M extends keyof RequestMappings = keyof RequestMapping
 export interface EventMappings {
   "wallet:status": Status
   "node:connection": Connection
-  "account:balance": string
+  "account:balance": string,
+  "account:transaction": Summary
 }
 
 export interface Event<M extends keyof EventMappings = keyof EventMappings> {

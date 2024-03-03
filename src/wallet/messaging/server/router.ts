@@ -33,7 +33,10 @@ export default class Router {
       'node:connect': (address) => this.node.reconnect(address),
       'account:addresses': () => this.account.addresses,
       'account:balance': () => this.account.balance,
-      'account:utxos': () => this.account.utxos
+      'account:utxos': () => this.account.utxos,
+      'account:initiateSend': (recipient, amount) => this.account.initiateSend(recipient, amount),
+      'account:signPendings': (password) => this.account.signPendings(password),
+      'account:submitSigned': () => this.account.submitSigned()
     }  
   }
 

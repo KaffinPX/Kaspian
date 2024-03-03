@@ -9,10 +9,40 @@ import {
   SheetTrigger
 } from "@/components/ui/sheet"
 import { Input } from "@/components/ui/input"
-import ConfirmationSheet from "./Confirmation"
 import { i18n } from "webextension-polyfill"
+import useKaspa from "@/hooks/useKaspa"
+import { useState } from "react"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import Sign from "./Send/Sign"
+import Submit from "./Send/Submit"
+import Success from "./Send/Success"
+
+import { type Summary } from "@/wallet/controller/account"
+
+export enum Tabs {
+  Sign,
+  Submit,
+  Success
+}
 
 export default function SendDrawer () {
+  const [ recipient, setRecipient ] = useState("")
+  const [ amount, setAmount ] = useState("")
+  const [ summary, setSummary ] = useState<Summary | undefined>()
+  const [ tab, setTab ] = useState(Tabs.Sign)
+  
+  const kaspa = useKaspa()
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -30,21 +60,48 @@ export default function SendDrawer () {
           <div className="flex flex-col p-4 pb-0 items-center gap-5">
             <div className={"text-center"}>
               <p className={"text-lg font-extrabold mb-1"}>{i18n.getMessage('sendAvailable')}</p>
-              <p className={"text-base font-bold"}>
-                100,000 <span className={"text-primary"}>KAS</span>
-              </p>
+              <p className={"text-base font-bold"}>{kaspa.balance}</p>
             </div>
             <div className={"text-center flex flex-col gap-3"}>
-              {/* FIXME add max amount */}
-              <Input type={"text"} placeholder={i18n.getMessage('address')} className={"w-60"} />
-              <Input type={"number"} placeholder={i18n.getMessage('amount')} />
+              <Input
+                type={"text"}
+                placeholder={i18n.getMessage('address')}
+                className={"w-60"}
+                value={recipient}
+                onChange={(e) => setRecipient(e.target.value)}
+              />
+              <Input
+                type={"number"}
+                placeholder={i18n.getMessage('amount')}
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
             </div>
 
-            <ConfirmationSheet></ConfirmationSheet>
-            <Button className={"flex gap-2"}>
+            <Button className={"gap-2"} onClick={async () => {
+              const summary = await kaspa.request('account:initiateSend', [ recipient, amount ])
+              setTab(Tabs.Sign)
+              setSummary(summary)
+            }}>
               <SendToBack />
               {i18n.getMessage('send')}
             </Button>
+
+            <AlertDialog open={!!summary} onOpenChange={(o) => setSummary(o ? summary : undefined)}>
+              {tab === Tabs.Sign && !!summary && (
+                <Sign summary={summary} onSigned={() => {
+                  setTab(Tabs.Submit)
+                }} />
+              )}
+              {tab === Tabs.Submit && (
+                <Submit onSubmitted={() => {
+                  setTab(Tabs.Success)
+                }} />
+              )}
+              {tab === Tabs.Success && !!summary && (
+                <Success hash={summary.hash}/>
+              )}
+            </AlertDialog>
           </div>
         </div>
       </SheetContent>

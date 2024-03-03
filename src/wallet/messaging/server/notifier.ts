@@ -25,16 +25,16 @@ export default class Notifications {
     this.callback = callback
   }
 
-  private registerListeners() {
-    this.wallet.on('status', (status) => this.handleEvent('wallet:status', status))
-    this.account.on('balance', (balance) => this.handleEvent('account:balance', balance))
-
-    // this.node.on('connection', (status) => this.handleEvent('node:connection', status)) [not available yet]
-  }
-  
   private handleEvent <E extends keyof EventMappings>(event: E, data: EventMappings[E]) {
     if (!this.callback) return
 
     this.callback({ event, data })
+  }
+  
+  private registerListeners() {
+    this.wallet.on('status', (status) => this.handleEvent('wallet:status', status))
+    this.account.on('balance', (balance) => this.handleEvent('account:balance', balance))
+    this.account.on('transaction', (summary) => this.handleEvent('account:transaction', summary))
+    // this.node.on('connection', (status) => this.handleEvent('node:connection', status)) [not available yet]
   }
 }
