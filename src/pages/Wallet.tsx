@@ -53,14 +53,14 @@ export default function Wallet () {
         </div>
       </div>
       <div className={"grid grid-cols-3 mx-4 h-full overflow-y-scroll no-scrollbar gap-2"}>
-        {kaspa.utxos.map((utxo, id) => {
+        {/*{kaspa.utxos.map((utxo, id) => {
           return (
             <div key={id} className="flex flex-col items-center text-center py-2 border-solid border-2 border-orange-800 hover:border-dashed rounded-xl w-24 h-24">
               <p className={"text-xl font-bold"}>{utxo[0]}</p>
               <Button variant="link" className={"text-white font-extrabold"}>{utxo[1].substring(0, 7)}...</Button>
             </div>
           )
-        })}
+        })}*/}
       </div>
       <div className={"flex flex-row justify-center gap-5"}>
         <SendDrawer />
