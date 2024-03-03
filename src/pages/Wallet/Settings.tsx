@@ -29,11 +29,13 @@ import {
 import { i18n } from "webextension-polyfill"
 import useKaspa from "@/hooks/useKaspa"
 import useSettings from "@/hooks/useSettings"
+import { useTheme } from "@/components/ThemeProvider"
 
 export default function Settings () {
   const settings = useSettings()
   const kaspa = useKaspa()
-  
+  const theme = useTheme()
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -55,7 +57,25 @@ export default function Settings () {
                   <h4>{i18n.getMessage('themeDescription')}</h4>
                 </div>
                 <div className={"flex gap-1"}>
-                  {/* theme ++ price provider */}
+                  <ToggleGroup
+                    type="single"
+                    defaultValue={theme.theme}
+                    onValueChange={(value) =>
+                      // @ts-ignore comment
+                      theme.setTheme(value)
+                 }>
+                    <ToggleGroupItem value="light">
+                      <Sun />
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="dark">
+                      <Moon />
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="system">
+                      <Laptop />
+                    </ToggleGroupItem>
+                  </ToggleGroup>
+
+                  {/* price provider + type */}
                 </div>
               </div>
             </AccordionContent>
