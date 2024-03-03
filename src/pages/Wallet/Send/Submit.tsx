@@ -1,10 +1,5 @@
 import { Network } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { i18n } from "webextension-polyfill"
-import useKaspa from "@/hooks/useKaspa"
-import { useState } from "react"
 import {
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -12,9 +7,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { Summary } from "@/wallet/controller/account"
 import { Button } from "@/components/ui/button"
-
+import useKaspa from "@/hooks/useKaspa"
 
 export default function Submit ({ onSubmitted }: {
   onSubmitted: () => void
