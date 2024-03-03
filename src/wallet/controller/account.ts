@@ -1,6 +1,6 @@
 import LocalStorage from "@/storage/LocalStorage"
 import SessionStorage, { ISession } from "@/storage/SessionStorage"
-import { UtxoContext, UtxoProcessor, createAddress, NetworkType, PublicKeyGenerator, PrivateKeyGenerator, createTransactions, sompiToKaspaStringWithSuffix, type PendingTransaction, decryptXChaCha20Poly1305, Mnemonic, XPrv, kaspaToSompi } from "@/../wasm"
+import { UtxoContext, UtxoProcessor, PublicKeyGenerator, PrivateKeyGenerator, createTransactions, sompiToKaspaStringWithSuffix, type PendingTransaction, decryptXChaCha20Poly1305, kaspaToSompi } from "@/../wasm"
 import type Node from "./node"
 import { EventEmitter } from "events"
 
@@ -88,6 +88,16 @@ export default class Account extends EventEmitter {
     }
   }
 
+  private async registerProcessor () {
+    this.processor.addEventListener((event) => {
+      console.debug(event)
+    })
+    
+    this.processor.addEventListener('balance', () => {
+      this.emit('balance', this.balance)
+    })
+  }
+
   private async deriveAddresses (receiveCount: number, changeCount: number) {
     if (!this.session) throw Error('No active account')
 
@@ -97,12 +107,6 @@ export default class Account extends EventEmitter {
       await publicKey.receiveAddressAsStrings("MAINNET", 0, receiveCount),
       await publicKey.changeAddressAsStrings("MAINNET", 0, changeCount)
     ]
-  }
-
-  private async registerProcessor () {
-    this.processor.addEventListener('balance', () => {
-      this.emit('balance', this.balance)
-    })
   }
 
   private listenSession () {

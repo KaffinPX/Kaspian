@@ -52,8 +52,7 @@ export interface Response<M extends keyof RequestMappings = keyof RequestMapping
 export interface EventMappings {
   "wallet:status": Status
   "node:connection": Connection
-  "account:balance": string,
-  "account:transaction": Summary
+  "account:balance": string
 }
 
 export interface Event<M extends keyof EventMappings = keyof EventMappings> {

@@ -16,11 +16,14 @@ export default function Submit ({ hash }: {
       <AlertDialogHeader>
         <AlertDialogTitle>Success!</AlertDialogTitle>
         <AlertDialogDescription>
-          Your transactions are on blocks of network now.
+          Your transaction(s) are on the block(s) of network now.
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>Close</AlertDialogCancel>
+        <Button variant="link" className={"text-white font-bold"} onClick={() => {
+            window.open(`https://explorer.kaspa.org/txs/${hash}`)
+        }}>View it on the explorer</Button>
       </AlertDialogFooter>
     </AlertDialogContent>
   )
