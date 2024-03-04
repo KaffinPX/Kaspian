@@ -28,6 +28,7 @@ class KaspaInterface {
   get status () { return this.state.status }
   get connection () { return this.state.connection }
   get addresses () { return this.state.addresses }
+  get usableAddress () { return this.state.addresses[0][this.state.addresses[0].length - 1] }
   get balance () { return this.state.balance }
   get utxos () { return this.state.utxos }
   

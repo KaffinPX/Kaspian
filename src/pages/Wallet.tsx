@@ -46,7 +46,7 @@ export default function Wallet () {
         </div>
         <div className={"flex flex-col items-center"}>
           <Textarea
-            defaultValue={kaspa.addresses[0][kaspa.addresses[0].length - 1]}
+            defaultValue={kaspa.usableAddress}
             className={"w-72"}
             disabled={true}
           />
