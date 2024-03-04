@@ -70,6 +70,7 @@ export default function SendDrawer () {
 
             <Button className={"gap-2"} onClick={async () => {
               const summary = await kaspa.request('account:initiateSend', [ recipient, amount ])
+
               setRecipient("")
               setAmount("")
               setSummary(summary)
@@ -80,19 +81,9 @@ export default function SendDrawer () {
             </Button>
 
             <AlertDialog open={!!summary} onOpenChange={(o) => setSummary(o ? summary : undefined)}>
-              {tab === Tabs.Sign && !!summary && (
-                <Sign summary={summary} onSigned={() => {
-                  setTab(Tabs.Submit)
-                }} />
-              )}
-              {tab === Tabs.Submit && (
-                <Submit onSubmitted={() => {
-                  setTab(Tabs.Success)
-                }} />
-              )}
-              {tab === Tabs.Success && !!summary && (
-                <Success hash={summary.hash}/>
-              )}
+              {tab === Tabs.Sign && !!summary && <Sign summary={summary} onSigned={() => setTab(Tabs.Submit)} />}
+              {tab === Tabs.Submit && <Submit onSubmitted={() => setTab(Tabs.Success)} />}
+              {tab === Tabs.Success && !!summary && <Success hash={summary.hash} />}
             </AlertDialog>
           </div>
         </div>
