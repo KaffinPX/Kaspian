@@ -11,7 +11,7 @@ Introducing Kaspian, a self-custodial Kaspa wallet with built-in merchant tool a
 - [x] Send transactions
 - [x] Node selection, multiple networks(Awaiting some WASM fixes)
 - [x] Receive with QR code generation
-- [] Provider api
+- [ ] Provider api
 - [x] Themes
 - [x] Internationalization(70% exported)
 
