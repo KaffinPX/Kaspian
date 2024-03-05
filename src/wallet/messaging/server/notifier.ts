@@ -1,6 +1,6 @@
-import type Wallet from "../../controller/wallet"
-import type Node from "../../controller/node"
-import type Account from "../../controller/account"
+import type Wallet from "../../kaspa/wallet"
+import type Node from "../../kaspa/node"
+import type Account from "../../kaspa/account"
 import type { Event, EventMappings } from "../protocol"
 
 export default class Notifications {

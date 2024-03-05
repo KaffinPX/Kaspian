@@ -8,7 +8,7 @@ import SettingsSheet from "@/pages/Wallet/Settings"
 import { i18n } from "webextension-polyfill"
 import useKaspa from "@/hooks/useKaspa"
 import { useEffect } from "react"
-import { Status } from "@/wallet/controller/wallet"
+import { Status } from "@/wallet/kaspa/wallet"
 import { useNavigate } from "react-router-dom"
 import { Textarea } from "@/components/ui/textarea"
 

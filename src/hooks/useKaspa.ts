@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { type Runtime } from "webextension-polyfill"
 import { IKaspa, KaspaContext } from "../contexts/Kaspa"
 import { Event, Request, Response, ResponseMappings, RequestMappings, isEvent } from "../wallet/messaging/protocol"
-import { Status } from "@/wallet/controller/wallet"
+import { Status } from "@/wallet/kaspa/wallet"
 
 interface RequestCallback<M extends keyof RequestMappings> {
   success: (result: ResponseMappings[M]) => void

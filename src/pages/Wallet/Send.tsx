@@ -17,7 +17,7 @@ import Sign from "./Send/Sign"
 import Submit from "./Send/Submit"
 import Success from "./Send/Success"
 
-import { type Summary } from "@/wallet/controller/account"
+import { type Summary } from "@/wallet/kaspa/account"
 
 export enum Tabs {
   Sign,

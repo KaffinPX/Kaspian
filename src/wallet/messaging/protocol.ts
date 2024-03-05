@@ -1,6 +1,6 @@
-import { Status } from "../controller/wallet"
-import { Connection } from "../controller/node"
-import { Summary } from "../controller/account"
+import { Status } from "../kaspa/wallet"
+import { Connection } from "../kaspa/node"
+import { Summary } from "../kaspa/account"
 
 export interface RequestMappings {
   'wallet:status': []

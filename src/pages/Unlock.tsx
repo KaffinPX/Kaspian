@@ -29,9 +29,13 @@ export default function UnlockWallet() {
       </div>
       <div className={"mx-auto"}>
         <Button
-          onClick={async () => {
-            if (await kaspa.request('wallet:unlock', [ password ]).catch(() => {
-              return console.error('Wrong password.')
+          onClick={async ({ currentTarget }) => {
+            currentTarget.disabled = true
+
+            if (await kaspa.request('wallet:unlock', [ password ]).catch((err) => {
+              console.error(err)
+
+              currentTarget.disabled = false
             })) {
               navigate("/")
             }

@@ -1,6 +1,6 @@
-import Wallet, { Status } from './controller/wallet'
-import Node from './controller/node'
-import Account from './controller/account'
+import Wallet, { Status } from './kaspa/wallet'
+import Node from './kaspa/node'
+import Account from './kaspa/account'
 import RPC from './messaging'
 
 import load from "@/../wasm"

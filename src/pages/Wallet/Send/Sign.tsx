@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Pen } from "lucide-react"
 import { i18n } from "webextension-polyfill"
-import type { Summary } from "@/wallet/controller/account"
+import type { Summary } from "@/wallet/kaspa/account"
 
 export default function Sign ({ summary, onSigned }: {
   summary: Summary,
