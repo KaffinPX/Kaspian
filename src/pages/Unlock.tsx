@@ -6,13 +6,15 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { i18n } from "webextension-polyfill"
 import useKaspa from "@/hooks/useKaspa"
+import { Label } from "@radix-ui/react-label"
 
 export default function UnlockWallet() {
   const navigate = useNavigate()
   const kaspa = useKaspa()
 
   const [ password, setPassword ] = useState("")
-  
+  const [ error, setError ] = useState("")
+
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6"}>
       <Heading
@@ -24,8 +26,13 @@ export default function UnlockWallet() {
           type={"password"}
           placeholder={i18n.getMessage('password')}
           className={"w-72"}
-          onChange={e => setPassword(e.target.value)}
+          onChange={e => {
+            if (error) setError("")
+
+            setPassword(e.target.value)
+          }}
         />
+        <p className="text-red-600">{error}</p>
       </div>
       <div className={"mx-auto"}>
         <Button
@@ -33,7 +40,7 @@ export default function UnlockWallet() {
             currentTarget.disabled = true
 
             if (await kaspa.request('wallet:unlock', [ password ]).catch((err) => {
-              console.error(err)
+              setError(err)
 
               currentTarget.disabled = false
             })) {
