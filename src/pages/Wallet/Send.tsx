@@ -28,6 +28,7 @@ export enum Tabs {
 export default function SendDrawer () {
   const [ recipient, setRecipient ] = useState("")
   const [ amount, setAmount ] = useState("")
+  const [ error, setError ] = useState("")
   const [ summary, setSummary ] = useState<Summary | undefined>()
   const [ tab, setTab ] = useState(Tabs.Sign)
   
@@ -58,23 +59,36 @@ export default function SendDrawer () {
                 placeholder={i18n.getMessage('address')}
                 className={"w-60"}
                 value={recipient}
-                onChange={(e) => setRecipient(e.target.value)}
+                onChange={(e) => { 
+                  if (error) setError("")
+
+                  setRecipient(e.target.value)
+                }}
               />
               <Input
                 type={"number"}
                 placeholder={i18n.getMessage('amount')}
                 value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                onChange={(e) => {
+                  if (error) setError("")
+
+                  setAmount(e.target.value)
+                }}
               />
+              <p className="text-red-600 w-full">{error}</p>
             </div>
-
             <Button className={"gap-2"} onClick={async () => {
-              const summary = await kaspa.request('account:initiateSend', [ recipient, amount ])
+              if (tab !== Tabs.Sign) setTab(Tabs.Sign)
 
-              setRecipient("")
-              setAmount("")
-              setSummary(summary)
-              setTab(Tabs.Sign)
+              try {
+                const summary = await kaspa.request('account:initiateSend', [ recipient, amount ])
+
+                setRecipient("")
+                setAmount("")
+                setSummary(summary)
+              } catch (err) {
+                setError(err as string)
+              }
             }}>
               <SendToBack />
               {i18n.getMessage('send')}
