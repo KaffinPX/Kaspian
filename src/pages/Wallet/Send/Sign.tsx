@@ -19,7 +19,7 @@ export default function Sign ({ summary, onSigned }: {
   onSigned: () => void
 }) {
   const kaspa = useKaspa()
-  
+
   const [ password, setPassword ] = useState("")
   const [ error, setError ] = useState("")
 
@@ -37,7 +37,7 @@ export default function Sign ({ summary, onSigned }: {
           <div className={"bg-gray-200 dark:bg-gray-800 rounded-md p-2 font-mono font-bold"}>{summary.fee}</div>
         </div>
         <div className={"flex flex-col text-center gap-1"}>
-          <h3 className={"text-lg"}>Total Amount</h3>
+          <h3 className={"text-lg"}>Amount</h3>
           <div className={"bg-gray-200 dark:bg-gray-800 rounded-md p-2 font-mono font-bold"}>{summary.totalAmount}</div>
         </div>
       </div>
@@ -57,6 +57,8 @@ export default function Sign ({ summary, onSigned }: {
       <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
         <Button className={"gap-2"} disabled={password === ""} onClick={() => {
+          setPassword("")
+
           kaspa.request('account:signPendings', [ password ]).then(() => {
             onSigned()
           }).catch((err) => {
