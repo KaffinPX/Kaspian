@@ -19,7 +19,9 @@ export default function Sign ({ summary, onSigned }: {
   onSigned: () => void
 }) {
   const kaspa = useKaspa()
+  
   const [ password, setPassword ] = useState("")
+  const [ error, setError ] = useState("")
 
   return (
     <AlertDialogContent>
@@ -39,18 +41,27 @@ export default function Sign ({ summary, onSigned }: {
           <div className={"bg-gray-200 dark:bg-gray-800 rounded-md p-2 font-mono font-bold"}>{summary.totalAmount}</div>
         </div>
       </div>
-      <Input
-        type={"password"}
-        placeholder={i18n.getMessage('password')}
-        className={"flex"}
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+      <div className={"mx-auto w-full"}>
+        <Input
+          type={"password"}
+          placeholder={i18n.getMessage('password')}
+          className={"flex"}
+          value={password}
+          onChange={(e) => {
+            if (error) setError("")
+            setPassword(e.target.value)
+          }}
+        />
+        <p className="text-red-600">{error}</p>
+      </div>
       <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <Button className={"gap-2"} onClick={async () => {
-          await kaspa.request('account:signPendings', [ password ])
-          onSigned()
+        <Button className={"gap-2"} disabled={password === ""} onClick={() => {
+          kaspa.request('account:signPendings', [ password ]).then(() => {
+            onSigned()
+          }).catch((err) => {
+            setError(err)
+          })
         }}>
           <Pen />
           Sign

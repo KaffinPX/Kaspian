@@ -35,20 +35,16 @@ export default function UnlockWallet() {
         <p className="text-red-600">{error}</p>
       </div>
       <div className={"mx-auto"}>
-        <Button
-          onClick={async ({ currentTarget }) => {
+        <Button className={"gap-2"} disabled={password === ""} onClick={async ({ currentTarget }) => {
             currentTarget.disabled = true
 
             if (await kaspa.request('wallet:unlock', [ password ]).catch((err) => {
               setError(err)
-
               currentTarget.disabled = false
             })) {
               navigate("/")
             }
           }}
-          disabled={password === ""}
-          className={"gap-2"}
         >
           <UnlockKeyhole />
           {i18n.getMessage('unlock')}

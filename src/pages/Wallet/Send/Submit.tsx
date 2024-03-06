@@ -25,10 +25,14 @@ export default function Submit ({ onSubmitted }: {
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <Button className={"gap-2"} onClick={async () => {
-          await kaspa.request('account:submitSigned', [])
+        <Button className={"gap-2"} onClick={({ currentTarget }) => {
+          currentTarget.disabled = true
 
-          onSubmitted()
+          kaspa.request('account:submitSigned', []).then(() => {
+            onSubmitted()
+          }).catch(() => {
+            currentTarget.disabled = false
+          })
         }}>
           <Network />
           Submit

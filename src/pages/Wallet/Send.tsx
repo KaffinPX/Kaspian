@@ -16,7 +16,6 @@ import { AlertDialog } from "@/components/ui/alert-dialog"
 import Sign from "./Send/Sign"
 import Submit from "./Send/Submit"
 import Success from "./Send/Success"
-
 import { type Summary } from "@/wallet/kaspa/account"
 
 export enum Tabs {
@@ -26,13 +25,13 @@ export enum Tabs {
 }
 
 export default function SendDrawer () {
+  const kaspa = useKaspa()
+
   const [ recipient, setRecipient ] = useState("")
   const [ amount, setAmount ] = useState("")
-  const [ error, setError ] = useState("")
   const [ summary, setSummary ] = useState<Summary | undefined>()
+  const [ error, setError ] = useState("")
   const [ tab, setTab ] = useState(Tabs.Sign)
-  
-  const kaspa = useKaspa()
 
   return (
     <Sheet>
@@ -75,12 +74,12 @@ export default function SendDrawer () {
                   setAmount(e.target.value)
                 }}
               />
-              <p className="text-red-600 w-full">{error}</p>
+              <p className="text-red-600">{error}</p>
             </div>
-            <Button className={"gap-2"} onClick={async () => {
+            <Button className={"gap-2"} disabled={!!summary} onClick={() => {
               if (tab !== Tabs.Sign) setTab(Tabs.Sign)
 
-              await kaspa.request('account:initiateSend', [ recipient, amount ]).then((summary) => {
+              kaspa.request('account:initiateSend', [ recipient, amount ]).then((summary) => {
                 setRecipient("")
                 setAmount("")
                 setSummary(summary)
