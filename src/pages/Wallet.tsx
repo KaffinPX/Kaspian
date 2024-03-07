@@ -24,22 +24,22 @@ export default function Wallet () {
 
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6 gap-3"}>
-      <div className={"flex flex-col gap-2"}>
-        <div className={"flex flex-row justify-between items-center"}>
-          <Heading title={"Kaspian"} />
-          <div className={"flex items-center gap-3 mr-2"}>
-            <SettingsSheet />
-            <Button
-              size={"icon"}
-              variant={"outline"}
-              onClick={async () => {
-                await kaspa.request('wallet:lock', [])
-              }}
-            >
-              <LogOutIcon />
-            </Button>
-          </div>
+      <div className={"flex flex-row justify-between items-center"}>
+        <Heading title={"Kaspian"} />
+        <div className={"flex items-center gap-3 mr-2"}>
+          <SettingsSheet />
+          <Button
+            size={"icon"}
+            variant={"outline"}
+            onClick={async () => {
+              await kaspa.request('wallet:lock', [])
+            }}
+          >
+            <LogOutIcon />
+          </Button>
         </div>
+      </div>
+      <div className={"flex flex-col gap-1"}>
         <div className={"flex flex-col items-center"}>
           <p className={"text-4xl font-extrabold"}>{kaspa.balance}</p>
           <p className={"text-xl font-bold"}>$ 0.00</p>
@@ -47,20 +47,20 @@ export default function Wallet () {
         <div className={"flex flex-col items-center"}>
           <Textarea
             defaultValue={kaspa.usableAddress}
-            className={"w-72"}
+            className={"w-72 resize-none"}
             disabled={true}
           />
         </div>
       </div>
-      <div className={"grid grid-cols-3 mx-4 h-full overflow-y-scroll no-scrollbar gap-2"}>
-        {/*{kaspa.utxos.map((utxo, id) => {
+      <div className={"grid grid-cols-3 mx-3 h-full overflow-y-scroll no-scrollbar gap-2"}>
+        {kaspa.utxos.map((utxo, id) => {
           return (
-            <div key={id} className="flex flex-col items-center text-center py-2 border-solid border-2 border-orange-800 hover:border-dashed rounded-xl w-24 h-24">
-              <p className={"text-xl font-bold"}>{utxo[0]}</p>
-              <Button variant="link" className={"text-white font-extrabold"}>{utxo[1].substring(0, 7)}...</Button>
+            <div key={id} className="flex flex-col items-center text-center py-2 border-solid border-2 border-orange-800 hover:border-dashed rounded-xl w-full h-24">
+              <p className={"text-lg font-bold"}>{utxo[0]}</p>
+              <Button variant="link" className={"text-inherit font-extrabold"}>{utxo[1].substring(0, 7)}...</Button>
             </div>
           )
-        })}*/}
+        })}
       </div>
       <div className={"flex flex-row justify-center gap-5"}>
         <SendDrawer />
