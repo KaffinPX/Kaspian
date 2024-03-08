@@ -1,29 +1,32 @@
-import Heading from "@/components/Heading";
-import { Button } from "@/components/ui/button";
-import { UnlockKeyhole } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { i18n } from "webextension-polyfill";
-import useKaspa from "@/hooks/useKaspa";
-import { Label } from "@radix-ui/react-label";
+import Heading from "@/components/Heading"
+import { Button } from "@/components/ui/button"
+import { UnlockKeyhole } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { useState, useCallback } from "react"
+import { useNavigate } from "react-router-dom"
+import { i18n } from "webextension-polyfill"
+import useKaspa from "@/hooks/useKaspa"
 
 export default function UnlockWallet() {
-  const navigate = useNavigate();
-  const kaspa = useKaspa();
+  const navigate = useNavigate()
+  const kaspa = useKaspa()
 
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+  const [isUnlocking, setIsUnlocking] = useState(false)
 
   const unlockWallet = useCallback(() => {
-    setPassword("");
+    if (isUnlocking) return
 
+    setIsUnlocking(true);
     kaspa.request('wallet:unlock', [password]).then(() => {
-      navigate("/");
+      setPassword("")
+      navigate("/")
     }).catch((err) => {
-      setError(err.message || err.toString());
+      setError(err.message || err.toString())
+      setIsUnlocking(false);
     });
-  }, [password, kaspa, navigate]);
+  }, [password, kaspa, navigate])
 
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6"}>
@@ -43,18 +46,18 @@ export default function UnlockWallet() {
           }}
           onKeyUp={e => {
             if (e.key === 'Enter' && password) {
-              unlockWallet();
+              unlockWallet()
             }
           }}
         />
         <p className="text-red-600">{error}</p>
       </div>
       <div className={"mx-auto"}>
-        <Button className={"gap-2"} disabled={!password} onClick={unlockWallet}>
+        <Button className={"gap-2"} disabled={!password || isUnlocking} onClick={unlockWallet}>
           <UnlockKeyhole />
           {i18n.getMessage('unlock')}
         </Button>
       </div>
     </main>
-  );
+  )
 }
