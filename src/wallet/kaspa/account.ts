@@ -103,6 +103,8 @@ export default class Account extends EventEmitter {
       await publicKey.receiveAddressAsStrings("MAINNET", 0, receiveCount),
       await publicKey.changeAddressAsStrings("MAINNET", 0, changeCount)
     ]
+
+    this.emit('address', this.addresses[0][this.addresses[0].length - 1])
   }
 
   private listenSession () {

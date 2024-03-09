@@ -44,6 +44,7 @@ export default class RPC {
   }
 
   private permitPort (port: browser.Runtime.Port) {
+    console.log('welcome port', port)
     this.ports.add(port)
 
     const onMessageListener = async (request: Request) => {
@@ -55,6 +56,7 @@ export default class RPC {
     port.onMessage.addListener(onMessageListener)
 
     port.onDisconnect.addListener(() => {
+      console.log('Byeeeee', port)
       port.onMessage.removeListener(onMessageListener)
 
       this.ports.delete(port)
