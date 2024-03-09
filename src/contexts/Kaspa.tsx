@@ -28,12 +28,8 @@ export const KaspaContext = createContext<{
 export function KaspaProvider ({ children }: {
   children: ReactNode
 }) {
+  const connection = useMemo(() => runtime.connect({ name: "@kaspian/client" }), [])
   const [ state, setState ] = useState(defaultState)
-  const connection = useMemo(() => {
-    const port = runtime.connect({ name: "@kaspian/client" })
-    
-    return port
-  }, [])
 
   useEffect(() => {
     // TODO: Move message listener here for avoiding a weird resource leak
