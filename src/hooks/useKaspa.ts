@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { type Runtime } from "webextension-polyfill"
 import { IKaspa, KaspaContext } from "../contexts/Kaspa"
 import { Event, Request, Response, ResponseMappings, RequestMappings, isEvent } from "../wallet/messaging/protocol"
@@ -16,6 +16,7 @@ class KaspaInterface {
 
   private nonce: number = 0
   private pendingMessages: Map<number, [ RequestCallback<any>['success'], RequestCallback<any>['error'] ]> = new Map()
+  private listener: ((message: Event | Response) => void) | undefined
 
   constructor(port: Runtime.Port, state: IKaspa, setState: any) {
     this.port = port
@@ -27,8 +28,7 @@ class KaspaInterface {
 
   get status () { return this.state.status }
   get connection () { return this.state.connection }
-  get addresses () { return this.state.addresses }
-  get usableAddress () { return this.state.addresses[0][this.state.addresses[0].length - 1] }
+  get address () { return this.state.address }
   get balance () { return this.state.balance }
   get utxos () { return this.state.utxos }
   
@@ -39,10 +39,12 @@ class KaspaInterface {
     const balance = await this.request('account:balance', [])
     const utxos = await this.request('account:utxos', [])
 
+    const address = addresses[0][addresses[0].length - 1]
+
     this.setState({
       status,
       connection,
-      addresses,
+      address,
       balance,
       utxos
     })
@@ -62,20 +64,29 @@ class KaspaInterface {
     })
   }
 
+  unregisterListener () {
+    this.port.onMessage.removeListener(this.listener!)
+  }
+
   private registerListener () {
-    const onMessageListener = (message: Event | Response) => {
+    this.listener = (message: Event | Response) => {
       if (isEvent(message)) {
+        console.error(`${message.event} event received`, message)
+        console.error('is registered', this.port.onMessage.hasListener(this.listener!))
+        
         if (message.event === 'wallet:status') {
           this.updateState('status', message.data as Status)
         } else if (message.event === 'account:balance') {
           this.updateState('balance', message.data as string)
+        } else if (message.event === 'account:address') {
+          this.updateState('address', message.data as string)
         }
       } else {
-        const messageCallbacks = this.pendingMessages.get(message.id)
-
-        if (!messageCallbacks) return // this.port.onMessage.removeListener(onMessageListener) // should be moved to context(deprecation of class case)
-        const [ resolve, reject ] = messageCallbacks
+        const pendingMessage = this.pendingMessages.get(message.id)
   
+        if (!pendingMessage) return
+
+        const [ resolve, reject ] = pendingMessage
         this.pendingMessages.delete(message.id)
   
         if (message.error) return reject(message.error)
@@ -83,7 +94,7 @@ class KaspaInterface {
       }
     }
 
-    this.port.onMessage.addListener(onMessageListener)
+    this.port.onMessage.addListener(this.listener)
   }
 
   private updateState <K extends keyof IKaspa>(key: K, value: IKaspa[K]) {
@@ -96,8 +107,17 @@ class KaspaInterface {
 
 export default function useKaspa () {
   const context = useContext(KaspaContext)
-  
+
   if (!context) throw new Error("Missing Kaspa context")
 
-  return new KaspaInterface(context.connection, context.state, context.setState)
+  const hook = new KaspaInterface(context.connection, context.state, context.setState)
+  
+  useEffect(() => {
+    return () => {
+      console.log('unregistering listener ')
+      hook.unregisterListener()
+    }
+  }, [])
+  
+  return hook
 }

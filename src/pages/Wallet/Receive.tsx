@@ -36,7 +36,7 @@ export default function SendDrawer () {
           <div className="h-max w-36 bg-white mx-auto p-1">
             <QRCode
               style={{ height: "auto", width: "100%" }}
-              value={`${kaspa.usableAddress}?${amount ? `amount=${amount}` : ''}`}
+              value={`${kaspa.address}?${amount ? `amount=${amount}` : ''}`}
             />
           </div>
           <Input

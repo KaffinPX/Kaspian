@@ -1,11 +1,10 @@
 import { Button } from "@/components/ui/button"
-import { Download, LogOutIcon } from "lucide-react"
+import { LogOutIcon } from "lucide-react"
 import Heading from "@/components/Heading"
 // import UTXOCard from "@/components/UTXOCard"
 import SendDrawer from "@/pages/Wallet/Send"
 import ReceiveDrawer from "@/pages/Wallet/Receive"
 import SettingsSheet from "@/pages/Wallet/Settings"
-import { i18n } from "webextension-polyfill"
 import useKaspa from "@/hooks/useKaspa"
 import { useEffect } from "react"
 import { Status } from "@/wallet/kaspa/wallet"
@@ -18,6 +17,8 @@ export default function Wallet () {
 
   useEffect(() => {
     if (kaspa.status !== Status.Unlocked) {
+      console.log('navigates into / as wasnt unlocked', kaspa.status)
+
       navigate("/")
     }
   }, [ kaspa.status ])
@@ -46,7 +47,7 @@ export default function Wallet () {
         </div>
         <div className={"flex flex-col items-center"}>
           <Textarea
-            defaultValue={kaspa.usableAddress}
+            defaultValue={kaspa.address}
             className={"w-72 resize-none"}
             disabled={true}
           />

@@ -6,7 +6,6 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { i18n } from "webextension-polyfill"
 import useKaspa from "@/hooks/useKaspa"
-import { Label } from "@radix-ui/react-label"
 
 export default function UnlockWallet() {
   const navigate = useNavigate()
@@ -40,7 +39,7 @@ export default function UnlockWallet() {
           setPassword("")
 
           kaspa.request('wallet:unlock', [ password ]).then(() => {
-            navigate("/")
+            navigate("/wallet")
           }).catch((err) => {
             setError(err)
           })
