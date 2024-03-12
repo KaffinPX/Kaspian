@@ -1,11 +1,10 @@
 import { createContext, useState, ReactNode, useEffect, useMemo } from "react"
 import { runtime, type Runtime } from "webextension-polyfill"
 import { Status } from "@/wallet/kaspa/wallet"
-import { Connection } from "@/wallet/kaspa/node"
 
 export interface IKaspa {
   status: Status
-  connection: Connection
+  connected: boolean
   address: string
   balance: string
   utxos: [ string, string ][]
@@ -13,7 +12,7 @@ export interface IKaspa {
 
 export const defaultState: IKaspa = {
   status: Status.Uninitialized,
-  connection: Connection.Disconnected,
+  connected: false,
   address: "",
   balance: '0 KAS',
   utxos: []

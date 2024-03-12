@@ -29,7 +29,7 @@ export default class Router {
       'wallet:unlock': (password) => this.wallet.unlock(0, password),
       'wallet:lock': () => this.wallet.lock(),
       'wallet:reset': () => this.wallet.reset(),
-      'node:connection': () => this.node.status,
+      'node:connection': () => this.node.connected,
       'node:connect': (address) => this.node.reconnect(address),
       'account:addresses': () => this.account.addresses,
       'account:balance': () => this.account.balance,

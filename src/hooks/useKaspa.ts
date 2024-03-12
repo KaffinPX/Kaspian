@@ -27,14 +27,14 @@ class KaspaInterface {
   }
 
   get status () { return this.state.status }
-  get connection () { return this.state.connection }
+  get connected () { return this.state.connected }
   get address () { return this.state.address }
   get balance () { return this.state.balance }
   get utxos () { return this.state.utxos }
   
   async load () {
     const status = await this.request('wallet:status', [])
-    const connection = await this.request('node:connection', [])
+    const connected = await this.request('node:connection', [])
     const addresses = await this.request('account:addresses', [])
     const balance = await this.request('account:balance', [])
     const utxos = await this.request('account:utxos', [])
@@ -43,7 +43,7 @@ class KaspaInterface {
 
     this.setState({
       status,
-      connection,
+      connected,
       address,
       balance,
       utxos
@@ -71,9 +71,6 @@ class KaspaInterface {
   private registerListener () {
     this.listener = (message: Event | Response) => {
       if (isEvent(message)) {
-        console.error(`${message.event} event received`, message)
-        console.error('is registered', this.port.onMessage.hasListener(this.listener!))
-        
         if (message.event === 'wallet:status') {
           this.updateState('status', message.data as Status)
         } else if (message.event === 'account:balance') {
@@ -114,7 +111,6 @@ export default function useKaspa () {
   
   useEffect(() => {
     return () => {
-      console.log('unregistering listener ')
       hook.unregisterListener()
     }
   }, [])

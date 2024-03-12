@@ -10,15 +10,19 @@ import { useEffect } from "react"
 import { Status } from "@/wallet/kaspa/wallet"
 import { useNavigate } from "react-router-dom"
 import { Textarea } from "@/components/ui/textarea"
+import useSettings from "@/hooks/useSettings"
 
 export default function Wallet () {
   const kaspa = useKaspa()
+  const settings = useSettings()
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (kaspa.status !== Status.Unlocked) {
-      console.log('navigates into / as wasnt unlocked', kaspa.status)
+    if (!kaspa.connected) {
+      kaspa.request('node:connect', [ settings.nodes[settings.selectedNode].address ])
+    }
 
+    if (kaspa.status !== Status.Unlocked) {
       navigate("/")
     }
   }, [ kaspa.status ])

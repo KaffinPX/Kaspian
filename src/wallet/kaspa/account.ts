@@ -12,6 +12,7 @@ export interface Summary {
 }
 
 export default class Account extends EventEmitter {
+  node: Node
   processor: UtxoProcessor
   session: ISession | undefined
   addresses: [ string[], string[] ] = [[], []]
@@ -21,6 +22,7 @@ export default class Account extends EventEmitter {
   constructor (node: Node) {
     super()
 
+    this.node = node
     this.processor = new UtxoProcessor({ rpc: node.kaspa, networkId: 'MAINNET' })
     this.context = new UtxoContext({ processor: this.processor })
 
@@ -35,7 +37,10 @@ export default class Account extends EventEmitter {
   get utxos (): [ string, string ][] {
     const utxos = this.context.getMatureRange(0, this.context.getMatureLength)
 
-    return utxos.map(utxo => [ sompiToKaspaStringWithSuffix(utxo.amount, this.processor.networkId!), utxo.getId() ])
+    return utxos.map(utxo => [ 
+      sompiToKaspaStringWithSuffix(utxo.amount, this.processor.networkId!),
+      utxo.getId()
+    ])
   }
 
   async initiateSend (recipient: string, amount: string) {
@@ -84,11 +89,17 @@ export default class Account extends EventEmitter {
 
   async submitSigned () {
     for (const transaction of this.pendingTxs) {
-      await transaction.submit(this.processor.rpc)
+      await transaction.submit(this.node.kaspa)
     }
   }
 
-  private async registerProcessor () {
+  private registerProcessor() {
+    this.node.on('connection', async (connected: boolean) => {
+      if (!connected) return
+
+      await this.context.trackAddresses([ ...this.addresses[0], ...this.addresses[1] ])
+    })
+
     this.processor.addEventListener('balance', () => {
       this.emit('balance', this.balance)
     })
@@ -118,7 +129,10 @@ export default class Account extends EventEmitter {
 
         await this.deriveAddresses(account.receiveCount, account.changeCount)
         await this.processor.start()
-        await this.context.trackAddresses([ ...this.addresses[0], ...this.addresses[1] ])
+
+        if (this.node.connected) {
+          await this.context.trackAddresses([ ...this.addresses[0], ...this.addresses[1] ])
+        }
       } else {
         delete this.session
         this.addresses = [[], []]

@@ -31,8 +31,10 @@ export default function Network () {
           <div className={"flex gap-1 mx-1"}>
             <Select defaultValue={settings.selectedNode.toString()} 
               onValueChange={async (id) => {
-                await kaspa.request('node:connect', [ settings.nodes[parseInt(id)].address ])
                 await settings.changeNode(parseInt(id))
+
+                console.log('new node!!!', settings.selectedNode)
+                await kaspa.request('node:connect', [ settings.nodes[parseInt(id)].address ]).catch(err => console.log('change failed', err))
               }}
             >
               <SelectTrigger className="w-full">
@@ -40,6 +42,7 @@ export default function Network () {
               </SelectTrigger>
               <SelectContent>
                 {settings.nodes.map((node, id) => {
+                  console.log(node, id)
                   return (
                     <SelectItem key={id} value={id.toString()}>
                       {node.name}

@@ -1,5 +1,4 @@
 import { Status } from "../kaspa/wallet"
-import { Connection } from "../kaspa/node"
 import { Summary } from "../kaspa/account"
 
 export interface RequestMappings {
@@ -33,7 +32,7 @@ export interface ResponseMappings {
   'wallet:unlock': boolean
   'wallet:lock': boolean
   'wallet:reset': boolean
-  'node:connection': Connection
+  'node:connection': boolean
   "node:connect": boolean
   'account:addresses': [ string[], string[] ]
   'account:balance': string,
@@ -51,7 +50,7 @@ export interface Response<M extends keyof RequestMappings = keyof RequestMapping
 
 export interface EventMappings {
   "wallet:status": Status
-  "node:connection": Connection
+  "node:connection": boolean
   "account:balance": string
   "account:address": string
 }

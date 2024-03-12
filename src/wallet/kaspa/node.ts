@@ -1,25 +1,38 @@
 import { RpcClient, ConnectStrategy } from "@/../wasm"
 import { EventEmitter } from "events"
 
-export enum Connection {
-  Disconnected,
-  Connected
-}
 
 export default class Node extends EventEmitter {
-  status: Connection = Connection.Disconnected
   kaspa: RpcClient
 
   constructor () {
     super()
     
     this.kaspa = new RpcClient()
+    
+    this.registerEvents()
+  }
+
+  get connected () {
+    return this.kaspa.isConnected
+  }
+
+  private registerEvents () {
+    this.kaspa.addEventListener('open', () => {
+      this.emit('connection', true)
+    })
+
+    this.kaspa.addEventListener('close', () => {
+      this.emit('connection', false)
+    })
   }
 
   async reconnect (nodeAddress: string) {
+    if (this.kaspa.isConnected) await this.kaspa.disconnect()
+
     await this.kaspa.connect({
       blockAsyncConnect: true,
-      url: "wss://eu-1.kaspa-ng.io/mainnet",
+      url: nodeAddress,
       strategy: ConnectStrategy.Retry,
       timeoutDuration: 1000,
       retryInterval: 1000
@@ -29,11 +42,8 @@ export default class Node extends EventEmitter {
 
     if (!isSynced) {
       await this.kaspa.disconnect()
-      this.status = Connection.Disconnected
-      
+
       throw Error('Node is not synchronized')
     }
-
-    this.status = Connection.Connected
   }
 }
