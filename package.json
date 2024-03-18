@@ -4,7 +4,7 @@
   "description": "An extension for interacting with Kaspa network.",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "bunx --bun vite --host",
     "build": "vite build --minify false",
     "watch": "tsc --watch"
   },
