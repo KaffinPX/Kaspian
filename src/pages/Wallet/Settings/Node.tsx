@@ -17,7 +17,7 @@ export default function NewNodeDrawer() {
   const [ name, setName ] = useState<string>("")
   const [ address, setAddress ] = useState<string>("")
 
-  const settings = useSettings()
+  const { settings, updateSetting } = useSettings()
 
   return (
     <Sheet>
@@ -45,7 +45,15 @@ export default function NewNodeDrawer() {
                 className={"flex gap-2"}
                 disabled={name === "" || address === ""}
                 onClick={async () => {
-                  await settings.addNode(name, address)
+                  let nodes = settings.nodes
+
+                  nodes.push({
+                    name,
+                    address,
+                    locked: false
+                  })
+
+                  await updateSetting('nodes', nodes)
                 }}
               >
                 <Plus />

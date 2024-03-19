@@ -16,7 +16,7 @@ import useKaspa from "@/hooks/useKaspa"
 import useSettings from "@/hooks/useSettings"
 
 export default function Network () {
-  const settings = useSettings()
+  const { settings, updateSetting } = useSettings()
   const kaspa = useKaspa()
 
   return (
@@ -31,7 +31,7 @@ export default function Network () {
           <div className={"flex gap-1 mx-1"}>
             <Select defaultValue={settings.selectedNode.toString()} 
               onValueChange={async (id) => {
-                await settings.changeNode(parseInt(id))
+                await updateSetting('selectedNode', parseInt(id))
 
                 console.log('new node!!!', settings.selectedNode)
                 await kaspa.request('node:connect', [ settings.nodes[parseInt(id)].address ]).catch(err => console.log('change failed', err))

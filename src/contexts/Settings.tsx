@@ -1,4 +1,5 @@
-import { createContext, useState, type ReactNode } from "react"
+import LocalStorage from "@/storage/LocalStorage"
+import { createContext, useState, type ReactNode, useEffect, useCallback } from "react"
 
 export interface ISettings {
   version: number
@@ -23,17 +24,33 @@ export const defaultSettings: ISettings = {
 }
 
 export const SettingsContext = createContext<{
-  state: ISettings
-  setState: React.Dispatch<React.SetStateAction<ISettings>>
+  load: () => Promise<void>
+  settings: ISettings,
+  updateSetting: <K extends keyof ISettings>(key: K, value: ISettings[K]) => void
 } | undefined>(undefined)
 
 export function SettingsProvider({ children }: {
   children: ReactNode
 }) {
-  const [ state, setState ] = useState(defaultSettings)
+  const [ settings, setSettings ] = useState(defaultSettings)
+
+  useEffect(() => {
+    LocalStorage.set("settings", settings)
+  }, [ settings ])
+
+  const load = useCallback(async () => {
+    setSettings(await LocalStorage.get('settings', defaultSettings))
+  }, [])
+
+  const updateSetting = useCallback(<K extends keyof ISettings>(key: K, value: ISettings[K]) => {
+    setSettings((prevSettings) => ({ 
+      ...prevSettings, 
+      [ key ]: value 
+    }))
+  }, [])
 
   return (
-    <SettingsContext.Provider value={{ state, setState }}>
+    <SettingsContext.Provider value={{ load, settings, updateSetting }}>
       {children}
     </SettingsContext.Provider>
   )

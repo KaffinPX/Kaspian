@@ -14,7 +14,7 @@ import useSettings from "@/hooks/useSettings"
 
 export default function Wallet () {
   const kaspa = useKaspa()
-  const settings = useSettings()
+  const { settings } = useSettings()
   const navigate = useNavigate()
 
   useEffect(() => {
