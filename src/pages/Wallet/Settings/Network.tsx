@@ -5,6 +5,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select"
+import { Badge } from "@/components/ui/badge"
 import NodeDrawer from "@/pages/Wallet/Settings/Node"
 import {
   AccordionContent,
@@ -25,7 +26,12 @@ export default function Network () {
       <AccordionContent>
         <div className={"flex flex-col gap-2"}>
           <div className={"px-3"}>
-            <h3 className={"font-bold"}>{i18n.getMessage('node')}</h3>
+            <h3 className={"flex gap-2 font-bold"}>
+              {i18n.getMessage('node')}
+              <Badge variant={"outline"} className={kaspa.connected ? "text-green-500" : 'text-red-500'}>
+                {kaspa.connected ? 'Connected' : 'Disconnected'}
+              </Badge>
+            </h3>
             <h4>{i18n.getMessage('nodeDescription')}</h4>
           </div>
           <div className={"flex gap-1 mx-1"}>
@@ -49,7 +55,7 @@ export default function Network () {
                 })}
               </SelectContent>
             </Select>
-            <NodeDrawer /> {/* Possibly remove and make it a popup */}
+            <NodeDrawer /> {/* Make it a self-contained popup */}
           </div>
         </div>
       </AccordionContent>
