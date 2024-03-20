@@ -32,9 +32,7 @@ export default function Network () {
             <Select defaultValue={settings.selectedNode.toString()} 
               onValueChange={async (id) => {
                 await updateSetting('selectedNode', parseInt(id))
-
-                console.log('new node!!!', settings.selectedNode)
-                await kaspa.request('node:connect', [ settings.nodes[parseInt(id)].address ]).catch(err => console.log('change failed', err))
+                await kaspa.request('node:connect', [ settings.nodes[parseInt(id)].address ])
               }}
             >
               <SelectTrigger className="w-full">
@@ -42,7 +40,6 @@ export default function Network () {
               </SelectTrigger>
               <SelectContent>
                 {settings.nodes.map((node, id) => {
-                  console.log(node, id)
                   return (
                     <SelectItem key={id} value={id.toString()}>
                       {node.name}
