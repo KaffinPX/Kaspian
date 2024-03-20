@@ -25,7 +25,7 @@ export enum Tabs {
 }
 
 export default function SendDrawer () {
-  const kaspa = useKaspa()
+  const { kaspa, request } = useKaspa()
 
   const [ recipient, setRecipient ] = useState("")
   const [ amount, setAmount ] = useState("")
@@ -79,7 +79,7 @@ export default function SendDrawer () {
             <Button className={"gap-2"} disabled={!!summary} onClick={() => {
               if (tab !== Tabs.Sign) setTab(Tabs.Sign)
 
-              kaspa.request('account:initiateSend', [ recipient, amount ]).then((summary) => {
+              request('account:initiateSend', [ recipient, amount ]).then((summary) => {
                 setRecipient("")
                 setAmount("")
                 setSummary(summary)

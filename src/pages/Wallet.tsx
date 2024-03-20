@@ -13,13 +13,13 @@ import { Textarea } from "@/components/ui/textarea"
 import useSettings from "@/hooks/useSettings"
 
 export default function Wallet () {
-  const kaspa = useKaspa()
+  const { kaspa, request } = useKaspa()
   const { settings } = useSettings()
   const navigate = useNavigate()
 
   useEffect(() => {
     if (!kaspa.connected) {
-      kaspa.request('node:connect', [ settings.nodes[settings.selectedNode].address ])
+      request('node:connect', [ settings.nodes[settings.selectedNode].address ])
     }
 
     if (kaspa.status !== Status.Unlocked) {
@@ -37,7 +37,7 @@ export default function Wallet () {
             size={"icon"}
             variant={"outline"}
             onClick={async () => {
-              await kaspa.request('wallet:lock', [])
+              await request('wallet:lock', [])
             }}
           >
             <LogOutIcon />

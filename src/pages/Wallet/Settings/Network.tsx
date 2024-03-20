@@ -18,7 +18,7 @@ import useSettings from "@/hooks/useSettings"
 
 export default function Network () {
   const { settings, updateSetting } = useSettings()
-  const kaspa = useKaspa()
+  const { kaspa, request } = useKaspa()
 
   return (
     <AccordionItem value="network">
@@ -38,7 +38,7 @@ export default function Network () {
             <Select defaultValue={settings.selectedNode.toString()} 
               onValueChange={async (id) => {
                 await updateSetting('selectedNode', parseInt(id))
-                await kaspa.request('node:connect', [ settings.nodes[parseInt(id)].address ])
+                await request('node:connect', [ settings.nodes[parseInt(id)].address ])
               }}
             >
               <SelectTrigger className="w-full">

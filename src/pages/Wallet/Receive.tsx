@@ -14,7 +14,7 @@ import useKaspa from "@/hooks/useKaspa"
 import { useState } from "react"
 
 export default function SendDrawer () {
-  const kaspa = useKaspa()
+  const { kaspa } = useKaspa()
   const [ amount, setAmount ] = useState("")
 
   return (

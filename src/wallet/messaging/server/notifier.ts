@@ -35,6 +35,6 @@ export default class Notifications {
     this.wallet.on('status', (status) => this.handleEvent('wallet:status', status))
     this.account.on('balance', (balance) => this.handleEvent('account:balance', balance))
     this.account.on('address', (address) => this.handleEvent('account:address', address))
-    // this.node.on('connection', (status) => this.handleEvent('node:connection', status)) [not available yet]
+    this.node.on('connection', (status) => this.handleEvent('node:connection', status))
   }
 }

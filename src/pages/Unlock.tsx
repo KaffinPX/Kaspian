@@ -9,7 +9,7 @@ import useKaspa from "@/hooks/useKaspa"
 
 export default function UnlockWallet() {
   const navigate = useNavigate()
-  const kaspa = useKaspa()
+  const { request } = useKaspa()
 
   const [ password, setPassword ] = useState("")
   const [ error, setError ] = useState("")
@@ -38,7 +38,7 @@ export default function UnlockWallet() {
         <Button className={"gap-2"} disabled={password === ""} onClick={() => {
           setPassword("")
 
-          kaspa.request('wallet:unlock', [ password ]).then(() => {
+          request('wallet:unlock', [ password ]).then(() => {
             navigate("/wallet")
           }).catch((err) => {
             setError(err)
