@@ -32,7 +32,7 @@ export function KaspaProvider ({ children }: {
   const [ kaspa, setState ] = useState(defaultState)
 
   const pendingMessages = new Map()
-  let nonce = 0
+  let nonce = -1
 
   const request = useCallback(<M extends keyof RequestMappings>(method: M, params: RequestMappings[M]) => {
     const message: Request<M> = {

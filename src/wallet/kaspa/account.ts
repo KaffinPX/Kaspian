@@ -94,9 +94,9 @@ export default class Account extends EventEmitter {
   }
 
   private registerProcessor() {
-    this.node.on('connection', async (connected: boolean) => {
-      if (!connected) return
+    this.processor.start()
 
+    this.processor.addEventListener("utxo-proc-start", async () => {
       await this.context.trackAddresses([ ...this.addresses[0], ...this.addresses[1] ])
     })
 
@@ -128,15 +128,9 @@ export default class Account extends EventEmitter {
         this.session = session
 
         await this.deriveAddresses(account.receiveCount, account.changeCount)
-        await this.processor.start()
-
-        if (this.node.connected) {
-          await this.context.trackAddresses([ ...this.addresses[0], ...this.addresses[1] ])
-        }
       } else {
         delete this.session
         this.addresses = [[], []]
-        await this.processor.stop()
         await this.context.clear()
       }
     })

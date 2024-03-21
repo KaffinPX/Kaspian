@@ -3,9 +3,11 @@ import Node from './kaspa/node'
 import Account from './kaspa/account'
 import RPC from './messaging'
 
-import load from "@/../wasm"
+import load, { initConsolePanicHook } from "@/../wasm"
 
 load().then(() => {
+  initConsolePanicHook()
+
   const wallet = new Wallet(() => {
     const node = new Node()
     const account = new Account(node)
