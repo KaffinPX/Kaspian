@@ -37,7 +37,7 @@ export default function Export () {
         </DialogHeader>
         <Textarea
           value={mnemonic}
-          className={"w-full h-40 font-mono text-l resize-none"}
+          className={"w-full h-40 font-mono resize-none"}
           disabled={true}
         />
         <DialogFooter>

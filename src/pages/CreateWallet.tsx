@@ -19,7 +19,6 @@ export enum Tabs {
 export default function CreateWallet () {
   const [ tab, setTab ] = useState(Tabs.Landing)
   const [ mnemonic, setMnemonic ] = useState<string | undefined>()
-  const [ password, setPassword ] = useState<string | undefined>()
 
   const navigate = useNavigate()
   const kaspa = useKaspa()
@@ -28,16 +27,22 @@ export default function CreateWallet () {
     {
       [ Tabs.Landing ]: <Landing forward={tab => { setTab(tab) }} />,
       [ Tabs.Intro ]: <Intro onConfirm={() => { setTab(Tabs.Password) }} />,
-      [ Tabs.Password ]: <Password onPasswordSet={async (password) => {
-        const generatedMnemonic = await kaspa.request('wallet:create', [password])
-        setMnemonic(generatedMnemonic)
-        setTab(Tabs.Create)
-      }} />,
       [ Tabs.Import ]: <Import onMnemonicsSubmit={async (mnemonic) => {
-        // await kaspa.request('wallet:import', [ mnemonic, password! ])
-        // navigate("/")
+        setMnemonic(mnemonic)
+        setTab(Tabs.Password)
       }} />,
-      [ Tabs.Create ]: <Create mnemonic={mnemonic!} onSaved={() => { navigate("/") }} />
+      [ Tabs.Password ]: <Password onPasswordSet={async (password) => {
+        if (mnemonic) {
+          await kaspa.request('wallet:import', [ mnemonic, password ])
+          navigate('/')
+        } else {
+          const generatedMnemonic = await kaspa.request('wallet:create', [ password ])
+
+          setMnemonic(generatedMnemonic)
+          setTab(Tabs.Create)
+        }
+      }} />,
+      [ Tabs.Create ]: <Create mnemonic={mnemonic!} onSaved={() => { navigate('/') }} />
     }[tab]
   )
 }
