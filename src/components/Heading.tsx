@@ -8,7 +8,7 @@ interface PageHeadingProps {
 export default function Heading(props: PageHeadingProps) {
   return (
     <div className={"px-4"}>
-      <h1 className={"text-4xl font-bold text-left"}>{props.title}</h1>
+      <h1 className={"text-4xl font-bold text-left select-none"}>{props.title}</h1>
       <Separator
         className={clsx(
           "w-28 mb-1 border-2",
