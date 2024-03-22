@@ -21,7 +21,7 @@ export default class Notifications {
     this.registerListeners()
   }
 
-  registerCallback(callback: (event: Event) => void) {
+  registerCallback (callback: (event: Event) => void) {
     this.callback = callback
   }
 
@@ -31,7 +31,7 @@ export default class Notifications {
     this.callback({ event, data } as any) // TODO: fix somehow
   }
   
-  private registerListeners() {
+  private registerListeners () {
     this.wallet.on('status', (status) => this.handleEvent('wallet:status', status))
     this.account.on('balance', (balance) => this.handleEvent('account:balance', balance))
     this.account.on('address', (address) => this.handleEvent('account:address', address))
