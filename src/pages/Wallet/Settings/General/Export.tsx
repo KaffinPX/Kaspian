@@ -22,7 +22,9 @@ export default function Export () {
   const [ mnemonic, setMnemonic ] = useState("")
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={() => {
+      setMnemonic("")
+    }}>
       <DialogTrigger asChild>
         <Button variant={"outline"}>Export wallet</Button>
       </DialogTrigger>
@@ -54,6 +56,8 @@ export default function Export () {
               }}
             />
             <Button type="submit" onClick={async () => {
+              setPassword("")
+
               kaspa.request('wallet:export', [ password ]).then((mnemonic) => {
                 setMnemonic(mnemonic)
               }).catch((err: string) => {
