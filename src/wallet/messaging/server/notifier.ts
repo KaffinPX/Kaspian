@@ -28,7 +28,7 @@ export default class Notifications {
   private handleEvent <E extends keyof EventMappings>(event: E, data: EventMappings[E]) {
     if (!this.callback) return
 
-    this.callback({ event, data })
+    this.callback({ event, data } as any) // TODO: fix somehow
   }
   
   private registerListeners() {

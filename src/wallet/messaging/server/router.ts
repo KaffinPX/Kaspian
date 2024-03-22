@@ -27,6 +27,7 @@ export default class Router {
       'wallet:create': (password) => this.wallet.create(password),
       'wallet:import': (mnemonic, password) => this.wallet.import(mnemonic, password),
       'wallet:unlock': (password) => this.wallet.unlock(0, password),
+      'wallet:export': (password) => this.wallet.export(password),
       'wallet:lock': () => this.wallet.lock(),
       'wallet:reset': () => this.wallet.reset(),
       'node:connection': () => this.node.connected,

@@ -6,6 +6,7 @@ export interface RequestMappings {
   'wallet:create': [ string ] // Password
   'wallet:import': [ string, string ] // Mnemo, Password
   'wallet:unlock': [ string ] // Password
+  'wallet:export': [ string ] // Password
   'wallet:lock': []
   'wallet:reset': []
   'node:connection': []
@@ -30,6 +31,7 @@ export interface ResponseMappings {
   'wallet:create': string
   'wallet:import': boolean
   'wallet:unlock': boolean
+  'wallet:export': string
   'wallet:lock': boolean
   'wallet:reset': boolean
   'node:connection': boolean

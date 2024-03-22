@@ -14,8 +14,8 @@ import useSettings from "@/hooks/useSettings"
 import { useState } from "react"
 
 export default function NewNodeDrawer() {
-  const [ name, setName ] = useState<string>("")
-  const [ address, setAddress ] = useState<string>("")
+  const [ name, setName ] = useState("")
+  const [ address, setAddress ] = useState("")
 
   const { settings, updateSetting } = useSettings()
 

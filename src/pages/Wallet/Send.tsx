@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { i18n } from "webextension-polyfill"
 import useKaspa from "@/hooks/useKaspa"
 import { useState } from "react"
-import { AlertDialog } from "@/components/ui/alert-dialog"
+import { Dialog, DialogPortal } from "@/components/ui/dialog"
 import Sign from "./Send/Sign"
 import Submit from "./Send/Submit"
 import Success from "./Send/Success"
@@ -74,7 +74,7 @@ export default function SendDrawer () {
                   setAmount(e.target.value)
                 }}
               />
-              <p className="text-red-600">{error}</p>
+              <p className="text-red-500">{error}</p>
             </div>
             <Button className={"gap-2"} disabled={!!summary} onClick={() => {
               if (tab !== Tabs.Sign) setTab(Tabs.Sign)
@@ -91,11 +91,11 @@ export default function SendDrawer () {
               {i18n.getMessage('send')}
             </Button>
 
-            <AlertDialog open={!!summary} onOpenChange={(o) => setSummary(o ? summary : undefined)}>
+            <Dialog open={!!summary} onOpenChange={(o) => setSummary(o ? summary : undefined)}>
               {tab === Tabs.Sign && !!summary && <Sign summary={summary} onSigned={() => setTab(Tabs.Submit)} />}
               {tab === Tabs.Submit && <Submit onSubmitted={() => setTab(Tabs.Success)} />}
               {tab === Tabs.Success && !!summary && <Success hash={summary.hash} />}
-            </AlertDialog>
+            </Dialog>
           </div>
         </div>
       </SheetContent>

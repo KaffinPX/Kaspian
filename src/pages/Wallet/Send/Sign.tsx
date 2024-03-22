@@ -3,13 +3,12 @@ import { Button } from "@/components/ui/button"
 import useKaspa from "@/hooks/useKaspa"
 import { useState } from "react"
 import {
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { Pen } from "lucide-react"
 import { i18n } from "webextension-polyfill"
 import type { Summary } from "@/wallet/kaspa/account"
@@ -24,13 +23,13 @@ export default function Sign ({ summary, onSigned }: {
   const [ error, setError ] = useState("")
 
   return (
-    <AlertDialogContent>
-      <AlertDialogHeader>
-        <AlertDialogTitle>Review Transaction</AlertDialogTitle>
-        <AlertDialogDescription>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Review Transaction</DialogTitle>
+        <DialogDescription>
           Review the details of the transaction before signing it.
-        </AlertDialogDescription>
-      </AlertDialogHeader>
+        </DialogDescription>
+      </DialogHeader>
       <div className="flex px-4 items-center justify-center gap-2 mt-2">
         <div className={"flex flex-col text-center gap-1"}>
           <h3 className={"text-lg"}>Fee</h3>
@@ -41,7 +40,7 @@ export default function Sign ({ summary, onSigned }: {
           <div className={"bg-gray-200 dark:bg-gray-800 rounded-md p-2 font-mono font-bold"}>{summary.totalAmount}</div>
         </div>
       </div>
-      <div className={"mx-auto w-full"}>
+      <div className={"mx-auto w-64"}>
         <Input
           type={"password"}
           placeholder={i18n.getMessage('password')}
@@ -52,10 +51,9 @@ export default function Sign ({ summary, onSigned }: {
             setPassword(e.target.value)
           }}
         />
-        <p className="text-red-600">{error}</p>
+        <p className="text-red-500">{error}</p>
       </div>
-      <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <DialogFooter>
         <Button className={"gap-2"} disabled={password === ""} onClick={() => {
           setPassword("")
 
@@ -68,7 +66,7 @@ export default function Sign ({ summary, onSigned }: {
           <Pen />
           Sign
         </Button>
-      </AlertDialogFooter>
-    </AlertDialogContent>
+      </DialogFooter>
+    </DialogContent>
   )
 }

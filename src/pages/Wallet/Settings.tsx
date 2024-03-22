@@ -2,6 +2,8 @@ import { SettingsIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import GeneralTab from "@/pages/Wallet/Settings/General"
 import NetworkTab from "@/pages/Wallet/Settings/Network"
+import ExportPopup from "@/pages/Wallet/Settings/General/Export"
+import ResetPopup from "@/pages/Wallet/Settings/General/Reset"
 import {
   Sheet,
   SheetContent,
@@ -12,11 +14,8 @@ import {
 } from "@/components/ui/sheet"
 import { Accordion } from "@/components/ui/accordion"
 import { i18n } from "webextension-polyfill"
-import useKaspa from "@/hooks/useKaspa"
 
 export default function Settings () {
-  const kaspa = useKaspa()
-
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -33,14 +32,8 @@ export default function Settings () {
           <NetworkTab />
         </Accordion>
         <SheetFooter className="gap-2">
-          <Button onClick={async () => {
-            await kaspa.request('wallet:reset', [])
-          }} variant={"destructive"}>
-            Reset wallet
-          </Button>
-          <Button variant={"outline"}>
-            Export wallet
-          </Button>
+          <ResetPopup />
+          <ExportPopup />
         </SheetFooter>
       </SheetContent>
     </Sheet>

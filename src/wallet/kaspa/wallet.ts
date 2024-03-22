@@ -42,11 +42,7 @@ export default class Wallet extends EventEmitter {
   }
 
   async unlock (id: number, password: string) {
-    const wallet = await LocalStorage.get('wallet', undefined)
-
-    if (!wallet) throw Error('Wallet is not initialized')
-
-    const mnemonic = new Mnemonic(decryptXChaCha20Poly1305(wallet.encryptedKey, password))
+    const mnemonic = new Mnemonic(await this.export(password))
     const extendedKey = new XPrv(mnemonic.toSeed())
     const publicKey = await PublicKeyGenerator.fromMasterXPrv(
       extendedKey,
@@ -61,6 +57,14 @@ export default class Wallet extends EventEmitter {
     })
 
     await this.sync()
+  }
+
+  async export (password: string) {
+    const wallet = await LocalStorage.get('wallet', undefined)
+
+    if (!wallet) throw Error('Wallet is not initialized')
+
+    return decryptXChaCha20Poly1305(wallet.encryptedKey, password)
   }
 
   async lock () {
