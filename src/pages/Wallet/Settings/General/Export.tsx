@@ -46,7 +46,6 @@ export default function Export () {
             <Input
               type={"password"}
               placeholder={i18n.getMessage('password')}
-              className={"w-72"}
               value={password}
               onChange={e => {
                 if (error) setError("")
