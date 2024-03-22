@@ -55,10 +55,14 @@ export interface EventMappings {
   "account:address": string
 }
 
-export interface Event<M extends keyof EventMappings = keyof EventMappings> {
+interface EventInterface<M extends keyof EventMappings = keyof EventMappings> {
   event: M
   data: EventMappings[M]
 }
+
+export type Event<M extends keyof EventMappings = keyof EventMappings> = {
+  [ K in M] : EventInterface<K>
+}[ M ]
 
 export function isEvent (message: any): message is Event {
   return message && typeof message.event === 'string' && typeof message.data !== 'undefined'

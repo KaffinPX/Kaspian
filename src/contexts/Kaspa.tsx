@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode, useEffect, useMemo, useCallback } from "react"
-import { runtime, type Runtime } from "webextension-polyfill"
+import { runtime } from "webextension-polyfill"
 import { Status } from "@/wallet/kaspa/wallet"
 import { Request, Response, Event, RequestMappings, ResponseMappings, isEvent } from "@/wallet/messaging/protocol"
 
@@ -77,24 +77,24 @@ export function KaspaProvider ({ children }: {
     connection.onMessage.addListener((message: Event | Response) => {
       if (isEvent(message)) {
         if (message.event === 'node:connection') {
-          updateState('connected', message.data as boolean)
+          updateState('connected', message.data)
         } else if (message.event === 'wallet:status') {
-          updateState('status', message.data as Status)
+          updateState('status', message.data)
         } else if (message.event === 'account:balance') {
-          updateState('balance', message.data as string)
+          updateState('balance', message.data)
         } else if (message.event === 'account:address') {
-          updateState('address', message.data as string)
+          updateState('address', message.data)
         }
       } else {
-        const pendingMessage = pendingMessages.get(message.id)
-  
-        if (!pendingMessage) return
+        const [ resolve, reject ] = pendingMessages.get(message.id)
 
-        const [ resolve, reject ] = pendingMessage
+        if (!message.error) { 
+          resolve(message.result)
+        } else {
+          reject(message.error)
+        }
+
         pendingMessages.delete(message.id)
-  
-        if (message.error) return reject(message.error)
-        resolve(message.result)
       }
     })
 
