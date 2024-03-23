@@ -94,8 +94,6 @@ export default class Account extends EventEmitter {
   }
 
   private registerProcessor() {
-    this.processor.start()
-
     this.processor.addEventListener("utxo-proc-start", async () => {
       await this.context.trackAddresses([ ...this.addresses[0], ...this.addresses[1] ])
     })
@@ -103,6 +101,8 @@ export default class Account extends EventEmitter {
     this.processor.addEventListener('balance', () => {
       this.emit('balance', this.balance)
     })
+    
+    this.processor.start()
   }
 
   private async deriveAddresses (receiveCount: number, changeCount: number) {
