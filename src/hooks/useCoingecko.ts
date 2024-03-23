@@ -7,9 +7,9 @@ export default function useCoingecko (currency: string) {
     fetch(`https://api.coingecko.com/api/v3/simple/price?ids=kaspa&vs_currencies=${currency}`).then(async res => {
       const response = await res.json()
 
-      setPrice(response.kaspa.usd)
+      setPrice(response.kaspa[currency.toLowerCase()])
     })
-  })
+  }, [ currency ])
 
   return price
 }
