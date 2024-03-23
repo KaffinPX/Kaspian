@@ -31,7 +31,7 @@ export default class Account extends EventEmitter {
   }
 
   get balance () {
-    return this.context.balance?.toBalanceStrings('MAINNET').mature ?? "0 KAS"
+    return Number(this.context.balance?.mature ?? 0) / 1e8
   }
 
   get utxos (): [ string, string ][] {

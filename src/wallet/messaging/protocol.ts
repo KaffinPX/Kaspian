@@ -37,7 +37,7 @@ export interface ResponseMappings {
   'node:connection': boolean
   "node:connect": boolean
   'account:addresses': [ string[], string[] ]
-  'account:balance': string,
+  'account:balance': number,
   'account:utxos': [ string, string ][]
   'account:initiateSend': Summary
   'account:signPendings': boolean
@@ -53,7 +53,7 @@ export interface Response<M extends keyof RequestMappings = keyof RequestMapping
 export interface EventMappings {
   "wallet:status": Status
   "node:connection": boolean
-  "account:balance": string
+  "account:balance": number
   "account:address": string
 }
 

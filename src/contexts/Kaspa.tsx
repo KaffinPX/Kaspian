@@ -7,7 +7,7 @@ export interface IKaspa {
   status: Status
   connected: boolean
   address: string
-  balance: string
+  balance: number
   utxos: [ string, string ][]
 }
 
@@ -15,7 +15,7 @@ export const defaultState: IKaspa = {
   status: Status.Uninitialized,
   connected: false,
   address: "",
-  balance: '0 KAS',
+  balance: 0,
   utxos: []
 }
 

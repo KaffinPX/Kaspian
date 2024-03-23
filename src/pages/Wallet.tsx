@@ -11,10 +11,12 @@ import { Status } from "@/wallet/kaspa/wallet"
 import { useNavigate } from "react-router-dom"
 import { Textarea } from "@/components/ui/textarea"
 import useSettings from "@/hooks/useSettings"
+import useCoingecko from "@/hooks/useCoingecko"
 
 export default function Wallet () {
   const { kaspa, request } = useKaspa()
   const { settings } = useSettings()
+  const price = useCoingecko()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -46,8 +48,8 @@ export default function Wallet () {
       </div>
       <div className={"flex flex-col gap-1"}>
         <div className={"flex flex-col items-center"}>
-          <p className={"text-4xl font-extrabold"}>{kaspa.balance}</p>
-          <p className={"text-xl font-bold"}>$ 0.00</p>
+          <p className={"text-4xl font-extrabold"}>{kaspa.balance.toPrecision(6)} KAS</p>
+          <p className={"text-xl font-bold"}>$ {(kaspa.balance * price).toPrecision(3)}</p>
         </div>
         <div className={"flex flex-col items-center"}>
           <Textarea
