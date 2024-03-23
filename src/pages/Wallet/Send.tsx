@@ -47,12 +47,13 @@ export default function SendDrawer () {
             <SheetTitle>{i18n.getMessage('sendTitle')}</SheetTitle>
             <SheetDescription>{i18n.getMessage('sendDescription')}</SheetDescription>
           </SheetHeader>
-          <div className="flex flex-col p-4 pb-0 items-center gap-5">
+          <div className="flex flex-col p-3 pb-0 items-center gap-3">
             <div className={"text-center"}>
-              <p className={"text-lg font-extrabold mb-1"}>{i18n.getMessage('sendAvailable')}</p>
-              <p className={"text-base font-bold"}>{kaspa.balance}</p>
+              <p className={"text-base font-bold"}>{kaspa.balance} KAS</p>
+              <p className={"font-light text-xs"}>{i18n.getMessage('available')}</p>
+
             </div>
-            <div className={"text-center flex flex-col gap-3"}>
+            <div className={"text-center flex flex-col gap-2"}>
               <Input
                 type={"text"}
                 placeholder={i18n.getMessage('address')}

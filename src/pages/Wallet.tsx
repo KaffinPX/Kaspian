@@ -48,8 +48,8 @@ export default function Wallet () {
       </div>
       <div className={"flex flex-col gap-1"}>
         <div className={"flex flex-col items-center"}>
-          <p className={"text-4xl font-extrabold"}>{kaspa.balance.toPrecision(6)} KAS</p>
-          <p className={"text-xl font-bold"}>$ {(kaspa.balance * price).toPrecision(3)}</p>
+          <p className={"text-4xl font-extrabold"}>{kaspa.balance.toFixed(4)} KAS</p>
+          <p className={"text-xl font-bold"}>$ {(kaspa.balance * price).toFixed(2)}</p>
         </div>
         <div className={"flex flex-col items-center"}>
           <Textarea
