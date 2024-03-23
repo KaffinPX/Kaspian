@@ -5,8 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "bunx --bun vite --host",
-    "build": "vite build --minify false",
-    "watch": "tsc --watch"
+    "build": "bunx --bun vite build --minify false"
   },
   "type": "module",
   "author": "Kaspian devs",
