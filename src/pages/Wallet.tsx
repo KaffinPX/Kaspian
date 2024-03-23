@@ -16,7 +16,7 @@ import useCoingecko from "@/hooks/useCoingecko"
 export default function Wallet () {
   const { kaspa, request } = useKaspa()
   const { settings } = useSettings()
-  const price = useCoingecko()
+  const price = useCoingecko(settings.currencies[settings.selectedCurrency].ticker)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function Wallet () {
       <div className={"flex flex-col gap-1"}>
         <div className={"flex flex-col items-center"}>
           <p className={"text-4xl font-extrabold"}>{kaspa.balance.toFixed(4)} KAS</p>
-          <p className={"text-xl font-bold"}>$ {(kaspa.balance * price).toFixed(2)}</p>
+          <p className={"text-xl font-bold"}>{settings.currencies[settings.selectedCurrency].symbol} {(kaspa.balance * price).toFixed(2)}</p>
         </div>
         <div className={"flex flex-col items-center"}>
           <Textarea

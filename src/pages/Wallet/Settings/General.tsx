@@ -7,8 +7,11 @@ import { i18n } from "webextension-polyfill"
 import { useTheme } from "@/components/ThemeProvider"
 import { Sun, Moon, Laptop } from "lucide-react"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import useSettings from "@/hooks/useSettings"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export default function General () {
+  const { settings, updateSetting } = useSettings()
   const theme = useTheme()
 
   return (
@@ -38,8 +41,30 @@ export default function General () {
                 <Laptop />
               </ToggleGroupItem>
             </ToggleGroup>
-
-            {/* price provider + type */}
+          </div>
+          <div className={"px-3"}>
+            <h3 className={"flex gap-2 font-bold"}>Currency</h3>
+            <h4>Change preferred exchange currency of wallet</h4>
+          </div>
+          <div className={"flex gap-1 mx-1"}>
+            <Select defaultValue={settings.selectedCurrency.toString()} 
+              onValueChange={async (id) => {
+                updateSetting('selectedCurrency', parseInt(id))
+              }}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {settings.currencies.map((currency, id) => {
+                  return (
+                    <SelectItem key={id} value={id.toString()}>
+                      {currency.ticker} ({currency.symbol})
+                    </SelectItem>
+                  )
+                })}
+              </SelectContent>
+            </Select>
           </div>
         </div>
       </AccordionContent>
