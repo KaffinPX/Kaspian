@@ -6,7 +6,7 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import NodeDrawer from "@/pages/Wallet/Settings/Node"
+import NodeDrawer from "@/pages/Wallet/Settings/Network/Node"
 import {
   AccordionContent,
   AccordionItem,
