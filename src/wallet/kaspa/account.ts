@@ -101,8 +101,6 @@ export default class Account extends EventEmitter {
     this.processor.addEventListener('balance', () => {
       this.emit('balance', this.balance)
     })
-    
-    this.processor.start()
   }
 
   private async deriveAddresses (receiveCount: number, changeCount: number) {
@@ -128,10 +126,12 @@ export default class Account extends EventEmitter {
         this.session = session
 
         await this.deriveAddresses(account.receiveCount, account.changeCount)
+        await this.processor.start()
       } else {
         delete this.session
         this.addresses = [[], []]
         await this.context.clear()
+        await this.processor.stop()
       }
     })
   }
