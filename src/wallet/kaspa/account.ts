@@ -12,7 +12,6 @@ export interface Summary {
 }
 
 export default class Account extends EventEmitter {
-  node: Node
   processor: UtxoProcessor
   session: ISession | undefined
   addresses: [ string[], string[] ] = [[], []]
@@ -22,7 +21,6 @@ export default class Account extends EventEmitter {
   constructor (node: Node) {
     super()
 
-    this.node = node
     this.processor = new UtxoProcessor({ rpc: node.kaspa, networkId: 'MAINNET' })
     this.context = new UtxoContext({ processor: this.processor })
 
@@ -89,7 +87,7 @@ export default class Account extends EventEmitter {
 
   async submitSigned () {
     for (const transaction of this.pendingTxs) {
-      await transaction.submit(this.node.kaspa)
+      await transaction.submit(this.processor.rpc)
     }
   }
 
@@ -130,6 +128,7 @@ export default class Account extends EventEmitter {
       } else {
         delete this.session
         this.addresses = [[], []]
+
         await this.context.clear()
         await this.processor.stop()
       }
