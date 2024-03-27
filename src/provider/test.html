@@ -1,0 +1,15 @@
+<script>  
+  window.addEventListener('kaspa:provider', (provider) => {
+    const name = provider.detail.info.name
+
+    document.getElementById('providers').innerHTML += `<button id="${name}">Connect ${name}</button>`
+
+    document.getElementById(name).onclick = () => {
+      console.log('Connecting...')
+    }
+  })
+</script>
+
+<h1>Kaspian Provider test</h1>
+<h2>Detected providers:</h2>
+<div id="providers"></div>

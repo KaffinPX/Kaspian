@@ -2,7 +2,7 @@ interface ProviderInfo {
   name: string
 }
 
-function announceProvider() {
+function announceProvider () {
   const info: ProviderInfo = {
     name: "Kaspian"
   }
@@ -12,7 +12,7 @@ function announceProvider() {
   }))
 }
 
-window.addEventListener("kaspa:requestProviders", () => {
+window.addEventListener('kaspa:requestProviders', () => {
   announceProvider()
 })
 
