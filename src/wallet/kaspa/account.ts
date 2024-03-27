@@ -8,7 +8,11 @@ export interface Summary {
   fee: string
   totalAmount: string
   consumedUtxos: number
-  hash: string,
+  hash: string
+}
+export interface Utxo {
+  amount: number
+  transaction: string
 }
 
 export default class Account extends EventEmitter {
@@ -32,13 +36,13 @@ export default class Account extends EventEmitter {
     return Number(this.context.balance?.mature ?? 0) / 1e8
   }
 
-  get utxos (): [ string, string ][] {
+  get utxos () {
     const utxos = this.context.getMatureRange(0, this.context.getMatureLength)
 
-    return utxos.map(utxo => [ 
-      sompiToKaspaStringWithSuffix(utxo.amount, this.processor.networkId!),
-      utxo.getId()
-    ])
+    return utxos.map(utxo => ({
+      amount: Number(utxo.amount) / 1e8,
+      transaction: utxo.getId()
+    }))
   }
 
   async initiateSend (recipient: string, amount: string) {

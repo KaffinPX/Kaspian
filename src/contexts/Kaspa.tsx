@@ -2,13 +2,14 @@ import { createContext, useState, ReactNode, useEffect, useMemo, useCallback } f
 import { runtime } from "webextension-polyfill"
 import { Status } from "@/wallet/kaspa/wallet"
 import { Request, Response, Event, RequestMappings, ResponseMappings, isEvent } from "@/wallet/messaging/protocol"
+import { Utxo } from "@/wallet/kaspa/account"
 
 export interface IKaspa {
   status: Status
   connected: boolean
   address: string
   balance: number
-  utxos: [ string, string ][]
+  utxos: Utxo[]
 }
 
 export const defaultState: IKaspa = {
@@ -49,20 +50,15 @@ export function KaspaProvider ({ children }: {
   }, [])
 
   const load = useCallback(async () => {
-    const status = await request('wallet:status', [])
-    const connected = await request('node:connection', [])
     const addresses = await request('account:addresses', [])
-    const balance = await request('account:balance', [])
-    const utxos = await request('account:utxos', [])
-
     const address = addresses[0][addresses[0].length - 1]
 
     setState({
-      status,
-      connected,
-      address,
-      balance,
-      utxos
+      status: await request('wallet:status', []),
+      connected: await request('node:connection', []),
+      balance: await request('account:balance', []),
+      utxos: await request('account:utxos', []),
+      address
     })
   }, [])
   
@@ -74,7 +70,7 @@ export function KaspaProvider ({ children }: {
   }, [])
 
   useEffect(() => {
-    connection.onMessage.addListener((message: Event | Response) => {
+    connection.onMessage.addListener(async (message: Event | Response) => {
       if (isEvent(message)) {
         if (message.event === 'node:connection') {
           updateState('connected', message.data)
@@ -82,6 +78,7 @@ export function KaspaProvider ({ children }: {
           updateState('status', message.data)
         } else if (message.event === 'account:balance') {
           updateState('balance', message.data)
+          updateState('utxos', await request('account:utxos', []))
         } else if (message.event === 'account:address') {
           updateState('address', message.data)
         }

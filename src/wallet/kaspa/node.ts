@@ -17,16 +17,6 @@ export default class Node extends EventEmitter {
     return this.kaspa.isConnected
   }
 
-  private registerEvents () {
-    this.kaspa.addEventListener('open', () => {
-      this.emit('connection', true)
-    })
-
-    this.kaspa.addEventListener('close', () => {
-      this.emit('connection', false)
-    })
-  }
-
   async reconnect (nodeAddress: string) {
     await this.kaspa.disconnect()
     await this.kaspa.connect({
@@ -44,5 +34,15 @@ export default class Node extends EventEmitter {
 
       throw Error('Node is not synchronized')
     }
+  }
+
+  private registerEvents () {
+    this.kaspa.addEventListener('open', () => {
+      this.emit('connection', true)
+    })
+
+    this.kaspa.addEventListener('close', () => {
+      this.emit('connection', false)
+    })
   }
 }
