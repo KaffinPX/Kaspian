@@ -41,7 +41,7 @@ export default class Account extends EventEmitter {
 
     return utxos.map(utxo => ({
       amount: Number(utxo.amount) / 1e8,
-      transaction: utxo.getId()
+      transaction: utxo.getTransactionId()
     }))
   }
 

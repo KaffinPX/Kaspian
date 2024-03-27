@@ -20,7 +20,7 @@ export default function Submit ({ hash }: {
       </DialogHeader>
       <DialogFooter>
         <Button variant="link" className={"text-white font-bold"} onClick={() => {
-            window.open(`https://explorer.kaspa.org/txs/${hash}`)
+          window.open(`https://explorer.kaspa.org/txs/${hash}`)
         }}>View it on the explorer</Button>
       </DialogFooter>
     </DialogContent>
