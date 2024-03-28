@@ -28,6 +28,8 @@ export default function General () {
               type="single"
               defaultValue={theme.theme}
               onValueChange={(value) => {
+                if (value === "") return
+
                 theme.setTheme(value as never)
               }}
             >
