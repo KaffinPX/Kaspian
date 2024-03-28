@@ -57,7 +57,7 @@ export default class RPC {
     port.onDisconnect.addListener(() => {
       port.onMessage.removeListener(onMessageListener)
 
-      this.ports.delete(port) // TODO: If no ports, consider disconnecting from WS
+      this.ports.delete(port)
     })
   }
 

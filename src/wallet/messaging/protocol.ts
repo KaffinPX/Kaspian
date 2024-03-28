@@ -57,13 +57,13 @@ export interface EventMappings {
   "account:address": string
 }
 
-interface EventInterface<M extends keyof EventMappings = keyof EventMappings> {
+export interface EventMessage<M extends keyof EventMappings = keyof EventMappings> {
   event: M
   data: EventMappings[M]
 }
 
 export type Event<M extends keyof EventMappings = keyof EventMappings> = {
-  [ K in M] : EventInterface<K>
+  [ K in M] : EventMessage<K>
 }[ M ]
 
 export function isEvent (message: any): message is Event {

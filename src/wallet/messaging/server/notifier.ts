@@ -1,13 +1,13 @@
 import type Wallet from "../../kaspa/wallet"
 import type Node from "../../kaspa/node"
 import type Account from "../../kaspa/account"
-import type { Event, EventMappings } from "../protocol"
+import type { EventMessage, EventMappings } from "../protocol"
 
 export default class Notifications {
   wallet: Wallet
   node: Node
   account: Account
-  callback: ((event: Event) => void) | undefined
+  callback: ((event: EventMessage) => void) | undefined
 
   constructor({ wallet, node, account }: { 
     wallet: Wallet
@@ -21,14 +21,14 @@ export default class Notifications {
     this.registerListeners()
   }
 
-  registerCallback (callback: (event: Event) => void) {
+  registerCallback (callback: (event: EventMessage) => void) {
     this.callback = callback
   }
 
   private handleEvent <E extends keyof EventMappings>(event: E, data: EventMappings[E]) {
     if (!this.callback) return
 
-    this.callback({ event, data } as any) // TODO: fix somehow
+    this.callback({ event, data })
   }
   
   private registerListeners () {
