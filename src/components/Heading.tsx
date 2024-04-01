@@ -1,10 +1,12 @@
 import { Separator } from "@/components/ui/separator"
 import { clsx } from "clsx"
+
 interface PageHeadingProps {
   title: string
   subtitle?: string
   underLineClassName?: string
 }
+
 export default function Heading(props: PageHeadingProps) {
   return (
     <div className={"px-4"}>

@@ -6,11 +6,13 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card"
+
 interface RuleCardProps {
   title: string
   description: string
   children: React.ReactNode
 }
+
 export default function RuleCard(props: RuleCardProps) {
   return (
     <Card>
