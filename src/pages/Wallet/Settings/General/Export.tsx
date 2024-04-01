@@ -49,6 +49,7 @@ export default function Export () {
               type={"password"}
               placeholder={i18n.getMessage('password')}
               value={password}
+              error={error}
               onChange={e => {
                 if (error) setError("")
 

@@ -46,12 +46,12 @@ export default function Sign ({ summary, onSigned }: {
           placeholder={i18n.getMessage('password')}
           className={"flex"}
           value={password}
+          error={error}
           onChange={(e) => {
             if (error) setError("")
             setPassword(e.target.value)
           }}
         />
-        <p className="text-red-500">{error}</p>
       </div>
       <DialogFooter>
         <Button className={"gap-2"} disabled={password === ""} onClick={() => {

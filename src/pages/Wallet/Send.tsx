@@ -69,13 +69,13 @@ export default function SendDrawer () {
                 type={"number"}
                 placeholder={i18n.getMessage('amount')}
                 value={amount}
+                error={error}
                 onChange={(e) => {
                   if (error) setError("")
 
                   setAmount(e.target.value)
                 }}
               />
-              <p className="text-red-500">{error}</p>
             </div>
             <Button className={"gap-2"} disabled={!!summary} onClick={() => {
               if (tab !== Tabs.Sign) setTab(Tabs.Sign)

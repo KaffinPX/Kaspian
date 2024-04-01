@@ -26,13 +26,13 @@ export default function UnlockWallet() {
           placeholder={i18n.getMessage('password')}
           className={"w-72"}
           value={password}
+          error={error}
           onChange={e => {
             if (error) setError("")
 
             setPassword(e.target.value)
           }}
         />
-        <p className="text-red-600">{error}</p>
       </div>
       <div className={"mx-auto"}>
         <Button className={"gap-2"} disabled={password === ""} onClick={() => {

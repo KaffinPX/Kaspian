@@ -1,6 +1,6 @@
 import LocalStorage from "@/storage/LocalStorage"
 import SessionStorage, { ISession } from "@/storage/SessionStorage"
-import { UtxoContext, UtxoProcessor, PublicKeyGenerator, PrivateKeyGenerator, createTransactions, sompiToKaspaStringWithSuffix, type PendingTransaction, decryptXChaCha20Poly1305, kaspaToSompi } from "@/../wasm"
+import { type ITransactionRecord, UtxoContext, UtxoProcessor, PublicKeyGenerator, PrivateKeyGenerator, createTransactions, sompiToKaspaStringWithSuffix, type PendingTransaction, decryptXChaCha20Poly1305, kaspaToSompi } from "@/../wasm"
 import type Node from "./node"
 import { EventEmitter } from "events"
 
@@ -98,6 +98,13 @@ export default class Account extends EventEmitter {
   private registerProcessor() {
     this.processor.addEventListener("utxo-proc-start", async () => {
       await this.context.trackAddresses([ ...this.addresses[0], ...this.addresses[1] ])
+    })
+
+    this.processor.addEventListener('pending', (event) => {
+      // @ts-ignore
+      const record = event.data.record as ITransactionRecord
+
+      console.log(record.data.data.utxoEntries.filter)
     })
 
     this.processor.addEventListener('balance', () => {
