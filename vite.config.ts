@@ -20,7 +20,7 @@ const manifest: ManifestV3Export = {
   },
   content_scripts: [{
     matches: [ "<all_urls>" ],
-    js: [ "src/provider/inject.ts" ],
+    js: [ "src/provider" ],
     run_at: "document_start"
   }],
   permissions: [ "storage", "alarms", "notifications" ],

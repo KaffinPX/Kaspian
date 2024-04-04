@@ -17,7 +17,7 @@ export interface RequestMappings {
   'account:initiateSend': [ string, string ]
   'account:signPendings': [ string ]
   'account:submitSigned': []
-
+  'api:grantAccess': [ string ]
 }
 
 export interface Request<M extends keyof ResponseMappings = keyof ResponseMappings> {
@@ -39,6 +39,7 @@ export interface ResponseMappings {
   'account:addresses': [ string[], string[] ]
   'account:balance': number,
   'account:utxos': Utxo[]
+  "api:grantAccess": boolean
   'account:initiateSend': Summary
   'account:signPendings': boolean
   'account:submitSigned': boolean

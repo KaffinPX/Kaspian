@@ -12,6 +12,6 @@ load().then(() => {
     const node = new Node()
     const account = new Account(node)
 
-    const messaging = RPC.fromComponents({ wallet, node, account })
+    const messaging = new RPC({ wallet, node, account })
   })
 })

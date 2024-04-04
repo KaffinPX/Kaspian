@@ -1,15 +1,24 @@
-<script>  
-  window.addEventListener('kaspa:provider', (provider) => {
-    const name = provider.detail.info.name
+<html>
+  <head>
+    <script type="text/javascript">      
+      window.addEventListener('kaspa:provider', ({ detail }) => {
+        console.log('detail', detail)
+        document.getElementById('providers').innerHTML += `<button id="${detail.name}">Connect ${detail.name}</button>`
+    
+        document.getElementById(detail.name).onclick = () => {
+          console.log('Connecting...')
 
-    document.getElementById('providers').innerHTML += `<button id="${name}">Connect ${name}</button>`
+          window.dispatchEvent(new CustomEvent("kaspa:connect", {
+            detail: detail.id
+          }))
+        }
+      })
+    </script>
+  </head>
+  <body>
+    <h1>Kaspian Provider test</h1>
+    <h2>Detected providers:</h2>
 
-    document.getElementById(name).onclick = () => {
-      console.log('Connecting...')
-    }
-  })
-</script>
-
-<h1>Kaspian Provider test</h1>
-<h2>Detected providers:</h2>
-<div id="providers"></div>
+    <div id="providers"></div>
+  </body>
+</html>

@@ -2,42 +2,38 @@ import type Wallet from "../../kaspa/wallet"
 import type Node from "../../kaspa/node"
 import type Account from "../../kaspa/account"
 import type { Request, Response, RequestMappings, ResponseMappings } from "../protocol"
+import type Api from "../api"
 
 type MappingsRecord<M extends keyof RequestMappings = keyof RequestMappings> = {
   [ K in M ]: (...params: RequestMappings[K]) => ResponseMappings[K] extends boolean ? void : (Promise<ResponseMappings[K]> | ResponseMappings[K])
 }
 
 export default class Router {
-  wallet: Wallet
-  node: Node
-  account: Account
   mappings: MappingsRecord
 
-  constructor ({ wallet, node, account }: { 
+  constructor ({ wallet, node, account, api }: { 
     wallet: Wallet,
     node: Node,
     account: Account
+    api: Api
   }) {
-    this.wallet = wallet
-    this.node = node
-    this.account = account
-
     this.mappings = {
-      'wallet:status': () => this.wallet.status,
-      'wallet:create': (password) => this.wallet.create(password),
-      'wallet:import': (mnemonic, password) => this.wallet.import(mnemonic, password),
-      'wallet:unlock': (password) => this.wallet.unlock(0, password),
-      'wallet:export': (password) => this.wallet.export(password),
-      'wallet:lock': () => this.wallet.lock(),
-      'wallet:reset': () => this.wallet.reset(),
-      'node:connection': () => this.node.connected,
-      'node:connect': (address) => this.node.reconnect(address),
-      'account:addresses': () => this.account.addresses,
-      'account:balance': () => this.account.balance,
-      'account:utxos': () => this.account.utxos,
-      'account:initiateSend': (recipient, amount) => this.account.initiateSend(recipient, amount),
-      'account:signPendings': (password) => this.account.signPendings(password),
-      'account:submitSigned': () => this.account.submitSigned()
+      'wallet:status': () => wallet.status,
+      'wallet:create': (password) => wallet.create(password),
+      'wallet:import': (mnemonic, password) => wallet.import(mnemonic, password),
+      'wallet:unlock': (password) => wallet.unlock(0, password),
+      'wallet:export': (password) => wallet.export(password),
+      'wallet:lock': () => wallet.lock(),
+      'wallet:reset': () => wallet.reset(),
+      'node:connection': () => node.connected,
+      'node:connect': (address) => node.reconnect(address),
+      'account:addresses': () => account.addresses,
+      'account:balance': () => account.balance,
+      'account:utxos': () => account.utxos,
+      'account:initiateSend': (recipient, amount) => account.initiateSend(recipient, amount),
+      'account:signPendings': (password) => account.signPendings(password),
+      'account:submitSigned': () => account.submitSigned(),
+      'api:grantAccess': (url) => api.grantAccess(url)
     }  
   }
 
