@@ -34,7 +34,7 @@ export default function ConnectDrawer () {
               disabled={true}
             />
             <Button className={"gap-2"} onClick={() => {
-              kaspa.request('api:grantAccess', [ searchParams.get('url')! ]).then(() => {
+              kaspa.request('api:grantConnection', [ searchParams.get('url')! ]).then(() => {
                 window.close()
               })
             }}>

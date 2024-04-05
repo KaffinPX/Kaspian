@@ -18,7 +18,7 @@ export interface RequestMappings {
   'account:signPendings': [ string ]
   'account:submitSigned': []
   'api:connection': []
-  'api:grantAccess': [ string ]
+  'api:grantConnection': [ string ]
 }
 
 export interface Request<M extends keyof ResponseMappings = keyof ResponseMappings> {
@@ -44,7 +44,7 @@ export interface ResponseMappings {
   'account:signPendings': boolean
   'account:submitSigned': boolean
   'api:connection': boolean
-  "api:grantAccess": boolean
+  "api:grantConnection": boolean
 }
 
 export interface Response<M extends keyof RequestMappings = keyof RequestMappings> {
