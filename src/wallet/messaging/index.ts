@@ -5,7 +5,7 @@ import type { Request } from "./protocol"
 import type Wallet from "../kaspa/wallet"
 import type Node from "../kaspa/node"
 import type Account from "../kaspa/account"
-import Api from "./api"
+import Api from "./wallet/api"
 
 export default class RPC {
   api: Api

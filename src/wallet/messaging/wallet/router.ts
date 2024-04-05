@@ -2,7 +2,7 @@ import type Wallet from "../../kaspa/wallet"
 import type Node from "../../kaspa/node"
 import type Account from "../../kaspa/account"
 import type { Request, Response, RequestMappings, ResponseMappings } from "../protocol"
-import type Api from "../api"
+import type Api from "./api"
 
 type MappingsRecord<M extends keyof RequestMappings = keyof RequestMappings> = {
   [ K in M ]: (...params: RequestMappings[K]) => ResponseMappings[K] extends boolean ? void : (Promise<ResponseMappings[K]> | ResponseMappings[K])
@@ -33,6 +33,7 @@ export default class Router {
       'account:initiateSend': (recipient, amount) => account.initiateSend(recipient, amount),
       'account:signPendings': (password) => account.signPendings(password),
       'account:submitSigned': () => account.submitSigned(),
+      'api:connection': () => api.connected,
       'api:grantAccess': (url) => api.grantAccess(url)
     }  
   }
