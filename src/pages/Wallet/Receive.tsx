@@ -31,9 +31,8 @@ export default function SendDrawer () {
             <SheetTitle>Receive</SheetTitle>
             <SheetDescription>Scan the QR code to receive payment details</SheetDescription>
           </SheetHeader>
-        </div>
-        <div className="flex flex-col p-4 pb-0 items-center gap-5">
-          <div className="h-max w-36 bg-white mx-auto p-1">
+          <div className="flex flex-col p-4 pb-0 items-center gap-5">
+          <div className="h-max w-36 bg-white p-1">
             <QRCode
               style={{ height: "auto", width: "100%" }}
               value={`${kaspa.address}?${amount ? `amount=${amount}` : ''}`}
@@ -45,6 +44,7 @@ export default function SendDrawer () {
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
+          </div>
         </div>
       </SheetContent>
     </Sheet>

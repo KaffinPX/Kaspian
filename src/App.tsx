@@ -1,4 +1,4 @@
-import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom'
 import { SettingsProvider } from './contexts/Settings'
 import { KaspaProvider } from './contexts/Kaspa'
 import { ThemeProvider } from '@/components/ThemeProvider'

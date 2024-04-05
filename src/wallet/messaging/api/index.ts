@@ -4,18 +4,16 @@ export default class Api {
   private port: browser.Runtime.Port | undefined
 
   async askAccess (port: browser.Runtime.Port) {
-    if (this.port) return port.disconnect()
-    
     this.port = port
     
     const page = await browser.windows.create({
-      url: `./index.html?grant...`,
+      url: `./wallet?url=${port.sender?.url}#connect`,
       type: 'popup',
-      focused: true,
+      width: 365,
+      height: 592,
+      focused: true
     })
   }
-
-  // TODO: rejection
 
   grantAccess (url: string) {
     if (url !== this.port?.sender?.url) throw Error('Invalid URL granted')

@@ -51,7 +51,6 @@ export default function SendDrawer () {
             <div className={"text-center"}>
               <p className={"text-base font-bold"}>{kaspa.balance} KAS</p>
               <p className={"font-light text-xs"}>{i18n.getMessage('available')}</p>
-
             </div>
             <div className={"text-center flex flex-col gap-2.5"}>
               <Input

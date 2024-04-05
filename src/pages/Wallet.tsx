@@ -4,6 +4,7 @@ import Heading from "@/components/Heading"
 // import UTXOCard from "@/components/UTXOCard"
 import SendDrawer from "@/pages/Wallet/Send"
 import ReceiveDrawer from "@/pages/Wallet/Receive"
+import ConnectDrawer from "@/pages/Wallet/Connect"
 import SettingsSheet from "@/pages/Wallet/Settings"
 import useKaspa from "@/hooks/useKaspa"
 import { useEffect } from "react"
@@ -76,6 +77,7 @@ export default function Wallet () {
       <div className={"flex flex-row justify-center gap-5"}>
         <SendDrawer />
         <ReceiveDrawer />
+        <ConnectDrawer />
       </div>
     </main>
   )
