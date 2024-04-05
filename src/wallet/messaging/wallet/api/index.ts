@@ -6,7 +6,8 @@ export default class Api {
 
   async askAccess (port: browser.Runtime.Port) {
     if (this.connected) throw Error('Please disconnect other instance first')
-    
+    if (port.sender?.url === this.port?.sender?.url) throw Error('Only one popup allowed per URL')
+  
     this.port = port
     
     await browser.windows.create({
@@ -15,6 +16,10 @@ export default class Api {
       width: 365,
       height: 592,
       focused: true
+    })
+
+    this.port.onDisconnect.addListener(() => {
+      delete this.port // Could be problematic by some race conditions
     })
   }
 
