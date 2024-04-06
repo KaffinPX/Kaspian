@@ -1,12 +1,11 @@
 import browser from "webextension-polyfill"
 
 export default class Api {
-  connected: boolean = false
+  connected = false
   private port: browser.Runtime.Port | undefined
 
   async askAccess (port: browser.Runtime.Port) {
-    if (this.connected) throw Error('Please disconnect other instance first')
-    if (port.sender?.url === this.port?.sender?.url) throw Error('Only one popup allowed per URL')
+    if (this.port) return port.disconnect()
   
     this.port = port
     
@@ -19,11 +18,11 @@ export default class Api {
     })
 
     this.port.onDisconnect.addListener(() => {
-      delete this.port // Could be problematic by some race conditions
+      delete this.port
     })
   }
 
-  grantAccess (url: string) {
+  connect (url: string) {
     if (!this.port) throw Error('No any pending ports found')
     if (url !== this.port.sender?.url) throw Error('Invalid URL granted')
 
@@ -35,7 +34,20 @@ export default class Api {
 
     this.port.onDisconnect.addListener(() => {
       this.port!.onMessage.removeListener(onMessageListener)
+
       this.connected = false
     })
-  } 
+
+    console.log('connected!!!')
+  }
+
+  disconnect () {
+    if (!this.port) throw Error('No any ports found')
+
+    this.port.disconnect()
+    this.connected = false
+
+    delete this.port
+    console.log('disconnected...')
+  }
 }

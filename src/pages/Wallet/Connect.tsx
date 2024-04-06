@@ -9,10 +9,25 @@ import {
 } from "@/components/ui/sheet"
 import useKaspa from "@/hooks/useKaspa"
 import { Textarea } from "@/components/ui/textarea"
+import { useEffect } from "react"
 
 export default function ConnectDrawer () {
   const kaspa = useKaspa()
   const searchParams = new URLSearchParams(window.location.search)
+
+  useEffect(() => { // TODO: Move it to a more proper location
+    const onBeforeUnload = () => {
+      if (window.location.hash !== '#connect') return
+
+      kaspa.request('api:disconnect', [])
+    }
+  
+    window.addEventListener('beforeunload', onBeforeUnload)
+  
+    return () => {
+      window.removeEventListener('beforeunload', onBeforeUnload)
+    }
+  }, [])
 
   return (
     <Sheet open={window.location.hash === '#connect'} onOpenChange={(open) => {
@@ -34,7 +49,7 @@ export default function ConnectDrawer () {
               disabled={true}
             />
             <Button className={"gap-2"} onClick={() => {
-              kaspa.request('api:grantConnection', [ searchParams.get('url')! ]).then(() => {
+              kaspa.request('api:connect', [ searchParams.get('url')! ]).then(() => {
                 window.close()
               })
             }}>

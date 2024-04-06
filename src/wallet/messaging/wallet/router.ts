@@ -34,7 +34,8 @@ export default class Router {
       'account:signPendings': (password) => account.signPendings(password),
       'account:submitSigned': () => account.submitSigned(),
       'api:connection': () => api.connected,
-      'api:grantConnection': (url) => api.grantAccess(url)
+      'api:connect': (url) => api.connect(url),
+      'api:disconnect': () => api.disconnect()
     }  
   }
 
