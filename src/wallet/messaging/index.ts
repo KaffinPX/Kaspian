@@ -18,7 +18,7 @@ export default class RPC {
     node: Node,
     account: Account
   }) {
-    this.api = new Api()
+    this.api = new Api(account)
     this.router = new Router({ wallet, node, account, api: this.api })
     this.notifier = new Notifier({ wallet, node, account })
 

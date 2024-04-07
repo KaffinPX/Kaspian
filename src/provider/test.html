@@ -2,7 +2,6 @@
   <head>
     <script type="text/javascript">      
       window.addEventListener('kaspa:provider', ({ detail }) => {
-        console.log('detail', detail)
         document.getElementById('providers').innerHTML += `<button id="${detail.name}">Connect ${detail.name}</button>`
     
         document.getElementById(detail.name).onclick = () => {
@@ -12,6 +11,17 @@
             detail: detail.id
           }))
         }
+
+        window.addEventListener('kaspa:event', (event) => {
+          document.getElementById(detail.name).hidden = true
+
+          if (event.detail.event === 'account') {
+            document.getElementById('balance').innerText = `Balance: ${event.detail.data.balance}`
+          document.getElementById('details').hidden = false
+          }
+
+          console.log(event.detail)
+        })
       })
     </script>
   </head>
@@ -20,5 +30,8 @@
     <h2>Detected providers:</h2>
 
     <div id="providers"></div>
+    <div id="details" hidden>
+      <p id="balance"></p>
+    </div>
   </body>
 </html>

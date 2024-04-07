@@ -1,4 +1,4 @@
-import type { ProviderInfo } from "./protocol"
+import type { ProviderInfo, Request } from "./protocol"
 
 function announceProvider () {
   const info: ProviderInfo = {
@@ -15,11 +15,25 @@ window.addEventListener('kaspa:requestProviders', () => {
   announceProvider()
 })
 
-window.addEventListener('kaspa:connect', () => {
-  // TODO: check if detail of event has our extension id
+window.addEventListener('kaspa:connect', (event) => {
+  const extensionId = (event as CustomEvent<string>).detail
   
-  chrome.runtime.connect({
+  if (chrome.runtime.id !== extensionId) return
+  
+  const port = chrome.runtime.connect({
     name: '@kaspian/provider'
+  })
+
+  port.onMessage.addListener((message) => {
+    window.dispatchEvent(new CustomEvent("kaspa:event", {
+      detail: Object.freeze(message),
+    }))
+  })
+
+  window.addEventListener('kaspa:invoke', (event) => {
+    const request = (event as CustomEvent<Request<any>>).detail
+    
+    port.postMessage(request)
   })
 })
 
