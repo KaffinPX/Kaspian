@@ -17,9 +17,9 @@ export interface RequestMappings {
   'account:initiateSend': [ string, string ]
   'account:signPendings': [ string ]
   'account:submitSigned': []
-  'api:connection': []
-  'api:connect': [ string ]
-  'api:disconnect': []
+  'provider:connection': []
+  'provider:connect': [ string ]
+  'provider:disconnect': []
 }
 
 export interface Request<M extends keyof ResponseMappings = keyof ResponseMappings> {
@@ -44,9 +44,9 @@ export interface ResponseMappings {
   'account:initiateSend': Summary
   'account:signPendings': boolean
   'account:submitSigned': boolean
-  'api:connection': boolean
-  "api:connect": boolean
-  "api:disconnect": boolean
+  'provider:connection': boolean
+  "provider:connect": boolean
+  "provider:disconnect": boolean
 }
 
 export interface Response<M extends keyof RequestMappings = keyof RequestMappings> {

@@ -2,7 +2,7 @@ import type Wallet from "../../kaspa/wallet"
 import type Node from "../../kaspa/node"
 import type Account from "../../kaspa/account"
 import type { Request, Response, RequestMappings, ResponseMappings } from "../protocol"
-import type Api from "./api"
+import type Provider from "./provider"
 
 type MappingsRecord<M extends keyof RequestMappings = keyof RequestMappings> = {
   [ K in M ]: (...params: RequestMappings[K]) => ResponseMappings[K] extends boolean ? void : (Promise<ResponseMappings[K]> | ResponseMappings[K])
@@ -11,11 +11,11 @@ type MappingsRecord<M extends keyof RequestMappings = keyof RequestMappings> = {
 export default class Router {
   mappings: MappingsRecord
 
-  constructor ({ wallet, node, account, api }: { 
+  constructor ({ wallet, node, account, provider }: { 
     wallet: Wallet,
     node: Node,
     account: Account
-    api: Api
+    provider: Provider
   }) {
     this.mappings = {
       'wallet:status': () => wallet.status,
@@ -33,9 +33,9 @@ export default class Router {
       'account:initiateSend': (recipient, amount) => account.initiateSend(recipient, amount),
       'account:signPendings': (password) => account.signPendings(password),
       'account:submitSigned': () => account.submitSigned(),
-      'api:connection': () => api.connected,
-      'api:connect': (url) => api.connect(url),
-      'api:disconnect': () => api.disconnect()
+      'provider:connection': () => provider.connected,
+      'provider:connect': (url) => provider.connect(url),
+      'provider:disconnect': () => provider.disconnect()
     }  
   }
 

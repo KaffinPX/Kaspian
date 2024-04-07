@@ -19,7 +19,7 @@ export default function ConnectDrawer () {
     const onBeforeUnload = () => {
       if (window.location.hash !== '#connect') return
 
-      kaspa.request('api:disconnect', [])
+      kaspa.request('provider:disconnect', [])
     }
   
     window.addEventListener('beforeunload', onBeforeUnload)
@@ -49,7 +49,7 @@ export default function ConnectDrawer () {
               disabled={true}
             />
             <Button className={"gap-2"} onClick={() => {
-              kaspa.request('api:connect', [ searchParams.get('url')! ]).then(() => {
+              kaspa.request('provider:connect', [ searchParams.get('url')! ]).then(() => {
                 window.close()
               })
             }}>

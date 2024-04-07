@@ -33,10 +33,10 @@ export default class Api {
     if (!this.port) throw Error('No any pending ports found')
     if (url !== this.port.sender?.url) throw Error('Invalid URL granted')
 
-    const onMessageListener = async (request: Request) => {
+    const onMessageListener = (request: Request) => {
       // TODO: Dont trust calls
 
-      this.handleCall(request)
+      this.routeMessage(request)
     }
 
     this.port.onMessage.addListener(onMessageListener)
@@ -65,10 +65,10 @@ export default class Api {
     delete this.port
   }
 
-  private async handleCall (call: Request) {
-    if (call.method === 'send') {
+  private async routeMessage (request: Request) {
+    if (request.method === 'send') {
       await browser.windows.create({
-        url: `./?recipient=${call.params[0]}&amount=${call.params[1]}#send`,
+        url: `./?recipient=${request.params[0]}&amount=${request.params[1]}#send`,
         type: 'popup',
         width: 365,
         height: 592,

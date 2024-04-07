@@ -5,12 +5,12 @@ import type { Request } from "./protocol"
 import type Wallet from "../kaspa/wallet"
 import type Node from "../kaspa/node"
 import type Account from "../kaspa/account"
-import Api from "./wallet/api"
+import Provider from "./wallet/provider"
 
 export default class RPC {
-  api: Api
-  router: Router
   notifier: Notifier
+  provider: Provider
+  router: Router
   ports: Set<browser.Runtime.Port> = new Set()
  
   constructor ({ wallet, node, account }: { 
@@ -18,9 +18,9 @@ export default class RPC {
     node: Node,
     account: Account
   }) {
-    this.api = new Api(account)
-    this.router = new Router({ wallet, node, account, api: this.api })
     this.notifier = new Notifier({ wallet, node, account })
+    this.provider = new Provider(account)
+    this.router = new Router({ wallet, node, account, provider: this.provider })
 
     this.listen()
   }
@@ -30,7 +30,7 @@ export default class RPC {
       if (port.sender?.id !== browser.runtime.id) return port.disconnect()
 
       if (port.name === '@kaspian/provider') {
-        this.api.askAccess(port)
+        this.provider.askAccess(port)
       } else if (port.name === '@kaspian/client') {
         this.permitPort(port)
       }
