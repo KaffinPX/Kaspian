@@ -17,6 +17,7 @@ import Sign from "./Send/Sign"
 import Submit from "./Send/Submit"
 import Success from "./Send/Success"
 import { type Summary } from "@/wallet/kaspa/account"
+import useURLParams from "@/hooks/useURLParams"
 
 export enum Tabs {
   Sign,
@@ -26,15 +27,20 @@ export enum Tabs {
 
 export default function SendDrawer () {
   const { kaspa, request } = useKaspa()
+  const [ hash, params ] = useURLParams()
 
-  const [ recipient, setRecipient ] = useState("")
-  const [ amount, setAmount ] = useState("")
+  const [ recipient, setRecipient ] = useState(params.get('recipient') ?? "")
+  const [ amount, setAmount ] = useState(params.get('amount') ?? "")
   const [ summary, setSummary ] = useState<Summary | undefined>()
   const [ error, setError ] = useState("")
   const [ tab, setTab ] = useState(Tabs.Sign)
-
+ 
   return (
-    <Sheet>
+    <Sheet defaultOpen={hash === 'send'} onOpenChange={(open) => {
+      if (hash !== 'send' || open) return
+
+      window.close()
+    }}>
       <SheetTrigger asChild>
         <Button className={"gap-2"}>
           <SendToBack />
@@ -58,6 +64,7 @@ export default function SendDrawer () {
                 placeholder={i18n.getMessage('address')}
                 className={"w-60"}
                 value={recipient}
+                disabled={!!params.get('recipient')}
                 onChange={(e) => { 
                   if (error) setError("")
 
@@ -68,6 +75,7 @@ export default function SendDrawer () {
                 type={"number"}
                 placeholder={i18n.getMessage('amount')}
                 value={amount}
+                disabled={!!params.get('amount')}
                 error={error}
                 onChange={(e) => {
                   if (error) setError("")

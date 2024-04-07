@@ -10,14 +10,15 @@ import {
 import useKaspa from "@/hooks/useKaspa"
 import { Textarea } from "@/components/ui/textarea"
 import { useEffect } from "react"
+import useURLParams from "@/hooks/useURLParams"
 
 export default function ConnectDrawer () {
   const kaspa = useKaspa()
-  const searchParams = new URLSearchParams(window.location.search)
+  const [ hash, params ] = useURLParams()
 
   useEffect(() => { // TODO: Move it to a more proper location
     const onBeforeUnload = () => {
-      if (window.location.hash !== '#connect') return
+      if (hash !== 'connect') return
 
       kaspa.request('provider:disconnect', [])
     }
@@ -30,7 +31,7 @@ export default function ConnectDrawer () {
   }, [])
 
   return (
-    <Sheet open={window.location.hash === '#connect'} onOpenChange={(open) => {
+    <Sheet defaultOpen={hash === 'connect'} onOpenChange={(open) => {
       if (open) return
 
       window.close()
@@ -44,12 +45,12 @@ export default function ConnectDrawer () {
           <div className="flex flex-col p-4 pb-0 items-center gap-4">
             <p className={"text-sm font-semibold"}>URL</p>
             <Textarea
-              defaultValue={searchParams.get('url')!}
+              defaultValue={params.get('url')!}
               className={"w-72 resize-none"}
               disabled={true}
             />
             <Button className={"gap-2"} onClick={() => {
-              kaspa.request('provider:connect', [ searchParams.get('url')! ]).then(() => {
+              kaspa.request('provider:connect', [ params.get('url')! ]).then(() => {
                 window.close()
               })
             }}>
