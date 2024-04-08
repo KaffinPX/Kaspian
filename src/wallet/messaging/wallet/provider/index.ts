@@ -1,14 +1,20 @@
 import browser from "webextension-polyfill"
 import type { Request } from "@/provider/protocol"
 import Account from "@/wallet/kaspa/account"
+import { EventEmitter } from "events"
 
-export default class Api {
+export default class Provider extends EventEmitter {
   account: Account
-  connected = false
   private port: browser.Runtime.Port | undefined
 
   constructor (account: Account) {
+    super()
+
     this.account = account
+  }
+
+  get connectedURL () {
+    return this.port?.sender?.url ?? ""
   }
 
   async askAccess (port: browser.Runtime.Port) {
@@ -36,7 +42,7 @@ export default class Api {
     const onMessageListener = (request: Request) => {
       // TODO: Dont trust calls
 
-      this.routeMessage(request)
+      this.handleMessage(request)
     }
 
     this.port.onMessage.addListener(onMessageListener)
@@ -44,7 +50,7 @@ export default class Api {
     this.port.onDisconnect.addListener(() => {
       this.port!.onMessage.removeListener(onMessageListener)
 
-      this.connected = false
+      this.emit('connection', false)
     })
 
     this.port.postMessage({
@@ -54,18 +60,20 @@ export default class Api {
         addresses: this.account.addresses
       }
     })
+
+    this.emit('connection', true)
   }
 
   disconnect () {
     if (!this.port) throw Error('No any ports found')
 
     this.port.disconnect()
-    this.connected = false
+    this.emit('connection', false)
 
     delete this.port
   }
 
-  private async routeMessage (request: Request) {
+  private async handleMessage (request: Request) {
     if (request.method === 'send') {
       await browser.windows.create({
         url: `./?recipient=${request.params[0]}&amount=${request.params[1]}#send`,

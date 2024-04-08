@@ -10,6 +10,7 @@ export interface IKaspa {
   address: string
   balance: number
   utxos: Utxo[]
+  connectedURL: string
 }
 
 export const defaultState: IKaspa = {
@@ -17,7 +18,8 @@ export const defaultState: IKaspa = {
   connected: false,
   address: "",
   balance: 0,
-  utxos: []
+  utxos: [],
+  connectedURL: "" 
 }
 
 export const KaspaContext = createContext<{
@@ -53,12 +55,15 @@ export function KaspaProvider ({ children }: {
     const addresses = await request('account:addresses', [])
     const address = addresses[0][addresses[0].length - 1]
 
+    console.log('from context', await request('provider:connectedURL', []))
+
     setState({
       status: await request('wallet:status', []),
       connected: await request('node:connection', []),
       balance: await request('account:balance', []),
       utxos: await request('account:utxos', []),
-      address
+      address,
+      connectedURL: await request('provider:connectedURL', [])
     })
   }, [])
   
@@ -81,6 +86,12 @@ export function KaspaProvider ({ children }: {
           updateState('utxos', await request('account:utxos', []))
         } else if (message.event === 'account:address') {
           updateState('address', message.data)
+        } if (message.event === 'provider:connection') {
+          if (message.data) {
+            updateState('connectedURL', await request('provider:connectedURL', []))
+          } else {
+            updateState('connectedURL', "")
+          }
         }
       } else {
         const [ resolve, reject ] = pendingMessages.get(message.id)

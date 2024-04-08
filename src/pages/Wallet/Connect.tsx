@@ -9,26 +9,11 @@ import {
 } from "@/components/ui/sheet"
 import useKaspa from "@/hooks/useKaspa"
 import { Textarea } from "@/components/ui/textarea"
-import { useEffect } from "react"
 import useURLParams from "@/hooks/useURLParams"
 
-export default function ConnectDrawer () {
+export default function ConnectDrawer () { 
   const kaspa = useKaspa()
   const [ hash, params ] = useURLParams()
-
-  useEffect(() => { // TODO: Move it to a more proper location
-    const onBeforeUnload = () => {
-      if (hash !== 'connect') return
-
-      kaspa.request('provider:disconnect', [])
-    }
-  
-    window.addEventListener('beforeunload', onBeforeUnload)
-  
-    return () => {
-      window.removeEventListener('beforeunload', onBeforeUnload)
-    }
-  }, [])
 
   return (
     <Sheet defaultOpen={hash === 'connect'} onOpenChange={(open) => {

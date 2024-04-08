@@ -2,23 +2,22 @@ import type Wallet from "../../kaspa/wallet"
 import type Node from "../../kaspa/node"
 import type Account from "../../kaspa/account"
 import type { EventMessage, EventMappings } from "../protocol"
+import Provider from "./provider"
 
 export default class Notifications {
-  wallet: Wallet
-  node: Node
-  account: Account
   callback: ((event: EventMessage) => void) | undefined
 
-  constructor({ wallet, node, account }: { 
+  constructor({ wallet, node, account, provider }: { 
     wallet: Wallet
     node: Node
     account: Account
+    provider: Provider
   }) {
-    this.wallet = wallet
-    this.node = node
-    this.account = account
-
-    this.registerListeners()
+    wallet.on('status', (status) => this.handleEvent('wallet:status', status))
+    account.on('balance', (balance) => this.handleEvent('account:balance', balance))
+    account.on('address', (address) => this.handleEvent('account:address', address))
+    node.on('connection', (status) => this.handleEvent('node:connection', status))
+    provider.on('connection', (status) => this.handleEvent('provider:connection', status))
   }
 
   registerCallback (callback: (event: EventMessage) => void) {
@@ -29,12 +28,5 @@ export default class Notifications {
     if (!this.callback) return
 
     this.callback({ event, data })
-  }
-  
-  private registerListeners () {
-    this.wallet.on('status', (status) => this.handleEvent('wallet:status', status))
-    this.account.on('balance', (balance) => this.handleEvent('account:balance', balance))
-    this.account.on('address', (address) => this.handleEvent('account:address', address))
-    this.node.on('connection', (status) => this.handleEvent('node:connection', status))
   }
 }

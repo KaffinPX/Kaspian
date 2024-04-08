@@ -8,8 +8,8 @@ import type Account from "../kaspa/account"
 import Provider from "./wallet/provider"
 
 export default class RPC {
-  notifier: Notifier
   provider: Provider
+  notifier: Notifier
   router: Router
   ports: Set<browser.Runtime.Port> = new Set()
  
@@ -18,8 +18,8 @@ export default class RPC {
     node: Node,
     account: Account
   }) {
-    this.notifier = new Notifier({ wallet, node, account })
     this.provider = new Provider(account)
+    this.notifier = new Notifier({ wallet, node, account, provider: this.provider })
     this.router = new Router({ wallet, node, account, provider: this.provider })
 
     this.listen()

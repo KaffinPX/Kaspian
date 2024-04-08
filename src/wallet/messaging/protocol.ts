@@ -17,8 +17,8 @@ export interface RequestMappings {
   'account:initiateSend': [ string, string ]
   'account:signPendings': [ string ]
   'account:submitSigned': []
-  'provider:connection': []
   'provider:connect': [ string ]
+  'provider:connectedURL': []
   'provider:disconnect': []
 }
 
@@ -44,8 +44,8 @@ export interface ResponseMappings {
   'account:initiateSend': Summary
   'account:signPendings': boolean
   'account:submitSigned': boolean
-  'provider:connection': boolean
   "provider:connect": boolean
+  'provider:connectedURL': string
   "provider:disconnect": boolean
 }
 
@@ -60,6 +60,7 @@ export interface EventMappings {
   "node:connection": boolean
   "account:balance": number
   "account:address": string
+  'provider:connection': boolean
 }
 
 export interface EventMessage<M extends keyof EventMappings = keyof EventMappings> {
@@ -68,7 +69,7 @@ export interface EventMessage<M extends keyof EventMappings = keyof EventMapping
 }
 
 export type Event<M extends keyof EventMappings = keyof EventMappings> = {
-  [ K in M] : EventMessage<K>
+  [ K in M]: EventMessage<K>
 }[ M ]
 
 export function isEvent (message: any): message is Event {

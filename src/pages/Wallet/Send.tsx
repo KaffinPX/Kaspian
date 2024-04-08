@@ -101,7 +101,10 @@ export default function SendDrawer () {
 
             <Dialog open={!!summary} onOpenChange={(o) => setSummary(o ? summary : undefined)}>
               {tab === Tabs.Sign && !!summary && <Sign summary={summary} onSigned={() => setTab(Tabs.Submit)} />}
-              {tab === Tabs.Submit && <Submit onSubmitted={() => setTab(Tabs.Success)} />}
+              {tab === Tabs.Submit && <Submit onSubmitted={() => { 
+                if (hash === 'send') return window.close()
+                setTab(Tabs.Success)
+              }} />}
               {tab === Tabs.Success && !!summary && <Success hash={summary.hash} />}
             </Dialog>
           </div>

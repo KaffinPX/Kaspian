@@ -17,11 +17,21 @@
 
           if (event.detail.event === 'account') {
             document.getElementById('balance').innerText = `Balance: ${event.detail.data.balance}`
-          document.getElementById('details').hidden = false
+            document.getElementById('details').hidden = false
           }
-
-          console.log(event.detail)
         })
+
+        document.getElementById('send').onclick = () => {
+          window.dispatchEvent(new CustomEvent("kaspa:invoke", {
+            detail: {
+              method: 'send',
+              params: [ 
+                "kaspa:qzt0mk6m5chdn7c4l6ylcwm4ef9u0els6ldx7lv9h8auuj6a4qw0clg7r6xln", 
+                "1"
+              ]
+            }
+          }))
+        }
       })
     </script>
   </head>
@@ -32,6 +42,7 @@
     <div id="providers"></div>
     <div id="details" hidden>
       <p id="balance"></p>
+      <button id="send">Buy me a coffee</button>
     </div>
   </body>
 </html>

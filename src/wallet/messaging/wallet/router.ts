@@ -33,8 +33,8 @@ export default class Router {
       'account:initiateSend': (recipient, amount) => account.initiateSend(recipient, amount),
       'account:signPendings': (password) => account.signPendings(password),
       'account:submitSigned': () => account.submitSigned(),
-      'provider:connection': () => provider.connected,
       'provider:connect': (url) => provider.connect(url),
+      'provider:connectedURL': () => provider.connectedURL,
       'provider:disconnect': () => provider.disconnect()
     }  
   }

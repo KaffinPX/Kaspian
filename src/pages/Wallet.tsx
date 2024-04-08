@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { LogOutIcon } from "lucide-react"
+import { LogOutIcon, CompassIcon } from "lucide-react"
 import Heading from "@/components/Heading"
 // import UTXOCard from "@/components/UTXOCard"
 import SendDrawer from "@/pages/Wallet/Send"
@@ -36,15 +36,17 @@ export default function Wallet () {
         <Heading title={"Kaspian"} />
         <div className={"flex items-center gap-3 mr-2"}>
           <SettingsSheet />
-          <Button
-            size={"icon"}
-            variant={"outline"}
-            onClick={async () => {
-              await request('wallet:lock', [])
-            }}
-          >
+          {kaspa.connectedURL === "" && <Button size={"icon"} variant={"outline"} onClick={async () => {
+            await request('wallet:lock', [])
+          }}>
             <LogOutIcon />
-          </Button>
+          </Button>}
+          {kaspa.connectedURL !== "" && <Button size={"icon"} variant={"outline"} onClick={async () => {
+            console.log('connectedURL', kaspa.connectedURL)
+            await request('provider:disconnect', [])
+          }}>
+            <CompassIcon />
+          </Button>}
         </div>
       </div>
       <div className={"flex flex-col gap-1"}>

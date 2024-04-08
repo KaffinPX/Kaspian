@@ -35,6 +35,10 @@ window.addEventListener('kaspa:connect', (event) => {
     
     port.postMessage(request)
   })
+
+  port.onDisconnect.addListener(() => {
+    console.error('port disconnected wtf...')
+  })
 })
 
 announceProvider()

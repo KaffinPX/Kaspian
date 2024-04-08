@@ -9,7 +9,7 @@ export default function Landing() {
   const settings = useSettings()
   const kaspa = useKaspa()
   const navigate = useNavigate()
-  const location = useLocation()
+  
   const [ loadedSettings ] = usePromise(() => {
     return settings.load()
   }, [])
@@ -19,7 +19,6 @@ export default function Landing() {
   }, [])
 
   useEffect(() => {
-    console.log(location)
     if (loadedSettings && loadedKaspa) {
       if (kaspa.kaspa.status === Status.Uninitialized) {
         navigate("/create")
