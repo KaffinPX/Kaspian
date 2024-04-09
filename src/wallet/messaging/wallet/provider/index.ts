@@ -6,6 +6,7 @@ import { EventEmitter } from "events"
 export default class Provider extends EventEmitter {
   account: Account
   private port: browser.Runtime.Port | undefined
+  private connected = false
 
   constructor (account: Account) {
     super()
@@ -14,30 +15,28 @@ export default class Provider extends EventEmitter {
   }
 
   get connectedURL () {
-    return this.port?.sender?.url ?? ""
+    return this.connected ? this.port!.sender!.url! : ""
   }
 
   async askAccess (port: browser.Runtime.Port) {
-    if (this.port) return port.disconnect()
+    if (this.connected) return port.disconnect()
   
+    if (this.port) this.port.disconnect()
     this.port = port
     
-    await browser.windows.create({
-      url: `./?url=${port.sender?.url}#connect`,
-      type: 'popup',
-      width: 365,
-      height: 592,
-      focused: true
+    await this.openPopup('connect', {
+      url: port.sender!.url!
     })
 
     this.port.onDisconnect.addListener(() => {
-      delete this.port
+      delete this.port // may be problematic w multiple popups
     })
   }
 
   connect (url: string) {
-    if (!this.port) throw Error('No any pending ports found')
+    if (!this.port) throw Error('No port found')
     if (url !== this.port.sender?.url) throw Error('Invalid URL granted')
+    if (this.connected) throw Error('Already connected')
 
     const onMessageListener = (request: Request) => {
       // TODO: Dont trust calls
@@ -50,7 +49,7 @@ export default class Provider extends EventEmitter {
     this.port.onDisconnect.addListener(() => {
       this.port!.onMessage.removeListener(onMessageListener)
 
-      this.emit('connection', false)
+      this.updateConnection(false)
     })
 
     this.port.postMessage({
@@ -61,29 +60,45 @@ export default class Provider extends EventEmitter {
       }
     })
 
-    this.emit('connection', true)
+    this.updateConnection(true)
   }
 
   disconnect () {
-    if (!this.port) throw Error('No any ports found')
+    if (!this.connected) throw Error('No port found')
 
-    this.port.disconnect()
-    this.emit('connection', false)
+    this.port!.disconnect()
+    this.updateConnection(false)
 
     delete this.port
   }
 
   private async handleMessage (request: Request) {
     if (request.method === 'send') {
-      await browser.windows.create({
-        url: `./?recipient=${request.params[0]}&amount=${request.params[1]}#send`,
-        type: 'popup',
-        width: 365,
-        height: 592,
-        focused: true
+      await this.openPopup('send', {
+        'recipient': request.params[0],
+        'amount': request.params[1]
       })
 
       // TODO: notifications...
     }
+  }
+
+  private async openPopup (hash: string, params: { [ key: string ]: string }) {
+    const queryParams = Object.entries(params)
+      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+      .join('&')
+
+    await browser.windows.create({
+      url: `./?${queryParams}#${hash}`,
+      type: 'popup',
+      width: 365,
+      height: 592,
+      focused: true
+    })
+  }
+
+  private updateConnection (connected: boolean) {
+    this.connected = connected
+    this.emit('connection', connected)
   }
 }

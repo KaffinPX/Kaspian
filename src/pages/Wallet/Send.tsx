@@ -85,11 +85,14 @@ export default function SendDrawer () {
               />
             </div>
             <Button className={"gap-2"} disabled={!!summary} onClick={() => {
-              if (tab !== Tabs.Sign) setTab(Tabs.Sign)
+              if (tab !== Tabs.Sign) setTab(Tabs.Sign) // may be the reason why it renders tabs before the summary is actually available, could be a good code quality improvement
 
               request('account:initiateSend', [ recipient, amount ]).then((summary) => {
-                setRecipient("")
-                setAmount("")
+                if (hash !== 'send') {
+                  setRecipient("")
+                  setAmount("")
+                }
+
                 setSummary(summary)
               }).catch((err) => {
                 setError(err)
