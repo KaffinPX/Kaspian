@@ -87,11 +87,7 @@ export function KaspaProvider ({ children }: {
         } else if (message.event === 'account:address') {
           updateState('address', message.data)
         } if (message.event === 'provider:connection') {
-          if (message.data) {
-            updateState('connectedURL', await request('provider:connectedURL', []))
-          } else {
-            updateState('connectedURL', "")
-          }
+          updateState('connectedURL', message.data)
         }
       } else {
         const [ resolve, reject ] = pendingMessages.get(message.id)

@@ -60,7 +60,7 @@ export interface EventMappings {
   "node:connection": boolean
   "account:balance": number
   "account:address": string
-  'provider:connection': boolean
+  'provider:connection': string
 }
 
 export interface EventMessage<M extends keyof EventMappings = keyof EventMappings> {

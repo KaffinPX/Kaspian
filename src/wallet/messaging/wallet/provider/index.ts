@@ -5,8 +5,8 @@ import { EventEmitter } from "events"
 
 export default class Provider extends EventEmitter {
   account: Account
-  private port: browser.Runtime.Port | undefined
-  private connected = false
+  private ports: Map<string, browser.Runtime.Port> = new Map()
+  private connection: browser.Runtime.Port | undefined
 
   constructor (account: Account) {
     super()
@@ -15,44 +15,45 @@ export default class Provider extends EventEmitter {
   }
 
   get connectedURL () {
-    return this.connected ? this.port!.sender!.url! : ""
+    return this.connection?.sender?.url ?? ""
   }
 
   async askAccess (port: browser.Runtime.Port) {
-    if (this.connected) return port.disconnect()
+    if (this.connection) return port.disconnect()
+    if (this.ports.get(port.sender!.url!)) return port.disconnect()
+
+    this.ports.set(port.sender!.url!, port)
   
-    if (this.port) this.port.disconnect()
-    this.port = port
-    
     await this.openPopup('connect', {
       url: port.sender!.url!
     })
 
-    this.port.onDisconnect.addListener(() => {
-      delete this.port // may be problematic w multiple popups
+    port.onDisconnect.addListener(() => {
+      if (this.ports.get(port.sender!.url!) !== port) return console.error('Sanity violation happened, looks like this was needed anyway')
+
+      this.ports.delete(port.sender!.url!)
     })
   }
 
   connect (url: string) {
-    if (!this.port) throw Error('No port found')
-    if (url !== this.port.sender?.url) throw Error('Invalid URL granted')
-    if (this.connected) throw Error('Already connected')
+    if (this.connection) throw Error('Already connected')
+    if (!this.ports.get(url)) throw Error('No port found')
 
+    this.connection = this.ports.get(url)!
+    
     const onMessageListener = (request: Request) => {
       // TODO: Dont trust calls
 
       this.handleMessage(request)
     }
 
-    this.port.onMessage.addListener(onMessageListener)
+    this.connection.onMessage.addListener(onMessageListener)
 
-    this.port.onDisconnect.addListener(() => {
-      this.port!.onMessage.removeListener(onMessageListener)
-
-      this.updateConnection(false)
+    this.connection.onDisconnect.addListener(() => {
+      this.connection!.onMessage.removeListener(onMessageListener)
     })
 
-    this.port.postMessage({
+    this.connection.postMessage({
       event: 'account',
       data: {
         balance: this.account.balance,
@@ -60,16 +61,16 @@ export default class Provider extends EventEmitter {
       }
     })
 
-    this.updateConnection(true)
+    this.emit('connection', url)
   }
 
   disconnect () {
-    if (!this.connected) throw Error('No port found')
+    if (!this.connection) throw Error('Not connected')
 
-    this.port!.disconnect()
-    this.updateConnection(false)
+    this.connection.disconnect()
+    this.emit('connection', "")
 
-    delete this.port
+    delete this.connection
   }
 
   private async handleMessage (request: Request) {
@@ -95,10 +96,5 @@ export default class Provider extends EventEmitter {
       height: 592,
       focused: true
     })
-  }
-
-  private updateConnection (connected: boolean) {
-    this.connected = connected
-    this.emit('connection', connected)
   }
 }

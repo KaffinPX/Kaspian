@@ -17,7 +17,7 @@ export default class Notifications {
     account.on('balance', (balance) => this.handleEvent('account:balance', balance))
     account.on('address', (address) => this.handleEvent('account:address', address))
     node.on('connection', (status) => this.handleEvent('node:connection', status))
-    provider.on('connection', (status) => this.handleEvent('provider:connection', status))
+    provider.on('connection', (url) => this.handleEvent('provider:connection', url))
   }
 
   registerCallback (callback: (event: EventMessage) => void) {
