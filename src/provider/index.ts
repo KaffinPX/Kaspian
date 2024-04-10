@@ -16,6 +16,7 @@ window.addEventListener('kaspa:requestProviders', () => {
 })
 
 window.addEventListener('kaspa:connect', (event) => {
+  // TODO: Dont trust to events from clients
   const extensionId = (event as CustomEvent<string>).detail
   
   if (chrome.runtime.id !== extensionId) return
@@ -37,7 +38,7 @@ window.addEventListener('kaspa:connect', (event) => {
   })
 
   port.onDisconnect.addListener(() => {
-    console.error('port disconnected wtf...')
+    window.dispatchEvent(new CustomEvent("kaspa:disconnect"))
   })
 })
 

@@ -1,5 +1,5 @@
 import browser from "webextension-polyfill"
-import type { Request } from "@/provider/protocol"
+import type { Request, Event, EventMappings } from "@/provider/protocol"
 import Account from "@/wallet/kaspa/account"
 import { EventEmitter } from "events"
 
@@ -12,6 +12,8 @@ export default class Provider extends EventEmitter {
     super()
 
     this.account = account
+
+    this.account.on('transaction', (hash) => this.handleEvent('transaction', hash))
   }
 
   get connectedURL () {
@@ -40,17 +42,11 @@ export default class Provider extends EventEmitter {
     if (!this.ports.get(url)) throw Error('No port found')
 
     this.connection = this.ports.get(url)!
-    
-    const onMessageListener = (request: Request) => {
-      // TODO: Dont trust calls
 
-      this.handleMessage(request)
-    }
-
-    this.connection.onMessage.addListener(onMessageListener)
+    this.connection.onMessage.addListener(this.handleMessage)
 
     this.connection.onDisconnect.addListener(() => {
-      this.connection!.onMessage.removeListener(onMessageListener)
+      this.connection!.onMessage.removeListener(this.handleMessage)
     })
 
     this.connection.postMessage({
@@ -73,14 +69,18 @@ export default class Provider extends EventEmitter {
     delete this.connection
   }
 
+  private handleEvent <E extends keyof EventMappings>(event: E, data: EventMappings[E]) {
+    if (!this.connection) return
+
+    this.connection.postMessage(event)
+  }
+
   private async handleMessage (request: Request) {
     if (request.method === 'send') {
       await this.openPopup('send', {
         'recipient': request.params[0],
         'amount': request.params[1]
       })
-
-      // TODO: notifications...
     }
   }
 

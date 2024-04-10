@@ -93,6 +93,8 @@ export default class Account extends EventEmitter {
     for (const transaction of this.pendingTxs) {
       await transaction.submit(this.processor.rpc)
     }
+
+    this.emit('transaction', "") // waiting for aspects changes 
   }
 
   private registerProcessor() {
