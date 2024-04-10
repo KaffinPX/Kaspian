@@ -7,12 +7,10 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v1.4.4
-        with:
-          node-version: 18.x
+      - uses: actions/checkout@v4
+      - name: Use bun
+        uses: oven-sh/setup-bun@v1
       - name: Install Dependencies
-        run: npm install
+        run: bun install
       - name: Build Kaspian
-        run: npm run build
+        run: bun run build
