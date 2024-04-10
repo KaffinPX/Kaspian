@@ -16,7 +16,6 @@ window.addEventListener('kaspa:requestProviders', () => {
 })
 
 window.addEventListener('kaspa:connect', (event) => {
-  // TODO: Dont trust to events from clients
   const extensionId = (event as CustomEvent<string>).detail
   
   if (chrome.runtime.id !== extensionId) return
@@ -32,6 +31,7 @@ window.addEventListener('kaspa:connect', (event) => {
   })
 
   window.addEventListener('kaspa:invoke', (event) => {
+    // TODO: Dont trust to events from clients
     const request = (event as CustomEvent<Request<any>>).detail
     
     port.postMessage(request)
