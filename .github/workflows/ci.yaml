@@ -10,9 +10,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Use bun
         uses: oven-sh/setup-bun@v1
-      - name: Install Dependencies
-        run: bun install
         with:
           bun-version: 1.0.31
+      - name: Install Dependencies
+        run: bun install
       - name: Build Kaspian
         run: bun run build
