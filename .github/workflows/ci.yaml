@@ -12,5 +12,7 @@ jobs:
         uses: oven-sh/setup-bun@v1
       - name: Install Dependencies
         run: bun install
+        with:
+          bun-version: 1.0.31
       - name: Build Kaspian
         run: bun run build
