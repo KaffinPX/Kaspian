@@ -29,7 +29,7 @@ export default function Import ({ onMnemonicsSubmit }: {
             onMnemonicsSubmit(mnemonic)
           }}
         >
-          {i18n.getMessage('importWallet')}
+          Import
         </Button>
       </div>
     </main>
