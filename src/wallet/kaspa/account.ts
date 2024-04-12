@@ -103,10 +103,7 @@ export default class Account extends EventEmitter {
     })
 
     this.processor.addEventListener('pending', (event) => {
-      // @ts-ignore
-      const record = event.data.record as ITransactionRecord
-
-      console.log(record.data.data.utxoEntries.filter)
+      console.log(event)
     })
 
     this.processor.addEventListener('balance', () => {
