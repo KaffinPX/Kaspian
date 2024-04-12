@@ -6,12 +6,12 @@ Introducing Kaspian, a self-custodial Kaspa wallet with built-in merchant tool a
 ## Features
 
 - [x] Create wallet
-- [x] Import wallet(Disabled for now)
-- [x] Derive addresses(UI is limited)
+- [x] Import wallet
+- [x] Derive addresses(UI is limited and waiting for WASM changes)
 - [x] Send transactions
-- [x] Node selection, multiple networks(Awaiting some WASM fixes)
+- [x] Node selection, multiple networks
 - [x] Receive with QR code generation
-- [ ] Provider api
+- [x] Provider api
 - [x] Themes
 - [x] Internationalization(70% exported)
 
@@ -22,10 +22,14 @@ Kaspian is currently not available in web stores as it is in its alpha stage. Th
 
 ## Development
 
-Ensure you have Node.js version 16 or higher installed. If not, please install the latest version of Node.js to proceed with the development process.
+Ensure you have Bun. If not, please install the latest version of Bun to proceed with the development process.
 
-Install the required Node.js modules using the command ``npm install`` and get WASM binaries from [here](https://kaspa.aspectron.org/nightly/downloads/) or by building it yourself from rusty-kaspa. Once obtained, place the WASM binaries into the ``./wasm`` folder.
+Install the required Bun modules using the command ``bun install`` and get WASM binaries from [here](https://kaspa.aspectron.org/nightly/downloads/) or by building it yourself from rusty-kaspa. Once obtained, place the WASM binaries into the ``./wasm`` folder.
 
 ### Testing
 
-To begin testing, execute ``npm run dev`` to run the development server. Then, utilize the contents of the dist folder as an unpacked extension in your browser for testing purposes.
+To begin testing, execute ``bun run dev`` to run the development server. Then, utilize the contents of the dist folder as an unpacked extension in your browser for testing purposes.
+
+### Building
+
+To build it as an unpacked extension, execute ``bun run build``. It will be built into dist folder.
