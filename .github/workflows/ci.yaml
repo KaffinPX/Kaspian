@@ -12,6 +12,9 @@ jobs:
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: 1.0.31
+      - name: Install WASM binaries from aspectron.org
+        run: wget https://kaspa.aspectron.org/nightly/downloads/kaspa-wasm32-sdk-2024-04-11.zip
+        run: ls
       - name: Install Dependencies
         run: bun install
       - name: Build Kaspian
