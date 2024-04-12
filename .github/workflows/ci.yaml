@@ -16,10 +16,9 @@ jobs:
         run: wget -O wasm.zip https://kaspa.aspectron.org/nightly/downloads/kaspa-wasm32-sdk-2024-04-11.zip
       - name: Extract WASM binaries
         run: |
-          7z x wasm.zip -o./wasm
-          cd ./wasm
-          ls
-          mv ./web/kaspa/ ./
+          7z x wasm.zip
+          mkdir ./wasm
+          mv ./kaspa-wasm32-sdk/web/kaspa/ ./wasm
           ls
       - name: Install Dependencies
         run: bun install
