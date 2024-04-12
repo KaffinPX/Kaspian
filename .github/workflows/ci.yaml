@@ -17,6 +17,7 @@ jobs:
       - name: Extract WASM binaries
         run: |
           7z x wasm.zip -o./wasm
+          ls
           mv ./wasm/web/kaspa ./wasm
       - name: Install Dependencies
         run: bun install
