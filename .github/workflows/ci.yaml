@@ -19,6 +19,7 @@ jobs:
           7z x wasm.zip
           mkdir ./wasm
           mv ./kaspa-wasm32-sdk/web/kaspa/ ./wasm
+          cd ./wasm
           ls
       - name: Install Dependencies
         run: bun install
