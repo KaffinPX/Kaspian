@@ -19,9 +19,12 @@ jobs:
           7z x wasm.zip
           mkdir ./wasm
           mv ./kaspa-wasm32-sdk/web/kaspa/* ./wasm
-          cd ./wasm
-          ls
       - name: Install Dependencies
         run: bun install
       - name: Build Kaspian
         run: bun run build
+      - name: Upload Dist as Artifact 
+        uses: actions/upload-artifact@v3
+        with: 
+          name: unpacked-extension
+          path: dist/
