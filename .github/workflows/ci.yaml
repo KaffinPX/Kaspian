@@ -17,8 +17,10 @@ jobs:
       - name: Extract WASM binaries
         run: |
           7z x wasm.zip -o./wasm
+          cd ./wasm
           ls
-          mv ./wasm/web/kaspa ./wasm
+          mv ./web/kaspa/ ./
+          ls
       - name: Install Dependencies
         run: bun install
       - name: Build Kaspian
