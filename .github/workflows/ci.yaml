@@ -13,9 +13,9 @@ jobs:
         with:
           bun-version: 1.0.31
       - name: Install WASM binaries from aspectron.org
-        run: wget https://kaspa.aspectron.org/nightly/downloads/kaspa-wasm32-sdk-2024-04-11.zip
+        run: wget -O wasm.zip https://kaspa.aspectron.org/nightly/downloads/kaspa-wasm32-sdk-2024-04-11.zip
       - name: Extract WASM binaries
-        run: ls
+        run: 7z x wasm.zip web\kaspa -o ./wasm
       - name: Install Dependencies
         run: bun install
       - name: Build Kaspian
