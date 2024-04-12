@@ -42,12 +42,8 @@ export default class Provider extends EventEmitter {
     if (!this.ports.get(url)) throw Error('No port found')
 
     this.connection = this.ports.get(url)!
-
-    this.connection.onMessage.addListener(this.handleMessage)
-
-    this.connection.onDisconnect.addListener(() => {
-      this.connection!.onMessage.removeListener(this.handleMessage)
-    })
+    
+    this.connection.onMessage.addListener((request) => this.handleMessage(request))
 
     this.connection.postMessage({
       event: 'account',
@@ -72,7 +68,7 @@ export default class Provider extends EventEmitter {
   private handleEvent <E extends keyof EventMappings>(event: E, data: EventMappings[E]) {
     if (!this.connection) return
 
-    this.connection.postMessage(event)
+    this.connection.postMessage({ event, data })
   }
 
   private async handleMessage (request: Request) {
