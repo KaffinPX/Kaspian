@@ -16,10 +16,10 @@ import { Dialog } from "@/components/ui/dialog"
 import Sign from "./Send/Sign"
 import Submit from "./Send/Submit"
 import Success from "./Send/Success"
-import { type Summary } from "@/wallet/kaspa/account"
 import useURLParams from "@/hooks/useURLParams"
 
 export enum Tabs {
+  Creation,
   Sign,
   Submit,
   Success
@@ -31,9 +31,10 @@ export default function SendDrawer () {
 
   const [ recipient, setRecipient ] = useState(params.get('recipient') ?? "")
   const [ amount, setAmount ] = useState(params.get('amount') ?? "")
-  const [ summary, setSummary ] = useState<Summary | undefined>()
+  const [ transactions, setTransactions ] = useState<string[]>()
+  const [ ids, setIds ] = useState<string[]>()
   const [ error, setError ] = useState("")
-  const [ tab, setTab ] = useState(Tabs.Sign)
+  const [ tab, setTab ] = useState(Tabs.Creation)
  
   return (
     <Sheet defaultOpen={hash === 'send'} onOpenChange={(open) => {
@@ -84,16 +85,15 @@ export default function SendDrawer () {
                 }}
               />
             </div>
-            <Button className={"gap-2"} disabled={!!summary} onClick={() => {
-              if (tab !== Tabs.Sign) setTab(Tabs.Sign) // may be the reason why it renders tabs before the summary is actually available, could be a good code quality improvement
-
-              request('account:initiateSend', [ recipient, amount ]).then((summary) => {
+            <Button className={"gap-2"} disabled={!!transactions} onClick={() => {
+              request('account:createSend', [ recipient, amount ]).then((transactions) => {
                 if (hash !== 'send') {
                   setRecipient("")
                   setAmount("")
                 }
 
-                setSummary(summary)
+                setTransactions(transactions)
+                setTab(Tabs.Sign)
               }).catch((err) => {
                 setError(err)
               })
@@ -102,13 +102,23 @@ export default function SendDrawer () {
               {i18n.getMessage('send')}
             </Button>
 
-            <Dialog open={!!summary} onOpenChange={(o) => setSummary(o ? summary : undefined)}>
-              {tab === Tabs.Sign && !!summary && <Sign summary={summary} onSigned={() => setTab(Tabs.Submit)} />}
-              {tab === Tabs.Submit && <Submit onSubmitted={() => { 
+            <Dialog open={!!transactions} onOpenChange={(open) => {
+              if (open) return // TODO: not sure if this is the best logic
+                
+              setTab(Tabs.Creation)
+              setTransactions(undefined)
+            }}>
+              {tab === Tabs.Sign && <Sign transactions={transactions!} onSigned={(transactions) => {
+                setTransactions(transactions)
+                setTab(Tabs.Submit)
+              }} />}
+              {tab === Tabs.Submit && <Submit transactions={transactions!} onSubmitted={(ids) => { 
                 if (hash === 'send') return window.close()
+                
+                setIds(ids)
                 setTab(Tabs.Success)
               }} />}
-              {tab === Tabs.Success && !!summary && <Success hash={summary.hash} />}
+              {tab === Tabs.Success && <Success ids={ids!} />}
             </Dialog>
           </div>
         </div>

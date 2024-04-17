@@ -9,8 +9,9 @@ import {
 import { Button } from "@/components/ui/button"
 import useKaspa from "@/hooks/useKaspa"
 
-export default function Submit ({ onSubmitted }: {
-  onSubmitted: () => void
+export default function Submit ({ transactions, onSubmitted }: {
+  transactions: string[]
+  onSubmitted: (ids: string[]) => void
 }) {
   const kaspa = useKaspa()
 
@@ -26,8 +27,8 @@ export default function Submit ({ onSubmitted }: {
         <Button className={"gap-2"} onClick={({ currentTarget }) => {
           currentTarget.disabled = true
 
-          kaspa.request('account:submitSigned', []).then(() => {
-            onSubmitted()
+          kaspa.request('account:submit', [ transactions ]).then((ids) => {
+            onSubmitted(ids)
           }).catch(() => {
             currentTarget.disabled = false
           })

@@ -33,6 +33,7 @@ export default class Provider extends EventEmitter {
     port.onDisconnect.addListener(() => {
       if (this.ports.get(port.sender!.url!) !== port) return console.error('Sanity violation happened, looks like this was needed anyway')
 
+      // reset connection in port.onDisconnect on next connection part...
       this.ports.delete(port.sender!.url!)
     })
   }
@@ -42,9 +43,11 @@ export default class Provider extends EventEmitter {
     if (!this.ports.get(url)) throw Error('No port found')
 
     this.connection = this.ports.get(url)!
-    
+
     this.connection.onMessage.addListener((request) => this.handleMessage(request))
 
+    // TODO: remove listener when needed--..
+    
     this.connection.postMessage({
       event: 'account',
       data: {

@@ -7,8 +7,8 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 
-export default function Submit ({ hash }: {
-  hash: string
+export default function Submit ({ ids }: {
+  ids: string[]
 }) {
   return (
     <DialogContent>
@@ -20,7 +20,7 @@ export default function Submit ({ hash }: {
       </DialogHeader>
       <DialogFooter>
         <Button variant="link" className={"text-white font-bold"} onClick={() => {
-          window.open(`https://explorer.kaspa.org/txs/${hash}`)
+          window.open(`https://explorer.kaspa.org/txs/${ids[0]}`)
         }}>View it on the explorer</Button>
       </DialogFooter>
     </DialogContent>

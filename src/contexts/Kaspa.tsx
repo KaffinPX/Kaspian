@@ -55,8 +55,6 @@ export function KaspaProvider ({ children }: {
     const addresses = await request('account:addresses', [])
     const address = addresses[0][addresses[0].length - 1]
 
-    console.log('from context', await request('provider:connectedURL', []))
-
     setState({
       status: await request('wallet:status', []),
       connected: await request('node:connection', []),

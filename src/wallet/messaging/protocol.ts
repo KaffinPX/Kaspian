@@ -14,9 +14,9 @@ export interface RequestMappings {
   'account:addresses': []
   'account:balance': []
   'account:utxos': []
-  'account:initiateSend': [ string, string ]
-  'account:signPendings': [ string ]
-  'account:submitSigned': []
+  'account:createSend': [ string, string ]
+  'account:sign': [ string[], string ]
+  'account:submit': [ string[] ]
   'provider:connect': [ string ]
   'provider:connectedURL': []
   'provider:disconnect': []
@@ -41,9 +41,9 @@ export interface ResponseMappings {
   'account:addresses': [ string[], string[] ]
   'account:balance': number,
   'account:utxos': Utxo[]
-  'account:initiateSend': Summary
-  'account:signPendings': boolean
-  'account:submitSigned': boolean
+  'account:createSend': string[]
+  'account:sign': string[]
+  'account:submit': string[]
   "provider:connect": boolean
   'provider:connectedURL': string
   "provider:disconnect": boolean

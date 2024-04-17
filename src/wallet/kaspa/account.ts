@@ -1,6 +1,6 @@
 import LocalStorage from "@/storage/LocalStorage"
 import SessionStorage, { ISession } from "@/storage/SessionStorage"
-import { type ITransactionRecord, UtxoContext, UtxoProcessor, PublicKeyGenerator, PrivateKeyGenerator, createTransactions, sompiToKaspaStringWithSuffix, type PendingTransaction, decryptXChaCha20Poly1305, kaspaToSompi } from "@/../wasm"
+import { UtxoContext, UtxoProcessor, PublicKeyGenerator, PrivateKeyGenerator, createTransactions, sompiToKaspaStringWithSuffix, Transaction, decryptXChaCha20Poly1305, kaspaToSompi, signTransaction } from "@/../wasm"
 import type Node from "./node"
 import { EventEmitter } from "events"
 
@@ -20,7 +20,6 @@ export default class Account extends EventEmitter {
   session: ISession | undefined
   addresses: [ string[], string[] ] = [[], []]
   context: UtxoContext
-  pendingTxs: PendingTransaction[] = []
 
   constructor (node: Node) {
     super()
@@ -45,56 +44,61 @@ export default class Account extends EventEmitter {
     }))
   }
 
-  async initiateSend (recipient: string, amount: string) {
-    const { transactions, summary } = await createTransactions({
+  async createSend (recipient: string, amount: string) {
+    const { transactions } = await createTransactions({
       entries: this.context,
       outputs: [{ 
         address: recipient,
         amount: kaspaToSompi(amount)!
       }],
       changeAddress: this.addresses[1][0],
-      priorityFee: 0n
+      priorityFee: 0n,
+      networkId: this.processor.networkId!
     })
 
-    this.pendingTxs = transactions
 
-    return {
-      fee: sompiToKaspaStringWithSuffix(summary.fees, summary.networkType),
-      totalAmount: sompiToKaspaStringWithSuffix(summary.finalAmount!, summary.networkType),
-      consumedUtxos: summary.utxos,
-      hash: summary.finalTransactionId!
-    }
+    return transactions.map((transaction) => transaction.serializeToSafeJSON())
   }
 
-  async signPendings (password: string) {
-    if (this.pendingTxs.length === 0) throw Error('No any pending transactions')
-
+  async sign (transactions: string[], password: string) {
     const keyGenerator = new PrivateKeyGenerator(decryptXChaCha20Poly1305(this.session!.encryptedKey, password), false, BigInt(this.session!.activeAccount))
+    const signedTransactions: Transaction[] = []
 
-    for (const transaction of this.pendingTxs) {
+    for (const transaction of transactions) {
+      const parsedTransaction = Transaction.deserializeFromSafeJSON(transaction)
       const privateKeys = []
 
-      for (const address of transaction.addresses) {
-        const receiveIndex = this.addresses[0].indexOf(address)
-        const changeIndex = this.addresses[1].indexOf(address)
+      for (const address of parsedTransaction.addresses('MAINNET')) {
+        const receiveIndex = this.addresses[0].indexOf(address.toString())
+        const changeIndex = this.addresses[1].indexOf(address.toString())
 
         if (receiveIndex !== -1) {
           privateKeys.push(keyGenerator.receiveKey(receiveIndex))
         } else if (changeIndex !== -1) {
           privateKeys.push(keyGenerator.changeKey(changeIndex))
-        } else throw Error('UTXO(address) is not owned by wallet')
+        } else throw Error('UTXO is not owned by active wallet')
       }
 
-      transaction.sign(privateKeys)
+      signedTransactions.push(signTransaction(parsedTransaction, privateKeys, false))
     }
+    
+    return signedTransactions.map(transaction => transaction.serializeToSafeJSON())
   }
 
-  async submitSigned () {
-    for (const transaction of this.pendingTxs) {
-      await transaction.submit(this.processor.rpc)
+  async submit (transactions: string[]) {
+    const submittedIds: string[] = []
+
+    for (const transaction of transactions) {
+      const { transactionId } = await this.processor.rpc.submitTransaction({
+        transaction: Transaction.deserializeFromSafeJSON(transaction)
+      })
+
+      submittedIds.push(transactionId) 
     }
 
     this.emit('transaction', "") // waiting for aspects changes 
+
+    return submittedIds
   }
 
   private registerProcessor() {
