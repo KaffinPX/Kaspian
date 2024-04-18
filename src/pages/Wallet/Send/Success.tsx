@@ -15,7 +15,7 @@ export default function Submit ({ ids }: {
       <DialogHeader>
         <DialogTitle>Success!</DialogTitle>
         <DialogDescription>
-          Your transaction(s) are on the block(s) of network now.
+          Your transaction is being processed and verified by the miners.
         </DialogDescription>
       </DialogHeader>
       <DialogFooter>

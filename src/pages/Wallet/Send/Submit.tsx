@@ -20,7 +20,7 @@ export default function Submit ({ transactions, onSubmitted }: {
       <DialogHeader>
         <DialogTitle>Submit Transaction</DialogTitle>
         <DialogDescription>
-          Submit your signed transaction to network, miners will add it to a block.
+          Submit your signed transaction batch to network, miners should verify and add it to a block.
         </DialogDescription>
       </DialogHeader>
       <DialogFooter>
