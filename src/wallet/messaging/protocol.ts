@@ -9,14 +9,14 @@ export interface RequestMappings {
   'wallet:export': [ string ] // Password
   'wallet:lock': []
   'wallet:reset': []
-  'node:connection': []
   'node:connect': [ string ]
+  'node:connection': [],
+  'node:submit': [ string[] ]
   'account:addresses': []
   'account:balance': []
   'account:utxos': []
   'account:createSend': [ string, string ]
   'account:sign': [ string[], string ]
-  'account:submit': [ string[] ]
   'provider:connect': [ string ]
   'provider:connectedURL': []
   'provider:disconnect': []
@@ -36,14 +36,14 @@ export interface ResponseMappings {
   'wallet:export': string
   'wallet:lock': boolean
   'wallet:reset': boolean
-  'node:connection': boolean
   "node:connect": boolean
+  'node:connection': boolean
+  'node:submit': string[]
   'account:addresses': [ string[], string[] ]
   'account:balance': number,
   'account:utxos': Utxo[]
   'account:createSend': string[]
   'account:sign': string[]
-  'account:submit': string[]
   "provider:connect": boolean
   'provider:connectedURL': string
   "provider:disconnect": boolean

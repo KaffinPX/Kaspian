@@ -1,4 +1,4 @@
-import { RpcClient, ConnectStrategy } from "@/../wasm"
+import { RpcClient, ConnectStrategy, Transaction } from "@/../wasm"
 import { EventEmitter } from "events"
 
 
@@ -15,6 +15,22 @@ export default class Node extends EventEmitter {
 
   get connected () {
     return this.kaspa.isConnected
+  }
+
+  async submit (transactions: string[]) {
+    const submittedIds: string[] = []
+
+    for (const transaction of transactions) {
+      const { transactionId } = await this.kaspa.submitTransaction({
+        transaction: Transaction.deserializeFromSafeJSON(transaction)
+      })
+
+      submittedIds.push(transactionId) 
+    }
+
+    // this.emit('transaction', "")
+
+    return submittedIds
   }
 
   async reconnect (nodeAddress: string) {

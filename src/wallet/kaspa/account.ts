@@ -85,22 +85,6 @@ export default class Account extends EventEmitter {
     return signedTransactions.map(transaction => transaction.serializeToSafeJSON())
   }
 
-  async submit (transactions: string[]) {
-    const submittedIds: string[] = []
-
-    for (const transaction of transactions) {
-      const { transactionId } = await this.processor.rpc.submitTransaction({
-        transaction: Transaction.deserializeFromSafeJSON(transaction)
-      })
-
-      submittedIds.push(transactionId) 
-    }
-
-    this.emit('transaction', "") // waiting for aspects changes 
-
-    return submittedIds
-  }
-
   private registerProcessor() {
     this.processor.addEventListener("utxo-proc-start", async () => {
       await this.context.trackAddresses([ ...this.addresses[0], ...this.addresses[1] ])

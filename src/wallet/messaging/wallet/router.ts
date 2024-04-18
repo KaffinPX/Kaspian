@@ -27,12 +27,12 @@ export default class Router {
       'wallet:reset': () => wallet.reset(),
       'node:connection': () => node.connected,
       'node:connect': (address) => node.reconnect(address),
+      'node:submit': (transactions) => node.submit(transactions), // TODO: Move into node subclass
       'account:addresses': () => account.addresses,
       'account:balance': () => account.balance,
       'account:utxos': () => account.utxos,
       'account:createSend': (recipient, amount) => account.createSend(recipient, amount),
       'account:sign': (transactions, password) => account.sign(transactions, password),
-      'account:submit': (transactions) => account.submit(transactions), // TODO: Move into node subclass
       'provider:connect': (url) => provider.connect(url),
       'provider:connectedURL': () => provider.connectedURL,
       'provider:disconnect': () => provider.disconnect()
