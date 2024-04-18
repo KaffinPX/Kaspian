@@ -1,5 +1,5 @@
 import { Status } from "../kaspa/wallet"
-import { Utxo, Summary } from "../kaspa/account"
+import { Utxo } from "../kaspa/account"
 
 export interface RequestMappings {
   'wallet:status': []

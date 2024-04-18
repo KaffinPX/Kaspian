@@ -1,15 +1,9 @@
 import LocalStorage from "@/storage/LocalStorage"
 import SessionStorage, { ISession } from "@/storage/SessionStorage"
-import { UtxoContext, UtxoProcessor, PublicKeyGenerator, PrivateKeyGenerator, createTransactions, sompiToKaspaStringWithSuffix, Transaction, decryptXChaCha20Poly1305, kaspaToSompi, signTransaction } from "@/../wasm"
+import { UtxoContext, UtxoProcessor, PublicKeyGenerator, PrivateKeyGenerator, createTransactions, Transaction, decryptXChaCha20Poly1305, kaspaToSompi, signTransaction } from "@/../wasm"
 import type Node from "./node"
 import { EventEmitter } from "events"
-
-export interface Summary {
-  fee: string
-  totalAmount: string
-  consumedUtxos: number
-  hash: string
-}
+ 
 export interface Utxo {
   amount: number
   transaction: string
