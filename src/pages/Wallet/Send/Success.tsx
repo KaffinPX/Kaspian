@@ -19,7 +19,7 @@ export default function Submit ({ ids }: {
         </DialogDescription>
       </DialogHeader>
       <DialogFooter>
-        <Button variant="link" className={"text-white font-bold"} onClick={() => {
+        <Button variant="link" className={"dark:text-white font-bold"} onClick={() => {
           window.open(`https://explorer.kaspa.org/txs/${ids[0]}`)
         }}>View it on the explorer</Button>
       </DialogFooter>
