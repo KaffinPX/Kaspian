@@ -82,7 +82,8 @@ export default class Account extends EventEmitter {
   }
 
   private registerProcessor() {
-    this.processor.addEventListener("utxo-proc-start", async () => { // TODO: clear on disconnect
+    this.processor.addEventListener("utxo-proc-start", async () => {
+      await this.context.clear()
       await this.context.trackAddresses([ ...this.addresses[0], ...this.addresses[1] ])
     })
 
