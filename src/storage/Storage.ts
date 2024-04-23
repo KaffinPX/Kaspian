@@ -39,4 +39,20 @@ export default abstract class Storage<
       Object.entries(result).map(([key, value]) => [key, JSON.parse(value)])
     ) as IStorage
   }
+
+  subscribeChanges<key extends keyof IStorage>(callback: (
+    key: key,
+    newValue: IStorage[key] | undefined,
+    oldValue: IStorage[key] | undefined
+  ) => void): void {
+    this.storage.onChanged.addListener((changes) => {
+      for (const key of Object.keys(changes)) {
+        callback(
+          key as key,
+          changes[key].newValue ? JSON.parse(changes[key].newValue) : undefined, 
+          changes[key].oldValue ? JSON.parse(changes[key].oldValue) : undefined
+        )
+      }
+    })
+  }
 }

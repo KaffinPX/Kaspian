@@ -103,22 +103,22 @@ export default class Account extends EventEmitter {
 
     this.addresses[0].push(...await this.publicKey.receiveAddressAsStrings('MAINNET', this.addresses[0].length, this.addresses[0].length + receiveCount))
     this.addresses[1].push(...await this.publicKey.changeAddressAsStrings('MAINNET', this.addresses[1].length, this.addresses[1].length + changeCount))
-
+    
     if (receiveCount !== 0) this.emit('address', this.addresses[0][this.addresses[0].length - 1])
   }
 
   private listenSession () {
-    SessionStorage.storage.onChanged.addListener(async () => {
-      const session = await SessionStorage.get('session', undefined)
-    
-      if (session) {
-        const account = (await LocalStorage.get('wallet', undefined))!.accounts[session.activeAccount]
+    SessionStorage.subscribeChanges(async (key, newValue) => {
+      if (key !== 'session') return
 
-        this.session = session
+      if (newValue) {
+        this.session = newValue
+
+        const account = (await LocalStorage.get('wallet', undefined))!.accounts[this.session.activeAccount]
+
         this.publicKey = await PublicKeyGenerator.fromXPub(this.session.publicKey)
 
         await this.incrementAddresses(account.receiveCount, account.changeCount)
-
         await this.processor.start()
       } else {
         delete this.session
