@@ -30,7 +30,7 @@ export default class Router {
       'node:submit': (transactions) => node.submit(transactions), // TODO: Move into node subclass
       'account:addresses': () => account.addresses,
       'account:balance': () => account.balance,
-      'account:utxos': () => account.utxos,
+      'account:utxos': () => account.UTXOs,
       'account:createSend': (recipient, amount) => account.createSend(recipient, amount),
       'account:sign': (transactions, password) => account.sign(transactions, password),
       'provider:connect': (url) => provider.connect(url),

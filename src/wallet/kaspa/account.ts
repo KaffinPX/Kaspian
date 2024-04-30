@@ -31,23 +31,21 @@ export default class Account extends EventEmitter {
     return Number(this.context.balance?.mature ?? 0) / 1e8
   }
 
-  get utxos () {
-    const utxos = this.context.getMatureRange(0, this.context.getMatureLength).map(utxo => ({
+  get UTXOs () {
+    const matureUTXOs = this.context.getMatureRange(0, this.context.getMatureLength).map(utxo => ({
       amount: Number(utxo.amount) / 1e8,
       transaction: utxo.getTransactionId(),
       mature: true
     }))
-
-    const pendingOutputs = this.context.getPending()
-
-    utxos.push(...pendingOutputs.map(utxo => ({
+  
+    const pendingUTXOs = this.context.getPending().map(utxo => ({
       amount: Number(utxo.amount) / 1e8,
       transaction: utxo.getTransactionId(),
       mature: false
-    })))
-
-    return utxos
-  }
+    }))
+  
+      return [...matureUTXOs, ...pendingUTXOs]
+    }
 
   async createSend (recipient: string, amount: string) {
     await this.incrementAddresses(0, 1)
