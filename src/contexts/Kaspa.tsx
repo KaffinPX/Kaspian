@@ -7,7 +7,7 @@ import { Utxo } from "@/wallet/kaspa/account"
 export interface IKaspa {
   status: Status
   connected: boolean
-  address: string
+  addresses: [ string[], string[] ]
   balance: number
   utxos: Utxo[]
   connectedURL: string
@@ -16,7 +16,7 @@ export interface IKaspa {
 export const defaultState: IKaspa = {
   status: Status.Uninitialized,
   connected: false,
-  address: "",
+  addresses: [ [], [] ],
   balance: 0,
   utxos: [],
   connectedURL: "" 
@@ -52,15 +52,12 @@ export function KaspaProvider ({ children }: {
   }, [])
 
   const load = useCallback(async () => {
-    const addresses = await request('account:addresses', [])
-    const address = addresses[0][addresses[0].length - 1]
-
     setState({
       status: await request('wallet:status', []),
       connected: await request('node:connection', []),
       balance: await request('account:balance', []),
       utxos: await request('account:utxos', []),
-      address,
+      addresses: await request('account:addresses', []),
       connectedURL: await request('provider:connectedURL', [])
     })
   }, [])
@@ -83,7 +80,7 @@ export function KaspaProvider ({ children }: {
           updateState('balance', message.data)
           updateState('utxos', await request('account:utxos', []))
         } else if (message.event === 'account:address') {
-          updateState('address', message.data)
+          updateState('addresses', await request('account:addresses', []))
         } if (message.event === 'provider:connection') {
           updateState('connectedURL', message.data)
         }

@@ -6,7 +6,7 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import NodeDrawer from "@/pages/Wallet/Settings/Network/Node"
+import NodeDrawer from "@/pages/Wallet/Settings/Wallet/Node"
 import {
   AccordionContent,
   AccordionItem,
@@ -21,8 +21,8 @@ export default function Network () {
   const { kaspa, request } = useKaspa()
 
   return (
-    <AccordionItem value="network">
-      <AccordionTrigger>{i18n.getMessage('network')}</AccordionTrigger>
+    <AccordionItem value="wallet">
+      <AccordionTrigger>{i18n.getMessage('wallet')}</AccordionTrigger>
       <AccordionContent>
         <div className={"flex flex-col gap-2"}>
           <div className={"px-3"}>
@@ -56,6 +56,30 @@ export default function Network () {
               </SelectContent>
             </Select>
             <NodeDrawer /> {/* Make it a self-contained popup */}
+          </div>
+
+          <div className={"px-3"}>
+            <h3 className={"flex gap-2 font-bold"}>
+              Address Index
+            </h3>
+            <h4>It counts how many addresses you've created.</h4>
+          </div>
+          <div className={"flex gap-2 mx-4"}>
+            <div className={"flex"}>
+              Receive addresses
+
+              <p className="oldstyle-nums">
+                {kaspa.addresses[0].length}
+              </p>
+            </div>
+            <div className={"flex"}>
+              Change addresses
+
+              <p className="oldstyle-nums">
+                {kaspa.addresses[1].length}
+              </p>
+            </div>
+
           </div>
         </div>
       </AccordionContent>

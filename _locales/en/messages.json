@@ -128,8 +128,8 @@
   "themeDescription": {
     "message": "Select the theme of wallet"
   },
-  "network": {
-    "message": "Network"
+  "wallet": {
+    "message": "Wallet"
   },
   "node": {
     "message": "Node"

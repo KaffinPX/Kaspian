@@ -1,7 +1,7 @@
 import { SettingsIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import GeneralTab from "@/pages/Wallet/Settings/General"
-import NetworkTab from "@/pages/Wallet/Settings/Network"
+import WalletTab from "@/pages/Wallet/Settings/Wallet"
 import ExportPopup from "@/pages/Wallet/Settings/General/Export"
 import ResetPopup from "@/pages/Wallet/Settings/General/Reset"
 import {
@@ -29,7 +29,7 @@ export default function Settings () {
         </SheetHeader>
         <Accordion type="single" collapsible className="w-full">
           <GeneralTab />
-          <NetworkTab />
+          <WalletTab />
         </Accordion>
         <SheetFooter className="gap-2">
           <ResetPopup />

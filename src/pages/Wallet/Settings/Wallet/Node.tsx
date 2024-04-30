@@ -45,15 +45,14 @@ export default function NewNodeDrawer() {
                 className={"flex gap-2"}
                 disabled={name === "" || address === ""}
                 onClick={async () => {
-                  let nodes = settings.nodes
-
-                  nodes.push({
-                    name,
-                    address,
-                    locked: false
-                  })
-
-                  await updateSetting('nodes', nodes)
+                  await updateSetting('nodes', [
+                    ...settings.nodes,
+                    {
+                      name,
+                      address,
+                      locked: false
+                    }
+                  ])
                 }}
               >
                 <Plus />

@@ -57,7 +57,7 @@ export default function Wallet () {
         <div className={"flex flex-col items-center"}>
           <Textarea
             readOnly={true}
-            defaultValue={kaspa.address}
+            defaultValue={kaspa.addresses[0][kaspa.addresses[0].length - 1]}
             className={"w-72 resize-none"}
           />
         </div>
