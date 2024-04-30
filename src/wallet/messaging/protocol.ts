@@ -1,5 +1,5 @@
 import { Status } from "../kaspa/wallet"
-import { Utxo } from "../kaspa/account"
+import { UTXO } from "../kaspa/account"
 
 export interface RequestMappings {
   'wallet:status': []
@@ -41,7 +41,7 @@ export interface ResponseMappings {
   'node:submit': string[]
   'account:addresses': [ string[], string[] ]
   'account:balance': number,
-  'account:utxos': Utxo[]
+  'account:utxos': UTXO[]
   'account:createSend': string[]
   'account:sign': string[]
   "provider:connect": boolean

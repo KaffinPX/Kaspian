@@ -65,7 +65,7 @@ export default function Wallet () {
       <div className={"grid grid-cols-3 mx-3 h-full overflow-y-scroll no-scrollbar gap-2"}>
         {kaspa.utxos.map((utxo, id) => {
           return (
-            <div key={id} className="flex flex-col items-center text-center py-2 border-solid border-2 border-orange-700 hover:border-dashed rounded-xl w-full h-24">
+            <div key={id} className={"flex flex-col items-center text-center py-2 border-solid border-2 hover:border-dashed rounded-xl w-full h-24 " + (utxo.mature ? "border-orange-700" : "border-blue-700")}>
               <p className={"text-lg font-bold"}>{utxo.amount.toFixed(4)}</p>
               <Button variant="link" className={"text-inherit font-extrabold"} onClick={() => {
                 window.open(`https://explorer.kaspa.org/txs/${utxo.transaction}`)

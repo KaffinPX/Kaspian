@@ -4,9 +4,10 @@ import { UtxoContext, UtxoProcessor, PublicKeyGenerator, PrivateKeyGenerator, cr
 import type Node from "./node"
 import { EventEmitter } from "events"
  
-export interface Utxo {
+export interface UTXO {
   amount: number
-  transaction: string
+  transaction: string,
+  mature: boolean
 }
 
 export default class Account extends EventEmitter {
@@ -31,12 +32,21 @@ export default class Account extends EventEmitter {
   }
 
   get utxos () {
-    const utxos = this.context.getMatureRange(0, this.context.getMatureLength)
-
-    return utxos.map(utxo => ({
+    const utxos = this.context.getMatureRange(0, this.context.getMatureLength).map(utxo => ({
       amount: Number(utxo.amount) / 1e8,
-      transaction: utxo.getTransactionId()
+      transaction: utxo.getTransactionId(),
+      mature: true
     }))
+
+    const pendingOutputs = this.context.getPending()
+
+    utxos.push(...pendingOutputs.map(utxo => ({
+      amount: Number(utxo.amount) / 1e8,
+      transaction: utxo.getTransactionId(),
+      mature: false
+    })))
+
+    return utxos
   }
 
   async createSend (recipient: string, amount: string) {

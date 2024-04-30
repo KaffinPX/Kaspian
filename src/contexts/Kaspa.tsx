@@ -2,14 +2,14 @@ import { createContext, useState, ReactNode, useEffect, useMemo, useCallback } f
 import { runtime } from "webextension-polyfill"
 import { Status } from "@/wallet/kaspa/wallet"
 import { Request, Response, Event, RequestMappings, ResponseMappings, isEvent } from "@/wallet/messaging/protocol"
-import { Utxo } from "@/wallet/kaspa/account"
+import { UTXO } from "@/wallet/kaspa/account"
 
 export interface IKaspa {
   status: Status
   connected: boolean
   addresses: [ string[], string[] ]
   balance: number
-  utxos: Utxo[]
+  utxos: UTXO[]
   connectedURL: string
 }
 
