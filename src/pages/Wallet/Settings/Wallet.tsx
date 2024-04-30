@@ -68,14 +68,14 @@ export default function Network () {
             <div className={"flex"}>
               Receive addresses
 
-              <p className="oldstyle-nums">
+              <p className="tabular-nums">
                 {kaspa.addresses[0].length}
               </p>
             </div>
             <div className={"flex"}>
               Change addresses
 
-              <p className="oldstyle-nums">
+              <p className="tabular-nums">
                 {kaspa.addresses[1].length}
               </p>
             </div>
