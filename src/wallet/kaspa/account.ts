@@ -129,7 +129,7 @@ export default class Account extends EventEmitter {
 
     await LocalStorage.set('wallet', wallet)
 
-    if (receiveCount !== 0) this.emit('address', this.addresses[0][this.addresses[0].length - 1])
+    this.emit('address', this.addresses[0][this.addresses[0].length - 1]) // a temporary fix for change address count not updating, must be fixed soon
   }
 
   private listenSession () {
