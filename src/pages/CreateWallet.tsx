@@ -17,12 +17,12 @@ export enum Tabs {
 }
 
 export default function CreateWallet () {
+  const navigate = useNavigate()
+  const kaspa = useKaspa()
+
   const [ tab, setTab ] = useState(Tabs.Landing)
   const [ sensitive, setSensitive ] = useState("")
   const [ isImport, setIsImport ] = useState(false)
-
-  const navigate = useNavigate()
-  const kaspa = useKaspa()
 
   return (
     {

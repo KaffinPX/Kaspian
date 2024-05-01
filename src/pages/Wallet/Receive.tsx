@@ -15,6 +15,7 @@ import { useState } from "react"
 
 export default function SendDrawer () {
   const { kaspa } = useKaspa()
+
   const [ amount, setAmount ] = useState("")
 
   return (
@@ -35,7 +36,7 @@ export default function SendDrawer () {
           <div className="h-max w-36 bg-white p-1">
             <QRCode
               style={{ height: "auto", width: "100%" }}
-              value={`${kaspa.address}?${amount ? `amount=${amount}` : ''}`}
+              value={`${kaspa.addresses[0][kaspa.addresses[0].length - 1]}?${amount ? `amount=${amount}` : ''}`}
             />
           </div>
           <Input
