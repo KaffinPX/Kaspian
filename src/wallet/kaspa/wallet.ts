@@ -17,6 +17,24 @@ export default class Wallet extends EventEmitter {
 
     this.sync().then(() => readyCallback())
   }
+  
+  private async sync () {
+    const wallet = await LocalStorage.get('wallet', undefined)
+
+    if (!wallet) {
+      this.status = Status.Uninitialized
+    } else {
+      const session = await SessionStorage.get('session', undefined)
+
+      if (!session) {
+        this.status = Status.Locked
+      } else {
+        this.status = Status.Unlocked
+      }
+    }
+
+    this.emit('status', this.status)
+  }
 
   async create (password: string) {
     const mnemonic = Mnemonic.random(24)
@@ -37,7 +55,7 @@ export default class Wallet extends EventEmitter {
       }]
     })
 
-    await this.unlock(0, password) // instead of this, implement low level functs to reuse classes/available things to make it faster
+    await this.unlock(0, password)
     await this.sync()
   }
 
@@ -73,30 +91,8 @@ export default class Wallet extends EventEmitter {
   }
 
   async reset () {
-    await LocalStorage.remove('wallet')
     await SessionStorage.clear()
+    await LocalStorage.remove('wallet')
     await this.sync()
-  }
-
-  private async sync () {
-    const wallet = await LocalStorage.get('wallet', undefined)
-
-    if (!wallet) {
-      this.markStatus(Status.Uninitialized)
-    } else {
-      const session = await SessionStorage.get('session', undefined)
-
-      if (!session) {
-        this.markStatus(Status.Locked)
-      } else {
-        this.markStatus(Status.Unlocked)
-      }
-    }
-  }
-
-  private async markStatus (status: Status) {
-    this.status = status
-
-    this.emit('status', status)
   }
 }

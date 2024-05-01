@@ -34,7 +34,7 @@ export function KaspaProvider ({ children }: {
   const connection = useMemo(() => runtime.connect({ name: "@kaspian/client" }), [])
   const [ kaspa, setState ] = useState(defaultState)
 
-  const pendingMessages = new Map()
+  const awaitingMessages = new Map()
   let nonce = -1
 
   const request = useCallback(<M extends keyof RequestMappings>(method: M, params: RequestMappings[M]) => {
@@ -45,7 +45,7 @@ export function KaspaProvider ({ children }: {
     }
 
     return new Promise<ResponseMappings[M]>((resolve, reject) => {
-      pendingMessages.set(message.id, [ resolve, reject ])
+      awaitingMessages.set(message.id, [ resolve, reject ])
 
       connection.postMessage(message)
     })
@@ -85,7 +85,7 @@ export function KaspaProvider ({ children }: {
           updateState('connectedURL', message.data)
         }
       } else {
-        const [ resolve, reject ] = pendingMessages.get(message.id)
+        const [ resolve, reject ] = awaitingMessages.get(message.id)
 
         if (!message.error) { 
           resolve(message.result)
@@ -93,7 +93,7 @@ export function KaspaProvider ({ children }: {
           reject(message.error)
         }
 
-        pendingMessages.delete(message.id)
+        awaitingMessages.delete(message.id)
       }
     })
 
