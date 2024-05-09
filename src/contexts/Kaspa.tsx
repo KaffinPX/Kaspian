@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode, useEffect, useMemo, useCallback, useRef } from "react"
+import { createContext, useState, ReactNode, useCallback, useRef } from "react"
 import { runtime, type Runtime } from "webextension-polyfill"
 import { Status } from "@/wallet/kaspa/wallet"
 import { Request, Response, Event, RequestMappings, ResponseMappings, isEvent } from "@/wallet/messaging/protocol"
