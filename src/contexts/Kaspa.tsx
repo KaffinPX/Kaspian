@@ -34,8 +34,8 @@ export function KaspaProvider ({ children }: {
   const [ kaspa, setState ] = useState(defaultState)
 
   const connectionRef = useRef<Runtime.Port | null>(null)
-  const messagesRef = useRef(new Map())
-  const nonceRef = useRef(-1)
+  const messagesRef = useRef(new Map()) // TODO: Improve typing
+  const nonceRef = useRef(0)
 
   const getConnection = () => {
     if (connectionRef.current) return connectionRef.current
@@ -88,9 +88,9 @@ export function KaspaProvider ({ children }: {
 
   const request = useCallback(<M extends keyof RequestMappings>(method: M, params: RequestMappings[M]) => {
     const message: Request<M> = {
-      id: nonceRef.current += 1,
+      id: ++nonceRef.current,
       method,
-      params: params
+      params
     }
 
     return new Promise<ResponseMappings[M]>((resolve, reject) => {
