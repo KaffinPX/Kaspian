@@ -41,9 +41,6 @@ export default function Export () {
           disabled={true}
         />
         <DialogFooter>
-          <div className="mx-auto">
-            <p className="text-red-500">{error}</p>
-          </div>
            <div className={"flex mx-auto gap-1"}>
             <Input
               type={"password"}
