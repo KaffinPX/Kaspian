@@ -44,8 +44,8 @@ export default class Account extends EventEmitter {
       mature: false
     }))
   
-      return [...matureUTXOs, ...pendingUTXOs]
-    }
+    return [ ...matureUTXOs, ...pendingUTXOs ]
+  }
 
   async createSend (recipient: string, amount: string) {
     await this.incrementAddresses(0, 1)
@@ -116,7 +116,7 @@ export default class Account extends EventEmitter {
       await this.publicKey.changeAddressAsStrings('MAINNET', this.addresses[1].length, this.addresses[1].length + changeCount)
     ]
     
-    if (this.processor.rpc.isConnected) await this.context.trackAddresses(generatedAddresses.flat())
+    if (this.processor.rpc.isConnected && false) await this.context.trackAddresses(generatedAddresses.flat())
 
     this.addresses[0].push(...generatedAddresses[0])
     this.addresses[1].push(...generatedAddresses[1])
@@ -150,8 +150,8 @@ export default class Account extends EventEmitter {
 
         this.addresses = [[], []]
 
-        await this.context.clear()
         await this.processor.stop()
+        await this.context.clear()
       }
     })
   }
