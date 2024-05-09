@@ -1,5 +1,5 @@
-import { createContext, useState, ReactNode, useEffect, useMemo, useCallback } from "react"
-import { runtime } from "webextension-polyfill"
+import { createContext, useState, ReactNode, useEffect, useMemo, useCallback, useRef } from "react"
+import { runtime, type Runtime } from "webextension-polyfill"
 import { Status } from "@/wallet/kaspa/wallet"
 import { Request, Response, Event, RequestMappings, ResponseMappings, isEvent } from "@/wallet/messaging/protocol"
 import { UTXO } from "@/wallet/kaspa/account"
@@ -31,23 +31,72 @@ export const KaspaContext = createContext<{
 export function KaspaProvider ({ children }: {
   children: ReactNode
 }) {
-  const connection = useMemo(() => runtime.connect({ name: "@kaspian/client" }), [])
   const [ kaspa, setState ] = useState(defaultState)
 
-  const awaitingMessages = new Map()
-  let nonce = -1
+  const connectionRef = useRef<Runtime.Port | null>(null)
+  const messagesRef = useRef(new Map())
+  const nonceRef = useRef(-1)
+
+  const getConnection = () => {
+    if (connectionRef.current) return connectionRef.current
+  
+    const connection = runtime.connect({ name: "@kaspian/client" })
+
+    connection.onMessage.addListener(async (message: Event | Response) => {
+      if (isEvent(message)) {
+        if (message.event === 'node:connection') {
+          updateState('connected', message.data)
+        } else if (message.event === 'wallet:status') {
+          updateState('status', message.data)
+        } else if (message.event === 'account:balance') {
+          updateState('balance', message.data)
+          updateState('utxos', await request('account:utxos', []))
+        } else if (message.event === 'account:address') {
+          updateState('addresses', await request('account:addresses', []))
+        } if (message.event === 'provider:connection') {
+          updateState('connectedURL', message.data)
+        }
+      } else {
+        const [ resolve, reject ] = messagesRef.current.get(message.id)
+
+        if (!message.error) { 
+          resolve(message.result)
+        } else {
+          reject(message.error)
+        }
+
+        messagesRef.current.delete(message.id)
+      }
+    })
+
+    connection.onDisconnect.addListener(() => {
+      if (runtime.lastError?.message !== 'Could not establish connection. Receiving end does not exist.') return
+
+      connectionRef.current = null
+
+      if (messagesRef.current.size > 0) getConnection()
+    })
+
+    messagesRef.current.forEach(message => {
+      connection.postMessage(message[2])
+    })
+
+    connectionRef.current = connection
+
+    return connection
+  }
 
   const request = useCallback(<M extends keyof RequestMappings>(method: M, params: RequestMappings[M]) => {
     const message: Request<M> = {
-      id: nonce += 1,
+      id: nonceRef.current += 1,
       method,
       params: params
     }
 
     return new Promise<ResponseMappings[M]>((resolve, reject) => {
-      awaitingMessages.set(message.id, [ resolve, reject ])
+      messagesRef.current.set(message.id, [ resolve, reject, message ])
 
-      connection.postMessage(message)
+      getConnection().postMessage(message)
     })
   }, [])
 
@@ -68,40 +117,6 @@ export function KaspaProvider ({ children }: {
       [ key ]: value 
     }))
   }, [])
-
-  useEffect(() => {
-    connection.onMessage.addListener(async (message: Event | Response) => {
-      if (isEvent(message)) {
-        if (message.event === 'node:connection') {
-          updateState('connected', message.data)
-        } else if (message.event === 'wallet:status') {
-          updateState('status', message.data)
-        } else if (message.event === 'account:balance') {
-          updateState('balance', message.data)
-          updateState('utxos', await request('account:utxos', []))
-        } else if (message.event === 'account:address') {
-          updateState('addresses', await request('account:addresses', []))
-        } if (message.event === 'provider:connection') {
-          updateState('connectedURL', message.data)
-        }
-      } else {
-        const [ resolve, reject ] = awaitingMessages.get(message.id)
-
-        if (!message.error) { 
-          resolve(message.result)
-        } else {
-          reject(message.error)
-        }
-
-        awaitingMessages.delete(message.id)
-      }
-    })
-
-    return () => {
-      connection.disconnect()
-    }
-  }, [])
-
 
   return (
     <KaspaContext.Provider value={{ load, kaspa, request }}>
