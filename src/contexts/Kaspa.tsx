@@ -43,7 +43,17 @@ export function KaspaProvider ({ children }: {
     const connection = runtime.connect({ name: "@kaspian/client" })
 
     connection.onMessage.addListener(async (message: Event | Response) => {
-      if (isEvent(message)) {
+      if (!isEvent(message)) {
+        const [ resolve, reject ] = messagesRef.current.get(message.id)
+
+        if (!message.error) { 
+          resolve(message.result)
+        } else {
+          reject(message.error)
+        }
+
+        messagesRef.current.delete(message.id)
+      } else {
         if (message.event === 'node:connection') {
           updateState('connected', message.data)
         } else if (message.event === 'wallet:status') {
@@ -56,16 +66,6 @@ export function KaspaProvider ({ children }: {
         } if (message.event === 'provider:connection') {
           updateState('connectedURL', message.data)
         }
-      } else {
-        const [ resolve, reject ] = messagesRef.current.get(message.id)
-
-        if (!message.error) { 
-          resolve(message.result)
-        } else {
-          reject(message.error)
-        }
-
-        messagesRef.current.delete(message.id)
       }
     })
 
