@@ -37,7 +37,7 @@ export function KaspaProvider ({ children }: {
   const messagesRef = useRef(new Map()) // TODO: Improve typing
   const nonceRef = useRef(0)
 
-  const getConnection = () => {
+  const getConnection = (reconnect: boolean = false) => {
     if (connectionRef.current) return connectionRef.current
   
     const connection = runtime.connect({ name: "@kaspian/client" })
@@ -74,10 +74,11 @@ export function KaspaProvider ({ children }: {
 
       connectionRef.current = null
 
-      if (messagesRef.current.size > 0) getConnection()
+      if (messagesRef.current.size > 0) getConnection(true) // could be fixed by a reconnection boolean in here
     })
 
-    messagesRef.current.forEach(message => {
+    if (reconnect) messagesRef.current.forEach(message => {
+      console.log('connection reconnect executing', messagesRef.current.size) // TODO: theres an edge case problem w this fix it tmrw by moving it to somewhere else or just ignore the problem by check on the top
       connection.postMessage(message[2])
     })
 
