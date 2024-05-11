@@ -1,4 +1,4 @@
-import Wallet, { Status } from './kaspa/wallet'
+import Wallet from './kaspa/wallet'
 import Node from './kaspa/node'
 import Account from './kaspa/account'
 import RPC from './messaging'

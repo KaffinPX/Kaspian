@@ -74,7 +74,7 @@ export function KaspaProvider ({ children }: {
 
       connectionRef.current = null
 
-      if (messagesRef.current.size > 0) messagesRef.current.forEach(message => {
+      messagesRef.current.forEach(message => {
         getConnection().postMessage(message[2])
       })
     })
