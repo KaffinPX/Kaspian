@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { LogOutIcon, CompassIcon } from "lucide-react"
 import Heading from "@/components/Heading"
-// import UTXOCard from "@/components/UTXOCard"
 import SendDrawer from "@/pages/Wallet/Send"
 import ReceiveDrawer from "@/pages/Wallet/Receive"
 import ConnectDrawer from "@/pages/Wallet/Connect"
@@ -31,19 +30,18 @@ export default function Wallet () {
   }, [ kaspa.status ])
 
   return (
-    <main className={"flex flex-col justify-between min-h-screen py-6 gap-3"}>
+    <main className={"flex flex-col justify-between min-h-screen w-full py-6 gap-3"}>
       <div className={"flex flex-row justify-between items-center"}>
         <Heading title={"Kaspian"} />
         <div className={"flex items-center gap-3 mr-2"}>
           <SettingsSheet />
-          {kaspa.connectedURL === "" && <Button size={"icon"} variant={"outline"} onClick={async () => {
-            await request('wallet:lock', [])
+          {kaspa.connectedURL === "" && <Button size={"icon"} variant={"outline"} onClick={() => {
+            request('wallet:lock', [])
           }}>
             <LogOutIcon />
           </Button>}
-          {kaspa.connectedURL !== "" && <Button size={"icon"} variant={"outline"} onClick={async () => {
-            console.log('connectedURL', kaspa.connectedURL)
-            await request('provider:disconnect', [])
+          {kaspa.connectedURL !== "" && <Button size={"icon"} variant={"outline"} onClick={() => {
+            request('provider:disconnect', [])
           }}>
             <CompassIcon />
           </Button>}

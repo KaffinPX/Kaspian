@@ -13,7 +13,7 @@ import {
   SheetFooter
 } from "@/components/ui/sheet"
 import { Accordion } from "@/components/ui/accordion"
-import { i18n } from "webextension-polyfill"
+import { i18n, runtime } from "webextension-polyfill"
 
 export default function Settings () {
   return (
@@ -32,6 +32,7 @@ export default function Settings () {
           <WalletTab />
         </Accordion>
         <SheetFooter className="gap-2">
+          Kaspian {runtime.getManifest().version}
           <ResetPopup />
           <ExportPopup />
         </SheetFooter>
