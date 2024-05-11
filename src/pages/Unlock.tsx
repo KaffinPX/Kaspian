@@ -39,11 +39,12 @@ export default function UnlockWallet() {
             if (error) setError("")
             setPassword(e.target.value)
           }}
-         onKeyUp={e => {
+          onKeyUp={e => {
             if (e.key !== 'Enter' || password === "") return
 
             unlockWallet()
           }}
+          autoFocus
         />
       </div>
       <div className={"mx-auto"}>
