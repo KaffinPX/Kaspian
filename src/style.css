@@ -9,7 +9,8 @@
 }
 
 main {
-  width: 365px;
+  min-width: 365px;
+  max-width: 410px;
   height: 592px;
 }
 
