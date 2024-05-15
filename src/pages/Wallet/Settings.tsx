@@ -2,6 +2,7 @@ import { SettingsIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import GeneralTab from "@/pages/Wallet/Settings/General"
 import WalletTab from "@/pages/Wallet/Settings/Wallet"
+import AccountTab from "@/pages/Wallet/Settings/Account"
 import ExportPopup from "@/pages/Wallet/Settings/General/Export"
 import ResetPopup from "@/pages/Wallet/Settings/General/Reset"
 import {
@@ -27,9 +28,10 @@ export default function Settings () {
         <SheetHeader>
           <SheetTitle>{i18n.getMessage('settings')}</SheetTitle>
         </SheetHeader>
-        <Accordion type="single" collapsible className="w-full">
+        <Accordion type="single" defaultValue={"general"} className="w-full">
           <GeneralTab />
           <WalletTab />
+          <AccountTab />
         </Accordion>
         <SheetFooter className="gap-2">
           Kaspian {runtime.getManifest().version}

@@ -57,30 +57,6 @@ export default function Network () {
             </Select>
             <NodeDrawer /> {/* Make it a self-contained popup */}
           </div>
-
-          <div className={"px-3"}>
-            <h3 className={"flex gap-2 font-bold"}>
-              Address Index
-            </h3>
-            <h4>It counts how many addresses you've created.</h4>
-          </div>
-          <div className={"flex gap-2 mx-4"}>
-            <div className={"flex"}>
-              Receive addresses
-
-              <p className="tabular-nums">
-                {kaspa.addresses[0].length}
-              </p>
-            </div>
-            <div className={"flex"}>
-              Change addresses
-
-              <p className="tabular-nums">
-                {kaspa.addresses[1].length}
-              </p>
-            </div>
-
-          </div>
         </div>
       </AccordionContent>
     </AccordionItem>

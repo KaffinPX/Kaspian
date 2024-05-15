@@ -4,7 +4,7 @@ import Account from "@/wallet/kaspa/account"
 import { EventEmitter } from "events"
 
 export default class Provider extends EventEmitter {
-  account: Account
+  private account: Account
   private ports: Map<string, browser.Runtime.Port> = new Map()
   private connection: browser.Runtime.Port | undefined
 
