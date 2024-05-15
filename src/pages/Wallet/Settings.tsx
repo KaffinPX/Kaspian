@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button"
 import GeneralTab from "@/pages/Wallet/Settings/General"
 import WalletTab from "@/pages/Wallet/Settings/Wallet"
 import AccountTab from "@/pages/Wallet/Settings/Account"
-import ExportPopup from "@/pages/Wallet/Settings/General/Export"
 import ResetPopup from "@/pages/Wallet/Settings/General/Reset"
 import {
   Sheet,
@@ -36,7 +35,6 @@ export default function Settings () {
         <SheetFooter className="gap-2">
           Kaspian {runtime.getManifest().version}
           <ResetPopup />
-          <ExportPopup />
         </SheetFooter>
       </SheetContent>
     </Sheet>

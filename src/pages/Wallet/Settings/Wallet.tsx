@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import NodeDrawer from "@/pages/Wallet/Settings/Wallet/Node"
+import ExportPopup from "@/pages/Wallet/Settings/Wallet/Export"
 import {
   AccordionContent,
   AccordionItem,
@@ -56,6 +57,15 @@ export default function Network () {
               </SelectContent>
             </Select>
             <NodeDrawer /> {/* Make it a self-contained popup */}
+          </div>
+          <div className={"px-3"}>
+            <h3 className={"flex gap-2 font-bold"}>
+              {"Mnemonic"}
+            </h3>
+            <h4>Backup the only way to import your wallet again</h4>
+          </div>
+          <div className={"flex gap-1 mx-1"}>
+            <ExportPopup />
           </div>
         </div>
       </AccordionContent>

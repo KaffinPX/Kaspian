@@ -41,7 +41,7 @@ export default function Export () {
           disabled={true}
         />
         <DialogFooter>
-           <div className={"flex mx-auto gap-1"}>
+           <div className={"flex mx-auto gap-2"}>
             <Input
               type={"password"}
               placeholder={i18n.getMessage('password')}
