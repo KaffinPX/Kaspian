@@ -3,36 +3,28 @@ import { createContext, useState, type ReactNode, useEffect, useCallback } from 
 
 export interface ISettings {
   version: number
-  currencies: {
-    ticker: string,
-    symbol: string
-  }[]
   nodes: {
     name: string
     address: string
     locked: boolean
   }[]
-  selectedCurrency: number
+  currency: keyof typeof currencies
   selectedNode: number
 }
 
-// Consider moving currencies to an another file w constants as its not dynamic(would mean update-compatibility)
+export const currencies = {
+  'USD': '$',
+  'EUR': '€'
+}
 
 export const defaultSettings: ISettings = {
-  version: 3,
-  currencies: [{
-    ticker: "USD",
-    symbol: "$"
-  }, {
-    ticker: "EUR",
-    symbol: "€"
-  }],
+  version: 4,
   nodes: [{
       name: "Kaspa-NG EU",
       address: "wss://eu-1.kaspa-ng.io/mainnet",
       locked: true
   }],
-  selectedCurrency: 0,
+  currency: 'USD',
   selectedNode: 0
 }
 

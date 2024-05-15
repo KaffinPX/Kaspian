@@ -10,13 +10,14 @@ import { useEffect } from "react"
 import { Status } from "@/wallet/kaspa/wallet"
 import { useNavigate } from "react-router-dom"
 import { Textarea } from "@/components/ui/textarea"
+import { currencies } from "@/contexts/Settings"
 import useSettings from "@/hooks/useSettings"
 import useCoingecko from "@/hooks/useCoingecko"
 
 export default function Wallet () {
   const { kaspa, request } = useKaspa()
   const { settings } = useSettings()
-  const price = useCoingecko(settings.currencies[settings.selectedCurrency].ticker)
+  const price = useCoingecko(settings.currency)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -50,7 +51,7 @@ export default function Wallet () {
       <div className={"flex flex-col gap-1"}>
         <div className={"flex flex-col items-center"}>
           <p className={"text-4xl font-extrabold"}>{kaspa.balance.toFixed(4)} KAS</p>
-          <p className={"text-xl font-bold"}>{settings.currencies[settings.selectedCurrency].symbol} {(kaspa.balance * price).toFixed(2)}</p>
+          <p className={"text-xl font-bold"}>{currencies[settings.currency]} {(kaspa.balance * price).toFixed(2)}</p>
         </div>
         <div className={"flex flex-col items-center"}>
           <Textarea

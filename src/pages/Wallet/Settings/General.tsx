@@ -7,6 +7,7 @@ import { i18n } from "webextension-polyfill"
 import { useTheme } from "@/components/ThemeProvider"
 import { Sun, Moon, Laptop } from "lucide-react"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { currencies } from "@/contexts/Settings"
 import useSettings from "@/hooks/useSettings"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
@@ -49,19 +50,19 @@ export default function General () {
             <h4>Change preferred exchange currency of wallet</h4>
           </div>
           <div className={"flex gap-1 mx-1"}>
-            <Select defaultValue={settings.selectedCurrency.toString()} 
-              onValueChange={async (id) => {
-                updateSetting('selectedCurrency', parseInt(id))
+            <Select defaultValue={settings.currency} 
+              onValueChange={async (currency) => {
+                updateSetting('currency', currency as never)
               }}
             >
               <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {settings.currencies.map((currency, id) => {
+                {Object.keys(currencies).map((currency) => {
                   return (
-                    <SelectItem key={id} value={id.toString()}>
-                      {currency.ticker} ({currency.symbol})
+                    <SelectItem key={currency} value={currency}>
+                      {currency} ({currencies[currency as never]})
                     </SelectItem>
                   )
                 })}
