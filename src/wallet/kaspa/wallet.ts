@@ -26,11 +26,7 @@ export default class Wallet extends EventEmitter {
     } else {
       const session = await SessionStorage.get('session', undefined)
 
-      if (!session) {
-        this.status = Status.Locked
-      } else {
-        this.status = Status.Unlocked
-      }
+      this.status = session ? Status.Unlocked : Status.Locked;
     }
 
     this.emit('status', this.status)

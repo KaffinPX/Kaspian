@@ -1,6 +1,6 @@
 import LocalStorage from "@/storage/LocalStorage"
 import SessionStorage, { ISession } from "@/storage/SessionStorage"
-import { UtxoContext, UtxoProcessor, PublicKeyGenerator, PrivateKeyGenerator, createTransactions, Transaction, decryptXChaCha20Poly1305, kaspaToSompi, signTransaction } from "@/../wasm"
+import { UtxoContext, UtxoProcessor, PublicKeyGenerator, PrivateKeyGenerator, createTransactions, Transaction, decryptXChaCha20Poly1305, kaspaToSompi, signTransaction, type UtxoEntryReference } from "@/../wasm"
 import type Node from "./node"
 import { EventEmitter } from "events"
  
@@ -32,18 +32,15 @@ export default class Account extends EventEmitter {
   }
 
   get UTXOs () {
-    const matureUTXOs = this.context.getMatureRange(0, this.context.getMatureLength).map(utxo => ({
+    const mapUTXO = (utxo: UtxoEntryReference, mature: boolean) => ({
       amount: Number(utxo.amount) / 1e8,
       transaction: utxo.getTransactionId(),
-      mature: true
-    }))
-  
-    const pendingUTXOs = this.context.getPending().map(utxo => ({
-      amount: Number(utxo.amount) / 1e8,
-      transaction: utxo.getTransactionId(),
-      mature: false
-    }))
-  
+      mature
+    })
+
+    const matureUTXOs = this.context.getMatureRange(0, this.context.getMatureLength).map(utxo => mapUTXO(utxo, true))
+    const pendingUTXOs = this.context.getPending().map(utxo => mapUTXO(utxo, false))
+
     return [ ...matureUTXOs, ...pendingUTXOs ]
   }
 
