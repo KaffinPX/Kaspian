@@ -6,7 +6,6 @@ import {
   MonitorOff
 } from "lucide-react"
 import { useEffect, useState } from "react"
-import { clsx } from "clsx"
 import { Button } from "@/components/ui/button"
 import Heading from "@/components/Heading"
 import {
@@ -39,26 +38,25 @@ export default function Intro ({ onConfirm }: {
         title={i18n.getMessage('createWallet')}
         subtitle={i18n.getMessage('rules')}
       />
-      <div className={"px-4"}>
-        {/* @ts-ignore */}
+      <div>
         <Carousel setApi={setApi}>
           <CarouselContent>
             <CarouselItem>
-              <div className={clsx("mx-auto px-5 text-center")}>
+              <div className={"mx-auto text-center px-3"}>
                 <DatabaseBackup className={"w-8 h-8 mx-auto text-green-400"} />
                 <h3 className={"text-xl"}>{i18n.getMessage('backupWallet')}</h3>
                 <p className={"text-sm"}>{i18n.getMessage('selfCustody')}</p>
               </div>
             </CarouselItem>
             <CarouselItem>
-              <div className={clsx("mx-auto px-5 text-center")}>
+              <div className={"mx-auto text-center px-3"}>
                 <MonitorOff className={"w-8 h-8 mx-auto text-green-400"} />
                 <h3 className={"text-xl"}>{i18n.getMessage('shareMnemonic')}</h3>
                 <p className={"text-sm"}>{i18n.getMessage('walletAccess')}</p>
               </div>
             </CarouselItem>
             <CarouselItem>
-              <div className={clsx("mx-auto px-5 text-center")}>
+              <div className={"mx-auto text-center px-3"}>
                 <BookUser className={"w-8 h-8 mx-auto text-green-400"} />
                 <h3 className={"text-xl"}>{i18n.getMessage('verifyAddresses')}</h3>
                 <p className={"text-sm"}>{i18n.getMessage('immutability')}</p>

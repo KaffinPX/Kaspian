@@ -13,11 +13,8 @@ export default function Landing({ forward }: {
         title={"Kaspian"}
         subtitle={i18n.getMessage('kaspianIntro')}
       />
-      <div className={"mx-auto"}>
-        <img src={"favicon.png"} alt={"Landing"} className={"w-60"} />
-      </div>
-      <div className={"flex flex-col items-center justify-center"}>
-        <div className={"flex flex-col items-center"}>
+      <div className={"flex flex-col items-center justify-center gap-3"}>
+        <div className={"flex flex-col items-center gap-1"}>
           <p className={"text-lg"}>{i18n.getMessage('createIntro')}</p>
           <Button
             onClick={() => {
@@ -29,7 +26,7 @@ export default function Landing({ forward }: {
             {i18n.getMessage('createWallet')}
           </Button>
         </div>
-        <div className={"flex flex-col items-center"}>
+        <div className={"flex flex-col items-center gap-1"}>
           <p className={"text-lg"}>{i18n.getMessage('importIntro')}</p>
           <Button
             className={"gap-2"}
