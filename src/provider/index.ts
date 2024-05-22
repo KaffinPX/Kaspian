@@ -1,4 +1,4 @@
-import type { ProviderInfo, Request } from "./protocol"
+import { isRequest, type ProviderInfo, type Request } from "./protocol"
 
 function announceProvider () {
   const info: ProviderInfo = {
@@ -31,9 +31,9 @@ window.addEventListener('kaspa:connect', (event) => {
   })
 
   window.addEventListener('kaspa:invoke', (event) => {
-    // TODO: Dont trust to events from clients
-    const request = (event as CustomEvent<Request<any>>).detail
-    
+    const request = (event as CustomEvent).detail
+    if (!isRequest(request)) return
+  
     port.postMessage(request)
   })
 
