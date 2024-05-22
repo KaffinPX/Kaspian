@@ -27,7 +27,7 @@ export default class Router {
       'wallet:reset': () => wallet.reset(),
       'node:connection': () => node.connected,
       'node:connect': (address) => node.reconnect(address),
-      'node:submit': (transactions) => node.submit(transactions), // TODO: Move into node subclass
+      'node:submit': (transactions) => node.submit(transactions),
       'account:addresses': () => account.addresses,
       'account:balance': () => account.balance,
       'account:utxos': () => account.UTXOs,

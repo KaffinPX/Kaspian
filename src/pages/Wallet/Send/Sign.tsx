@@ -93,7 +93,3 @@ export default function Sign ({ transactions, onSigned }: {
     </DialogContent>
   )
 }
-
-const calculateFee = (transaction: string) => {
-  // TODO
-}

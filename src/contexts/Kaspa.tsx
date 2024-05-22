@@ -34,7 +34,7 @@ export function KaspaProvider ({ children }: {
   const [ kaspa, setState ] = useState(defaultState)
 
   const connectionRef = useRef<Runtime.Port | null>(null)
-  const messagesRef = useRef(new Map()) // TODO: Improve typing
+  const messagesRef = useRef(new Map<number, any>()) // TODO: Improve typing
   const nonceRef = useRef(0)
 
   const getConnection = useCallback(() => {

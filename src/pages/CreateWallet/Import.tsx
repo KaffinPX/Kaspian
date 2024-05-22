@@ -24,7 +24,7 @@ export default function Import ({ onMnemonicsSubmit }: {
       </div>
       <div className={"flex flex-col items-center gap-2"}>
         <Button
-          disabled={mnemonic === ""} // TODO: mnemonic checking is not available as logic is not complete rn
+          disabled={mnemonic === ""}
           onClick={() => {
             onMnemonicsSubmit(mnemonic)
           }}

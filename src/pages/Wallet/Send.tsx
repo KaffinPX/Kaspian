@@ -103,7 +103,7 @@ export default function SendDrawer () {
             </Button>
 
             <Dialog open={!!transactions} onOpenChange={(open) => {
-              if (open) return // TODO: not sure if this is the best logic
+              if (open) return
                 
               setTab(Tabs.Creation)
               setTransactions(undefined)
