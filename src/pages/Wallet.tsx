@@ -61,19 +61,22 @@ export default function Wallet () {
           />
         </div>
       </div>
-      <div className={"grid grid-cols-3 mx-3 h-full overflow-y-scroll no-scrollbar gap-2"}>
-        {kaspa.utxos.map((utxo, id) => {
-          return (
-            <div key={id} className={"flex flex-col items-center py-2 border-2 hover:border-dashed rounded-xl w-full h-24 " + (utxo.mature ? "border-orange-700" : "border-blue-700")}>
-              <p className={"text-lg font-bold"}>{utxo.amount.toFixed(4)}</p>
-              <Button variant="link" className={"text-inherit font-extrabold"} onClick={() => {
-                window.open(`https://explorer.kaspa.org/txs/${utxo.transaction}`)
-              }}>
-                {utxo.transaction.substring(0, 8)}...
-              </Button>
-            </div>
-          )
-        })}
+      <div className="h-full">
+        <div className={"grid grid-cols-3 mx-4 overflow-y-scroll no-scrollbar gap-2"}>
+          {kaspa.utxos.map((utxo, id) => {
+            return (
+              <div key={id} className={"flex flex-col items-center py-2 border-2 rounded-xl w-full h-24 " + (utxo.mature ? "hover:border-dashed" : "border-yellow-600")}>
+                <p className={"text-lg font-bold"}>{utxo.amount.toFixed(4)}</p>
+                <Button variant="link" className={"text-inherit font-extrabold"} onClick={() => {
+                  window.open(`https://explorer.kaspa.org/txs/${utxo.transaction}`)
+                }}>
+                  {utxo.transaction.substring(0, 8)}...
+                </Button>
+              </div>
+            )
+          })}
+        </div>
+
       </div>
       <div className={"flex flex-row justify-center gap-5"}>
         <SendDrawer />
