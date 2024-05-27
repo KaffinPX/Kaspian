@@ -28,7 +28,7 @@ main {
     --secondary-foreground: 220 15% 20%; /* Dark Blue-Gray */
     --muted: 200 20% 80%; /* Muted Blue */
     --muted-foreground: 220 15% 40%; /* Medium Blue-Gray */
-    --accent: 340 80% 70%; /* Vivid Pink */
+    --accent: 340 70% 65%; /* Softer Vivid Pink */
     --accent-foreground: 0 0% 100%; /* Pure White */
     --destructive: 0 70% 50%; /* Bright Red */
     --destructive-foreground: 0 0% 100%; /* Pure White */
@@ -50,7 +50,7 @@ main {
     --secondary-foreground: 0 0% 100%; /* Pure White */
     --muted: 200 20% 30%; /* Muted Blue */
     --muted-foreground: 220 15% 60%; /* Medium Blue-Gray */
-    --accent: 340 80% 60%; /* Vivid Pink */
+    --accent: 340 70% 55%; /* Softer Vivid Pink */
     --accent-foreground: 0 0% 100%; /* Pure White */
     --destructive: 0 70% 50%; /* Bright Red */
     --destructive-foreground: 0 0% 100%; /* Pure White */
