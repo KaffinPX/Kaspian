@@ -113,7 +113,7 @@ export default class Account extends EventEmitter {
       await this.publicKey.changeAddressAsStrings('MAINNET', this.addresses[1].length, this.addresses[1].length + changeCount)
     ]
     
-    if (this.processor.rpc.isConnected && false) await this.context.trackAddresses(generatedAddresses.flat())
+    if (this.processor.isActive) await this.context.trackAddresses(generatedAddresses.flat())
 
     this.addresses[0].push(...generatedAddresses[0])
     this.addresses[1].push(...generatedAddresses[1])

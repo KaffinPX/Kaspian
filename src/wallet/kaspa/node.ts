@@ -53,11 +53,11 @@ export default class Node extends EventEmitter {
   }
 
   private registerEvents () {
-    this.kaspa.addEventListener('open', () => {
+    this.kaspa.addEventListener('connect', () => {
       this.emit('connection', true)
     })
 
-    this.kaspa.addEventListener('close', () => {
+    this.kaspa.addEventListener('disconnect', () => {
       this.emit('connection', false)
     })
   }
