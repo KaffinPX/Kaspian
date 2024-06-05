@@ -54,7 +54,7 @@ main {
     --accent-foreground: 0 0% 100%; /* Pure White */
     --destructive: 0 70% 50%; /* Bright Red */
     --destructive-foreground: 0 0% 100%; /* Pure White */
-    --border: 220 20% 40%; /* Dark Blue-Gray */
+    --border: 0 0% 20%; /* Dark Gray */
     --input: 220 20% 30%; /* Very Dark Blue-Gray */
     --ring: 200 60% 40%; /* Darker Pastel Blue */
     --radius: 1rem; /* Slightly larger border radius */
