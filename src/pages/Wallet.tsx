@@ -61,8 +61,8 @@ export default function Wallet () {
           />
         </div>
       </div>
-      <div className="h-full">
-        <div className={"grid grid-cols-3 mx-4 overflow-y-scroll no-scrollbar gap-2"}>
+      <div className="h-full overflow-y-scroll no-scrollbar">
+        <div className={"grid grid-cols-3 mx-4 gap-2"}>
           {kaspa.utxos.map((utxo, id) => {
             return (
               <div key={id} className={"flex flex-col items-center py-2 border-2 rounded-xl w-full h-24 " + (utxo.mature ? "hover:border-dashed" : "border-yellow-600")}>

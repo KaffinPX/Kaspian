@@ -38,7 +38,7 @@ export default class Account extends EventEmitter {
       mature
     })
 
-    const matureUTXOs = this.context.getMatureRange(0, this.context.getMatureLength).map(utxo => mapUTXO(utxo, true))
+    const matureUTXOs = this.context.getMatureRange(0, this.context.matureLength).map(utxo => mapUTXO(utxo, true))
     const pendingUTXOs = this.context.getPending().map(utxo => mapUTXO(utxo, false))
 
     return [ ...matureUTXOs, ...pendingUTXOs ]
@@ -55,7 +55,6 @@ export default class Account extends EventEmitter {
       }],
       changeAddress: this.addresses[1][this.addresses[1].length - 1],
       priorityFee: 0n,
-      networkId: this.processor.networkId!
     })
 
     return transactions.map((transaction) => transaction.serializeToSafeJSON())
