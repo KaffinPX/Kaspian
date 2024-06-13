@@ -1,8 +1,9 @@
 import LocalStorage from "@/storage/LocalStorage"
 import SessionStorage, { ISession } from "@/storage/SessionStorage"
 import { UtxoContext, UtxoProcessor, PublicKeyGenerator, PrivateKeyGenerator, createTransactions, Transaction, decryptXChaCha20Poly1305, kaspaToSompi, signTransaction, type UtxoEntryReference } from "@/../wasm"
-import type Node from "./node"
+import type Node from "../node"
 import { EventEmitter } from "events"
+import Addresses from "./addresses"
  
 export interface UTXO {
   amount: number
@@ -10,16 +11,16 @@ export interface UTXO {
   mature: boolean
 }
 
-export default class Account extends EventEmitter {
+export default class Account extends EventEmitter  {
   processor: UtxoProcessor
-  publicKey: PublicKeyGenerator | undefined
+  addresses: Addresses
   session: ISession | undefined
-  addresses: [ string[], string[] ] = [[], []]
   context: UtxoContext
 
   constructor (node: Node) {
     super()
 
+    this.addresses = new Addresses()
     this.processor = new UtxoProcessor({ rpc: node.kaspa, networkId: 'MAINNET' })
     this.context = new UtxoContext({ processor: this.processor })
 
@@ -53,7 +54,7 @@ export default class Account extends EventEmitter {
         address: recipient,
         amount: kaspaToSompi(amount)!
       }],
-      changeAddress: this.addresses[1][this.addresses[1].length - 1],
+      changeAddress: this.addresses.changeAddresses[this.addresses.changeAddresses.length - 1],
       priorityFee: 0n,
     })
 
@@ -69,8 +70,8 @@ export default class Account extends EventEmitter {
       const privateKeys = []
 
       for (const address of parsedTransaction.addresses('MAINNET')) {
-        const receiveIndex = this.addresses[0].indexOf(address.toString())
-        const changeIndex = this.addresses[1].indexOf(address.toString())
+        const receiveIndex = this.addresses.receiveAddresses.indexOf(address.toString())
+        const changeIndex = this.addresses.changeAddresses.indexOf(address.toString())
 
         if (receiveIndex !== -1) {
           privateKeys.push(keyGenerator.receiveKey(receiveIndex))
@@ -85,16 +86,32 @@ export default class Account extends EventEmitter {
     return signedTransactions.map(transaction => transaction.serializeToSafeJSON())
   }
 
+  async scan(steps = 50, count = 10) {
+    const scanAddresses = async (isReceive: boolean, startIndex: number) => {
+      for (let index = 0; index < steps; index++) {
+        const addresses = await this.addresses.derive(isReceive, startIndex, startIndex + count)
+        startIndex += count
+    
+        const utxos = await this.processor.rpc.getUtxosByAddresses(addresses)
+    
+        if (utxos.entries.length > 0) await this.incrementAddresses(count, count)
+      }
+    }
+  
+    await scanAddresses(true, this.addresses.receiveAddresses.length)
+    await scanAddresses(false, this.addresses.changeAddresses.length)
+  }
+
   private registerProcessor() {
     this.processor.addEventListener("utxo-proc-start", async () => {
       await this.context.clear()
-      await this.context.trackAddresses(this.addresses.flat())
+      await this.context.trackAddresses(this.addresses.allAddresses)
     })
 
     this.processor.addEventListener('pending', async (event) => {
       const utxos = event.data.data.utxoEntries
 
-      if (utxos.some(utxo => utxo.address?.toString() === this.addresses[0][this.addresses[0].length - 1])) {
+      if (utxos.some(utxo => utxo.address?.toString() === this.addresses.receiveAddresses[this.addresses.receiveAddresses.length - 1])) {
         await this.incrementAddresses(1, 0)
       }
     })
@@ -105,27 +122,18 @@ export default class Account extends EventEmitter {
   }
 
   private async incrementAddresses (receiveCount: number, changeCount: number) {
-    if (!this.publicKey) throw Error('No active account')
-
-    const generatedAddresses = [ 
-      await this.publicKey.receiveAddressAsStrings('MAINNET', this.addresses[0].length, this.addresses[0].length + receiveCount),
-      await this.publicKey.changeAddressAsStrings('MAINNET', this.addresses[1].length, this.addresses[1].length + changeCount)
-    ]
-    
-    if (this.processor.isActive) await this.context.trackAddresses(generatedAddresses.flat())
-
-    this.addresses[0].push(...generatedAddresses[0])
-    this.addresses[1].push(...generatedAddresses[1])
+    const addresses = await this.addresses.increment(receiveCount, changeCount)
+    if (this.processor.isActive) await this.context.trackAddresses(addresses)
     
     const wallet = (await LocalStorage.get('wallet', undefined))!
     const account = wallet.accounts[this.session!.activeAccount]
 
-    account.receiveCount = this.addresses[0].length
-    account.changeCount = this.addresses[1].length
+    account.receiveCount = this.addresses.receiveAddresses.length
+    account.changeCount = this.addresses.changeAddresses.length
 
     await LocalStorage.set('wallet', wallet)
 
-    this.emit('address', this.addresses[0][this.addresses[0].length - 1]) // a temporary fix for change address count not updating, must be fixed soon
+    this.emit('address', "") // a temporary fix for change address count not updating, must be fixed soon
   }
 
   private listenSession () {
@@ -134,7 +142,7 @@ export default class Account extends EventEmitter {
 
       if (newValue) {
         this.session = newValue // TODO: Possibly get rid of this w account set optimizations
-        this.publicKey = await PublicKeyGenerator.fromXPub(this.session.publicKey)
+        this.addresses.publicKey = await PublicKeyGenerator.fromXPub(this.session.publicKey)
 
         const account = (await LocalStorage.get('wallet', undefined))!.accounts[this.session.activeAccount]
         
@@ -142,10 +150,8 @@ export default class Account extends EventEmitter {
         await this.processor.start()
       } else {
         delete this.session
-        delete this.publicKey
 
-        this.addresses = [[], []]
-
+        this.addresses.reset()
         await this.processor.stop()
         await this.context.clear()
       }

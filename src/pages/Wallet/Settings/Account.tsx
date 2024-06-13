@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/accordion"
 import { i18n } from "webextension-polyfill"
 import useKaspa from "@/hooks/useKaspa"
+import { Button } from "@/components/ui/button"
 
 export default function Network () {
   const { kaspa, request } = useKaspa()
@@ -39,6 +40,13 @@ export default function Network () {
               <p className="tabular-nums font-mono">{kaspa.addresses[1].length}</p>
             </div>
           </div>
+          <Button variant={"outline"} onClick={({ currentTarget }) => {
+            currentTarget.disabled = true
+
+            request('account:scan', []).then(() => {
+              currentTarget.disabled = false
+            })
+          }}>Scan</Button>
         </div>
       </AccordionContent>
     </AccordionItem>

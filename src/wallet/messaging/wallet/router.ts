@@ -28,11 +28,12 @@ export default class Router {
       'node:connection': () => node.connected,
       'node:connect': (address) => node.reconnect(address),
       'node:submit': (transactions) => node.submit(transactions),
-      'account:addresses': () => account.addresses,
+      'account:addresses': () => [account.addresses.receiveAddresses, account.addresses.receiveAddresses],
       'account:balance': () => account.balance,
       'account:utxos': () => account.UTXOs,
       'account:createSend': (recipient, amount) => account.createSend(recipient, amount),
       'account:sign': (transactions, password) => account.sign(transactions, password),
+      'account:scan': () => account.scan(),
       'provider:connect': (url) => provider.connect(url),
       'provider:connectedURL': () => provider.connectedURL,
       'provider:disconnect': () => provider.disconnect()
