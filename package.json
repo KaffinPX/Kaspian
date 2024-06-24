@@ -4,6 +4,7 @@
   "description": "An extension for interacting with Kaspa network.",
   "main": "dist/index.js",
   "scripts": {
+    "test": "bun run tests/*.*",
     "dev": "bunx --bun vite --host",
     "build": "bunx --bun vite build --minify false"
   },
