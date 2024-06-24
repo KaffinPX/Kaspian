@@ -13,7 +13,7 @@ jobs:
         with:
           bun-version: 1.0.31
       - name: Install Dependencies
-        run: bun install
+        run: bun install --production
       - name: Run tests
         run: bun run test
   build:
@@ -33,7 +33,7 @@ jobs:
           mkdir ./wasm
           mv ./kaspa-wasm32-sdk/web/kaspa/* ./wasm
       - name: Install Dependencies
-        run: bun install
+        run: bun install --production
       - name: Build Kaspian
         run: bun run build
       - name: Upload Dist as Artifact 
