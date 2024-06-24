@@ -16,7 +16,7 @@ export interface IKaspa {
 export const defaultState: IKaspa = {
   status: Status.Uninitialized,
   connected: false,
-  addresses: [ [], [] ],
+  addresses: [[], []],
   balance: 0,
   utxos: [],
   connectedURL: "" 

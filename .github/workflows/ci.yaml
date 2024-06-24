@@ -3,6 +3,19 @@ name: Tests
 on: [ push, pull_request ]
 
 jobs:
+  Test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.0.31
+      - name: Install Dependencies
+        run: bun install
+      - name: Check Dependencies
+        run: bun run ./tests/security
   build:
     name: Build
     runs-on: ubuntu-latest

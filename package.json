@@ -12,6 +12,7 @@
   "license": "GPL-3",
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.0.0-beta.23",
+    "@types/bun": "^1.1.5",
     "@types/chrome": "^0.0.254",
     "@types/node": "^20.10.5",
     "@types/react": "^18.0.28",
