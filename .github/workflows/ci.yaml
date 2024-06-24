@@ -33,7 +33,7 @@ jobs:
           mkdir ./wasm
           mv ./kaspa-wasm32-sdk/web/kaspa/* ./wasm
       - name: Install Dependencies
-        run: bun install --production
+        run: bun install
       - name: Build Kaspian
         run: bun run build
       - name: Upload Dist as Artifact 
