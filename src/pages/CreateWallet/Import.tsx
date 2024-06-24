@@ -15,7 +15,7 @@ export default function Import ({ onMnemonicsSubmit }: {
       <div className={"flex flex-col items-center"}>
         <Textarea
           placeholder={i18n.getMessage('mnemonic')}
-          className={"font-mono w-5/6 h-44 border-green-500 border-2 text-center break-words"}
+          className={"font-mono w-5/6 h-44 border-2 text-center break-words"}
           value={mnemonic}
           onChange={e => {
             setMnemonic(e.target.value)
