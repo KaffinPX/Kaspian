@@ -37,7 +37,7 @@ jobs:
       - name: Build Kaspian
         run: bun run build
       - name: Upload Dist as Artifact 
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with: 
           name: unpacked-extension
           path: dist/
