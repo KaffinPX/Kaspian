@@ -86,23 +86,27 @@ export default class Account extends EventEmitter  {
     return signedTransactions.map(transaction => transaction.serializeToSafeJSON())
   }
 
-  async scan(steps = 50, count = 10) {
+  async scan (steps = 50, count = 10) {
     const scanAddresses = async (isReceive: boolean, startIndex: number) => {
+      let foundIndex = 0
+
       for (let index = 0; index < steps; index++) {
         const addresses = await this.addresses.derive(isReceive, startIndex, startIndex + count)
         startIndex += count
     
         const utxos = await this.processor.rpc.getUtxosByAddresses(addresses)
     
-        if (utxos.entries.length > 0) await this.incrementAddresses(count, count)
+        if (utxos.entries.length > 0) foundIndex = startIndex
       }
+
+      await this.incrementAddresses(isReceive ? foundIndex - 1 : 0, isReceive ? 0 : foundIndex - 1)
     }
   
     await scanAddresses(true, this.addresses.receiveAddresses.length)
     await scanAddresses(false, this.addresses.changeAddresses.length)
   }
 
-  private registerProcessor() {
+  private registerProcessor () {
     this.processor.addEventListener("utxo-proc-start", async () => {
       await this.context.clear()
       await this.context.trackAddresses(this.addresses.allAddresses)
