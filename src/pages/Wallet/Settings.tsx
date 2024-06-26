@@ -23,7 +23,7 @@ export default function Settings () {
           <SettingsIcon />
         </Button>
       </SheetTrigger>
-      <SheetContent side={"right"} className="flex flex-col">
+      <SheetContent side={"right"} className="flex flex-col w-[100%]">
         <SheetHeader>
           <SheetTitle>{i18n.getMessage('settings')}</SheetTitle>
         </SheetHeader>

@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import useSettings from "../hooks/useSettings"
 import useKaspa from "../hooks/useKaspa"
 import usePromise from "../hooks/usePromise"
