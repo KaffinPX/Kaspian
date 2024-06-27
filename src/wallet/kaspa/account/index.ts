@@ -96,14 +96,14 @@ export default class Account extends EventEmitter  {
     
         const utxos = await this.processor.rpc.getUtxosByAddresses(addresses)
     
-        if (utxos.entries.length > 0) foundIndex = startIndex
+        if (utxos.entries.length > 0) { foundIndex = startIndex }
       }
 
-      await this.incrementAddresses(isReceive ? foundIndex - 1 : 0, isReceive ? 0 : foundIndex - 1)
+      await this.incrementAddresses(isReceive ? foundIndex : 0, isReceive ? 0 : foundIndex)
     }
   
-    await scanAddresses(true, this.addresses.receiveAddresses.length)
-    await scanAddresses(false, this.addresses.changeAddresses.length)
+    await scanAddresses(true, this.addresses.receiveAddresses.length - 1)
+    await scanAddresses(false, this.addresses.changeAddresses.length - 1)
   }
 
   private registerProcessor () {
@@ -127,7 +127,7 @@ export default class Account extends EventEmitter  {
 
   private async incrementAddresses (receiveCount: number, changeCount: number) {
     const addresses = await this.addresses.increment(receiveCount, changeCount)
-    if (this.processor.isActive) await this.context.trackAddresses(addresses)
+    if (addresses.length > 0 && this.processor.isActive) await this.context.trackAddresses(addresses)
     
     const wallet = (await LocalStorage.get('wallet', undefined))!
     const account = wallet.accounts[this.session!.activeAccount]
