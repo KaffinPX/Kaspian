@@ -42,7 +42,7 @@ export default class Account extends EventEmitter  {
     const matureUTXOs = this.context.getMatureRange(0, this.context.matureLength).map(utxo => mapUTXO(utxo, true))
     const pendingUTXOs = this.context.getPending().map(utxo => mapUTXO(utxo, false))
 
-    return [ ...matureUTXOs, ...pendingUTXOs ]
+    return [ ...pendingUTXOs, ...matureUTXOs ]
   }
 
   async createSend (recipient: string, amount: string) {

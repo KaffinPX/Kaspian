@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { currencies } from "@/contexts/Settings"
 import useSettings from "@/hooks/useSettings"
 import useCoingecko from "@/hooks/useCoingecko"
+import UTXOs from "@/pages/Wallet/UTXOs"
 
 export default function Wallet () {
   const { kaspa, request } = useKaspa()
@@ -61,23 +62,7 @@ export default function Wallet () {
           />
         </div>
       </div>
-      <div className="h-full overflow-y-scroll no-scrollbar">
-        <div className={"grid grid-cols-3 mx-4 gap-2"}>
-          {kaspa.utxos.map((utxo, id) => {
-            return (
-              <div key={id} className={"flex flex-col items-center py-2 border-2 rounded-xl w-full h-24 " + (utxo.mature ? "hover:border-dashed" : "border-yellow-600")}>
-                <p className={"text-lg font-bold"}>{utxo.amount.toFixed(4)}</p>
-                <Button variant="link" className={"text-inherit font-extrabold"} onClick={() => {
-                  window.open(`https://explorer.kaspa.org/txs/${utxo.transaction}`)
-                }}>
-                  {utxo.transaction.substring(0, 8)}...
-                </Button>
-              </div>
-            )
-          })}
-        </div>
-
-      </div>
+      <UTXOs />
       <div className={"flex flex-row justify-center gap-5"}>
         <SendDrawer />
         <ReceiveDrawer />
