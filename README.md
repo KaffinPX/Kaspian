@@ -18,7 +18,7 @@ Introducing Kaspian, a self-custodial Kaspa wallet with built-in merchant tool a
 
 ## Installation
 
-Kaspian is currently not available in web stores as it is in its alpha stage. The only method for installation is through local builds using developer tools.
+Kaspian is currently not available in web stores as it is in its alpha stage. The available methods for installation is through local builds using developer tools or by GitHub Actions builds.
 
 ## Development
 
