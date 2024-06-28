@@ -4,7 +4,7 @@ import useKaspa from "@/hooks/useKaspa"
 
 export default function UTXOs () {
   const { kaspa } = useKaspa()
-  const [ index, setIndex ] = useState(9)
+  const [ index, setIndex ] = useState(18)
   const utxosRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
