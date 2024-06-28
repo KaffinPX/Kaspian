@@ -1,4 +1,4 @@
-import { NetworkIcon, PackageCheckIcon } from "lucide-react"
+import { NetworkIcon, PackageCheckIcon, CopyIcon } from "lucide-react"
 import {
   DialogContent,
   DialogDescription,
@@ -20,7 +20,14 @@ export default function Submit ({ transactions, onSubmitted }: {
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Submit Transaction</DialogTitle>
+        <DialogTitle>
+          Submit Transaction
+          <Button variant="link" size="icon" className="h-min w-8" onClick={() => {
+            navigator.clipboard.writeText(JSON.stringify(transactions))
+          }}>
+            <CopyIcon size={16}/>
+          </Button>
+        </DialogTitle>
         <DialogDescription>
           Submit your signed transaction(s) to network, miners should add it to a block.
         </DialogDescription>
