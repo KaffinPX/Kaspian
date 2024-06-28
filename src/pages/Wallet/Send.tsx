@@ -15,14 +15,12 @@ import { useState } from "react"
 import { Dialog } from "@/components/ui/dialog"
 import Sign from "./Send/Sign"
 import Submit from "./Send/Submit"
-import Success from "./Send/Success"
 import useURLParams from "@/hooks/useURLParams"
 
 export enum Tabs {
   Creation,
   Sign,
   Submit,
-  Success
 }
 
 export default function SendDrawer () {
@@ -32,7 +30,6 @@ export default function SendDrawer () {
   const [ recipient, setRecipient ] = useState(params.get('recipient') ?? "")
   const [ amount, setAmount ] = useState(params.get('amount') ?? "")
   const [ transactions, setTransactions ] = useState<string[]>()
-  const [ ids, setIds ] = useState<string[]>()
   const [ error, setError ] = useState("")
   const [ tab, setTab ] = useState(Tabs.Creation)
  
@@ -112,13 +109,9 @@ export default function SendDrawer () {
                 setTransactions(transactions)
                 setTab(Tabs.Submit)
               }} />}
-              {tab === Tabs.Submit && <Submit transactions={transactions!} onSubmitted={(ids) => { 
-                if (hash === 'send') return window.close()
-                
-                setIds(ids)
-                setTab(Tabs.Success)
+              {tab === Tabs.Submit && <Submit transactions={transactions!} onSubmitted={() => { 
+                if (hash === 'send') window.close()
               }} />}
-              {tab === Tabs.Success && <Success ids={ids!} />}
             </Dialog>
           </div>
         </div>
