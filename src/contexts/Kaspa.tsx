@@ -42,7 +42,7 @@ export function KaspaProvider ({ children }: {
   
     const connection = runtime.connect({ name: "@kaspian/client" })
 
-    connection.onMessage.addListener(async (message: Event | Response) => {
+    connection.onMessage.addListener(async (message: Response | Event) => {
       if (!isEvent(message)) {
         const [ resolve, reject ] = messagesRef.current.get(message.id)
 
@@ -62,9 +62,9 @@ export function KaspaProvider ({ children }: {
           updateState('balance', message.data)
           updateState('utxos', await request('account:utxos', []))
         } else if (message.event === 'account:addresses') {
-          updateState('addresses', [
-            kaspa.addresses[0].concat(message.data[0]),
-            kaspa.addresses[1].concat(message.data[1])
+          updateState('addresses', (addresses) => [
+            addresses[0].concat(message.data[0]),
+            addresses[1].concat(message.data[1])
           ])
         } if (message.event === 'provider:connection') {
           updateState('connectedURL', message.data)
@@ -112,13 +112,13 @@ export function KaspaProvider ({ children }: {
     })
   }, [])
   
-  const updateState = useCallback(<K extends keyof IKaspa>(key: K, value: IKaspa[K]) => {
-    setState((prevState) => ({ 
-      ...prevState, 
-      [ key ]: value 
+  const updateState = useCallback(<K extends keyof IKaspa>(key: K, value: IKaspa[K] | ((prevState: IKaspa[K]) => IKaspa[K])) => {
+    setState((prevState) => ({
+      ...prevState,
+      [ key ]: typeof value === 'function' ? (value(prevState[key])) : value
     }))
   }, [])
-
+  
   return (
     <KaspaContext.Provider value={{ load, kaspa, request }}>
       {children}
