@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import useKaspa from "@/hooks/useKaspa"
-import { useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import {
   DialogContent,
   DialogDescription,
@@ -45,6 +45,16 @@ export default function Sign ({ transactions, onSigned }: {
     return Number(sentValue - BigInt(transaction.outputs[transaction.outputs.length - 1].value)) / 1e8
   }, [ transactions ])
 
+  const sign = useCallback(() => {
+    setPassword("")
+
+    kaspa.request('account:sign', [ transactions, password ]).then((transactions) => {
+      onSigned(transactions)
+    }).catch((err) => {
+      setError(err)
+    })
+  }, [ transactions, password ])
+  
   return (
     <DialogContent>
       <DialogHeader>
@@ -81,18 +91,14 @@ export default function Sign ({ transactions, onSigned }: {
             if (error) setError("")
             setPassword(e.target.value)
           }}
+          onKeyUp={e => {
+            if (e.key !== 'Enter' || password === "") return
+            sign()
+          }}
         />
       </div>
       <DialogFooter>
-        <Button className={"gap-2"} disabled={password === ""} onClick={() => {
-          setPassword("")
-
-          kaspa.request('account:sign', [ transactions, password ]).then((transactions) => {
-            onSigned(transactions)
-          }).catch((err) => {
-            setError(err)
-          })
-        }}>
+        <Button className={"gap-2"} disabled={password === ""} onClick={sign}>
           <Pen />
           Sign
         </Button>
