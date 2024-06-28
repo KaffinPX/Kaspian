@@ -41,7 +41,6 @@ export default function UnlockWallet() {
           }}
           onKeyUp={e => {
             if (e.key !== 'Enter' || password === "") return
-
             unlockWallet()
           }}
           autoFocus

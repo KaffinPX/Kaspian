@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { i18n } from "webextension-polyfill"
 import useKaspa from "@/hooks/useKaspa"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { Dialog } from "@/components/ui/dialog"
 import Sign from "./Send/Sign"
 import Submit from "./Send/Submit"
@@ -33,6 +33,20 @@ export default function SendDrawer () {
   const [ error, setError ] = useState("")
   const [ tab, setTab ] = useState(Tabs.Creation)
  
+  const initiateSend = useCallback(() => {
+    request('account:createSend', [ recipient, amount ]).then((transactions) => {
+      if (hash !== 'send') {
+        setRecipient("")
+        setAmount("")
+      }
+
+      setTransactions(transactions)
+      setTab(Tabs.Sign)
+    }).catch((err) => {
+      setError(err)
+    })
+  }, [ recipient, amount ])
+
   return (
     <Sheet defaultOpen={hash === 'send'} onOpenChange={(open) => {
       if (hash !== 'send' || open) return
@@ -68,6 +82,10 @@ export default function SendDrawer () {
 
                   setRecipient(e.target.value)
                 }}
+                onKeyUp={e => {
+                  if (e.key !== 'Enter' || amount === "") return
+                  initiateSend()
+                }}
               />
               <div className="relative">
                 <Input
@@ -78,8 +96,11 @@ export default function SendDrawer () {
                   error={error}
                   onChange={(e) => {
                     if (error) setError("")
-
                     setAmount(e.target.value)
+                  }}
+                  onKeyUp={e => {
+                    if (e.key !== 'Enter' || amount === "") return
+                    initiateSend()
                   }}
                 />
                 <span className="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none antialiased">
@@ -88,19 +109,7 @@ export default function SendDrawer () {
               </div>
             </div>
 
-            <Button className={"gap-2"} disabled={!!transactions} onClick={() => {
-              request('account:createSend', [ recipient, amount ]).then((transactions) => {
-                if (hash !== 'send') {
-                  setRecipient("")
-                  setAmount("")
-                }
-
-                setTransactions(transactions)
-                setTab(Tabs.Sign)
-              }).catch((err) => {
-                setError(err)
-              })
-            }}>
+            <Button className={"gap-2"} disabled={!!transactions} onClick={initiateSend}>
               <SendToBack />
               {i18n.getMessage('send')}
             </Button>
