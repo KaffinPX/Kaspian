@@ -15,7 +15,7 @@ export default class Notifications {
   }) {
     wallet.on('status', (status) => this.handleEvent('wallet:status', status))
     account.on('balance', (balance) => this.handleEvent('account:balance', balance))
-    account.on('address', (address) => this.handleEvent('account:address', address))
+    account.on('addresses', (addresses) => this.handleEvent('account:addresses', addresses))
     node.on('connection', (status) => this.handleEvent('node:connection', status))
     provider.on('connection', (url) => this.handleEvent('provider:connection', url))
   }

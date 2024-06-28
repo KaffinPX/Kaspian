@@ -30,7 +30,7 @@ export default class Addresses {
     this.receiveAddresses.push(...receiveAddresses)
     this.changeAddresses.push(...changeAddresses)
     
-    return [ ...receiveAddresses, ...changeAddresses ]
+    return [ receiveAddresses, changeAddresses ]
   }
 
   reset () {

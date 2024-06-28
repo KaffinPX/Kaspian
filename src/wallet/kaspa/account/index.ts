@@ -127,7 +127,7 @@ export default class Account extends EventEmitter  {
 
   private async incrementAddresses (receiveCount: number, changeCount: number) {
     const addresses = await this.addresses.increment(receiveCount, changeCount)
-    if (addresses.length > 0 && this.processor.isActive) await this.context.trackAddresses(addresses)
+    if (addresses.length > 0 && this.processor.isActive) await this.context.trackAddresses(addresses.flat())
     
     const wallet = (await LocalStorage.get('wallet', undefined))!
     const account = wallet.accounts[this.session!.activeAccount]
@@ -137,7 +137,7 @@ export default class Account extends EventEmitter  {
 
     await LocalStorage.set('wallet', wallet)
 
-    this.emit('address', "") // a temporary fix for change address count not updating, must be fixed soon
+    this.emit('addresses', addresses)
   }
 
   private listenSession () {

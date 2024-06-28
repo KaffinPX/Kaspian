@@ -61,7 +61,7 @@ export interface EventMappings {
   "wallet:status": Status
   "node:connection": boolean
   "account:balance": number
-  "account:address": string
+  "account:addresses": [ string[], string[] ]
   'provider:connection': string
 }
 

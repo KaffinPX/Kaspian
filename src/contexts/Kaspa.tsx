@@ -61,8 +61,13 @@ export function KaspaProvider ({ children }: {
         } else if (message.event === 'account:balance') {
           updateState('balance', message.data)
           updateState('utxos', await request('account:utxos', []))
-        } else if (message.event === 'account:address') {
-          updateState('addresses', await request('account:addresses', []))
+        } else if (message.event === 'account:addresses') {
+          const addressSet: [ string[], string[] ] = [
+            kaspa.addresses[0].concat(message.data[0]),
+            kaspa.addresses[1].concat(message.data[1])
+          ]
+
+          updateState('addresses', addressSet)
         } if (message.event === 'provider:connection') {
           updateState('connectedURL', message.data)
         }
