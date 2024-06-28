@@ -39,8 +39,8 @@ export default class Account extends EventEmitter  {
       mature
     })
 
-    const matureUTXOs = this.context.getMatureRange(0, this.context.matureLength).map(utxo => mapUTXO(utxo, true))
     const pendingUTXOs = this.context.getPending().map(utxo => mapUTXO(utxo, false))
+    const matureUTXOs = this.context.getMatureRange(0, this.context.matureLength).map(utxo => mapUTXO(utxo, true))
 
     return [ ...pendingUTXOs, ...matureUTXOs ]
   }
