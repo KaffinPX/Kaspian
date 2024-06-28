@@ -69,19 +69,25 @@ export default function SendDrawer () {
                   setRecipient(e.target.value)
                 }}
               />
-              <Input
-                type={"number"}
-                placeholder={i18n.getMessage('amount')}
-                value={amount}
-                disabled={!!params.get('amount')}
-                error={error}
-                onChange={(e) => {
-                  if (error) setError("")
+              <div className="relative">
+                <Input
+                  type={"number"}
+                  placeholder={i18n.getMessage('amount')}
+                  value={amount}
+                  disabled={!!params.get('amount')}
+                  error={error}
+                  onChange={(e) => {
+                    if (error) setError("")
 
-                  setAmount(e.target.value)
-                }}
-              />
+                    setAmount(e.target.value)
+                  }}
+                />
+                <span className="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none antialiased">
+                  $ 0.00
+                </span>
+              </div>
             </div>
+
             <Button className={"gap-2"} disabled={!!transactions} onClick={() => {
               request('account:createSend', [ recipient, amount ]).then((transactions) => {
                 if (hash !== 'send') {
