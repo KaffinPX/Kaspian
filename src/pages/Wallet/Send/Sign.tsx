@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Pen } from "lucide-react"
+import { CopyIcon, Pen } from "lucide-react"
 import { i18n } from "webextension-polyfill"
 
 export default function Sign ({ transactions, onSigned }: {
@@ -48,7 +48,14 @@ export default function Sign ({ transactions, onSigned }: {
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Review Transaction</DialogTitle>
+        <DialogTitle>
+          Review Transaction
+          <Button variant="link" size="icon" className="h-min w-8" onClick={() => {
+            navigator.clipboard.writeText(JSON.stringify(transactions))
+          }}>
+            <CopyIcon size={16}/>
+          </Button>
+        </DialogTitle>
         <DialogDescription>
           Review the details of the transaction before signing it.
         </DialogDescription>
