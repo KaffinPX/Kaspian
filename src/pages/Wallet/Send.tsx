@@ -87,26 +87,21 @@ export default function SendDrawer () {
                   initiateSend()
                 }}
               />
-              <div className="relative">
-                <Input
-                  type={"number"}
-                  placeholder={i18n.getMessage('amount')}
-                  value={amount}
-                  disabled={!!params.get('amount')}
-                  error={error}
-                  onChange={(e) => {
-                    if (error) setError("")
-                    setAmount(e.target.value)
-                  }}
-                  onKeyUp={e => {
-                    if (e.key !== 'Enter' || amount === "") return
-                    initiateSend()
-                  }}
-                />
-                <span className="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none antialiased">
-                  $ 0.00
-                </span>
-              </div>
+              <Input
+                type={"number"}
+                placeholder={i18n.getMessage('amount')}
+                value={amount}
+                disabled={!!params.get('amount')}
+                error={error}
+                onChange={(e) => {
+                  if (error) setError("")
+                  setAmount(e.target.value)
+                }}
+                onKeyUp={e => {
+                  if (e.key !== 'Enter' || amount === "") return
+                  initiateSend()
+                }}
+              />
             </div>
 
             <Button className={"gap-2"} disabled={!!transactions} onClick={initiateSend}>

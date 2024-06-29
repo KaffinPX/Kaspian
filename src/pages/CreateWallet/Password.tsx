@@ -32,7 +32,7 @@ export default function Password ({ onPasswordSet }: {
     if (![...password].some((character) => specialCharacters.has(character))) errors.add(PasswordErrors.SpecialCharacter)
 
     return errors
-  }, [password])
+  }, [ password ])
 
   return (
     <main className={"flex flex-col justify-between min-h-screen py-6"}>
@@ -50,6 +50,10 @@ export default function Password ({ onPasswordSet }: {
             onChange={(e) =>
               setPassword(e.target.value)
             }
+            onKeyUp={e => {
+              if (e.key !== 'Enter' || password === "") return
+              onPasswordSet(password)
+            }}  
           />
           <Button
             size={"icon"}

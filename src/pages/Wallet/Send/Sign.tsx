@@ -95,6 +95,7 @@ export default function Sign ({ transactions, onSigned }: {
             if (e.key !== 'Enter' || password === "") return
             sign()
           }}
+          autoFocus
         />
       </div>
       <DialogFooter>
