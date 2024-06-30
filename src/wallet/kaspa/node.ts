@@ -1,7 +1,6 @@
 import { RpcClient, ConnectStrategy, Transaction } from "@/../wasm"
 import { EventEmitter } from "events"
 
-
 export default class Node extends EventEmitter {
   kaspa: RpcClient
 

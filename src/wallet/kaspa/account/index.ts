@@ -45,7 +45,7 @@ export default class Account extends EventEmitter  {
     return [ ...pendingUTXOs, ...matureUTXOs ]
   }
 
-  async createSend (recipient: string, amount: string) {
+  async createSend (recipient: string, amount: string, fee: string) {
     await this.incrementAddresses(0, 1)
 
     const { transactions } = await createTransactions({
@@ -55,7 +55,7 @@ export default class Account extends EventEmitter  {
         amount: kaspaToSompi(amount)!
       }],
       changeAddress: this.addresses.changeAddresses[this.addresses.changeAddresses.length - 1],
-      priorityFee: 0n,
+      priorityFee: kaspaToSompi(fee)!,
     })
 
     return transactions.map((transaction) => transaction.serializeToSafeJSON())

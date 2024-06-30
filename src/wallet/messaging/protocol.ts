@@ -15,7 +15,7 @@ export interface RequestMappings {
   'account:addresses': []
   'account:balance': []
   'account:utxos': []
-  'account:createSend': [ string, string ]
+  'account:createSend': [ string, string, string ]
   'account:sign': [ string[], string ]
   'account:scan': []
   'provider:connect': [ string ]
