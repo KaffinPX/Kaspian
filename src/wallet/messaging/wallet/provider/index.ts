@@ -5,50 +5,46 @@ import { EventEmitter } from "events"
 
 export default class Provider extends EventEmitter {
   private account: Account
-  private ports: Map<string, browser.Runtime.Port> = new Map()
-  private connection: browser.Runtime.Port | undefined
+  private port: browser.Runtime.Port | undefined
+  private windowId: number | undefined
 
   constructor (account: Account) {
     super()
 
     this.account = account
-
     this.account.on('transaction', (hash) => this.handleEvent('transaction', hash))
-  }
 
+    this.registerWindow()
+  }
+  
   get connectedURL () {
-    return this.connection?.sender?.url ?? ""
+    return this.windowId ? "" : this.port?.sender?.url
   }
 
   async askAccess (port: browser.Runtime.Port) {
-    if (this.connection) return port.disconnect()
-    if (this.ports.get(port.sender!.url!)) return port.disconnect()
+    if (this.port) return port.disconnect()
 
-    this.ports.set(port.sender!.url!, port)
-  
-    await this.openPopup('connect', {
+    this.port = port
+
+    const id = await this.openPopup('connect', {
       url: port.sender!.url!
     })
+    this.windowId = id
 
-    port.onDisconnect.addListener(() => {
-      if (this.ports.get(port.sender!.url!) !== port) return console.error('Sanity violation happened, looks like this was needed anyway')
+    this.port.onDisconnect.addListener(() => {
+      if (!this.windowId) return
 
-      // reset connection in port.onDisconnect on next connection part...
-      this.ports.delete(port.sender!.url!)
+      browser.windows.remove(this.windowId)
     })
   }
 
   connect (url: string) {
-    if (this.connection) throw Error('Already connected')
-    if (!this.ports.get(url)) throw Error('No port found')
+    if (!this.port) throw Error('No port found')
 
-    this.connection = this.ports.get(url)!
+    delete this.windowId
 
-    this.connection.onMessage.addListener((request) => this.handleMessage(request))
-
-    // TODO: remove listener when needed--..
-    
-    this.connection.postMessage({
+    this.port.onMessage.addListener((request) => this.handleMessage(request))    
+    this.port.postMessage({
       event: 'account',
       data: {
         balance: this.account.balance,
@@ -60,18 +56,18 @@ export default class Provider extends EventEmitter {
   }
 
   disconnect () {
-    if (!this.connection) throw Error('Not connected')
+    if (!this.port) throw Error('Not connected')
 
-    this.connection.disconnect()
+    this.port.disconnect()
+    delete this.port
+  
     this.emit('connection', "")
-
-    delete this.connection
   }
 
   private handleEvent <E extends keyof EventMappings>(event: E, data: EventMappings[E]) {
-    if (!this.connection) return
+    if (!this.port) return
 
-    this.connection.postMessage({ event, data })
+    this.port.postMessage({ event, data })
   }
 
   private async handleMessage (request: Request) {
@@ -88,12 +84,25 @@ export default class Provider extends EventEmitter {
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
       .join('&')
 
-    await browser.windows.create({
+    const { id } = await browser.windows.create({
       url: `./?${queryParams}#${hash}`,
       type: 'popup',
       width: 365,
       height: 592,
       focused: true
+    })
+
+    return id
+  }
+
+  private registerWindow () {
+    browser.windows.onRemoved.addListener((id) => {
+      if (id !== this.windowId) return
+
+      this.port!.disconnect()
+
+      delete this.windowId
+      delete this.port
     })
   }
 }

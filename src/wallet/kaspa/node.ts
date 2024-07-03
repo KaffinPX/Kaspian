@@ -1,12 +1,12 @@
-import { RpcClient, ConnectStrategy, Transaction } from "@/../wasm"
 import { EventEmitter } from "events"
+import { RpcClient, ConnectStrategy, Transaction } from "@/../wasm"
 
 export default class Node extends EventEmitter {
   kaspa: RpcClient
 
   constructor () {
     super()
-    
+
     this.kaspa = new RpcClient()
     
     this.registerEvents()
@@ -27,7 +27,7 @@ export default class Node extends EventEmitter {
       submittedIds.push(transactionId) 
     }
 
-    // this.emit('transaction', "")
+    this.emit('transaction', submittedIds[submittedIds.length - 1])
 
     return submittedIds
   }
