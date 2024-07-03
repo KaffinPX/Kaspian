@@ -65,7 +65,7 @@ export default class Provider extends EventEmitter {
   }
 
   private handleEvent <E extends keyof EventMappings>(event: E, data: EventMappings[E]) {
-    if (!this.port) return
+    if (!this.port || this.windowId) return
 
     this.port.postMessage({ event, data })
   }
