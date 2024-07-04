@@ -12,6 +12,10 @@
           }))
         }
 
+        window.addEventListener('kaspa:disconnect', (event) => {
+          document.getElementById(detail.name).hidden = false
+        })
+
         window.addEventListener('kaspa:event', (event) => {
           document.getElementById(detail.name).hidden = true
 
@@ -32,6 +36,10 @@
             }
           }))
         }
+      })
+
+      window.addEventListener('kaspa:disconnect', (event) => {
+        document.getElementById('details').hidden = true
       })
     </script>
   </head>

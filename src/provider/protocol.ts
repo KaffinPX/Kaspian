@@ -40,8 +40,8 @@ export interface EventMappings {
 }
 
 export interface Event<M extends keyof EventMappings = keyof EventMappings> {
-  event: M, // event may be related w a request(invoke)
-  data: EventMappings[M]
+  id: number
+  event: M
+  data: EventMappings[M] | false
+  error?: number
 }
-
-// add kaspa:error
