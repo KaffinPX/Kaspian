@@ -1,24 +1,26 @@
 import browser from "webextension-polyfill"
 import type { Request, Event, EventMappings } from "@/provider/protocol"
+import Windows from "@/wallet/messaging/wallet/provider/windows"
 import Account from "@/wallet/kaspa/account"
 import { EventEmitter } from "events"
 
 export default class Provider extends EventEmitter {
+  private windows: Windows
   private account: Account
   private port: browser.Runtime.Port | undefined
-  private windowId: number | undefined
+  private granted: boolean = false
 
   constructor (account: Account) {
     super()
 
+    this.windows = new Windows()
     this.account = account
-    this.account.on('transaction', (hash) => this.handleEvent('transaction', hash))
 
-    this.registerWindow()
+    this.account.on('transaction', (hash) => this.handleEvent('transaction', hash))
   }
   
   get connectedURL () {
-    return this.windowId ? "" : this.port?.sender?.url
+    return this.granted ? this.port?.sender?.url : ""
   }
 
   async askAccess (port: browser.Runtime.Port) {
@@ -26,22 +28,24 @@ export default class Provider extends EventEmitter {
 
     this.port = port
 
-    const id = await this.openPopup('connect', {
+    const id = await this.windows.open('connect', {
       url: port.sender!.url!
+    }, () => {
+      if (this.granted) return
+
+      this.port!.disconnect()
+      delete this.port
     })
-    this.windowId = id
 
     this.port.onDisconnect.addListener(() => {
-      if (!this.windowId) return
-
-      browser.windows.remove(this.windowId)
+      browser.windows.remove(id)
     })
   }
 
   connect (url: string) {
     if (!this.port) throw Error('No port found')
 
-    delete this.windowId
+    this.granted = true
 
     this.port.onMessage.addListener((request) => this.handleMessage(request))    
     this.port.postMessage({
@@ -65,44 +69,17 @@ export default class Provider extends EventEmitter {
   }
 
   private handleEvent <E extends keyof EventMappings>(event: E, data: EventMappings[E]) {
-    if (!this.port || this.windowId) return
+    if (!this.port || !this.granted) return
 
     this.port.postMessage({ event, data })
   }
 
   private async handleMessage (request: Request) {
     if (request.method === 'send') {
-      await this.openPopup('send', {
+      await this.windows.open('send', {
         'recipient': request.params[0],
         'amount': request.params[1]
       })
     }
-  }
-
-  private async openPopup (hash: string, params: { [ key: string ]: string }) {
-    const queryParams = Object.entries(params)
-      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-      .join('&')
-
-    const { id } = await browser.windows.create({
-      url: `./?${queryParams}#${hash}`,
-      type: 'popup',
-      width: 365,
-      height: 592,
-      focused: true
-    })
-
-    return id
-  }
-
-  private registerWindow () {
-    browser.windows.onRemoved.addListener((id) => {
-      if (id !== this.windowId) return
-
-      this.port!.disconnect()
-
-      delete this.windowId
-      delete this.port
-    })
   }
 }
