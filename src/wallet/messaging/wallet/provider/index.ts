@@ -15,8 +15,6 @@ export default class Provider extends EventEmitter {
 
     this.windows = new Windows()
     this.account = account
-
-    this.account.on('transaction', (hash) => this.handleEvent('transaction', hash))
   }
   
   get connectedURL () {
@@ -48,12 +46,9 @@ export default class Provider extends EventEmitter {
     this.granted = true
 
     this.port.onMessage.addListener((request) => this.handleMessage(request))    
-    this.port.postMessage({
-      event: 'account',
-      data: {
-        balance: this.account.balance,
-        addresses: this.account.addresses
-      }
+    this.submitEvent(0, 'account', {
+      balance: this.account.balance,
+      addresses: [ this.account.addresses.receiveAddresses, this.account.addresses.changeAddresses ]
     })
 
     this.emit('connection', url)
@@ -68,18 +63,34 @@ export default class Provider extends EventEmitter {
     this.emit('connection', "")
   }
 
-  private handleEvent <E extends keyof EventMappings>(event: E, data: EventMappings[E]) {
+  private submitEvent <E extends keyof EventMappings>(
+    id: number,
+    event: E,
+    data: EventMappings[E] | false,
+    error?: number
+  ) {
     if (!this.port || !this.granted) return
 
-    this.port.postMessage({ event, data })
+    const encodedEvent: Event<E> = { id, event, data, error }
+    this.port.postMessage(encodedEvent)
   }
 
   private async handleMessage (request: Request) {
     if (request.method === 'send') {
+      let hash: string
+
       await this.windows.open('send', {
         'recipient': request.params[0],
         'amount': request.params[1]
+      }, () => {
+        if (hash) {
+          this.submitEvent(request.id, 'transaction', hash)
+        } else {
+          this.submitEvent(request.id, 'transaction', false, 505)
+        }
       })
+
+      this.account.once('transaction', (transaction) => hash = transaction)
     }
   }
 }
