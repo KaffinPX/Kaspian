@@ -45,7 +45,7 @@ export default function Network () {
               <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="h-64">
                 {settings.nodes.map((node, id) => {
                   return (
                     <SelectItem key={id} value={id.toString()}>

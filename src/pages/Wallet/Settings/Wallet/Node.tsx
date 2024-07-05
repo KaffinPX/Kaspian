@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -9,12 +10,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import useKaspa from "@/hooks/useKaspa"
 import useSettings from "@/hooks/useSettings"
-import { Plus } from "lucide-react"
+import { PlusIcon } from "lucide-react"
 import { useState } from "react"
-import { i18n } from "webextension-polyfill"
 
 export default function Export () {
   const [ name, setName ] = useState("")
@@ -23,10 +21,13 @@ export default function Export () {
   const { settings, updateSetting } = useSettings()
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={() => {
+      setName("")
+      setAddress("")
+    }}>
       <DialogTrigger asChild>
         <Button variant="outline" size={"icon"}>
-          <Plus />
+          <PlusIcon />
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -41,23 +42,25 @@ export default function Export () {
           <Input value={address} type={"text"} placeholder={"Address (ws:// or wss://)"}  onChange={(e) => setAddress(e.target.value)} />
         </div>
         <DialogFooter>
-          <Button
-            className={"flex gap-2"}
-            disabled={name === "" || address === ""}
-            onClick={async () => {
-              await updateSetting('nodes', [
-                ...settings.nodes,
-                {
-                  name,
-                  address,
-                  locked: false
-                }
-              ])
-            }}
-          >
-            <Plus />
-            Add
-          </Button>
+          <DialogClose asChild>
+            <Button
+              className={"flex gap-2"}
+              disabled={name === "" || address === ""}
+              onClick={async () => {
+                await updateSetting('nodes', [
+                  ...settings.nodes,
+                  {
+                    name,
+                    address,
+                    locked: false
+                  }
+                ])
+              }}
+            >
+              <PlusIcon />
+              Add
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

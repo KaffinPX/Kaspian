@@ -24,6 +24,7 @@ export default function Export () {
   return (
     <Dialog onOpenChange={() => {
       setMnemonic("")
+      setPassword("")
     }}>
       <DialogTrigger asChild>
         <Button variant={"outline"}>Export wallet</Button>
@@ -37,11 +38,11 @@ export default function Export () {
         </DialogHeader>
         <Textarea
           value={mnemonic}
-          className={"w-full h-40 font-mono resize-none"}
+          className={"w-full h-40 font-mono resize-none rounded"}
           disabled={true}
         />
         <DialogFooter>
-           <div className={"flex mx-auto gap-2"}>
+           <div className={"flex mx-auto gap-1"}>
             <Input
               type={"password"}
               placeholder={i18n.getMessage('password')}
