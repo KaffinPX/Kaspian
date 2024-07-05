@@ -1,18 +1,8 @@
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import NodeDrawer from "@/pages/Wallet/Settings/Wallet/Node"
-import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { i18n } from "webextension-polyfill"
 import useKaspa from "@/hooks/useKaspa"
 import { Button } from "@/components/ui/button"
 

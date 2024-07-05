@@ -6,7 +6,7 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import NodeDrawer from "@/pages/Wallet/Settings/Wallet/Node"
+import NodePopup from "@/pages/Wallet/Settings/Wallet/Node"
 import ExportPopup from "@/pages/Wallet/Settings/Wallet/Export"
 import {
   AccordionContent,
@@ -56,7 +56,7 @@ export default function Network () {
                 })}
               </SelectContent>
             </Select>
-            <NodeDrawer /> {/* Make it a self-contained popup */}
+            <NodePopup />
           </div>
           <div className={"px-3"}>
             <h3 className={"flex gap-2 font-bold"}>
