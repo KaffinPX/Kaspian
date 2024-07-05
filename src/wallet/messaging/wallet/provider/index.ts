@@ -37,6 +37,8 @@ export default class Provider extends EventEmitter {
 
     this.port.onDisconnect.addListener(() => {
       browser.windows.remove(id)
+
+      this.disconnect()
     })
   }
 
@@ -58,8 +60,9 @@ export default class Provider extends EventEmitter {
     if (!this.port) throw Error('Not connected')
 
     this.port.disconnect()
+    this.granted = false
     delete this.port
-  
+
     this.emit('connection', "")
   }
 
@@ -77,20 +80,20 @@ export default class Provider extends EventEmitter {
 
   private async handleMessage (request: Request) {
     if (request.method === 'send') {
-      let hash: string
+      let transactions: string[]
 
       await this.windows.open('send', {
         'recipient': request.params[0],
         'amount': request.params[1]
       }, () => {
-        if (hash) {
-          this.submitEvent(request.id, 'transaction', hash)
+        if (transactions) {
+          this.submitEvent(request.id, 'transactions', transactions)
         } else {
-          this.submitEvent(request.id, 'transaction', false, 505)
+          this.submitEvent(request.id, 'transactions', false, 505)
         }
       })
 
-      this.account.once('transaction', (transaction) => hash = transaction)
+      this.account.once('transactions', (parsedTransactions) => transactions = parsedTransactions)
     }
   }
 }

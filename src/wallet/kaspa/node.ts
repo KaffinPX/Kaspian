@@ -27,8 +27,6 @@ export default class Node extends EventEmitter {
       submittedIds.push(transactionId) 
     }
 
-    this.emit('transaction', submittedIds[submittedIds.length - 1])
-
     return submittedIds
   }
 

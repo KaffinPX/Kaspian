@@ -83,7 +83,10 @@ export default class Account extends EventEmitter  {
       signedTransactions.push(signTransaction(parsedTransaction, privateKeys, false))
     }
     
-    return signedTransactions.map(transaction => transaction.serializeToSafeJSON())
+    const parsedTransactions = signedTransactions.map(transaction => transaction.serializeToSafeJSON())
+    this.emit('transactions', parsedTransactions)
+
+    return parsedTransactions
   }
 
   async scan (steps = 50, count = 10) {

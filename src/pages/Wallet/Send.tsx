@@ -34,7 +34,7 @@ export default function SendDrawer () {
   const [ tab, setTab ] = useState(Tabs.Creation)
  
   const initiateSend = useCallback(() => {
-    request('account:createSend', [ recipient, amount, '0.01' ]).then((transactions) => {
+    request('account:createSend', [ recipient, amount, '0' ]).then((transactions) => {
       if (hash !== 'send') {
         setRecipient("")
         setAmount("")

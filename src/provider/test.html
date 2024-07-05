@@ -18,19 +18,24 @@
 
         window.addEventListener('kaspa:event', (event) => {
           document.getElementById(detail.name).hidden = true
-
+          console.log(event)
           if (event.detail.event === 'account') {
             document.getElementById('balance').innerText = `Balance: ${event.detail.data.balance}`
             document.getElementById('details').hidden = false
+          } else if (event.detail.event === 'transactions') {
+            if (event.detail.id !== 1) return
+
+            alert('Thanks for coffee!')
           }
         })
 
         document.getElementById('send').onclick = () => {
           window.dispatchEvent(new CustomEvent("kaspa:invoke", {
             detail: {
+              id: 1,
               method: 'send',
               params: [ 
-                "kaspa:qzt0mk6m5chdn7c4l6ylcwm4ef9u0els6ldx7lv9h8auuj6a4qw0clg7r6xln", 
+                "kaspa:qqpdx32s8rcf6kyxmul4sjmx2pcktawsqs840cq8e4uhxngzcxmexlpsawy66", 
                 "1"
               ]
             }

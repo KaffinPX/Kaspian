@@ -37,7 +37,7 @@ export function isRequest (object: any): object is Request {
 
 export interface EventMappings {
   'account': AccountData,
-  'transaction': string
+  'transactions': string[]
 }
 
 export interface Event<M extends keyof EventMappings = keyof EventMappings> {
