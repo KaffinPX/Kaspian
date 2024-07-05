@@ -37,7 +37,6 @@ export default class Provider extends EventEmitter {
 
     this.port.onDisconnect.addListener(() => {
       browser.windows.remove(id)
-
       this.disconnect()
     })
   }
@@ -59,8 +58,8 @@ export default class Provider extends EventEmitter {
   disconnect () {
     if (!this.port) throw Error('Not connected')
 
-    this.port.disconnect()
     this.granted = false
+    this.port.disconnect()
     delete this.port
 
     this.emit('connection', "")
@@ -89,7 +88,7 @@ export default class Provider extends EventEmitter {
         if (transactions) {
           this.submitEvent(request.id, 'transactions', transactions)
         } else {
-          this.submitEvent(request.id, 'transactions', false, 505)
+          this.submitEvent(request.id, 'transactions', false, 403)
         }
       })
 

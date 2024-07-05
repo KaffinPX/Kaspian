@@ -23,7 +23,7 @@
             document.getElementById('balance').innerText = `Balance: ${event.detail.data.balance}`
             document.getElementById('details').hidden = false
           } else if (event.detail.event === 'transactions') {
-            if (event.detail.id !== 1) return
+            if (event.detail.id !== 1 || event.detail.data === false) return
 
             alert('Thanks for coffee!')
           }
