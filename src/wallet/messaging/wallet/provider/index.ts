@@ -48,7 +48,7 @@ export default class Provider extends EventEmitter {
     this.granted = true
 
     this.port.onMessage.addListener((request) => this.handleMessage(request))    
-    this.submitEvent(0, 'account', {
+    this.submitEvent(0, 'summary', {
       balance: this.account.balance,
       addresses: [ this.account.addresses.receiveAddresses, this.account.addresses.changeAddresses ]
     })
