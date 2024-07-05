@@ -1,4 +1,4 @@
-import { isRequest, type ProviderInfo, type Request } from "./protocol"
+import { isRequest, type ProviderInfo } from "./protocol"
 
 function announceProvider () {
   const info: ProviderInfo = {

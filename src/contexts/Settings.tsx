@@ -20,9 +20,13 @@ export const currencies = {
 export const defaultSettings: ISettings = {
   version: 4,
   nodes: [{
-      name: "Kaspa-NG EU",
-      address: "wss://eu-1.kaspa-ng.io/mainnet",
-      locked: true
+    name: "Kaspa-NG EU",
+    address: "wss://eu-1.kaspa-ng.io/mainnet",
+    locked: true
+  }, {
+    name: "Subsecond.wtf",
+    address: "wss://subsecond.wtf/rpc",
+    locked: true
   }],
   currency: 'USD',
   selectedNode: 0
