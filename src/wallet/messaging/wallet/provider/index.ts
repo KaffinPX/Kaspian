@@ -18,7 +18,7 @@ export default class Provider extends EventEmitter {
   }
   
   get connectedURL () {
-    return this.granted ? this.port?.sender?.url : ""
+    return this.granted ? this.port?.sender?.url! : ""
   }
 
   async askAccess (port: browser.Runtime.Port) {
@@ -47,7 +47,7 @@ export default class Provider extends EventEmitter {
     this.granted = true
 
     this.port.onMessage.addListener((request) => this.handleMessage(request))    
-    this.submitEvent(0, 'summary', {
+    this.submitEvent(0, 'account', {
       balance: this.account.balance,
       addresses: [ this.account.addresses.receiveAddresses, this.account.addresses.changeAddresses ]
     })

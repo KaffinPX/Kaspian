@@ -3,15 +3,11 @@
 @tailwind utilities;
 
 #root {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @apply flex flex-col items-center max-w-screen max-h-screen;
 }
 
 main {
-  min-width: 365px;
-  max-width: 410px;
-  height: 592px;
+  @apply min-w-[365px] max-w-[410px] h-[592px] max-h-screen;
 }
 
 @layer base {

@@ -19,7 +19,7 @@ export default class Windows {
       left: location[1],
       type: 'popup',
       width: 365,
-      height: 600, // TODO: find a way to remove this...
+      height: 610,
       focused: true
     })
 

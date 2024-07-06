@@ -1,140 +1,140 @@
 {
-  "kaspianIntro": {
-    "message": "Welcome to Kaspian. Let's get you started!"
-  },
-  "createIntro": {
-    "message": "Create a wallet to get started"
-  },
-  "importIntro": {
-    "message": "Already have a wallet? Import it here"
-  },
-  "createWallet": {
-    "message": "Create Wallet"
-  },
-  "importWallet": {
-    "message": "Import Wallet"
-  },
-  "importDescription": {
-    "message": "Enter your 24-word mnemonic phrase below to import your wallet"
-  },
-  "mnemonic": {
-    "message": "Mnemonic phrase"
-  },
-  "rules": {
-    "message": "This journey will be exciting, but you have to follow some rules."
-  },
-  "backupWallet": {
-    "message": "Backup Wallet"
-  },
-  "selfCustody": {
-    "message": "Your wallet is stored locally on your device. If you lose access to your device, or forget the password, you won't be able to recover your wallet without your mnemonic phrase."
-  },
-  "shareMnemonic": {
-    "message": "Never share your mnemonic phrase"
-  },
-  "walletAccess": {
-    "message": "Your mnemonic phrase is the key to your wallet. Anyone who has access to it can steal your funds."
-  },
-  "verifyAddresses": {
-    "message": "Verify the addresses you send to"
-  },
-  "immutability": {
-    "message": "Always verify the address you are sending to. If you send to the wrong address, your funds will be lost forever."
-  },
-  "next": {
-    "message": "Next"
-  },
-  "confirm": {
-    "message": "Confirm"
-  },
-  "finish": {
-    "message": "Finish"
-  },
-  "continue": {
-    "message": "Continue"
-  },
-  "backupMnemonic": {
-    "message": "It's time to save your mnemonic phrase. Write it down and keep it safe."
-  },
-  "show": {
-    "message": "Show"
-  },
-  "hide": {
-    "message": "Hide"
-  },
-  "confirmBackup": {
-    "message": "I've saved my mnemonic phrase in a safe place"
-  },
-  "setPassword": {
-    "message": "Set Password"
-  },
-  "passwordDescription": {
-    "message": "Set a password, this password will be used to encrypt your mnemonic."
-  },
-  "success": {
-    "message": "Success"
-  },
-  "welcoming": {
-    "message": "It's about to get exciting. You're all set up and ready to go!"
-  },
-  "unlockIntro": {
-    "message": "We're happy you're back! Please enter your password to unlock your wallet"
-  },
-  "password": {
-    "message": "Password"
-  },
-  "unlock": {
-    "message": "Unlock"
-  },
-  "send": {
-    "message": "Send"
-  },
-  "sendTitle": {
-    "message": "Send Kaspa"
-  },
-  "sendDescription": {
-    "message": "Enter the amount and the address to send Kaspa"
-  },
-  "available": {
-    "message": "Available"
-  },
-  "address": {
-    "message": "Address"
-  },
-  "amount": {
-    "message": "Amount"
-  },
-  "confirmationTitle": {
-    "message": "Confirm to sign transaction"
-  },
-  "confirmationDescription": {
-    "message": "Review the details of the transaction before signing it"
-  },
-  "cancel": {
-    "message": "Cancel"
-  },
-  "receive": {
-    "message": "Receive"
-  },
-  "settings": {
-    "message": "Settings"
-  },
-  "general": {
-    "message": "General"
-  },
-  "theme": {
-    "message": "Theme"
-  },
-  "themeDescription": {
-    "message": "Select the theme of wallet"
-  },
-  "wallet": {
-    "message": "Wallet"
-  },
-  "node": {
-    "message": "Node"
-  },
-  "nodeDescription": {
-    "message": "Select the node you will use to interact with network"
-  }
+	"address": {
+		"message": "Address"
+	},
+	"amount": {
+		"message": "Amount"
+	},
+	"available": {
+		"message": "Available"
+	},
+	"backupMnemonic": {
+		"message": "It's time to save your mnemonic phrase. Write it down and keep it safe."
+	},
+	"backupWallet": {
+		"message": "Backup Wallet"
+	},
+	"cancel": {
+		"message": "Cancel"
+	},
+	"confirm": {
+		"message": "Confirm"
+	},
+	"confirmBackup": {
+		"message": "I've saved my mnemonic phrase in a safe place"
+	},
+	"confirmationDescription": {
+		"message": "Review the details of the transaction before signing it"
+	},
+	"confirmationTitle": {
+		"message": "Confirm to sign transaction"
+	},
+	"continue": {
+		"message": "Continue"
+	},
+	"createIntro": {
+		"message": "Create a wallet to get started"
+	},
+	"createWallet": {
+		"message": "Create Wallet"
+	},
+	"finish": {
+		"message": "Finish"
+	},
+	"general": {
+		"message": "General"
+	},
+	"hide": {
+		"message": "Hide"
+	},
+	"immutability": {
+		"message": "Always verify the address you are sending to. If you send to the wrong address, your funds will be lost forever."
+	},
+	"importDescription": {
+		"message": "Enter your 24-word mnemonic phrase below to import your wallet"
+	},
+	"importIntro": {
+		"message": "Already have a wallet? Import it here"
+	},
+	"importWallet": {
+		"message": "Import Wallet"
+	},
+	"kaspianIntro": {
+		"message": "Welcome to Kaspian. Let's get you started!"
+	},
+	"mnemonic": {
+		"message": "Mnemonic phrase"
+	},
+	"next": {
+		"message": "Next"
+	},
+	"node": {
+		"message": "Node"
+	},
+	"nodeDescription": {
+		"message": "Select the node you will use to interact with network"
+	},
+	"password": {
+		"message": "Password"
+	},
+	"passwordDescription": {
+		"message": "Set a password, this password will be used to encrypt your mnemonic."
+	},
+	"receive": {
+		"message": "Receive"
+	},
+	"rules": {
+		"message": "This journey will be exciting, but you have to follow some rules."
+	},
+	"selfCustody": {
+		"message": "Your wallet is stored locally on your device. If you lose access to your device, or forget the password, you won't be able to recover your wallet without your mnemonic phrase."
+	},
+	"send": {
+		"message": "Send"
+	},
+	"sendDescription": {
+		"message": "Enter the amount and the address to send Kaspa"
+	},
+	"sendTitle": {
+		"message": "Send Kaspa"
+	},
+	"setPassword": {
+		"message": "Set Password"
+	},
+	"settings": {
+		"message": "Settings"
+	},
+	"shareMnemonic": {
+		"message": "Never share your mnemonic phrase"
+	},
+	"show": {
+		"message": "Show"
+	},
+	"success": {
+		"message": "Success"
+	},
+	"theme": {
+		"message": "Theme"
+	},
+	"themeDescription": {
+		"message": "Select the theme of wallet"
+	},
+	"unlock": {
+		"message": "Unlock"
+	},
+	"unlockIntro": {
+		"message": "We're happy you're back! Please enter your password to unlock your wallet"
+	},
+	"verifyAddresses": {
+		"message": "Verify the addresses you send to"
+	},
+	"wallet": {
+		"message": "Wallet"
+	},
+	"walletAccess": {
+		"message": "Your mnemonic phrase is the key to your wallet. Anyone who has access to it can steal your funds."
+	},
+	"welcoming": {
+		"message": "It's about to get exciting. You're all set up and ready to go!"
+	}
 }

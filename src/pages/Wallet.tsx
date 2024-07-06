@@ -22,7 +22,6 @@ export default function Wallet () {
   const navigate = useNavigate()
 
   useEffect(() => {
-    console.log(kaspa.connectedURL)
     if (!kaspa.connected) {
       request('node:connect', [ settings.nodes[settings.selectedNode].address ])
     }

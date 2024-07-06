@@ -19,7 +19,7 @@
         window.addEventListener('kaspa:event', (event) => {
           document.getElementById(detail.name).hidden = true
           console.log(event)
-          if (event.detail.event === 'summary') {
+          if (event.detail.event === 'account') {
             document.getElementById('balance').innerText = `Balance: ${event.detail.data.balance}`
             document.getElementById('details').hidden = false
           } else if (event.detail.event === 'transactions') {

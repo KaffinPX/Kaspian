@@ -34,7 +34,7 @@ export default function Export () {
         <DialogHeader>
           <DialogTitle>Add Node</DialogTitle>
           <DialogDescription>
-            Be careful, third party nodes may log your activities.
+            Be careful, 3. party nodes may log your activities.
           </DialogDescription>
         </DialogHeader>
         <div className={"text-center flex flex-col gap-1 mx-3"}>

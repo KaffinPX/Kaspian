@@ -3,7 +3,7 @@ export interface ProviderInfo {
   name: string
 }
 
-export interface SummaryInfo {
+export interface AccountInfo {
   balance: number
   addresses: [ string[], string[] ]
 }
@@ -36,7 +36,7 @@ export function isRequest (object: any): object is Request {
 }
 
 export interface EventMappings {
-  'summary': SummaryInfo,
+  'account': AccountInfo,
   'transactions': string[]
 }
 
