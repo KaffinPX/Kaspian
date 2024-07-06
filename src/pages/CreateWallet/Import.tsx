@@ -30,7 +30,7 @@ export default function Import ({ onMnemonicsSubmit }: {
             onMnemonicsSubmit(mnemonic)
           }}
         >
-          Import
+          {i18n.getMessage('import')}
         </Button>
       </div>
     </main>

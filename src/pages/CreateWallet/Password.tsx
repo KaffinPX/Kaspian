@@ -66,24 +66,24 @@ export default function Password ({ onPasswordSet }: {
           </Button>
         </div>
         <Label>
-          {errors.has(PasswordErrors.TooShort) ? "❌ " : "✅ "} 
-          At least 8 characters long.
+          {errors.has(PasswordErrors.TooShort) ? "❌ " : "✅ "}
+          {i18n.getMessage('passwordTooShort')}
         </Label>
         <Label>
-          {errors.has(PasswordErrors.UpperCase) ? "❌ " : "✅ "} 
-          At least one uppercase character.
+          {errors.has(PasswordErrors.UpperCase) ? "❌ " : "✅ "}
+          {i18n.getMessage('passwordUpperCase')}
         </Label>
         <Label>
           {errors.has(PasswordErrors.LowerCase) ? "❌ " : "✅ "} 
-          At least one lowercase character.
+          {i18n.getMessage('passwordLowerCase')}
         </Label>
         <Label>
           {errors.has(PasswordErrors.Number) ? "❌ " : "✅ "} 
-          At least one number.
+          {i18n.getMessage('passwordNumber')}
         </Label>
         <Label>
           {errors.has(PasswordErrors.SpecialCharacter) ? "❌ " : "✅ "} 
-          At least one special character.
+          {i18n.getMessage('passwordSpecialCharacter')}
         </Label>
       </div>
       <div className={"mx-auto"}>

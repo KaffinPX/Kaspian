@@ -50,14 +50,14 @@
 	"immutability": {
 		"message": "Always verify the address you are sending to. If you send to the wrong address, your funds will be lost forever."
 	},
-	"importDescription": {
-		"message": "Enter your 24-word mnemonic phrase below to import your wallet"
-	},
 	"importIntro": {
 		"message": "Already have a wallet? Import it here"
 	},
 	"importWallet": {
 		"message": "Import Wallet"
+	},
+	"import": {
+		"message": "Import"
 	},
 	"kaspianIntro": {
 		"message": "Welcome to Kaspian. Let's get you started!"
@@ -136,5 +136,20 @@
 	},
 	"welcoming": {
 		"message": "It's about to get exciting. You're all set up and ready to go!"
+	},
+	"passwordTooShort": {
+		"message": "At least 8 characters long."
+	},
+	"passwordUpperCase": {
+		"message": "At least one uppercase character."
+	},
+	"passwordLowerCase": {
+		"message": "At least one lowercase character."
+	},
+	"passwordNumber": {
+		"message": "At least one number."
+	},
+	"passwordSpecialCharacter": {
+		"message": "At least one special character."
 	}
 }
