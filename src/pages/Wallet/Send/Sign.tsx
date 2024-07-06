@@ -59,7 +59,7 @@ export default function Sign ({ transactions, onSigned }: {
     <DialogContent>
       <DialogHeader>
         <DialogTitle>
-          Review Transaction
+          {i18n.getMessage('confirmationTitle')}
           <Button variant="link" size="icon" className="h-min w-8" onClick={() => {
             navigator.clipboard.writeText(JSON.stringify(transactions))
           }}>
@@ -67,16 +67,16 @@ export default function Sign ({ transactions, onSigned }: {
           </Button>
         </DialogTitle>
         <DialogDescription>
-          Review the details of the transaction before signing it.
+          {i18n.getMessage('confirmationDescription')}
         </DialogDescription>
       </DialogHeader>
       <div className="flex px-4 items-center justify-center gap-2 mt-2">
         <div className={"flex flex-col text-center gap-1"}>
-          <h3 className={"text-lg"}>Amount</h3>
+          <h3 className={"text-lg"}>{i18n.getMessage('amount')}</h3>
           <div className={"bg-gray-200 dark:bg-gray-800 rounded-md p-2 font-mono font-bold"}>{amount} KAS</div>
         </div>
         <div className={"flex flex-col text-center gap-1"}>
-          <h3 className={"text-lg"}>Fee</h3>
+          <h3 className={"text-lg"}>{i18n.getMessage('fee')}</h3>
           <div className={"bg-gray-200 dark:bg-gray-800 rounded-md p-2 font-mono font-bold"}>{fee} KAS</div>
         </div>
       </div>
@@ -101,7 +101,7 @@ export default function Sign ({ transactions, onSigned }: {
       <DialogFooter>
         <Button className={"gap-2"} disabled={password === ""} onClick={sign}>
           <Pen />
-          Sign
+          {i18n.getMessage('sign')}
         </Button>
       </DialogFooter>
     </DialogContent>

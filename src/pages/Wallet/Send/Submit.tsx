@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button"
 import useKaspa from "@/hooks/useKaspa"
 import { useState } from "react"
+import { i18n } from "webextension-polyfill"
 
 export default function Submit ({ transactions, onSubmitted }: {
   transactions: string[]
@@ -21,7 +22,7 @@ export default function Submit ({ transactions, onSubmitted }: {
     <DialogContent>
       <DialogHeader>
         <DialogTitle>
-          Submit Transaction
+          {i18n.getMessage('submitTitle')}
           <Button variant="link" size="icon" className="h-min w-8" onClick={() => {
             navigator.clipboard.writeText(JSON.stringify(transactions))
           }}>
@@ -29,13 +30,13 @@ export default function Submit ({ transactions, onSubmitted }: {
           </Button>
         </DialogTitle>
         <DialogDescription>
-          Submit your signed transaction(s) to network, miners should add it to a block.
+          {i18n.getMessage('submitDescription')}
         </DialogDescription>
       </DialogHeader>
       <DialogFooter>
         <Button variant="link" className={"dark:text-white font-bold"} disabled={ids.length === 0} onClick={() => {
           window.open(`https://explorer.kaspa.org/txs/${ids[0]}`)
-        }}>View it on the explorer</Button>
+        }}>{i18n.getMessage('viewOnExplorer')}</Button>
 
         <Button className={"gap-2"} onClick={({ currentTarget }) => {
           currentTarget.disabled = true
@@ -48,7 +49,7 @@ export default function Submit ({ transactions, onSubmitted }: {
           })
         }}>
           { ids.length === 0 ? <NetworkIcon /> : <PackageCheckIcon /> }
-          Submit
+          {i18n.getMessage('submit')}
         </Button>
       </DialogFooter>
     </DialogContent>

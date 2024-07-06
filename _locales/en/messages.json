@@ -27,7 +27,7 @@
 		"message": "Review the details of the transaction before signing it"
 	},
 	"confirmationTitle": {
-		"message": "Confirm to sign transaction"
+		"message": "Review Transaction"
 	},
 	"continue": {
 		"message": "Continue"
@@ -37,6 +37,9 @@
 	},
 	"createWallet": {
 		"message": "Create Wallet"
+	},
+	"fee": {
+		"message": "Fee"
 	},
 	"finish": {
 		"message": "Finish"
@@ -50,14 +53,14 @@
 	"immutability": {
 		"message": "Always verify the address you are sending to. If you send to the wrong address, your funds will be lost forever."
 	},
+	"import": {
+		"message": "Import"
+	},
 	"importIntro": {
 		"message": "Already have a wallet? Import it here"
 	},
 	"importWallet": {
 		"message": "Import Wallet"
-	},
-	"import": {
-		"message": "Import"
 	},
 	"kaspianIntro": {
 		"message": "Welcome to Kaspian. Let's get you started!"
@@ -79,6 +82,21 @@
 	},
 	"passwordDescription": {
 		"message": "Set a password, this password will be used to encrypt your mnemonic."
+	},
+	"passwordLowerCase": {
+		"message": "At least one lowercase character."
+	},
+	"passwordNumber": {
+		"message": "At least one number."
+	},
+	"passwordSpecialCharacter": {
+		"message": "At least one special character."
+	},
+	"passwordTooShort": {
+		"message": "At least 8 characters long."
+	},
+	"passwordUpperCase": {
+		"message": "At least one uppercase character."
 	},
 	"receive": {
 		"message": "Receive"
@@ -110,6 +128,18 @@
 	"show": {
 		"message": "Show"
 	},
+	"sign": {
+		"message": "Sign"
+	},
+	"submit": {
+		"message": "Submit"
+	},
+	"submitDescription": {
+		"message": "Submit your signed transaction(s) to network, miners should add it to a block."
+	},
+	"submitTitle": {
+		"message": "Submit Transaction"
+	},
 	"success": {
 		"message": "Success"
 	},
@@ -128,6 +158,9 @@
 	"verifyAddresses": {
 		"message": "Verify the addresses you send to"
 	},
+	"viewOnExplorer": {
+		"message": "View it on the explorer"
+	},
 	"wallet": {
 		"message": "Wallet"
 	},
@@ -136,20 +169,5 @@
 	},
 	"welcoming": {
 		"message": "It's about to get exciting. You're all set up and ready to go!"
-	},
-	"passwordTooShort": {
-		"message": "At least 8 characters long."
-	},
-	"passwordUpperCase": {
-		"message": "At least one uppercase character."
-	},
-	"passwordLowerCase": {
-		"message": "At least one lowercase character."
-	},
-	"passwordNumber": {
-		"message": "At least one number."
-	},
-	"passwordSpecialCharacter": {
-		"message": "At least one special character."
 	}
 }
