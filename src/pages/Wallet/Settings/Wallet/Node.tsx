@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input"
 import useSettings from "@/hooks/useSettings"
 import { PlusIcon } from "lucide-react"
 import { useState } from "react"
+import { i18n } from "webextension-polyfill"
 
 export default function Export () {
   const [ name, setName ] = useState("")
@@ -32,14 +33,14 @@ export default function Export () {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Node</DialogTitle>
+          <DialogTitle>{i18n.getMessage('addNodeTitle')}</DialogTitle>
           <DialogDescription>
-            Be careful, 3. party nodes may log your activities.
+            {i18n.getMessage('addNodeDescription')}
           </DialogDescription>
         </DialogHeader>
         <div className={"text-center flex flex-col gap-1 mx-3"}>
-          <Input value={name} type={"text"} placeholder={"Name"}  onChange={(e) => setName(e.target.value)} />
-          <Input value={address} type={"text"} placeholder={"Address (ws:// or wss://)"}  onChange={(e) => setAddress(e.target.value)} />
+          <Input value={name} type={"text"} placeholder={i18n.getMessage('name')} onChange={(e) => setName(e.target.value)} />
+          <Input value={address} type={"text"} placeholder={i18n.getMessage('addNodeAddress')}  onChange={(e) => setAddress(e.target.value)} />
         </div>
         <DialogFooter>
           <DialogClose asChild>
@@ -58,7 +59,7 @@ export default function Export () {
               }}
             >
               <PlusIcon />
-              Add
+              {i18n.getMessage('add')}
             </Button>
           </DialogClose>
         </DialogFooter>

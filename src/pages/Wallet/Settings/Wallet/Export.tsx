@@ -27,13 +27,13 @@ export default function Export () {
       setPassword("")
     }}>
       <DialogTrigger asChild>
-        <Button variant={"outline"}>Export wallet</Button>
+        <Button variant={"outline"}>{i18n.getMessage('exportButton')}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Export Mnemonic</DialogTitle>
+          <DialogTitle>{i18n.getMessage('exportTitle')}</DialogTitle>
           <DialogDescription>
-            Remember its your responsibility to keep your mnemonic safe.
+          {i18n.getMessage('exportDescription')}
           </DialogDescription>
         </DialogHeader>
         <Textarea
@@ -62,7 +62,7 @@ export default function Export () {
               }).catch((err: string) => {
                 setError(err)
               })
-            }}>Export</Button>
+            }}>{i18n.getMessage('export')}</Button>
           </div>
         </DialogFooter>
       </DialogContent>

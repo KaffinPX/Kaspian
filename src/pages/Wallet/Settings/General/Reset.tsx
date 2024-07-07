@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import useKaspa from "@/hooks/useKaspa"
+import { i18n } from "webextension-polyfill"
 
 export default function Reset () {
   const kaspa = useKaspa()
@@ -16,19 +17,19 @@ export default function Reset () {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={"destructive"}>Reset wallet</Button>
+        <Button variant={"destructive"}>{i18n.getMessage('resetButton')}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>{i18n.getMessage('resetTitle')}</DialogTitle>
           <DialogDescription>
-            This action cannot be undone and Kaspian cant help you to get your wallet back.
+            {i18n.getMessage('resetDescription')}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button type="submit" variant={"destructive"} onClick={async () => {
             await kaspa.request('wallet:reset', [])
-          }}>Confirm</Button>
+          }}>{i18n.getMessage('confirm')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

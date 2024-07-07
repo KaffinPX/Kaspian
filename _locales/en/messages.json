@@ -1,4 +1,16 @@
 {
+	"add": {
+		"message": "Add"
+	},
+	"addNodeAddress": {
+		"message": "Address (ws:// or wss://)"
+	},
+	"addNodeDescription": {
+		"message": "Export Mnemonic"
+	},
+	"addNodeTitle": {
+		"message": "Export Mnemonic"
+	},
 	"address": {
 		"message": "Address"
 	},
@@ -38,6 +50,18 @@
 	"createWallet": {
 		"message": "Create Wallet"
 	},
+	"export": {
+		"message": "Export"
+	},
+	"exportButton": {
+		"message": "Export wallet"
+	},
+	"exportDescription": {
+		"message": "Remember its your responsibility to keep your mnemonic safe."
+	},
+	"exportTitle": {
+		"message": "Export Mnemonic"
+	},
 	"fee": {
 		"message": "Fee"
 	},
@@ -67,6 +91,9 @@
 	},
 	"mnemonic": {
 		"message": "Mnemonic phrase"
+	},
+	"name": {
+		"message": "Name"
 	},
 	"next": {
 		"message": "Next"
@@ -100,6 +127,15 @@
 	},
 	"receive": {
 		"message": "Receive"
+	},
+	"resetButton": {
+		"message": "Reset wallet"
+	},
+	"resetDescription": {
+		"message": "This action cannot be undone and Kaspian cant help you to get your wallet back."
+	},
+	"resetTitle": {
+		"message": "Are you absolutely sure?"
 	},
 	"rules": {
 		"message": "This journey will be exciting, but you have to follow some rules."
