@@ -1,6 +1,15 @@
 {
+	"URL": {
+		"message": "URL"
+	},
+	"account": {
+		"message": "Account"
+	},
 	"add": {
 		"message": "Add"
+	},
+	"addNode": {
+		"message": "Add Node"
 	},
 	"addNodeAddress": {
 		"message": "Address (ws:// or wss://)"
@@ -8,11 +17,20 @@
 	"addNodeDescription": {
 		"message": "Export Mnemonic"
 	},
-	"addNodeTitle": {
-		"message": "Export Mnemonic"
-	},
 	"address": {
 		"message": "Address"
+	},
+	"addressChange": {
+		"message": "Change addresses"
+	},
+	"addressDescription": {
+		"message": "It counts how many addresses you've created."
+	},
+	"addressReceive": {
+		"message": "Receive addresses"
+	},
+	"addressTitle": {
+		"message": "Address Index"
 	},
 	"amount": {
 		"message": "Amount"
@@ -38,8 +56,17 @@
 	"confirmationDescription": {
 		"message": "Review the details of the transaction before signing it"
 	},
-	"confirmationTitle": {
-		"message": "Review Transaction"
+	"connect": {
+		"message": "Connect"
+	},
+	"connected": {
+		"message": "Connected"
+	},
+	"connection": {
+		"message": "Connection"
+	},
+	"connectionDescription": {
+		"message": "The website is requesting access to your wallet APIs."
 	},
 	"continue": {
 		"message": "Continue"
@@ -49,6 +76,15 @@
 	},
 	"createWallet": {
 		"message": "Create Wallet"
+	},
+	"currency": {
+		"message": "Currency"
+	},
+	"currencyDescription": {
+		"message": "Change preferred exchange currency of wallet."
+	},
+	"disconnected": {
+		"message": "Disconnected"
 	},
 	"export": {
 		"message": "Export"
@@ -92,6 +128,9 @@
 	"mnemonic": {
 		"message": "Mnemonic phrase"
 	},
+	"mnemonicDescription": {
+		"message": "Backup the only way to import your wallet again."
+	},
 	"name": {
 		"message": "Name"
 	},
@@ -128,6 +167,9 @@
 	"receive": {
 		"message": "Receive"
 	},
+	"receiveDescription": {
+		"message": "Scan the QR code to receive payment details."
+	},
 	"resetButton": {
 		"message": "Reset wallet"
 	},
@@ -137,8 +179,14 @@
 	"resetTitle": {
 		"message": "Are you absolutely sure?"
 	},
+	"review": {
+		"message": "Review Transaction"
+	},
 	"rules": {
 		"message": "This journey will be exciting, but you have to follow some rules."
+	},
+	"scan": {
+		"message": "Scan"
 	},
 	"selfCustody": {
 		"message": "Your wallet is stored locally on your device. If you lose access to your device, or forget the password, you won't be able to recover your wallet without your mnemonic phrase."
@@ -205,38 +253,5 @@
 	},
 	"welcoming": {
 		"message": "It's about to get exciting. You're all set up and ready to go!"
-	},
-	"accountTitle": {
-		"message": "Account"
-	},
-	"addressTitle": {
-		"message": "Address Index"
-	},
-	"addressDescription": {
-		"message": "It counts how many addresses you've created."
-	},
-	"addressReceive": {
-		"message": "Receive addresses"
-	},
-	"addressChange": {
-		"message": "Change addresses"
-	},
-	"scan": {
-		"message": "Scan"
-	},
-	"currencyTitle": {
-		"message": "Currency"
-	},
-	"currencyDescription": {
-		"message": "Change preferred exchange currency of wallet."
-	},
-	"connected": {
-		"message": "Connected"
-	},
-	"disconnected": {
-		"message": "Disconnected"
-	},
-	"mnemonicDescription": {
-		"message": "Backup the only way to import your wallet again."
 	}
 }

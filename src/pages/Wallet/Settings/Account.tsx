@@ -12,7 +12,7 @@ export default function Network () {
 
   return (
     <AccordionItem value="account">
-      <AccordionTrigger>{i18n.getMessage('accountTitle')}</AccordionTrigger>
+      <AccordionTrigger>{i18n.getMessage('account')}</AccordionTrigger>
       <AccordionContent>
         <div className={"flex flex-col gap-2"}>
           <div className={"px-3"}>

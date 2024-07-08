@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import QRCode from "react-qr-code"
 import useKaspa from "@/hooks/useKaspa"
 import { useState } from "react"
+import { i18n  } from "webextension-polyfill"
 
 export default function SendDrawer () {
   const { kaspa } = useKaspa()
@@ -23,14 +24,14 @@ export default function SendDrawer () {
       <SheetTrigger asChild>
         <Button className={"gap-2"}>
           <Receipt />
-          Receive
+          {i18n.getMessage('receive')}
         </Button>
       </SheetTrigger>
       <SheetContent side={"bottom"} className={"h-[60%]"}>
         <div className="mx-auto">
           <SheetHeader>
-            <SheetTitle>Receive</SheetTitle>
-            <SheetDescription>Scan the QR code to receive payment details</SheetDescription>
+            <SheetTitle>{i18n.getMessage('receive')}</SheetTitle>
+            <SheetDescription>{i18n.getMessage('receiveDescription')}</SheetDescription>
           </SheetHeader>
           <div className="flex flex-col p-4 pb-0 items-center gap-5">
           <div className="h-max w-36 bg-white p-1">
@@ -41,7 +42,7 @@ export default function SendDrawer () {
           </div>
           <Input
             type={"number"}
-            placeholder={"Amount"}
+            placeholder={i18n.getMessage('amount')}
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />

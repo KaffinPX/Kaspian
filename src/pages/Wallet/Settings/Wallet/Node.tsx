@@ -33,7 +33,7 @@ export default function Export () {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{i18n.getMessage('addNodeTitle')}</DialogTitle>
+          <DialogTitle>{i18n.getMessage('addNode')}</DialogTitle>
           <DialogDescription>
             {i18n.getMessage('addNodeDescription')}
           </DialogDescription>

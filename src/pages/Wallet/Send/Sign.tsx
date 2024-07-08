@@ -59,7 +59,7 @@ export default function Sign ({ transactions, onSigned }: {
     <DialogContent>
       <DialogHeader>
         <DialogTitle>
-          {i18n.getMessage('confirmationTitle')}
+          {i18n.getMessage('review')}
           <Button variant="link" size="icon" className="h-min w-8" onClick={() => {
             navigator.clipboard.writeText(JSON.stringify(transactions))
           }}>

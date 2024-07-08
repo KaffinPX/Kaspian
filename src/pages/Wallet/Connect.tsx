@@ -10,6 +10,7 @@ import {
 import useKaspa from "@/hooks/useKaspa"
 import { Textarea } from "@/components/ui/textarea"
 import useURLParams from "@/hooks/useURLParams"
+import { i18n } from "webextension-polyfill"
 
 export default function ConnectDrawer () { 
   const kaspa = useKaspa()
@@ -24,11 +25,11 @@ export default function ConnectDrawer () {
       <SheetContent side={"bottom"} className={"h-[60%]"}>
         <div className="mx-auto">
           <SheetHeader>
-            <SheetTitle>Connection</SheetTitle>
-            <SheetDescription>The website is requesting access to your wallet APIs.</SheetDescription>
+            <SheetTitle>{i18n.getMessage('connection')}</SheetTitle>
+            <SheetDescription>{i18n.getMessage('connectionDescription')}</SheetDescription>
           </SheetHeader>
           <div className="flex flex-col p-4 pb-0 items-center gap-4">
-            <p className={"text-sm font-semibold"}>URL</p>
+            <p className={"text-sm font-semibold"}>{i18n.getMessage('URL')}</p>
             <Textarea
               defaultValue={params.get('url')!}
               className={"w-72 resize-none"}
@@ -40,7 +41,7 @@ export default function ConnectDrawer () {
               })
             }}>
               <SailboatIcon />
-              Connect
+              {i18n.getMessage('connect')}
             </Button>
           </div>
         </div>
