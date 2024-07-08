@@ -30,7 +30,7 @@ export default function Network () {
             <h3 className={"flex gap-2 font-bold"}>
               {i18n.getMessage('node')}
               <Badge variant={"outline"} className={kaspa.connected ? "text-green-500" : 'text-red-500'}>
-                {kaspa.connected ? 'Connected' : 'Disconnected'}
+                {kaspa.connected ? i18n.getMessage('connected') : i18n.getMessage('disconnected')}
               </Badge>
             </h3>
             <h4>{i18n.getMessage('nodeDescription')}</h4>
@@ -60,9 +60,9 @@ export default function Network () {
           </div>
           <div className={"px-3"}>
             <h3 className={"flex gap-2 font-bold"}>
-              {"Mnemonic"}
+              {i18n.getMessage('mnemonic')}
             </h3>
-            <h4>Backup the only way to import your wallet again</h4>
+            <h4>{i18n.getMessage('mnemonicDescription')}</h4>
           </div>
           <div className={"flex gap-1 mx-1"}>
             <ExportPopup />

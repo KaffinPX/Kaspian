@@ -46,8 +46,8 @@ export default function General () {
             </ToggleGroup>
           </div>
           <div className={"px-3"}>
-            <h3 className={"flex gap-2 font-bold"}>Currency</h3>
-            <h4>Change preferred exchange currency of wallet</h4>
+            <h3 className={"flex gap-2 font-bold"}>{i18n.getMessage('currencyTitle')}</h3>
+            <h4>{i18n.getMessage('currencyDescription')}</h4>
           </div>
           <div className={"flex gap-1 mx-1"}>
             <Select defaultValue={settings.currency} 
