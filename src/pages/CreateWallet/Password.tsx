@@ -1,9 +1,9 @@
 import { useState, useMemo } from "react"
 import { i18n } from "webextension-polyfill"
 import Heading from "@/components/Heading"
+import { ArrowRightCircle, Eye, EyeOff } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { ArrowRightCircle, Eye, EyeOff } from "lucide-react"
 import { Label } from "@/components/ui/label"
 
 enum PasswordErrors {

@@ -1,11 +1,11 @@
+import { i18n } from "webextension-polyfill"
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import useKaspa from "@/hooks/useKaspa"
 import { Button } from "@/components/ui/button"
-import { i18n } from "webextension-polyfill"
+import useKaspa from "@/hooks/useKaspa"
 
 export default function Network () {
   const { kaspa, request } = useKaspa()

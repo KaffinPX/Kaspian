@@ -1,10 +1,10 @@
-import Heading from "@/components/Heading"
-import { Button } from "@/components/ui/button"
-import { UnlockKeyhole } from "lucide-react"
-import { Input } from "@/components/ui/input"
 import { useCallback, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { i18n } from "webextension-polyfill"
+import { UnlockKeyhole } from "lucide-react"
+import Heading from "@/components/Heading"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import useKaspa from "@/hooks/useKaspa"
 
 export default function UnlockWallet() {

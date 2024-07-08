@@ -1,19 +1,9 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
+import { i18n } from "webextension-polyfill"
 import NodePopup from "@/pages/Wallet/Settings/Wallet/Node"
 import ExportPopup from "@/pages/Wallet/Settings/Wallet/Export"
-import {
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import { i18n } from "webextension-polyfill"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Badge } from "@/components/ui/badge"
+import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import useKaspa from "@/hooks/useKaspa"
 import useSettings from "@/hooks/useSettings"
 

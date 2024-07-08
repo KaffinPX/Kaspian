@@ -1,3 +1,5 @@
+import { useState } from "react"
+import { i18n } from "webextension-polyfill"
 import { NetworkIcon, PackageCheckIcon, CopyIcon } from "lucide-react"
 import {
   DialogContent,
@@ -8,8 +10,6 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import useKaspa from "@/hooks/useKaspa"
-import { useState } from "react"
-import { i18n } from "webextension-polyfill"
 
 export default function Submit ({ transactions, onSubmitted }: {
   transactions: string[]

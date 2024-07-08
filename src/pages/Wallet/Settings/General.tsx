@@ -1,15 +1,11 @@
-import {
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
 import { i18n } from "webextension-polyfill"
-import { useTheme } from "@/components/ThemeProvider"
 import { Sun, Moon, Laptop } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { useTheme } from "@/components/ThemeProvider"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { currencies } from "@/contexts/Settings"
 import useSettings from "@/hooks/useSettings"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export default function General () {
   const { settings, updateSetting } = useSettings()

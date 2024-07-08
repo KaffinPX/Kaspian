@@ -1,5 +1,5 @@
+import { i18n, runtime } from "webextension-polyfill"
 import { SettingsIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import GeneralTab from "@/pages/Wallet/Settings/General"
 import WalletTab from "@/pages/Wallet/Settings/Wallet"
 import AccountTab from "@/pages/Wallet/Settings/Account"
@@ -12,8 +12,8 @@ import {
   SheetTrigger,
   SheetFooter
 } from "@/components/ui/sheet"
+import { Button } from "@/components/ui/button"
 import { Accordion } from "@/components/ui/accordion"
-import { i18n, runtime } from "webextension-polyfill"
 
 export default function Settings () {
   return (

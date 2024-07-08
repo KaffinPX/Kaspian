@@ -1,3 +1,4 @@
+import { i18n } from "webextension-polyfill"
 import { SailboatIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -7,10 +8,9 @@ import {
   SheetHeader,
   SheetTitle
 } from "@/components/ui/sheet"
-import useKaspa from "@/hooks/useKaspa"
 import { Textarea } from "@/components/ui/textarea"
 import useURLParams from "@/hooks/useURLParams"
-import { i18n } from "webextension-polyfill"
+import useKaspa from "@/hooks/useKaspa"
 
 export default function ConnectDrawer () { 
   const kaspa = useKaspa()

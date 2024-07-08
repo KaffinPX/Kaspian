@@ -1,8 +1,8 @@
+import { useState } from "react"
+import { i18n } from "webextension-polyfill"
 import { Button } from "@/components/ui/button"
 import Heading from "@/components/Heading"
-import { useState } from "react"
 import { Textarea } from "@/components/ui/textarea"
-import { i18n } from "webextension-polyfill"
 
 export default function Import ({ onMnemonicsSubmit }: {
   onMnemonicsSubmit: (mnemonics: string) => void

@@ -1,3 +1,4 @@
+import { i18n } from "webextension-polyfill"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -9,7 +10,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import useKaspa from "@/hooks/useKaspa"
-import { i18n } from "webextension-polyfill"
 
 export default function Reset () {
   const kaspa = useKaspa()

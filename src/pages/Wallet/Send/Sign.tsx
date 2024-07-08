@@ -1,7 +1,8 @@
+import { useCallback, useMemo, useState } from "react"
+import { i18n } from "webextension-polyfill"
+import { CopyIcon, Pen } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import useKaspa from "@/hooks/useKaspa"
-import { useCallback, useMemo, useState } from "react"
 import {
   DialogContent,
   DialogDescription,
@@ -9,8 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { CopyIcon, Pen } from "lucide-react"
-import { i18n } from "webextension-polyfill"
+import useKaspa from "@/hooks/useKaspa"
 
 export default function Sign ({ transactions, onSigned }: {
   transactions: string[],

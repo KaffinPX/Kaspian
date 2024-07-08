@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button"
+import { i18n } from "webextension-polyfill"
 import { Import, PlusCircle } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import Heading from "@/components/Heading"
 import { Tabs } from "../CreateWallet"
-import { i18n } from "webextension-polyfill"
 
 export default function Landing({ forward }: { 
   forward: (tab: Tabs) => void

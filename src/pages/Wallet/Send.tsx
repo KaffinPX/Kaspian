@@ -1,4 +1,8 @@
+import { useCallback, useState } from "react"
+import { i18n } from "webextension-polyfill"
 import { SendToBack } from "lucide-react"
+import Sign from "./Send/Sign"
+import Submit from "./Send/Submit"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -9,13 +13,9 @@ import {
   SheetTrigger
 } from "@/components/ui/sheet"
 import { Input } from "@/components/ui/input"
-import { i18n } from "webextension-polyfill"
-import useKaspa from "@/hooks/useKaspa"
-import { useCallback, useState } from "react"
 import { Dialog } from "@/components/ui/dialog"
-import Sign from "./Send/Sign"
-import Submit from "./Send/Submit"
 import useURLParams from "@/hooks/useURLParams"
+import useKaspa from "@/hooks/useKaspa"
 
 export enum Tabs {
   Creation,

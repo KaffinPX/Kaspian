@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button"
-import { BookCheck, Eye, EyeOff } from "lucide-react"
-import Heading from "@/components/Heading"
-import { Checkbox } from "@/components/ui/checkbox"
 import { useState } from "react"
 import { i18n } from "webextension-polyfill"
+import { BookCheck, Eye, EyeOff } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import Heading from "@/components/Heading"
+import { Checkbox } from "@/components/ui/checkbox"
 
 export default function Create({ mnemonic, onSaved }: {
   mnemonic: string

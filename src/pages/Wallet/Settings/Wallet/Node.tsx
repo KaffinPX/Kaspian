@@ -1,3 +1,6 @@
+import { useState } from "react"
+import { i18n } from "webextension-polyfill"
+import { PlusIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -11,9 +14,6 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import useSettings from "@/hooks/useSettings"
-import { PlusIcon } from "lucide-react"
-import { useState } from "react"
-import { i18n } from "webextension-polyfill"
 
 export default function Export () {
   const [ name, setName ] = useState("")

@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react"
+import { i18n } from "webextension-polyfill"
 import {
   ArrowRightCircle,
   BookUser,
@@ -5,16 +7,9 @@ import {
   DatabaseBackup,
   MonitorOff
 } from "lucide-react"
-import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import Heading from "@/components/Heading"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem
-} from "@/components/ui/carousel"
-import { type CarouselApi } from "@/components/ui/carousel"
-import { i18n } from "webextension-polyfill"
+import { type CarouselApi, Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
 
 export default function Intro ({ onConfirm }: {
   onConfirm: () => void 

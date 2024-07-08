@@ -1,4 +1,7 @@
-import { Receipt } from "lucide-react"
+import { useState } from "react"
+import { i18n } from "webextension-polyfill"
+import QRCode from "react-qr-code"
+import { ReceiptIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -9,10 +12,7 @@ import {
   SheetTrigger
 } from "@/components/ui/sheet"
 import { Input } from "@/components/ui/input"
-import QRCode from "react-qr-code"
 import useKaspa from "@/hooks/useKaspa"
-import { useState } from "react"
-import { i18n  } from "webextension-polyfill"
 
 export default function SendDrawer () {
   const { kaspa } = useKaspa()
@@ -23,7 +23,7 @@ export default function SendDrawer () {
     <Sheet>
       <SheetTrigger asChild>
         <Button className={"gap-2"}>
-          <Receipt />
+          <ReceiptIcon />
           {i18n.getMessage('receive')}
         </Button>
       </SheetTrigger>

@@ -1,9 +1,9 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { Status } from "@/wallet/kaspa/wallet"
 import useSettings from "../hooks/useSettings"
 import useKaspa from "../hooks/useKaspa"
 import usePromise from "../hooks/usePromise"
-import { Status } from "@/wallet/kaspa/wallet"
 
 export default function Landing() {
   const settings = useSettings()

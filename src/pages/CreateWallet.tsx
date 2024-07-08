@@ -1,12 +1,11 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import useKaspa from "@/hooks/useKaspa"
-
 import Landing from "@/pages/CreateWallet/Landing"
 import Intro from "@/pages/CreateWallet/Intro"
 import Create from "@/pages/CreateWallet/Create"
 import Password from "@/pages/CreateWallet/Password"
 import Import from "@/pages/CreateWallet/Import"
+import useKaspa from "@/hooks/useKaspa"
 
 export enum Tabs {
   Landing,
