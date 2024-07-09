@@ -6,7 +6,7 @@ export default class Addresses {
   changeAddresses: string[] = []
   
   get allAddresses () {
-    return [ ...this.receiveAddresses, ...this.changeAddresses]
+    return [ ...this.receiveAddresses, ...this.changeAddresses ]
   }
 
   async derive (isReceive: boolean, start: number, end: number) {

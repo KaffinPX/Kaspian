@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { useNavigate } from "react-router-dom"
 import { LogOutIcon, CompassIcon } from "lucide-react"
 import SendDrawer from "@/pages/Wallet/Send"
@@ -57,7 +57,7 @@ export default function Wallet () {
         <div className={"flex flex-col items-center"}>
           <Textarea
             readOnly={true}
-            defaultValue={kaspa.addresses[0][kaspa.addresses[0].length - 1]}
+            value={kaspa.addresses[0][kaspa.addresses[0].length - 1]}
             className={"w-72 resize-none"}
           />
         </div>

@@ -46,9 +46,8 @@ export default class Account extends EventEmitter  {
   }
 
   async createSend (recipient: string, amount: string, fee: string) {
-    await this.incrementAddresses(0, 1)
-
     const { transactions } = await createTransactions({
+      priorityEntries: [],
       entries: this.context,
       outputs: [{ 
         address: recipient,
@@ -58,6 +57,7 @@ export default class Account extends EventEmitter  {
       priorityFee: kaspaToSompi(fee)!,
     })
 
+    await this.incrementAddresses(0, 1)
     return transactions.map((transaction) => transaction.serializeToSafeJSON())
   }
 
@@ -97,9 +97,11 @@ export default class Account extends EventEmitter  {
         const addresses = await this.addresses.derive(isReceive, startIndex, startIndex + count)
         startIndex += count
     
-        const utxos = await this.processor.rpc.getUtxosByAddresses(addresses)
+        const { entries } = await this.processor.rpc.getUtxosByAddresses(addresses)
     
-        if (utxos.entries.length > 0) { foundIndex = startIndex }
+        // TODO: more accurate index by findIndex over addresses by last entry
+
+        if (entries.length > 0) { foundIndex = startIndex }
       }
 
       await this.incrementAddresses(isReceive ? foundIndex : 0, isReceive ? 0 : foundIndex)

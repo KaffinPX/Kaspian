@@ -19,14 +19,14 @@ export default function Create({ mnemonic, onSaved }: {
         subtitle={i18n.getMessage('backupMnemonic')}
       />
       <div className={"flex flex-col items-center gap-2"}>
-        <div className={"border-2 border-green-500 p-3 mx-5 rounded-xl"}>
+        <div className={"border-2 p-3 mx-5 rounded-xl"}>
           <p className={"text-xl font-mono"}>
             {isHidden ? mnemonic : mnemonic.replace(/[^ ]/g, "*")}
           </p>
         </div>
         <Button
           variant={"ghost"}
-          className={"text-green-400 gap-1?" + ""}
+          className={"gap-1"}
           onClick={() => {
             setIsHidden(!isHidden)
           }}

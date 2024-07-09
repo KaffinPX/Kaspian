@@ -115,7 +115,7 @@ export function KaspaProvider ({ children }: {
   const updateState = useCallback(<K extends keyof IKaspa>(key: K, value: IKaspa[K] | ((prevState: IKaspa[K]) => IKaspa[K])) => {
     setState((prevState) => ({
       ...prevState,
-      [ key ]: typeof value === 'function' ? (value(prevState[key])) : value
+      [ key ]: typeof value === 'function' ? value(prevState[key]) : value
     }))
   }, [])
   
