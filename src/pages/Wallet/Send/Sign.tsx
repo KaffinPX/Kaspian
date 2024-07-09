@@ -37,12 +37,12 @@ export default function Sign ({ transactions, onSigned }: {
 
   const amount = useMemo(() => {
     const transaction = JSON.parse(transactions[0])
-    
+
     const sentValue = transaction.outputs.reduce((acc: bigint, output: any) => {
       return acc + BigInt(output.value)
     }, 0n)
     
-    return Number(sentValue - BigInt(transaction.outputs[transaction.outputs.length - 1].value)) / 1e8
+    return Number(sentValue - (transaction.outputs.length === 1 ? 0n : BigInt(transaction.outputs[transaction.outputs.length - 1].value))) / 1e8
   }, [ transactions ])
 
   const sign = useCallback(() => {

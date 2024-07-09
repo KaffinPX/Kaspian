@@ -15,7 +15,7 @@
 		"message": "Address (ws:// or wss://)"
 	},
 	"addNodeDescription": {
-		"message": "Export Mnemonic"
+		"message": "Be careful as 3. party nodes may track your actvitity."
 	},
 	"address": {
 		"message": "Address"
@@ -116,6 +116,9 @@
 	"import": {
 		"message": "Import"
 	},
+	"importDescription": {
+    "message": "Enter your 24-word mnemonic phrase below to import your wallet"
+  },
 	"importIntro": {
 		"message": "Already have a wallet? Import it here"
 	},
