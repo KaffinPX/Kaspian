@@ -3,12 +3,12 @@ import { RpcClient, ConnectStrategy, Transaction } from "@/../wasm"
 
 export default class Node extends EventEmitter {
   kaspa: RpcClient
+  networkId: string = "MAINNET"
 
   constructor () {
     super()
 
     this.kaspa = new RpcClient()
-    
     this.registerEvents()
   }
 
@@ -40,12 +40,17 @@ export default class Node extends EventEmitter {
       retryInterval: 1000,
     })
 
-    const { isSynced } = await this.kaspa.getServerInfo()
+    const { isSynced, hasUtxoIndex, networkId } = await this.kaspa.getServerInfo()
 
-    if (!isSynced) {
+    if (!isSynced || !hasUtxoIndex) {
       await this.kaspa.disconnect()
 
-      throw Error('Node is not synchronized')
+      throw Error('Node is not synchronized or has UTXO index enabled.')
+    }
+
+    if (this.networkId !== networkId) {
+      this.emit('network', networkId)
+      this.networkId = networkId
     }
   }
 

@@ -60,6 +60,7 @@ export interface Response<M extends keyof RequestMappings = keyof RequestMapping
 export interface EventMappings {
   "wallet:status": Status
   "node:connection": boolean
+  "node:network": string
   "account:balance": number
   "account:addresses": [ string[], string[] ]
   'provider:connection': string

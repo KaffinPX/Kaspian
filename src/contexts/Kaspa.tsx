@@ -56,6 +56,8 @@ export function KaspaProvider ({ children }: {
       } else {
         if (message.event === 'node:connection') {
           updateState('connected', message.data)
+        } else if (message.event === 'node:network') {
+          updateState('addresses', await request('account:addresses', []))
         } else if (message.event === 'wallet:status') {
           updateState('status', message.data)
         } else if (message.event === 'account:balance') {

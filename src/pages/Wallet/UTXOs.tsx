@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import useKaspa from "@/hooks/useKaspa"
+import { OutputStatus } from "@/wallet/kaspa/account"
 
 export default function UTXOs () {
   const { kaspa } = useKaspa()
@@ -34,7 +35,7 @@ export default function UTXOs () {
       <div className={"grid grid-cols-3 mx-4 gap-2"}>
         {kaspa.utxos.slice(0, index).map((utxo, id) => {
           return (
-            <div key={id} className={"flex flex-col items-center py-2 border-2 rounded-xl w-full h-24 " + (utxo.mature ? "hover:border-dashed" : "border-yellow-600")}>
+            <div key={id} className={"flex flex-col items-center py-2 border-2 rounded-xl w-full h-24 " + (utxo.status === OutputStatus.mature ? "hover:border-dashed" : (utxo.status === OutputStatus.incoming ? "border-yellow-600" : "border-red-600"))}>
               <p className={"text-lg font-bold"}>{utxo.amount.toFixed(4)}</p>
               <Button variant="link" className={"text-inherit font-extrabold"} onClick={() => {
                 window.open(`https://explorer.kaspa.org/txs/${utxo.transaction}`)

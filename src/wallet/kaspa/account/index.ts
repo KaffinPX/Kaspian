@@ -5,10 +5,16 @@ import Addresses from "./addresses"
 import LocalStorage from "@/storage/LocalStorage"
 import SessionStorage, { ISession } from "@/storage/SessionStorage"
 
+export enum OutputStatus {
+  mature,
+  incoming,
+  outgoing
+}
+
 export interface UTXO {
   amount: number
   transaction: string,
-  mature: boolean
+  status: OutputStatus
 }
 
 export default class Account extends EventEmitter  {
@@ -20,9 +26,21 @@ export default class Account extends EventEmitter  {
   constructor (node: Node) {
     super()
 
-    this.addresses = new Addresses()
-    this.processor = new UtxoProcessor({ rpc: node.kaspa, networkId: 'MAINNET' })
+    this.addresses = new Addresses(node.networkId)
+    this.processor = new UtxoProcessor({ rpc: node.kaspa, networkId: node.networkId })
     this.context = new UtxoContext({ processor: this.processor })
+
+    node.on('network', async (networkId: string) => {
+      if (this.processor.isActive) {
+        await this.processor.stop()
+        this.processor.setNetworkId(networkId)
+        await this.processor.start()
+      } else {
+        this.processor.setNetworkId(networkId)
+      }
+
+      await this.addresses.setNetworkId(networkId)
+    })
 
     this.registerProcessor()
     this.listenSession()
@@ -33,21 +51,21 @@ export default class Account extends EventEmitter  {
   }
 
   get UTXOs () {
-    const mapUTXO = (utxo: UtxoEntryReference, mature: boolean) => ({
+    const mapUTXO = (utxo: UtxoEntryReference, status: OutputStatus) => ({
       amount: Number(utxo.amount) / 1e8,
       transaction: utxo.getTransactionId(),
-      mature
+      status
     })
 
-    const pendingUTXOs = this.context.getPending().map(utxo => mapUTXO(utxo, false))
-    const matureUTXOs = this.context.getMatureRange(0, this.context.matureLength).map(utxo => mapUTXO(utxo, true))
+    const outgoingUTXOs = this.context.getPendingOutgoingTransactions().map(transaction => transaction.transaction.inputs.map((input) => mapUTXO(input.utxo!, OutputStatus.outgoing)))
+    const pendingUTXOs = this.context.getPending().map(utxo => mapUTXO(utxo, OutputStatus.incoming))
+    const matureUTXOs = this.context.getMatureRange(0, this.context.matureLength).map(utxo => mapUTXO(utxo, OutputStatus.mature))
 
-    return [ ...pendingUTXOs, ...matureUTXOs ]
+    return [ ...outgoingUTXOs, ...pendingUTXOs, ...matureUTXOs ]
   }
 
   async createSend (recipient: string, amount: string, fee: string) {
     const { transactions } = await createTransactions({
-      priorityEntries: [],
       entries: this.context,
       outputs: [{ 
         address: recipient,
@@ -61,7 +79,7 @@ export default class Account extends EventEmitter  {
     return transactions.map((transaction) => transaction.serializeToSafeJSON())
   }
 
-  async sign (transactions: string[], password: string) {
+  async sign (transactions: string[], password: string) {this.context.getPendingOutgoingTransactions()
     const keyGenerator = new PrivateKeyGenerator(decryptXChaCha20Poly1305(this.session!.encryptedKey, password), false, BigInt(this.session!.activeAccount))
     const signedTransactions: Transaction[] = []
 
@@ -69,7 +87,7 @@ export default class Account extends EventEmitter  {
       const parsedTransaction = Transaction.deserializeFromSafeJSON(transaction)
       const privateKeys = []
 
-      for (const address of parsedTransaction.addresses('MAINNET')) {
+      for (const address of parsedTransaction.addresses(this.addresses.networkId)) {
         const receiveIndex = this.addresses.receiveAddresses.indexOf(address.toString())
         const changeIndex = this.addresses.changeAddresses.indexOf(address.toString())
 
@@ -90,6 +108,7 @@ export default class Account extends EventEmitter  {
   }
 
   async scan (steps = 50, count = 10) {
+    // TODO: Review
     const scanAddresses = async (isReceive: boolean, startIndex: number) => {
       let foundIndex = 0
 
@@ -130,17 +149,19 @@ export default class Account extends EventEmitter  {
     })
   }
 
-  private async incrementAddresses (receiveCount: number, changeCount: number) {
+  private async incrementAddresses (receiveCount: number, changeCount: number, initial = false) {
     const addresses = await this.addresses.increment(receiveCount, changeCount)
-    if (addresses.length > 0 && this.processor.isActive) await this.context.trackAddresses(addresses.flat())
+    if (this.processor.isActive) await this.context.trackAddresses(addresses.flat())
     
-    const wallet = (await LocalStorage.get('wallet', undefined))!
-    const account = wallet.accounts[this.session!.activeAccount]
+    if (!initial) {
+      const wallet = (await LocalStorage.get('wallet', undefined))!
+      const account = wallet.accounts[this.session!.activeAccount]
 
-    account.receiveCount = this.addresses.receiveAddresses.length
-    account.changeCount = this.addresses.changeAddresses.length
-
-    await LocalStorage.set('wallet', wallet)
+      account.receiveCount = this.addresses.receiveAddresses.length
+      account.changeCount = this.addresses.changeAddresses.length
+  
+      await LocalStorage.set('wallet', wallet)
+    }
 
     this.emit('addresses', addresses)
   }
@@ -155,7 +176,7 @@ export default class Account extends EventEmitter  {
 
         const account = (await LocalStorage.get('wallet', undefined))!.accounts[this.session.activeAccount]
         
-        await this.incrementAddresses(account.receiveCount, account.changeCount)
+        await this.incrementAddresses(account.receiveCount, account.changeCount, true)
         await this.processor.start()
       } else {
         delete this.session
