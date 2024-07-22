@@ -17,6 +17,7 @@ export interface RequestMappings {
   'account:utxos': []
   'account:createSend': [ string, string, string ]
   'account:sign': [ string[], string ]
+  'account:submitContextful': [ string[] ]
   'account:scan': []
   'provider:connect': [ string ]
   'provider:connectedURL': []
@@ -45,6 +46,7 @@ export interface ResponseMappings {
   'account:utxos': UTXO[]
   'account:createSend': string[]
   'account:sign': string[]
+  'account:submitContextful': string[]
   'account:scan': boolean
   "provider:connect": boolean
   'provider:connectedURL': string

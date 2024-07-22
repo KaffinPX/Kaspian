@@ -41,10 +41,11 @@ export default function Submit ({ transactions, onSubmitted }: {
         <Button className={"gap-2"} onClick={({ currentTarget }) => {
           currentTarget.disabled = true
 
-          kaspa.request('node:submit', [ transactions ]).then((ids) => {
+          kaspa.request('account:submitContextful', [ transactions ]).then((ids) => {
             setIds(ids)
             onSubmitted()
-          }).catch(() => {
+          }).catch((err) => {
+            console.log(err)
             currentTarget.disabled = false
           })
         }}>

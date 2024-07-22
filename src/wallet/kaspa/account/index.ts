@@ -2,33 +2,28 @@ import { EventEmitter } from "events"
 import { UtxoContext, UtxoProcessor, PublicKeyGenerator, PrivateKeyGenerator, createTransactions, Transaction, decryptXChaCha20Poly1305, kaspaToSompi, signTransaction, type UtxoEntryReference } from "@/../wasm"
 import type Node from "../node"
 import Addresses from "./addresses"
-import LocalStorage from "@/storage/LocalStorage"
-import SessionStorage, { ISession } from "@/storage/SessionStorage"
-
-export enum OutputStatus {
-  mature,
-  incoming,
-  outgoing
-}
+import SessionStorage from "@/storage/SessionStorage"
+import Transactions from "./transactions"
 
 export interface UTXO {
   amount: number
   transaction: string,
-  status: OutputStatus
+  mature: boolean
 }
 
 export default class Account extends EventEmitter  {
   processor: UtxoProcessor
   addresses: Addresses
-  session: ISession | undefined
   context: UtxoContext
+  transactions: Transactions
 
   constructor (node: Node) {
     super()
 
-    this.addresses = new Addresses(node.networkId)
     this.processor = new UtxoProcessor({ rpc: node.kaspa, networkId: node.networkId })
     this.context = new UtxoContext({ processor: this.processor })
+    this.addresses = new Addresses(this.context, node.networkId)
+    this.transactions = new Transactions(node.kaspa, this.context, this.addresses)
 
     node.on('network', async (networkId: string) => {
       if (this.processor.isActive) {
@@ -39,7 +34,7 @@ export default class Account extends EventEmitter  {
         this.processor.setNetworkId(networkId)
       }
 
-      await this.addresses.setNetworkId(networkId)
+      await this.addresses.changeNetwork(networkId)
     })
 
     this.registerProcessor()
@@ -51,60 +46,16 @@ export default class Account extends EventEmitter  {
   }
 
   get UTXOs () {
-    const mapUTXO = (utxo: UtxoEntryReference, status: OutputStatus) => ({
+    const mapUTXO = (utxo: UtxoEntryReference, mature: boolean) => ({
       amount: Number(utxo.amount) / 1e8,
       transaction: utxo.getTransactionId(),
-      status
+      mature
     })
 
-    const outgoingUTXOs = this.context.getPendingOutgoingTransactions().map(transaction => transaction.transaction.inputs.map((input) => mapUTXO(input.utxo!, OutputStatus.outgoing)))
-    const pendingUTXOs = this.context.getPending().map(utxo => mapUTXO(utxo, OutputStatus.incoming))
-    const matureUTXOs = this.context.getMatureRange(0, this.context.matureLength).map(utxo => mapUTXO(utxo, OutputStatus.mature))
+    const pendingUTXOs = this.context.getPending().map(utxo => mapUTXO(utxo, false))
+    const matureUTXOs = this.context.getMatureRange(0, this.context.matureLength).map(utxo => mapUTXO(utxo, true))
 
-    return [ ...outgoingUTXOs, ...pendingUTXOs, ...matureUTXOs ]
-  }
-
-  async createSend (recipient: string, amount: string, fee: string) {
-    const { transactions } = await createTransactions({
-      entries: this.context,
-      outputs: [{ 
-        address: recipient,
-        amount: kaspaToSompi(amount)!
-      }],
-      changeAddress: this.addresses.changeAddresses[this.addresses.changeAddresses.length - 1],
-      priorityFee: kaspaToSompi(fee)!,
-    })
-
-    await this.incrementAddresses(0, 1)
-    return transactions.map((transaction) => transaction.serializeToSafeJSON())
-  }
-
-  async sign (transactions: string[], password: string) {this.context.getPendingOutgoingTransactions()
-    const keyGenerator = new PrivateKeyGenerator(decryptXChaCha20Poly1305(this.session!.encryptedKey, password), false, BigInt(this.session!.activeAccount))
-    const signedTransactions: Transaction[] = []
-
-    for (const transaction of transactions) {
-      const parsedTransaction = Transaction.deserializeFromSafeJSON(transaction)
-      const privateKeys = []
-
-      for (const address of parsedTransaction.addresses(this.addresses.networkId)) {
-        const receiveIndex = this.addresses.receiveAddresses.indexOf(address.toString())
-        const changeIndex = this.addresses.changeAddresses.indexOf(address.toString())
-
-        if (receiveIndex !== -1) {
-          privateKeys.push(keyGenerator.receiveKey(receiveIndex))
-        } else if (changeIndex !== -1) {
-          privateKeys.push(keyGenerator.changeKey(changeIndex))
-        } else throw Error('UTXO is not owned by active wallet')
-      }
-
-      signedTransactions.push(signTransaction(parsedTransaction, privateKeys, false))
-    }
-    
-    const parsedTransactions = signedTransactions.map(transaction => transaction.serializeToSafeJSON())
-    this.emit('transactions', parsedTransactions)
-
-    return parsedTransactions
+    return [ ...pendingUTXOs, ...matureUTXOs ]
   }
 
   async scan (steps = 50, count = 10) {
@@ -123,11 +74,11 @@ export default class Account extends EventEmitter  {
         if (entries.length > 0) { foundIndex = startIndex }
       }
 
-      await this.incrementAddresses(isReceive ? foundIndex : 0, isReceive ? 0 : foundIndex)
+      await this.addresses.increment(isReceive ? foundIndex : 0, isReceive ? 0 : foundIndex)
     }
   
-    await scanAddresses(true, this.addresses.receiveAddresses.length - 1)
-    await scanAddresses(false, this.addresses.changeAddresses.length - 1)
+    await scanAddresses(true, this.addresses.receiveAddresses.length)
+    await scanAddresses(false, this.addresses.changeAddresses.length)
   }
 
   private registerProcessor () {
@@ -140,7 +91,7 @@ export default class Account extends EventEmitter  {
       const utxos = event.data.data.utxoEntries
 
       if (utxos.some(utxo => utxo.address?.toString() === this.addresses.receiveAddresses[this.addresses.receiveAddresses.length - 1])) {
-        await this.incrementAddresses(1, 0)
+        await this.addresses.increment(1, 0)
       }
     })
 
@@ -149,39 +100,17 @@ export default class Account extends EventEmitter  {
     })
   }
 
-  private async incrementAddresses (receiveCount: number, changeCount: number, initial = false) {
-    const addresses = await this.addresses.increment(receiveCount, changeCount)
-    if (this.processor.isActive) await this.context.trackAddresses(addresses.flat())
-    
-    if (!initial) {
-      const wallet = (await LocalStorage.get('wallet', undefined))!
-      const account = wallet.accounts[this.session!.activeAccount]
-
-      account.receiveCount = this.addresses.receiveAddresses.length
-      account.changeCount = this.addresses.changeAddresses.length
-  
-      await LocalStorage.set('wallet', wallet)
-    }
-
-    this.emit('addresses', addresses)
-  }
-
   private listenSession () {
     SessionStorage.subscribeChanges(async (key, newValue) => {
       if (key !== 'session') return
 
       if (newValue) {
-        this.session = newValue // TODO: Possibly get rid of this w account set optimizations
-        this.addresses.publicKey = await PublicKeyGenerator.fromXPub(this.session.publicKey)
-
-        const account = (await LocalStorage.get('wallet', undefined))!.accounts[this.session.activeAccount]
-        
-        await this.incrementAddresses(account.receiveCount, account.changeCount, true)
+        await this.addresses.import(PublicKeyGenerator.fromXPub(newValue.publicKey), newValue.activeAccount)
+        await this.transactions.import(newValue.encryptedKey, newValue.activeAccount)
         await this.processor.start()
       } else {
-        delete this.session
-
         this.addresses.reset()
+        this.transactions.reset()
         await this.processor.stop()
         await this.context.clear()
       }

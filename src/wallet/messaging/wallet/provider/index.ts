@@ -92,7 +92,7 @@ export default class Provider extends EventEmitter {
         }
       })
 
-      this.account.once('transactions', (parsedTransactions) => transactions = parsedTransactions)
+      this.account.transactions.once('transactions', (parsedTransactions) => transactions = parsedTransactions)
     }
   }
 }
