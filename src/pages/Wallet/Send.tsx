@@ -28,17 +28,12 @@ export default function SendDrawer () {
   const { kaspa, request } = useKaspa()
   const [ hash, params ] = useURLParams()
   const [ outputs, setOutputs ] = useState<[ string, string ][]>([[ "", "" ]])
-
   const [ transactions, setTransactions ] = useState<string[]>()
   const [ error, setError ] = useState("")
   const [ tab, setTab ] = useState(Tabs.Creation)
  
   const initiateSend = useCallback(() => {
     request('account:create', [ outputs, '0' ]).then((transactions) => {
-      if (hash !== 'send') {
-        setOutputs([[ "", "" ]])
-      }
-
       setTransactions(transactions)
       setTab(Tabs.Sign)
     }).catch((err) => {
@@ -48,9 +43,13 @@ export default function SendDrawer () {
 
   return (
     <Sheet defaultOpen={hash === 'send'} onOpenChange={(open) => {
-      if (hash !== 'send' || open) return
+      if (open) return
 
-      window.close()
+      setOutputs([[ "", "" ]])
+
+      if (hash === 'send') {
+        window.close
+      }
     }}>
       <SheetTrigger asChild>
         <Button className={"gap-2"}>
@@ -72,7 +71,7 @@ export default function SendDrawer () {
             <div className="flex flex-row items-center">
               <div className="flex flex-col">
                 <Carousel>
-                  <CarouselContent className="w-56">
+                  <CarouselContent className="w-60">
                     {outputs.map((output, id) => {
                       return (
                         <CarouselItem key={id} className={"flex flex-col gap-2.5 my-2"}>
