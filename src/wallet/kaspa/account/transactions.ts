@@ -24,13 +24,10 @@ export default class Transactions extends EventEmitter {
     this.accountId = accountId
   }
 
-  async createSend (recipient: string, amount: string, fee: string) {
+  async create (outputs: [ string, string ][], fee: string) {
     const { transactions } = await createTransactions({
       entries: this.context,
-      outputs: [{ 
-        address: recipient,
-        amount: kaspaToSompi(amount)!
-      }],
+      outputs: outputs.map(output => ({ address: output[0], amount: kaspaToSompi(output[1])! })),
       changeAddress: this.addresses.changeAddresses[this.addresses.changeAddresses.length - 1],
       priorityFee: kaspaToSompi(fee)!,
     })

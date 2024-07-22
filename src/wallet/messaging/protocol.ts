@@ -15,7 +15,7 @@ export interface RequestMappings {
   'account:addresses': []
   'account:balance': []
   'account:utxos': []
-  'account:createSend': [ string, string, string ]
+  'account:create': [[ string, string ][], string ]
   'account:sign': [ string[], string ]
   'account:submitContextful': [ string[] ]
   'account:scan': []
@@ -44,7 +44,7 @@ export interface ResponseMappings {
   'account:addresses': [ string[], string[] ]
   'account:balance': number,
   'account:utxos': UTXO[]
-  'account:createSend': string[]
+  'account:create': string[]
   'account:sign': string[]
   'account:submitContextful': string[]
   'account:scan': boolean

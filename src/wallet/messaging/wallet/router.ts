@@ -31,7 +31,7 @@ export default class Router {
       'account:addresses': () => [ account.addresses.receiveAddresses, account.addresses.changeAddresses ],
       'account:balance': () => account.balance,
       'account:utxos': () => account.UTXOs,
-      'account:createSend': (recipient, amount, fee) => account.transactions.createSend(recipient, amount, fee),
+      'account:create': (outputs, fee) => account.transactions.create(outputs, fee),
       'account:sign': (transactions, password) => account.transactions.sign(transactions, password),
       'account:submitContextful': (transactions) => account.transactions.submitContextful(transactions),
       'account:scan': () => account.scan(),
