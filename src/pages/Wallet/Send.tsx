@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react"
 import { i18n } from "webextension-polyfill"
-import { SendToBack, PlusIcon } from "lucide-react"
+import { SendToBack, PlusIcon, MinusIcon } from "lucide-react"
 import Sign from "./Send/Sign"
 import Submit from "./Send/Submit"
 import { Button } from "@/components/ui/button"
@@ -119,14 +119,30 @@ export default function SendDrawer () {
                   </CarouselContent>
                 </Carousel>
               </div>
-              <Button className={"ml-0.5"} size={'icon'} variant={"ghost"} onClick={() => {
-                setOutputs((prevOutputs) => {
-                  prevOutputs.push([ "", "" ])
-                  return [ ...prevOutputs ]
-                })
-              }}>
-                <PlusIcon />
-              </Button>
+              <div className={"flex flex-col"}>
+                <Button className={"ml-0.5"} size={'icon'} variant={"ghost"} onClick={() => {
+                  setOutputs((prevOutputs) => {
+                    prevOutputs.push([ "", "" ])
+                    return [ ...prevOutputs ]
+                  })
+                }}>
+                  <PlusIcon />
+                </Button>
+                <Button 
+                  className={"ml-0.5"}
+                  size={'icon'}
+                  variant={"ghost"}
+                  disabled={outputs.length === 1}
+                  onClick={() => {
+                    setOutputs((prevOutputs) => {
+                      prevOutputs.splice(prevOutputs.length - 1, 1)
+                      return [ ...prevOutputs ]
+                    })
+                  }
+                }>
+                  <MinusIcon />
+                </Button>
+              </div>
             </div>
 
             <Button className={"gap-2"} disabled={!!transactions} onClick={initiateSend}>
