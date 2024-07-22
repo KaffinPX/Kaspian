@@ -65,7 +65,7 @@ export default class Provider extends EventEmitter {
     this.emit('connection', "")
   }
 
-  private submitEvent <E extends keyof EventMappings>(
+  private submitEvent<E extends keyof EventMappings>(
     id: number,
     event: E,
     data: EventMappings[E] | false,

@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react"
 import { i18n } from "webextension-polyfill"
-import { SendToBack } from "lucide-react"
+import { SendToBack, PlusIcon } from "lucide-react"
 import Sign from "./Send/Sign"
 import Submit from "./Send/Submit"
 import { Button } from "@/components/ui/button"
@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input"
 import { Dialog } from "@/components/ui/dialog"
 import useURLParams from "@/hooks/useURLParams"
 import useKaspa from "@/hooks/useKaspa"
+import { type CarouselApi, Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
 
 export enum Tabs {
   Creation,
@@ -70,38 +71,84 @@ export default function SendDrawer () {
               <p className={"text-base font-bold"}>{kaspa.balance} KAS</p>
               <p className={"font-light text-xs"}>{i18n.getMessage('available')}</p>
             </div>
-            <div className={"text-center flex flex-col gap-2.5"}>
-              <Input
-                type={"text"}
-                placeholder={i18n.getMessage('address')}
-                className={"w-60"}
-                value={recipient}
-                disabled={!!params.get('recipient')}
-                onChange={(e) => { 
-                  if (error) setError("")
+            <div className="flex flex-row items-center">
+              <Carousel>
+                <CarouselContent>
+                  <CarouselItem>
+                    <div className={"text-center flex flex-col gap-2.5"}>
+                      <Input
+                        type={"text"}
+                        placeholder={i18n.getMessage('address')}
+                        className={"w-60"}
+                        value={recipient}
+                        disabled={!!params.get('recipient')}
+                        onChange={(e) => { 
+                          if (error) setError("")
 
-                  setRecipient(e.target.value)
-                }}
-                onKeyUp={e => {
-                  if (e.key !== 'Enter' || amount === "") return
-                  initiateSend()
-                }}
-              />
-              <Input
-                type={"number"}
-                placeholder={i18n.getMessage('amount')}
-                value={amount}
-                disabled={!!params.get('amount')}
-                error={error}
-                onChange={(e) => {
-                  if (error) setError("")
-                  setAmount(e.target.value)
-                }}
-                onKeyUp={e => {
-                  if (e.key !== 'Enter' || amount === "") return
-                  initiateSend()
-                }}
-              />
+                          setRecipient(e.target.value)
+                        }}
+                        onKeyUp={e => {
+                          if (e.key !== 'Enter' || amount === "") return
+                          initiateSend()
+                        }}
+                      />
+                      <Input
+                        type={"number"}
+                        placeholder={i18n.getMessage('amount')}
+                        value={amount}
+                        disabled={!!params.get('amount')}
+                        error={error}
+                        onChange={(e) => {
+                          if (error) setError("")
+                          setAmount(e.target.value)
+                        }}
+                        onKeyUp={e => {
+                          if (e.key !== 'Enter' || amount === "") return
+                          initiateSend()
+                        }}
+                      />
+                    </div>
+                  </CarouselItem>
+                  <CarouselItem>
+                    <div className={"text-center flex flex-col gap-2.5"}>
+                      <Input
+                        type={"text"}
+                        placeholder={i18n.getMessage('address')}
+                        className={"w-60"}
+                        value={recipient}
+                        disabled={!!params.get('recipient')}
+                        onChange={(e) => { 
+                          if (error) setError("")
+
+                          setRecipient(e.target.value)
+                        }}
+                        onKeyUp={e => {
+                          if (e.key !== 'Enter' || amount === "") return
+                          initiateSend()
+                        }}
+                      />
+                      <Input
+                        type={"number"}
+                        placeholder={i18n.getMessage('amount')}
+                        value={amount}
+                        disabled={!!params.get('amount')}
+                        error={error}
+                        onChange={(e) => {
+                          if (error) setError("")
+                          setAmount(e.target.value)
+                        }}
+                        onKeyUp={e => {
+                          if (e.key !== 'Enter' || amount === "") return
+                          initiateSend()
+                        }}
+                      />
+                    </div>
+                  </CarouselItem>
+                </CarouselContent>
+              </Carousel>
+              <Button className={"ml-0.5"} size={'icon'} variant={"ghost"}>
+                <PlusIcon />
+              </Button>
             </div>
 
             <Button className={"gap-2"} disabled={!!transactions} onClick={initiateSend}>

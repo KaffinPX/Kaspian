@@ -6,7 +6,6 @@ export default class Transactions extends EventEmitter {
   kaspa: RpcClient
   context: UtxoContext
   addresses: Addresses
-
   encryptedKey: string | undefined
   accountId: number | undefined
 

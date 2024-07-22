@@ -14,10 +14,10 @@ export default class Notifications {
     provider: Provider
   }) {
     wallet.on('status', (status) => this.handleEvent('wallet:status', status))
-    account.on('balance', (balance) => this.handleEvent('account:balance', balance))
-    account.addresses.on('addresses', (addresses) => this.handleEvent('account:addresses', addresses))
     node.on('connection', (status) => this.handleEvent('node:connection', status))
     node.on('network', (networkId) => this.handleEvent('node:network', networkId))
+    account.on('balance', (balance) => this.handleEvent('account:balance', balance))
+    account.addresses.on('addresses', (addresses) => this.handleEvent('account:addresses', addresses))
     provider.on('connection', (url) => this.handleEvent('provider:connection', url))
   }
 
