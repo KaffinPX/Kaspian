@@ -9,7 +9,7 @@ export interface AccountInfo {
 }
 
 export interface RequestMappings {
-  'send': [ string, string ]
+  'transact': [[ string, string ][]]
 }
 
 export interface Request<M extends keyof RequestMappings = keyof RequestMappings> {
@@ -26,10 +26,16 @@ export function isRequest (object: any): object is Request {
   }
 
   switch (object.method) {
-    case 'send':
-      return object.params.length === 2 &&
-             typeof object.params[0] === 'string' &&
-             typeof object.params[1] === 'string'
+    case 'transact': {
+      if (!Array.isArray(object.params)) return false
+
+      for (const output of object.params[0]) {
+        console.log(output)
+        if (typeof output[0] !== 'string' || typeof output[1] !== 'string') return false // TODO: Better checks
+      }
+
+      return true
+    }
     default:
       return false
   }

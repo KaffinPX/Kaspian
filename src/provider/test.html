@@ -33,11 +33,13 @@
           window.dispatchEvent(new CustomEvent("kaspa:invoke", {
             detail: {
               id: 1,
-              method: 'send',
-              params: [ 
+              method: 'transact',
+              params: [[
+                [
                 "kaspa:qqpdx32s8rcf6kyxmul4sjmx2pcktawsqs840cq8e4uhxngzcxmexlpsawy66", 
                 "1"
-              ]
+                ]
+              ]]
             }
           }))
         }

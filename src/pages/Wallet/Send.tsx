@@ -27,7 +27,7 @@ export enum Tabs {
 export default function SendDrawer () {
   const { kaspa, request } = useKaspa()
   const [ hash, params ] = useURLParams()
-  const [ outputs, setOutputs ] = useState<[ string, string ][]>([[ "", "" ]])
+  const [ outputs, setOutputs ] = useState<[ string, string ][]>(JSON.parse(params.get('outputs') ?? `[[ "", "" ]]`))
   const [ transactions, setTransactions ] = useState<string[]>()
   const [ error, setError ] = useState("")
   const [ tab, setTab ] = useState(Tabs.Creation)
@@ -42,13 +42,13 @@ export default function SendDrawer () {
   }, [ outputs ])
 
   return (
-    <Sheet defaultOpen={hash === 'send'} onOpenChange={(open) => {
+    <Sheet defaultOpen={hash === 'transact'} onOpenChange={(open) => {
       if (open) return
 
       setOutputs([[ "", "" ]])
 
-      if (hash === 'send') {
-        window.close
+      if (hash === 'transact') {
+        window.close()
       }
     }}>
       <SheetTrigger asChild>
@@ -79,7 +79,7 @@ export default function SendDrawer () {
                             type={"text"}
                             placeholder={i18n.getMessage('address')}
                             value={output[0]}
-                            disabled={!!params.get('recipient')}
+                            disabled={!!params.get('outputs')}
                             onChange={(e) => { 
                               if (error) setError("")
 
@@ -97,7 +97,7 @@ export default function SendDrawer () {
                             type={"number"}
                             placeholder={i18n.getMessage('amount')}
                             value={output[1]}
-                            disabled={!!params.get('amount')}
+                            disabled={!!params.get('outputs')}
                             error={error}
                             onChange={(e) => {
                               if (error) setError("")
@@ -119,7 +119,7 @@ export default function SendDrawer () {
                 </Carousel>
               </div>
               <div className={"flex flex-col"}>
-                <Button className={"ml-0.5"} size={'icon'} variant={"ghost"} onClick={() => {
+                <Button className={"ml-0.5"} size={'icon'} variant={"ghost"} disabled={!!params.get('outputs')} onClick={() => {
                   setOutputs((prevOutputs) => {
                     prevOutputs.push([ "", "" ])
                     return [ ...prevOutputs ]
@@ -131,7 +131,7 @@ export default function SendDrawer () {
                   className={"ml-0.5"}
                   size={'icon'}
                   variant={"ghost"}
-                  disabled={outputs.length === 1}
+                  disabled={outputs.length === 1 || !!params.get('outputs')}
                   onClick={() => {
                     setOutputs((prevOutputs) => {
                       prevOutputs.splice(prevOutputs.length - 1, 1)
@@ -160,7 +160,7 @@ export default function SendDrawer () {
                 setTab(Tabs.Submit)
               }} />}
               {tab === Tabs.Submit && <Submit transactions={transactions!} onSubmitted={() => { 
-                if (hash === 'send') window.close()
+                if (hash === 'transact') window.close()
               }} />}
             </Dialog>
           </div>
