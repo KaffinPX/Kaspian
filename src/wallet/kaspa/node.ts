@@ -45,7 +45,7 @@ export default class Node extends EventEmitter {
     if (!isSynced || !hasUtxoIndex) {
       await this.kaspa.disconnect()
 
-      throw Error('Node is not synchronized or has UTXO index enabled.')
+      throw Error('Node is not synchronized or lacks UTXO index.')
     }
 
     if (this.networkId !== networkId) {

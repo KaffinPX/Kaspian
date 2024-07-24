@@ -1,6 +1,19 @@
-import { createTransactions, decryptXChaCha20Poly1305, kaspaToSompi, PendingTransaction, PrivateKeyGenerator, RpcClient, signTransaction, Transaction, UtxoContext } from "@/../wasm"
+import { Address, createTransactions, decryptXChaCha20Poly1305, IUtxoEntry, kaspaToSompi, PendingTransaction, PrivateKeyGenerator, RpcClient, ScriptBuilder, signTransaction, signTransactionInput, Transaction, UtxoContext } from "@/../wasm"
 import Addresses from "./addresses"
 import EventEmitter from "events"
+
+export interface CustomInput {
+  address: string
+  outpoint: string,
+  index: number
+}
+
+export interface CustomSignature {
+  outpoint: number
+  index: string,
+  signer: string,
+  script?: string
+}
 
 export default class Transactions extends EventEmitter {
   kaspa: RpcClient
@@ -24,8 +37,23 @@ export default class Transactions extends EventEmitter {
     this.accountId = accountId
   }
 
-  async create (outputs: [ string, string ][], fee: string) {
+  async create (outputs: [ string, string ][], fee: string, customs?: CustomInput[]) {
+    let entries: IUtxoEntry[] = []
+
+    if (customs) {
+      const { entries } = await this.kaspa.getUtxosByAddresses(customs.map(custom => { return custom.address }))
+
+      for (const custom of customs) {
+        const matchingEntry = entries.find(entry => entry.outpoint.transactionId === custom.outpoint && entry.outpoint.index === custom.index)
+
+        if (matchingEntry) {
+          entries.push(matchingEntry)
+        } else throw Error('Failed to resolve custom entry')
+      }
+    }
+
     const { transactions } = await createTransactions({
+      priorityEntries: entries,
       entries: this.context,
       outputs: outputs.map(output => ({ address: output[0], amount: kaspaToSompi(output[1])! })),
       changeAddress: this.addresses.changeAddresses[this.addresses.changeAddresses.length - 1],
@@ -41,7 +69,7 @@ export default class Transactions extends EventEmitter {
     return transactions.map((transaction) => transaction.serializeToSafeJSON())
   }
 
-  async sign (transactions: string[], password: string) {
+  async sign (transactions: string[], password: string, customs: CustomSignature[] = []) {
     if (!this.encryptedKey) throw Error('No imported account')
 
     const keyGenerator = new PrivateKeyGenerator(decryptXChaCha20Poly1305(this.encryptedKey, password), false, BigInt(this.accountId!))
@@ -51,19 +79,33 @@ export default class Transactions extends EventEmitter {
       const parsedTransaction = Transaction.deserializeFromSafeJSON(transaction)
       const privateKeys = []
 
-      for (const address of parsedTransaction.addresses(this.addresses.networkId)) {
-        const receiveIndex = this.addresses.receiveAddresses.indexOf(address.toString())
-        const changeIndex = this.addresses.changeAddresses.indexOf(address.toString())
+      for (let address of parsedTransaction.addresses(this.addresses.networkId)) {
+        if (address.version === 'ScriptHash') continue
 
-        if (receiveIndex !== -1) {
-          privateKeys.push(keyGenerator.receiveKey(receiveIndex))
-        } else if (changeIndex !== -1) {
-          privateKeys.push(keyGenerator.changeKey(changeIndex))
-        } else throw Error('UTXO is not owned by active wallet')
+        const [ isReceive, index ] = this.addresses.findIndexes(address.toString())
+        privateKeys.push(isReceive ? keyGenerator.receiveKey(index) : keyGenerator.changeKey(index))
       }
 
-      signedTransactions.push(signTransaction(parsedTransaction, privateKeys, false))
+      const signedTransaction = signTransaction(parsedTransaction, privateKeys, false)
+
+      for (const custom of customs) {
+        const inputIndex = signedTransaction.inputs.findIndex(({ previousOutpoint }) => previousOutpoint.transactionId === custom.outpoint && previousOutpoint.index === custom.index)
+
+        if (Address.validate(custom.signer)) {
+          if (!custom.script) throw Error('Script is required for supplied signer address')
+
+          const [ isReceive, index ] = this.addresses.findIndexes(custom.signer)
+          const privateKey = isReceive ? keyGenerator.receiveKey(index) : keyGenerator.changeKey(index)
+
+          signedTransaction.inputs[inputIndex].signatureScript = ScriptBuilder.fromScript(custom.script).encodePayToScriptHashSignatureScript(signTransactionInput(parsedTransaction, index, privateKey))
+        } else {
+          signedTransaction.inputs[inputIndex].signatureScript = custom.signer
+        }
+      }
+
+      signedTransactions.push(signedTransaction)
     }
+
     
     const parsedTransactions = signedTransactions.map(transaction => transaction.serializeToSafeJSON())
     this.emit('transactions', parsedTransactions)

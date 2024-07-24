@@ -1,5 +1,6 @@
 import { Status } from "../kaspa/wallet"
 import { UTXO } from "../kaspa/account"
+import { CustomInput, CustomSignature } from "../kaspa/account/transactions"
 
 export interface RequestMappings {
   'wallet:status': []
@@ -15,8 +16,8 @@ export interface RequestMappings {
   'account:addresses': []
   'account:balance': []
   'account:utxos': []
-  'account:create': [[ string, string ][], string ]
-  'account:sign': [ string[], string ]
+  'account:create': [[ string, string ][], string, CustomInput[]? ]
+  'account:sign': [ string[], string, CustomSignature[] ]
   'account:submitContextful': [ string[] ]
   'account:scan': []
   'provider:connect': [ string ]

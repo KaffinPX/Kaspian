@@ -1,5 +1,5 @@
 import { EventEmitter } from "events"
-import { UtxoContext, UtxoProcessor, PublicKeyGenerator, PrivateKeyGenerator, createTransactions, Transaction, decryptXChaCha20Poly1305, kaspaToSompi, signTransaction, type UtxoEntryReference } from "@/../wasm"
+import { UtxoContext, UtxoProcessor, PublicKeyGenerator, type UtxoEntryReference } from "@/../wasm"
 import type Node from "../node"
 import Addresses from "./addresses"
 import SessionStorage from "@/storage/SessionStorage"

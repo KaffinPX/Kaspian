@@ -30,7 +30,6 @@ export function isRequest (object: any): object is Request {
       if (!Array.isArray(object.params)) return false
 
       for (const output of object.params[0]) {
-        console.log(output)
         if (typeof output[0] !== 'string' || typeof output[1] !== 'string') return false // TODO: Better checks
       }
 

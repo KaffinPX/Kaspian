@@ -55,6 +55,17 @@ export default class Addresses extends EventEmitter {
     this.emit('addresses', addresses)
   }
 
+  findIndexes (address: string): [ boolean, number ] {
+    const receiveIndex = this.receiveAddresses.indexOf(address)
+    const changeIndex = this.changeAddresses.indexOf(address)
+
+    if (receiveIndex !== -1) {
+      return [ true, receiveIndex ]
+    } else if (changeIndex !== -1) {
+      return [ false, changeIndex ]
+    } else throw Error('Failed to find index of address over HD wallet')
+  }
+
   async changeNetwork (networkId: string) {
     this.networkId = networkId
     this.receiveAddresses = await this.derive(true, 0, this.receiveAddresses.length)
