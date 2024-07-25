@@ -9,8 +9,8 @@ export interface CustomInput {
 }
 
 export interface CustomSignature {
-  outpoint: number
-  index: string,
+  outpoint: string,
+  index: number,
   signer: string,
   script?: string
 }

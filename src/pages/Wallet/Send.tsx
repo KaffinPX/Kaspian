@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input"
 import { Dialog } from "@/components/ui/dialog"
 import useURLParams from "@/hooks/useURLParams"
 import useKaspa from "@/hooks/useKaspa"
+import { CustomInput } from "@/provider/protocol"
 
 export enum Tabs {
   Creation,
@@ -28,12 +29,14 @@ export default function SendDrawer () {
   const { kaspa, request } = useKaspa()
   const [ hash, params ] = useURLParams()
   const [ outputs, setOutputs ] = useState<[ string, string ][]>(JSON.parse(params.get('outputs') ?? `[[ "", "" ]]`))
+  const [ fee ] = useState(params.get('fee') ?? "0")
+  const [ inputs ] = useState<CustomInput[]>(JSON.parse(params.get('outputs') ?? `[]`))
   const [ transactions, setTransactions ] = useState<string[]>()
   const [ error, setError ] = useState("")
   const [ tab, setTab ] = useState(Tabs.Creation)
  
   const initiateSend = useCallback(() => {
-    request('account:create', [ outputs, '0' ]).then((transactions) => {
+    request('account:create', [ outputs, fee, inputs ]).then((transactions) => {
       setTransactions(transactions)
       setTab(Tabs.Sign)
     }).catch((err) => {
@@ -89,8 +92,8 @@ export default function SendDrawer () {
                               })
                             }}
                             onKeyUp={e => {
-                              if (e.key !== 'Enter' || output[0] === "") return;
-                              initiateSend();
+                              if (e.key !== 'Enter' || output[0] === "") return
+                              initiateSend()
                             }}
                           />
                           <Input
@@ -155,7 +158,7 @@ export default function SendDrawer () {
               setTab(Tabs.Creation)
               setTransactions(undefined)
             }}>
-              {tab === Tabs.Sign && <Sign transactions={transactions!} onSigned={(transactions) => {
+              {tab === Tabs.Sign && <Sign transactions={transactions!} inputs={inputs} onSigned={(transactions) => {
                 setTransactions(transactions)
                 setTab(Tabs.Submit)
               }} />}

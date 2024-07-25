@@ -15,6 +15,8 @@ export default class Provider extends EventEmitter {
 
     this.windows = new Windows()
     this.account = account
+
+    this.registerEvents()
   }
   
   get connectedURL () {
@@ -82,7 +84,9 @@ export default class Provider extends EventEmitter {
       let transactions: string[]
 
       await this.windows.open('transact', {
-        'outputs': JSON.stringify(request.params[0], null, 0)
+        'outputs': JSON.stringify(request.params[0], null, 0),
+        'fee': request.params[1],
+        'inputs': JSON.stringify(request.params[2] ?? [], null, 0) // TODO: consider where to do this
       }, () => {
         if (transactions) {
           this.submitEvent(request.id, 'transactions', transactions)
@@ -93,5 +97,15 @@ export default class Provider extends EventEmitter {
 
       this.account.transactions.once('transactions', (parsedTransactions) => transactions = parsedTransactions)
     }
+  }
+
+  private registerEvents () {
+    // TODO: implement better event processing by a seperate class :p
+    this.account.on('balance', () => {
+      this.submitEvent(0, 'account', {
+        balance: this.account.balance,
+        addresses: [ this.account.addresses.receiveAddresses, this.account.addresses.changeAddresses ]
+      })
+    })
   }
 }

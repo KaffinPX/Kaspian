@@ -17,7 +17,7 @@ export interface RequestMappings {
   'account:balance': []
   'account:utxos': []
   'account:create': [[ string, string ][], string, CustomInput[]? ]
-  'account:sign': [ string[], string, CustomSignature[] ]
+  'account:sign': [ string[], string, CustomSignature[]? ]
   'account:submitContextful': [ string[] ]
   'account:scan': []
   'provider:connect': [ string ]

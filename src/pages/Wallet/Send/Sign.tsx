@@ -11,9 +11,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import useKaspa from "@/hooks/useKaspa"
+import { CustomInput } from "@/provider/protocol"
 
-export default function Sign ({ transactions, onSigned }: {
+export default function Sign ({ transactions, inputs, onSigned }: {
   transactions: string[],
+  inputs: CustomInput[],
   onSigned: (transactions: string[]) => void
 }) {
   const kaspa = useKaspa()
@@ -48,7 +50,7 @@ export default function Sign ({ transactions, onSigned }: {
   const sign = useCallback(() => {
     setPassword("")
 
-    kaspa.request('account:sign', [ transactions, password ]).then((transactions) => {
+    kaspa.request('account:sign', [ transactions, password, inputs ]).then((transactions) => {
       onSigned(transactions)
     }).catch((err) => {
       setError(err)

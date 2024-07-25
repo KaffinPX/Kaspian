@@ -8,8 +8,16 @@ export interface AccountInfo {
   addresses: [ string[], string[] ]
 }
 
+export interface CustomInput {
+  address: string
+  outpoint: string
+  index: number,
+  signer: string
+  script?: string
+}
+
 export interface RequestMappings {
-  'transact': [[ string, string ][]]
+  'transact': [[ string, string ][], string, CustomInput[]?] // outputs, fee, custom
 }
 
 export interface Request<M extends keyof RequestMappings = keyof RequestMappings> {
@@ -27,8 +35,6 @@ export function isRequest (object: any): object is Request {
 
   switch (object.method) {
     case 'transact': {
-      if (!Array.isArray(object.params)) return false
-
       for (const output of object.params[0]) {
         if (typeof output[0] !== 'string' || typeof output[1] !== 'string') return false // TODO: Better checks
       }
