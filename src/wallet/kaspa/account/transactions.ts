@@ -40,8 +40,8 @@ export default class Transactions extends EventEmitter {
   async create (outputs: [ string, string ][], fee: string, customs?: CustomInput[]) {
     let entries: IUtxoEntry[] = []
 
-    if (customs) {
-      const { entries } = await this.kaspa.getUtxosByAddresses(customs.map(custom => { return custom.address }))
+    if (customs && customs.length > 0) {
+      const { entries } = await this.kaspa.getUtxosByAddresses({ addresses: customs.map(custom => custom.address) })
 
       for (const custom of customs) {
         const matchingEntry = entries.find(entry => entry.outpoint.transactionId === custom.outpoint && entry.outpoint.index === custom.index)

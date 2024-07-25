@@ -28,9 +28,10 @@ export enum Tabs {
 export default function SendDrawer () {
   const { kaspa, request } = useKaspa()
   const [ hash, params ] = useURLParams()
+
   const [ outputs, setOutputs ] = useState<[ string, string ][]>(JSON.parse(params.get('outputs') ?? `[[ "", "" ]]`))
   const [ fee ] = useState(params.get('fee') ?? "0")
-  const [ inputs ] = useState<CustomInput[]>(JSON.parse(params.get('outputs') ?? `[]`))
+  const [ inputs ] = useState<CustomInput[]>(JSON.parse(params.get('inputs') ?? `[]`))
   const [ transactions, setTransactions ] = useState<string[]>()
   const [ error, setError ] = useState("")
   const [ tab, setTab ] = useState(Tabs.Creation)
@@ -40,6 +41,7 @@ export default function SendDrawer () {
       setTransactions(transactions)
       setTab(Tabs.Sign)
     }).catch((err) => {
+      console.log(err)
       setError(err)
     })
   }, [ outputs ])
@@ -146,12 +148,10 @@ export default function SendDrawer () {
                 </Button>
               </div>
             </div>
-
             <Button className={"gap-2"} disabled={!!transactions} onClick={initiateSend}>
               <SendToBack />
               {i18n.getMessage('send')}
             </Button>
-
             <Dialog open={!!transactions} onOpenChange={(open) => {
               if (open) return
                 

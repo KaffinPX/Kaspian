@@ -17,7 +17,7 @@ export interface CustomInput {
 }
 
 export interface RequestMappings {
-  'transact': [[ string, string ][], string, CustomInput[]?] // outputs, fee, custom
+  'transact': [[ string, string ][], string?, CustomInput[]?] // outputs, fee, custom
 }
 
 export interface Request<M extends keyof RequestMappings = keyof RequestMappings> {
