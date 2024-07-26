@@ -35,9 +35,15 @@ export function isRequest (object: any): object is Request {
 
   switch (object.method) {
     case 'transact': {
+      if (object.params.length !== 3) return false
+
       for (const output of object.params[0]) {
-        if (typeof output[0] !== 'string' || typeof output[1] !== 'string') return false // TODO: Better checks
+        if (typeof output[0] !== 'string' || typeof output[1] !== 'string') return false
       }
+      
+      if (typeof object.params[1] !== 'string') return false
+
+      // TODO: Custom input check
 
       return true
     }
