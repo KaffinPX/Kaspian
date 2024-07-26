@@ -38,7 +38,7 @@ export default class Provider extends EventEmitter {
     })
 
     this.port.onDisconnect.addListener(() => {
-      browser.windows.remove(id)
+      if (this.windows.check(id)) browser.windows.remove(id)
       this.disconnect()
     })
   }
@@ -85,13 +85,13 @@ export default class Provider extends EventEmitter {
 
       await this.windows.open('transact', {
         'outputs': JSON.stringify(request.params[0], null, 0),
-        'fee': request.params[1] ?? "0", // TODO: also consider
-        'inputs': JSON.stringify(request.params[2] ?? [], null, 0) // TODO: consider where to do this
+        'fee': request.params[1] ?? "0",
+        'inputs': JSON.stringify(request.params[2] ?? [], null, 0)
       }, () => {
         if (transactions) {
-          this.submitEvent(request.id, 'transactions', transactions)
+          this.submitEvent(request.id, 'transact', transactions)
         } else {
-          this.submitEvent(request.id, 'transactions', false, 403)
+          this.submitEvent(request.id, 'transact', false, 403)
         }
       })
 

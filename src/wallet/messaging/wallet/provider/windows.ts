@@ -7,6 +7,10 @@ export default class Windows {
     this.registerListener()
   }
 
+  check (id: number) {
+    return this.windows.has(id)
+  }
+
   async open (hash: string, params: { [ key: string ]: string }, callback?: () => void) {
     const queryParams = Object.entries(params)
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)

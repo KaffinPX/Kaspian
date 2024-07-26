@@ -48,12 +48,16 @@ export function isRequest (object: any): object is Request {
 
 export interface EventMappings {
   'account': AccountInfo,
-  'transactions': string[]
+  'transact': string[]
 }
 
-export interface Event<M extends keyof EventMappings = keyof EventMappings> {
+export interface EventMessage<M extends keyof EventMappings = keyof EventMappings> {
   id: number
   event: M
   data: EventMappings[M] | false
   error?: number
 }
+
+export type Event<M extends keyof EventMappings = keyof EventMappings> = {
+  [ K in M]: EventMessage<K>
+}[ M ]
