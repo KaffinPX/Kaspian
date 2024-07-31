@@ -10,7 +10,7 @@ export interface IKaspa {
   addresses: [ string[], string[] ]
   balance: number
   utxos: UTXO[]
-  connectedURL: string
+  provider: string
 }
 
 export const defaultState: IKaspa = {
@@ -19,7 +19,7 @@ export const defaultState: IKaspa = {
   addresses: [[], []],
   balance: 0,
   utxos: [],
-  connectedURL: "" 
+  provider: "" 
 }
 
 export const KaspaContext = createContext<{
@@ -54,22 +54,30 @@ export function KaspaProvider ({ children }: {
 
         messagesRef.current.delete(message.id)
       } else {
-        if (message.event === 'node:connection') {
-          updateState('connected', message.data)
-        } else if (message.event === 'node:network') {
-          updateState('addresses', await request('account:addresses', []))
-        } else if (message.event === 'wallet:status') {
-          updateState('status', message.data)
-        } else if (message.event === 'account:balance') {
-          updateState('balance', message.data)
-          updateState('utxos', await request('account:utxos', []))
-        } else if (message.event === 'account:addresses') {
-          updateState('addresses', (addresses) => [
-            addresses[0].concat(message.data[0]),
-            addresses[1].concat(message.data[1])
-          ])
-        } if (message.event === 'provider:connection') {
-          updateState('connectedURL', message.data)
+        switch (message.event) {
+          case 'node:connection':
+            updateState('addresses', await request('account:addresses', []))
+            updateState('connected', message.data)
+            break
+          case 'node:network':
+            updateState('addresses', await request('account:addresses', []))
+            break
+          case 'wallet:status':
+            updateState('status', message.data)
+            break
+          case 'account:balance':
+            updateState('balance', message.data);
+            updateState('utxos', await request('account:utxos', []))
+            break
+          case 'account:addresses':
+            updateState('addresses', (addresses) => [
+              addresses[0].concat(message.data[0]),
+              addresses[1].concat(message.data[1]),
+            ])
+            break
+          case 'provider:connection':
+            updateState('provider', message.data)
+            break
         }
       }
     })
@@ -110,7 +118,7 @@ export function KaspaProvider ({ children }: {
       balance: await request('account:balance', []),
       utxos: await request('account:utxos', []),
       addresses: await request('account:addresses', []),
-      connectedURL: await request('provider:connectedURL', [])
+      provider: await request('provider:connection', [])
     })
   }, [])
   

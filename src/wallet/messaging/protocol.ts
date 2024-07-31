@@ -21,7 +21,7 @@ export interface RequestMappings {
   'account:submitContextful': [ string[] ]
   'account:scan': []
   'provider:connect': [ string ]
-  'provider:connectedURL': []
+  'provider:connection': []
   'provider:disconnect': []
 }
 
@@ -50,7 +50,7 @@ export interface ResponseMappings {
   'account:submitContextful': string[]
   'account:scan': boolean
   "provider:connect": boolean
-  'provider:connectedURL': string
+  'provider:connection': string
   "provider:disconnect": boolean
 }
 

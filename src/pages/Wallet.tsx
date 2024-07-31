@@ -1,6 +1,6 @@
-import { useEffect, useMemo } from "react"
+import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { LogOutIcon, CompassIcon } from "lucide-react"
+import { LogOutIcon, PackageXIcon } from "lucide-react"
 import SendDrawer from "@/pages/Wallet/Send"
 import ReceiveDrawer from "@/pages/Wallet/Receive"
 import ConnectDrawer from "@/pages/Wallet/Connect"
@@ -22,7 +22,7 @@ export default function Wallet () {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!kaspa.connected) {
+    if (!kaspa.connected) { // may be moved into initial part i believe
       request('node:connect', [ settings.nodes[settings.selectedNode].address ])
     }
 
@@ -37,15 +37,15 @@ export default function Wallet () {
         <Heading title={"Kaspian"} />
         <div className={"flex items-center gap-3 mr-2"}>
           <SettingsSheet />
-          {kaspa.connectedURL === "" && <Button size={"icon"} variant={"outline"} onClick={() => {
+          {kaspa.provider === "" && <Button size={"icon"} variant={"outline"} onClick={() => {
             request('wallet:lock', [])
           }}>
             <LogOutIcon />
           </Button>}
-          {kaspa.connectedURL !== "" && <Button size={"icon"} variant={"outline"} onClick={() => {
+          {kaspa.provider !== "" && <Button size={"icon"} variant={"outline"} onClick={() => {
             request('provider:disconnect', [])
           }}>
-            <CompassIcon />
+            <PackageXIcon />
           </Button>}
         </div>
       </div>

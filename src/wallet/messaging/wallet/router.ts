@@ -36,7 +36,7 @@ export default class Router {
       'account:submitContextful': (transactions) => account.transactions.submitContextful(transactions),
       'account:scan': () => account.scan(),
       'provider:connect': (url) => provider.connect(url),
-      'provider:connectedURL': () => provider.connectedURL,
+      'provider:connection': () => provider.connectedURL,
       'provider:disconnect': () => provider.disconnect()
     }  
   }
