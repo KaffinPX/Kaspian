@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { i18n } from "webextension-polyfill"
 import { PlusIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -16,10 +16,19 @@ import { Input } from "@/components/ui/input"
 import useSettings from "@/hooks/useSettings"
 
 export default function Export () {
+  const { settings, updateSetting } = useSettings()
+
   const [ name, setName ] = useState("")
   const [ address, setAddress ] = useState("")
 
-  const { settings, updateSetting } = useSettings()
+  const addressValid = useMemo(() => {
+    try {
+      const parsedUrl = new URL(address)
+      return parsedUrl.protocol === "ws:" || parsedUrl.protocol === "wss:"
+    } catch (e) {
+      return false
+    }
+  }, [ address ])
 
   return (
     <Dialog onOpenChange={() => {
@@ -46,9 +55,9 @@ export default function Export () {
           <DialogClose asChild>
             <Button
               className={"flex gap-2"}
-              disabled={name === "" || address === ""}
-              onClick={async () => {
-                await updateSetting('nodes', [
+              disabled={name === "" || !addressValid}
+              onClick={() => {
+                updateSetting('nodes', [
                   ...settings.nodes,
                   {
                     name,

@@ -1,5 +1,5 @@
 import { EventEmitter } from "events"
-import { RpcClient, ConnectStrategy, Transaction } from "@/../wasm"
+import { RpcClient, ConnectStrategy, Transaction, Resolver, NetworkId } from "@/../wasm"
 
 export default class Node extends EventEmitter {
   kaspa: RpcClient
@@ -32,9 +32,15 @@ export default class Node extends EventEmitter {
 
   async reconnect (nodeAddress: string) {
     await this.kaspa.disconnect()
+
+    if (!nodeAddress.startsWith('ws')) {
+      if (!this.kaspa.resolver) this.kaspa.setResolver(new Resolver())
+      this.kaspa.setNetworkId(new NetworkId(nodeAddress))
+    }
+
     await this.kaspa.connect({
       blockAsyncConnect: true,
-      url: nodeAddress,
+      url: nodeAddress.startsWith('ws') ? nodeAddress : undefined,
       strategy: ConnectStrategy.Retry,
       timeoutDuration: 2000,
       retryInterval: 1000,

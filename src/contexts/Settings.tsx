@@ -20,8 +20,16 @@ export const currencies = {
 export const defaultSettings: ISettings = {
   version: 4,
   nodes: [{
-    name: "Kaspa-NG EU",
-    address: "wss://eu-1.kaspa-ng.io/mainnet",
+    name: "Public network",
+    address: "mainnet",
+    locked: true
+  }, {
+    name: "Public network",
+    address: "testnet-10",
+    locked: true
+  }, {
+    name: "Public network",
+    address: "testnet-11",
     locked: true
   }, {
     name: "Subsecond.wtf",
