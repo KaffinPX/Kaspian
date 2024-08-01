@@ -164,6 +164,8 @@ export default function SendDrawer () {
               }} />}
               {tab === Tabs.Submit && <Submit transactions={transactions!} onSubmitted={() => { 
                 if (hash === 'transact') window.close()
+
+                setOutputs([[ "", "" ]])
               }} />}
             </Dialog>
           </div>
