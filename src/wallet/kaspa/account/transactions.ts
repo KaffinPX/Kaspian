@@ -1,4 +1,4 @@
-import { Address, createTransactions, decryptXChaCha20Poly1305, IUtxoEntry, kaspaToSompi, PendingTransaction, PrivateKeyGenerator, RpcClient, ScriptBuilder, signTransaction, signTransactionInput, Transaction, UtxoContext } from "@/../wasm"
+import { Address, createTransactions, decryptXChaCha20Poly1305, IUtxoEntry, kaspaToSompi, PendingTransaction, PrivateKeyGenerator, RpcClient, ScriptBuilder, signTransaction, createInputSignature, Transaction, UtxoContext } from "@/../wasm"
 import Addresses from "./addresses"
 import EventEmitter from "events"
 
@@ -96,7 +96,7 @@ export default class Transactions extends EventEmitter {
           const [ isReceive, index ] = this.addresses.findIndexes(custom.signer)
           const privateKey = isReceive ? keyGenerator.receiveKey(index) : keyGenerator.changeKey(index)
 
-          signedTransaction.inputs[inputIndex].signatureScript = ScriptBuilder.fromScript(custom.script).encodePayToScriptHashSignatureScript(signTransactionInput(parsedTransaction, index, privateKey))
+          signedTransaction.inputs[inputIndex].signatureScript = ScriptBuilder.fromScript(custom.script).encodePayToScriptHashSignatureScript(createInputSignature(signedTransaction, index, privateKey))
         } else {
           signedTransaction.inputs[inputIndex].signatureScript = custom.signer
         }
