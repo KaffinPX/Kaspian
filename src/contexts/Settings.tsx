@@ -20,20 +20,16 @@ export const currencies = {
 export const defaultSettings: ISettings = {
   version: 4,
   nodes: [{
-    name: "Public network",
+    name: "Public node",
     address: "mainnet",
     locked: true
   }, {
-    name: "Public network",
+    name: "Public node",
     address: "testnet-10",
     locked: true
   }, {
-    name: "Public network",
+    name: "Public node",
     address: "testnet-11",
-    locked: true
-  }, {
-    name: "Subsecond.wtf",
-    address: "wss://subsecond.wtf/rpc",
     locked: true
   }],
   currency: 'USD',
