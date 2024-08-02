@@ -75,8 +75,10 @@ export default function SendDrawer () {
             </div>
             <div className="flex flex-row items-center">
               <div className="flex flex-col">
-                <Carousel>
-                  <CarouselContent className="w-60">
+                <Carousel opts={{
+                  startIndex: outputs.length - 1
+                }}>
+                  <CarouselContent className="w-60 mx-2">
                     {outputs.map((output, id) => {
                       return (
                         <CarouselItem key={id} className={"flex flex-col gap-2.5 my-2"}>
