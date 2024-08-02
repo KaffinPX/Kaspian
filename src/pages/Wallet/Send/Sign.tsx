@@ -11,7 +11,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import useKaspa from "@/hooks/useKaspa"
-import { CustomInput } from "@/provider/protocol"
+import type { CustomInput } from "@/provider/protocol"
+import type { ITransactionInput, ITransactionOutput } from "@/../wasm"
 
 export default function Sign ({ transactions, inputs, onSigned }: {
   transactions: string[],
@@ -24,13 +25,13 @@ export default function Sign ({ transactions, inputs, onSigned }: {
   const [ error, setError ] = useState("")
 
   const fee = useMemo(() => {
-    const transaction = JSON.parse(transactions[0])
+    const transaction = JSON.parse(transactions[transactions.length - 1])
     
-    const inputValue = transaction.inputs.reduce((acc: bigint, input: any) => {
-      return acc + BigInt(input.utxo.amount)
+    const inputValue = transaction.inputs.reduce((acc: bigint, input: ITransactionInput) => {
+      return acc + BigInt(input.utxo!.amount)
     }, 0n)
 
-    const outputValue = transaction.outputs.reduce((acc: bigint, output: any) => {
+    const outputValue = transaction.outputs.reduce((acc: bigint, output: ITransactionOutput) => {
       return acc + BigInt(output.value)
     }, 0n)
     
@@ -38,9 +39,9 @@ export default function Sign ({ transactions, inputs, onSigned }: {
   }, [ transactions ])
 
   const amount = useMemo(() => {
-    const transaction = JSON.parse(transactions[0])
+    const transaction = JSON.parse(transactions[transactions.length - 1])
 
-    const sentValue = transaction.outputs.reduce((acc: bigint, output: any) => {
+    const sentValue = transaction.outputs.reduce((acc: bigint, output: ITransactionOutput) => {
       return acc + BigInt(output.value)
     }, 0n)
     
