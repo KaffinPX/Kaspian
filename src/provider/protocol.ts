@@ -35,13 +35,13 @@ export function isRequest (object: any): object is Request {
 
   switch (object.method) {
     case 'transact': {
-      if (object.params.length !== 3) return false
+      if (object.params.length < 1) return false
 
       for (const output of object.params[0]) {
         if (typeof output[0] !== 'string' || typeof output[1] !== 'string') return false
       }
-      
-      if (typeof object.params[1] !== 'string') return false
+
+      if (object.params[1] && typeof object.params[1] !== 'string') return false
 
       // TODO: Custom input check
 
@@ -54,7 +54,7 @@ export function isRequest (object: any): object is Request {
 
 export interface EventMappings {
   'account': AccountInfo,
-  'transact': string[]
+  'transact': string
 }
 
 export interface EventMessage<M extends keyof EventMappings = keyof EventMappings> {

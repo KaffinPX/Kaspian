@@ -44,7 +44,8 @@ export default class Transactions extends EventEmitter {
       const { entries } = await this.kaspa.getUtxosByAddresses({ addresses: customs.map(custom => custom.address) })
 
       for (const custom of customs) {
-        const matchingEntry = entries.find(entry => entry.outpoint.transactionId === custom.outpoint && entry.outpoint.index === custom.index)
+        // @ts-ignore
+        const matchingEntry = entries.find(({ entry }) => entry.outpoint.transactionId === custom.outpoint && entry.outpoint.index === custom.index)
 
         if (matchingEntry) {
           entries.push(matchingEntry)
@@ -80,8 +81,6 @@ export default class Transactions extends EventEmitter {
       const privateKeys = []
 
       for (let address of parsedTransaction.addresses(this.addresses.networkId)) {
-        if (address.version === 'ScriptHash') continue
-
         const [ isReceive, index ] = this.addresses.findIndexes(address.toString())
         privateKeys.push(isReceive ? keyGenerator.receiveKey(index) : keyGenerator.changeKey(index))
       }
@@ -92,7 +91,7 @@ export default class Transactions extends EventEmitter {
         const inputIndex = signedTransaction.inputs.findIndex(({ previousOutpoint }) => previousOutpoint.transactionId === custom.outpoint && previousOutpoint.index === custom.index)
 
         if (Address.validate(custom.signer)) {
-          if (!custom.script) throw Error('Script is required for supplied signer address')
+          if (!custom.script) throw Error('Script is required when signer address is supplied')
 
           const [ isReceive, index ] = this.addresses.findIndexes(custom.signer)
           const privateKey = isReceive ? keyGenerator.receiveKey(index) : keyGenerator.changeKey(index)

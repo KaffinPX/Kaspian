@@ -81,21 +81,21 @@ export default class Provider extends EventEmitter {
 
   private async handleMessage (request: Request) {
     if (request.method === 'transact') {
-      let transactions: string[]
+      let transaction: string
 
       await this.windows.open('transact', {
         'outputs': JSON.stringify(request.params[0], null, 0),
         'fee': request.params[1] ?? "0",
         'inputs': JSON.stringify(request.params[2] ?? [], null, 0)
       }, () => {
-        if (transactions) {
-          this.submitEvent(request.id, 'transact', transactions)
+        if (transaction) {
+          this.submitEvent(request.id, 'transact', transaction)
         } else {
           this.submitEvent(request.id, 'transact', false, 403)
         }
       })
 
-      this.account.transactions.once('transactions', (parsedTransactions) => transactions = parsedTransactions)
+      this.account.transactions.once('transactions', (transactions) => transaction = transactions[transactions.length - 1])
     }
   }
 
