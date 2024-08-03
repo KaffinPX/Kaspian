@@ -42,13 +42,19 @@ export default class Windows {
   }
 
   private registerListener () {
-    browser.windows.onRemoved.addListener((id) => {
-      const callback = this.windows.get(id)
+    browser.windows.onRemoved.addListener((windowId) => {
+      const callback = this.windows.get(windowId)
       if (!callback) return
 
       callback()
 
-      this.windows.delete(id)
+      this.windows.delete(windowId)
+    })
+
+    browser.windows.onFocusChanged.addListener((windowId) => {
+      for (const id of this.windows.keys()) {
+        if (windowId !== id) browser.windows.remove(id)
+      }
     })
   }
 }
