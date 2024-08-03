@@ -38,7 +38,7 @@ export default class Transactions extends EventEmitter {
   }
 
   async create (outputs: [ string, string ][], fee: string, customs?: CustomInput[]) {
-    let entries: IUtxoEntry[] = []
+    let priorityEntries: IUtxoEntry[] = []
 
     if (customs && customs.length > 0) {
       const { entries } = await this.kaspa.getUtxosByAddresses({ addresses: customs.map(custom => custom.address) })
@@ -48,13 +48,13 @@ export default class Transactions extends EventEmitter {
         const matchingEntry = entries.find(({ entry }) => entry.outpoint.transactionId === custom.outpoint && entry.outpoint.index === custom.index)
 
         if (matchingEntry) {
-          entries.push(matchingEntry)
+          priorityEntries.push(matchingEntry)
         } else throw Error('Failed to resolve custom entry')
       }
     }
 
     const { transactions } = await createTransactions({
-      priorityEntries: entries,
+      priorityEntries,
       entries: this.context,
       outputs: outputs.map(output => ({ address: output[0], amount: kaspaToSompi(output[1])! })),
       changeAddress: this.addresses.changeAddresses[this.addresses.changeAddresses.length - 1],
@@ -81,6 +81,8 @@ export default class Transactions extends EventEmitter {
       const privateKeys = []
 
       for (let address of parsedTransaction.addresses(this.addresses.networkId)) {
+        if (address.version === 'ScriptHash') continue
+  
         const [ isReceive, index ] = this.addresses.findIndexes(address.toString())
         privateKeys.push(isReceive ? keyGenerator.receiveKey(index) : keyGenerator.changeKey(index))
       }
@@ -96,7 +98,7 @@ export default class Transactions extends EventEmitter {
           const [ isReceive, index ] = this.addresses.findIndexes(custom.signer)
           const privateKey = isReceive ? keyGenerator.receiveKey(index) : keyGenerator.changeKey(index)
 
-          signedTransaction.inputs[inputIndex].signatureScript = ScriptBuilder.fromScript(custom.script).encodePayToScriptHashSignatureScript(createInputSignature(signedTransaction, index, privateKey))
+          signedTransaction.inputs[inputIndex].signatureScript = ScriptBuilder.fromScript(custom.script).encodePayToScriptHashSignatureScript(createInputSignature(signedTransaction, inputIndex, privateKey))
         } else {
           signedTransaction.inputs[inputIndex].signatureScript = custom.signer
         }
