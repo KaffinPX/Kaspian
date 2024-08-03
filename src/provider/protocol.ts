@@ -43,7 +43,15 @@ export function isRequest (object: any): object is Request {
 
       if (object.params[1] && typeof object.params[1] !== 'string') return false
 
-      // TODO: Custom input check
+      if (object.params[2]) {
+        if (!Array.isArray(object.params[2])) return false
+
+        for (const input of object.params[2]) {
+          if (typeof input.address !== 'string' || typeof input.outpoint !== 'string' || typeof input.index !== 'number' || typeof input.signer !== 'string') return false
+
+          if (input.script && typeof input.script !== 'string') return false
+        }
+      }
 
       return true
     }
