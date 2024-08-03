@@ -5,7 +5,7 @@ export interface ProviderInfo {
 
 export interface AccountInfo {
   balance: number
-  addresses: [ string[], string[] ]
+  addresses: string[]
 }
 
 export interface CustomInput {

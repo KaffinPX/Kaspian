@@ -51,7 +51,7 @@ export default class Provider extends EventEmitter {
     this.port.onMessage.addListener((request) => this.handleMessage(request))    
     this.submitEvent(0, 'account', {
       balance: this.account.balance,
-      addresses: [ this.account.addresses.receiveAddresses, this.account.addresses.changeAddresses ]
+      addresses: this.account.addresses.receiveAddresses
     })
 
     this.emit('connection', url)
@@ -100,11 +100,10 @@ export default class Provider extends EventEmitter {
   }
 
   private registerEvents () {
-    // TODO: implement better event processing by a seperate class :p
     this.account.on('balance', () => {
       this.submitEvent(0, 'account', {
         balance: this.account.balance,
-        addresses: [ this.account.addresses.receiveAddresses, this.account.addresses.changeAddresses ]
+        addresses: this.account.addresses.receiveAddresses
       })
     })
   }
