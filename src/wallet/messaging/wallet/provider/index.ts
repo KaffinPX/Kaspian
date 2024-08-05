@@ -85,8 +85,8 @@ export default class Provider extends EventEmitter {
 
       await this.windows.open('transact', {
         'outputs': JSON.stringify(request.params[0], null, 0),
-        'fee': request.params[1] ?? "0",
-        'inputs': JSON.stringify(request.params[2] ?? [], null, 0)
+        'fee': request.params[1],
+        'inputs': JSON.stringify(request.params[2], null, 0)
       }, () => {
         if (transaction) {
           this.submitEvent(request.id, 'transact', transaction)

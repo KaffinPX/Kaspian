@@ -11,9 +11,10 @@ export default class Windows {
     return this.windows.has(id)
   }
 
-  async open (hash: string, params: { [ key: string ]: string }, callback?: () => void) {
+  async open (hash: string, params: {[ key: string ]: string | undefined}, callback?: () => void) {
     const queryParams = Object.entries(params)
-      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+      .filter(([, value ]) => value !== undefined)
+      .map(([ key, value ]) => `${encodeURIComponent(key)}=${encodeURIComponent(value!)}`)
       .join('&')
 
     const location = await this.calculateLocation()
