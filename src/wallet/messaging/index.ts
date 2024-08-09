@@ -59,9 +59,9 @@ export default class RPC {
 
   private streamEvents () {
     this.notifier.registerCallback((event) => {
-      this.ports.forEach(port => {
+      for (const port of this.ports) {
         port.postMessage(event)
-      })
+      }
     })
   }
 }
