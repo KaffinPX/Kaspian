@@ -13,6 +13,12 @@ export interface IKaspa {
   provider: string
 }
 
+interface MessageEntry<M extends keyof RequestMappings> {
+  resolve: (value: ResponseMappings[M]) => void;
+  reject: (reason?: any) => void;
+  message: Request<M>;
+}
+
 export const defaultState: IKaspa = {
   status: Status.Uninitialized,
   connected: false,
@@ -34,7 +40,7 @@ export function KaspaProvider ({ children }: {
   const [ kaspa, setState ] = useState(defaultState)
 
   const connectionRef = useRef<Runtime.Port | null>(null)
-  const messagesRef = useRef(new Map<number, any>()) // TODO: Improve typing
+  const messagesRef = useRef(new Map<number, MessageEntry<any>>())
   const nonceRef = useRef(0)
 
   const getConnection = useCallback(() => {
@@ -44,7 +50,7 @@ export function KaspaProvider ({ children }: {
 
     connection.onMessage.addListener(async (message: Response | Event) => {
       if (!isEvent(message)) {
-        const [ resolve, reject ] = messagesRef.current.get(message.id)
+        const { resolve, reject } = messagesRef.current.get(message.id)!
 
         if (!message.error) { 
           resolve(message.result)
@@ -87,9 +93,9 @@ export function KaspaProvider ({ children }: {
 
       connectionRef.current = null
 
-      messagesRef.current.forEach(message => {
-        getConnection().postMessage(message[2])
-      })
+      for (const entry of messagesRef.current.values()) {
+        getConnection().postMessage(entry.message)
+      }
     })
 
     connectionRef.current = connection
@@ -105,7 +111,7 @@ export function KaspaProvider ({ children }: {
     }
 
     return new Promise<ResponseMappings[M]>((resolve, reject) => {
-      messagesRef.current.set(message.id, [ resolve, reject, message ])
+      messagesRef.current.set(message.id, { resolve, reject, message })
 
       getConnection().postMessage(message)
     })

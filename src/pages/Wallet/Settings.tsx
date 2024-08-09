@@ -1,4 +1,4 @@
-import { i18n, runtime } from "webextension-polyfill"
+import { runtime, i18n } from "webextension-polyfill"
 import { SettingsIcon } from "lucide-react"
 import GeneralTab from "@/pages/Wallet/Settings/General"
 import WalletTab from "@/pages/Wallet/Settings/Wallet"
