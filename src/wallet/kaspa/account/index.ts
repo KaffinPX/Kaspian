@@ -59,7 +59,6 @@ export default class Account extends EventEmitter  {
   }
 
   async scan (steps = 50, count = 10) {
-    // TODO: Review
     const scanAddresses = async (isReceive: boolean, startIndex: number) => {
       let foundIndex = 0
 
@@ -68,12 +67,15 @@ export default class Account extends EventEmitter  {
         startIndex += count
     
         const { entries } = await this.processor.rpc.getUtxosByAddresses(addresses)
-    
-        // TODO: more accurate index by findIndex over addresses by last entry
+        // @ts-ignore
+        const entryIndex = addresses.findIndex((address) => entries.some((entry) => entry.entry.address?.toString() === address))
 
-        if (entries.length > 0) { foundIndex = startIndex }
+        if (entryIndex !== -1) { 
+          foundIndex = startIndex - count + entryIndex
+        }
       }
 
+      foundIndex += 1 // Reserves a fresh address for usage
       await this.addresses.increment(isReceive ? foundIndex : 0, isReceive ? 0 : foundIndex)
     }
   
