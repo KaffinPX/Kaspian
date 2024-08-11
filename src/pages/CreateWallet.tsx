@@ -42,7 +42,7 @@ export default function CreateWallet () {
         }
       }} />,
       [ Tabs.Import ]: <Import onMnemonicsSubmit={async (mnemonic) => {
-        await kaspa.request('wallet:import', [ mnemonic, sensitive ]) // TODO: in case of error, tell its an invalid mnemonics
+        await kaspa.request('wallet:import', [ mnemonic, sensitive ])
 
         navigate('/wallet')
       }} />,

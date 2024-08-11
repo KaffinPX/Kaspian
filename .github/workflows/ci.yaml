@@ -26,7 +26,7 @@ jobs:
         with:
           bun-version: 1.0.31
       - name: Install WASM binaries from aspectron.org
-        run: wget -O wasm.zip https://kaspa.aspectron.org/nightly/downloads/kaspa-wasm32-sdk-7189192.zip
+        run: wget -O wasm.zip https://kaspa.aspectron.org/nightly/downloads/kaspa-wasm32-sdk-nacho.zip
       - name: Extract WASM binaries
         run: |
           7z x wasm.zip
