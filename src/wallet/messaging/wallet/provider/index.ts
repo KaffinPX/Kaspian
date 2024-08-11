@@ -80,7 +80,12 @@ export default class Provider extends EventEmitter {
   }
 
   private async handleMessage (request: Request) {
-    if (request.method === 'transact') {
+    if (request.method === 'account') {
+      this.submitEvent(request.id, 'account', {
+        balance: this.account.balance,
+        addresses: this.account.addresses.receiveAddresses
+      })
+    } else if (request.method === 'transact') {
       let transaction: string
 
       await this.windows.open('transact', {
