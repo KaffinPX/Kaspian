@@ -13,7 +13,7 @@ import useURLParams from "@/hooks/useURLParams"
 import useKaspa from "@/hooks/useKaspa"
 
 export default function ConnectDrawer () { 
-  const kaspa = useKaspa()
+  const { request } = useKaspa()
   const [ hash, params ] = useURLParams()
 
   return (
@@ -36,7 +36,7 @@ export default function ConnectDrawer () {
               disabled={true}
             />
             <Button className={"gap-2"} onClick={() => {
-              kaspa.request('provider:connect', [ params.get('url')! ]).then(() => {
+              request('provider:connect', [ params.get('url')! ]).then(() => {
                 window.close()
               })
             }}>

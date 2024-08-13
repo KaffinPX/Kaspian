@@ -19,7 +19,7 @@ export default function Sign ({ transactions, inputs, onSigned }: {
   inputs: CustomInput[],
   onSigned: (transactions: string[]) => void
 }) {
-  const kaspa = useKaspa()
+  const { kaspa, request } = useKaspa()
 
   const [ password, setPassword ] = useState("")
   const [ error, setError ] = useState("")
@@ -51,7 +51,7 @@ export default function Sign ({ transactions, inputs, onSigned }: {
   const sign = useCallback(() => {
     setPassword("")
 
-    kaspa.request('account:sign', [ transactions, password, inputs ]).then((transactions) => {
+    request('account:sign', [ transactions, password, inputs ]).then((transactions) => {
       onSigned(transactions)
     }).catch((err) => {
       setError(err)

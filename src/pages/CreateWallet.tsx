@@ -17,7 +17,7 @@ export enum Tabs {
 
 export default function CreateWallet () {
   const navigate = useNavigate()
-  const kaspa = useKaspa()
+  const { request } = useKaspa()
 
   const [ tab, setTab ] = useState(Tabs.Landing)
   const [ sensitive, setSensitive ] = useState("")
@@ -35,14 +35,14 @@ export default function CreateWallet () {
           setSensitive(password)
           setTab(Tabs.Import)
         } else {
-          const mnemonic = await kaspa.request('wallet:create', [ password ])
+          const mnemonic = await request('wallet:create', [ password ])
           
           setSensitive(mnemonic)
           setTab(Tabs.Create)
         }
       }} />,
       [ Tabs.Import ]: <Import onMnemonicsSubmit={async (mnemonic) => {
-        await kaspa.request('wallet:import', [ mnemonic, sensitive ])
+        await request('wallet:import', [ mnemonic, sensitive ])
 
         navigate('/wallet')
       }} />,

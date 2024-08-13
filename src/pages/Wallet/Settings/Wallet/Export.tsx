@@ -15,7 +15,7 @@ import { Textarea } from "@/components/ui/textarea"
 import useKaspa from "@/hooks/useKaspa"
 
 export default function Export () {
-  const kaspa = useKaspa()
+  const { request } = useKaspa()
 
   const [ password, setPassword ] = useState("")
   const [ error, setError ] = useState("")
@@ -57,7 +57,7 @@ export default function Export () {
             <Button type="submit" onClick={async () => {
               setPassword("")
 
-              kaspa.request('wallet:export', [ password ]).then((mnemonic) => {
+              request('wallet:export', [ password ]).then((mnemonic) => {
                 setMnemonic(mnemonic)
               }).catch((err: string) => {
                 setError(err)

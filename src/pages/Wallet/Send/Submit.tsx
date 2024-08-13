@@ -15,7 +15,7 @@ export default function Submit ({ transactions, onSubmitted }: {
   transactions: string[]
   onSubmitted: () => void
 }) {
-  const kaspa = useKaspa()
+  const { request } = useKaspa()
   const [ ids, setIds ] = useState<string[]>([])
 
   return (
@@ -41,7 +41,7 @@ export default function Submit ({ transactions, onSubmitted }: {
         <Button className={"gap-2"} onClick={({ currentTarget }) => {
           currentTarget.disabled = true
 
-          kaspa.request('account:submitContextful', [ transactions ]).then((ids) => {
+          request('account:submitContextful', [ transactions ]).then((ids) => {
             setIds(ids)
             onSubmitted()
           }).catch((err) => {

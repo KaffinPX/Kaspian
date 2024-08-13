@@ -12,7 +12,7 @@ import {
 import useKaspa from "@/hooks/useKaspa"
 
 export default function Reset () {
-  const kaspa = useKaspa()
+  const { request } = useKaspa()
 
   return (
     <Dialog>
@@ -28,7 +28,7 @@ export default function Reset () {
         </DialogHeader>
         <DialogFooter>
           <Button type="submit" variant={"destructive"} onClick={async () => {
-            await kaspa.request('wallet:reset', [])
+            await request('wallet:reset', [])
           }}>{i18n.getMessage('confirm')}</Button>
         </DialogFooter>
       </DialogContent>
