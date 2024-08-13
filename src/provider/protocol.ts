@@ -35,6 +35,9 @@ export function isRequest (object: any): object is Request {
   }
 
   switch (object.method) {
+    case 'account': {
+      return true
+    }
     case 'transact': {
       if (object.params.length < 1) return false
 

@@ -19,7 +19,7 @@ export default class Windows {
 
     const location = await this.calculateLocation()
     const { id } = await browser.windows.create({
-      url: `./?${queryParams}#${hash}`,
+      url: `./index.html?${queryParams}#${hash}`,
       top: location[0],
       left: location[1],
       type: 'popup',
