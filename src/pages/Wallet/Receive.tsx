@@ -44,6 +44,7 @@ export default function SendDrawer () {
             type={"number"}
             placeholder={i18n.getMessage('amount')}
             value={amount}
+            min={0}
             onChange={(e) => setAmount(e.target.value)}
           />
           </div>

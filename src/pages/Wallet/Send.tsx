@@ -104,6 +104,7 @@ export default function SendDrawer () {
                             type={"number"}
                             placeholder={i18n.getMessage('amount')}
                             value={output[1]}
+                            min={0}
                             disabled={!!params.get('outputs')}
                             error={error}
                             onChange={(e) => {
