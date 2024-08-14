@@ -7,13 +7,13 @@ Introducing Kaspian, a self-custodial Kaspa wallet with built-in merchant tool a
 
 - [x] Create wallet
 - [x] Import wallet
-- [x] Derive addresses(UI is limited and waiting for WASM changes)
+- [x] Derive addresses
 - [x] Send transactions
 - [x] Node selection, multiple networks
 - [x] Receive with QR code generation
 - [x] Provider api
 - [x] Themes
-- [x] Internationalization(70% exported)
+- [x] Internationalization
 
 
 ## Installation
