@@ -6,7 +6,7 @@ export default class Addresses extends EventEmitter {
   context: UtxoContext
   publicKey: PublicKeyGenerator | undefined
   accountId: number | undefined
-  networkId: string // TODO: can be derived from context
+  networkId: string
   receiveAddresses: string[] = []
   changeAddresses: string[] = []
 

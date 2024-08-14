@@ -96,7 +96,7 @@ export default class Provider extends EventEmitter {
         if (transaction) {
           this.submitEvent(request.id, 'transact', transaction)
         } else {
-          this.submitEvent(request.id, 'transact', false, 403)
+          this.submitEvent(request.id, 'transact', false, 0)
         }
       })
 
