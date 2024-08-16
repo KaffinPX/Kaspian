@@ -37,6 +37,7 @@ window.addEventListener('kaspa:connect', (event) => {
   }
 
   window.addEventListener('kaspa:invoke', invokeListener)
+  window.addEventListener('kaspa:disconnect', () => port.disconnect(), { once: true })
 
   port.onDisconnect.addListener(() => {
     window.removeEventListener('kaspa:invoke', invokeListener)
