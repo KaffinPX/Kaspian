@@ -1,8 +1,9 @@
+import browser from "webextension-polyfill"
 import { isRequest, type ProviderInfo } from "./protocol"
 
 function announceProvider () {
   const info: ProviderInfo = {
-    id: chrome.runtime.id,
+    id: browser.runtime.id,
     name: "Kaspian"
   }
 
@@ -17,9 +18,9 @@ window.addEventListener('kaspa:requestProviders', () => {
 
 window.addEventListener('kaspa:connect', (event) => {
   const extensionId = (event as CustomEvent<string>).detail
-  if (chrome.runtime.id !== extensionId) return
+  if (browser.runtime.id !== extensionId) return
   
-  const port = chrome.runtime.connect({
+  const port = browser.runtime.connect({
     name: '@kaspian/provider'
   })
 
