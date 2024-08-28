@@ -51,7 +51,8 @@ export default class Provider extends EventEmitter {
     this.port.onMessage.addListener((request) => this.handleMessage(request))    
     this.submitEvent(0, 'account', {
       balance: this.account.balance,
-      addresses: this.account.addresses.receiveAddresses
+      addresses: this.account.addresses.receiveAddresses,
+      networkId: this.account.addresses.networkId
     })
 
     this.emit('connection', url)
@@ -83,7 +84,8 @@ export default class Provider extends EventEmitter {
     if (request.method === 'account') {
       this.submitEvent(request.id, 'account', {
         balance: this.account.balance,
-        addresses: this.account.addresses.receiveAddresses
+        addresses: this.account.addresses.receiveAddresses,
+        networkId: this.account.addresses.networkId
       })
     } else if (request.method === 'transact') {
       let transaction: string
@@ -108,7 +110,8 @@ export default class Provider extends EventEmitter {
     this.account.on('balance', () => {
       this.submitEvent(0, 'account', {
         balance: this.account.balance,
-        addresses: this.account.addresses.receiveAddresses
+        addresses: this.account.addresses.receiveAddresses,
+        networkId: this.account.addresses.networkId
       })
     })
   }

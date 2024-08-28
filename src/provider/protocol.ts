@@ -6,6 +6,7 @@ export interface ProviderInfo {
 export interface AccountInfo {
   balance: number
   addresses: string[]
+  networkId: string
 }
 
 export interface CustomInput {
