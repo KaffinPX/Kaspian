@@ -106,12 +106,8 @@ export default class Transactions extends EventEmitter {
 
       signedTransactions.push(signedTransaction)
     }
-
     
-    const parsedTransactions = signedTransactions.map(transaction => transaction.serializeToSafeJSON())
-    this.emit('transactions', parsedTransactions)
-
-    return parsedTransactions
+    return signedTransactions.map(transaction => transaction.serializeToSafeJSON())
   }
 
   async submitContextful (transactions: string[]) {
@@ -131,6 +127,7 @@ export default class Transactions extends EventEmitter {
       submittedIds.push(await cachedTransaction.submit(this.kaspa))
     }
 
+    this.emit('transaction', transactions[transactions.length - 1])
     return submittedIds
   }
 

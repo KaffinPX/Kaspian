@@ -90,6 +90,10 @@ export default class Provider extends EventEmitter {
     } else if (request.method === 'transact') {
       let transaction: string
 
+      const appendTransaction = (summary: string) => {
+        transaction = summary
+      }
+      
       await this.windows.open('transact', {
         'outputs': JSON.stringify(request.params[0], null, 0),
         'fee': request.params[1],
@@ -99,10 +103,11 @@ export default class Provider extends EventEmitter {
           this.submitEvent(request.id, 'transact', transaction)
         } else {
           this.submitEvent(request.id, 'transact', false, 0)
+          this.account.transactions.off('transaction', appendTransaction)
         }
       })
 
-      this.account.transactions.once('transactions', (transactions) => transaction = transactions[transactions.length - 1])
+      this.account.transactions.once('transaction', appendTransaction)
     }
   }
 
