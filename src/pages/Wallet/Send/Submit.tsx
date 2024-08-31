@@ -38,7 +38,7 @@ export default function Submit ({ transactions, onSubmitted }: {
           window.open(`https://explorer.kaspa.org/txs/${ids[0]}`)
         }}>{i18n.getMessage('viewOnExplorer')}</Button>
 
-        <Button className={"gap-2"} onClick={({ currentTarget }) => {
+        <Button className={"gap-2"} autoFocus onClick={({ currentTarget }) => {
           currentTarget.disabled = true
 
           request('account:submitContextful', [ transactions ]).then((ids) => {
