@@ -3,12 +3,13 @@ import { createContext, useState, type ReactNode, useEffect, useCallback } from 
 
 export interface ISettings {
   version: number
+  theme: "dark" | "light" | "system"
+  currency: keyof typeof currencies
   nodes: {
     name: string
     address: string
     locked: boolean
   }[]
-  currency: keyof typeof currencies
   selectedNode: number
 }
 
@@ -18,7 +19,9 @@ export const currencies = {
 }
 
 export const defaultSettings: ISettings = {
-  version: 4,
+  version: 1,
+  theme: 'system',
+  currency: 'USD',
   nodes: [{
     name: "Public node",
     address: "mainnet",
@@ -32,8 +35,7 @@ export const defaultSettings: ISettings = {
     address: "testnet-11",
     locked: true
   }],
-  currency: 'USD',
-  selectedNode: 0
+  selectedNode: 0,
 }
 
 export const SettingsContext = createContext<{
@@ -50,6 +52,24 @@ export function SettingsProvider({ children }: {
   useEffect(() => {
     LocalStorage.set("settings", settings)
   }, [ settings ])
+
+  useEffect(() => {
+    const root = window.document.documentElement
+
+    root.classList.remove("light", "dark")
+
+    if (settings['theme'] === "system") {
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+        .matches
+        ? "dark"
+        : "light"
+
+      root.classList.add(systemTheme)
+      return
+    }
+
+    root.classList.add(settings['theme'])
+  }, [ settings['theme'] ])
 
   const load = useCallback(async () => {
     const storedSettings = await LocalStorage.get('settings', defaultSettings)

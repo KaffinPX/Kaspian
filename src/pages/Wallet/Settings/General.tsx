@@ -2,14 +2,12 @@ import { i18n } from "webextension-polyfill"
 import { Sun, Moon, Laptop } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { useTheme } from "@/components/ThemeProvider"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { currencies } from "@/contexts/Settings"
 import useSettings from "@/hooks/useSettings"
 
 export default function General () {
   const { settings, updateSetting } = useSettings()
-  const theme = useTheme()
 
   return (
     <AccordionItem value="general">
@@ -23,11 +21,11 @@ export default function General () {
           <div className={"flex gap-1"}>
             <ToggleGroup
               type="single"
-              defaultValue={theme.theme}
+              defaultValue={settings.theme}
               onValueChange={(value) => {
                 if (value === "") return
 
-                theme.setTheme(value as never)
+                updateSetting('theme', value as never)
               }}
             >
               <ToggleGroupItem value="light">
