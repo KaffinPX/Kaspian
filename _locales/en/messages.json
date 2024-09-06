@@ -256,5 +256,14 @@
 	},
 	"welcoming": {
 		"message": "It's about to get exciting. You're all set up and ready to go!"
+	},
+	"slow": {
+		"message": "Slow"
+	},
+	"regular": {
+		"message": "Regular"
+	},
+	"fast": {
+		"message": "Fast"
 	}
 }
