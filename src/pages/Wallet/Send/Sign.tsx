@@ -44,7 +44,7 @@ export default function Sign ({ transactions, inputs, onSigned }: {
     const sentValue = transaction.outputs.reduce((acc: bigint, output: ITransactionOutput) => {
       return acc + BigInt(output.value)
     }, 0n)
-    
+
     return Number(sentValue - (transaction.outputs.length === 1 ? 0n : BigInt(transaction.outputs[transaction.outputs.length - 1].value))) / 1e8
   }, [ transactions ])
 

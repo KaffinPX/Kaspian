@@ -67,8 +67,7 @@ export default class Account extends EventEmitter  {
         startIndex += count
     
         const { entries } = await this.processor.rpc.getUtxosByAddresses(addresses)
-        // @ts-ignore
-        const entryIndex = addresses.findIndex((address) => entries.some((entry) => entry.entry.address?.toString() === address))
+        const entryIndex = addresses.findIndex((address) => entries.some((entry) => entry.address?.toString() === address))
 
         if (entryIndex !== -1) { 
           foundIndex = startIndex - count + entryIndex

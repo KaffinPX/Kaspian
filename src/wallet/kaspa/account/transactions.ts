@@ -42,10 +42,8 @@ export default class Transactions extends EventEmitter {
 
     if (customs && customs.length > 0) {
       const { entries } = await this.kaspa.getUtxosByAddresses({ addresses: customs.map(custom => custom.address) })
-
       for (const custom of customs) {
-        // @ts-ignore
-        const matchingEntry = entries.find(({ entry }) => entry.outpoint.transactionId === custom.outpoint && entry.outpoint.index === custom.index)
+        const matchingEntry = entries.find(({ outpoint }) => outpoint.transactionId === custom.outpoint && outpoint.index === custom.index)
 
         if (matchingEntry) {
           priorityEntries.push(matchingEntry)
