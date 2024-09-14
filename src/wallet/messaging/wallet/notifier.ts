@@ -17,7 +17,7 @@ export default class Notifications {
     node.on('connection', (status) => this.handleEvent('node:connection', status))
     node.on('network', (networkId) => this.handleEvent('node:network', networkId))
     account.on('balance', (balance) => this.handleEvent('account:balance', balance))
-    account.addresses.on('addresses', (addresses) => this.handleEvent('account:addresses', addresses))
+    account['addresses'].on('addresses', (addresses) => this.handleEvent('account:addresses', addresses))
     provider.on('connection', (url) => this.handleEvent('provider:connection', url))
   }
 

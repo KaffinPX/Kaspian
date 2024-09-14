@@ -33,7 +33,7 @@ export interface Request<M extends keyof ResponseMappings = keyof ResponseMappin
   params: RequestMappings[M]
 }
 
-export interface ResponseMappings {
+export interface ResponseMappings { // boolean => void tbh
   'wallet:status': Status
   'wallet:create': string
   'wallet:import': boolean
