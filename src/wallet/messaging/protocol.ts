@@ -36,12 +36,12 @@ export interface Request<M extends keyof ResponseMappings = keyof ResponseMappin
 export interface ResponseMappings { // boolean => void tbh
   'wallet:status': Status
   'wallet:create': string
-  'wallet:import': boolean
-  'wallet:unlock': boolean
+  'wallet:import': void
+  'wallet:unlock': void
   'wallet:export': string
-  'wallet:lock': boolean
-  'wallet:reset': boolean
-  "node:connect": boolean
+  'wallet:lock': void
+  'wallet:reset': void
+  "node:connect": void
   'node:connection': boolean
   'node:priorityBuckets': PriorityBuckets
   'node:submit': string[]
@@ -51,15 +51,15 @@ export interface ResponseMappings { // boolean => void tbh
   'account:create': string[]
   'account:sign': string[]
   'account:submitContextful': string[]
-  'account:scan': boolean
-  "provider:connect": boolean
+  'account:scan': void
+  "provider:connect": void
   'provider:connection': string
-  "provider:disconnect": boolean
+  "provider:disconnect": void
 }
 
 export interface Response<M extends keyof RequestMappings = keyof RequestMappings> {
   id: number
-  result: ResponseMappings[M] | false
+  result: ResponseMappings[M] | undefined
   error?: string
 }
 

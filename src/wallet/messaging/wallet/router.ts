@@ -5,7 +5,7 @@ import type { Request, Response, RequestMappings, ResponseMappings } from "../pr
 import type Provider from "./provider"
 
 type MappingsRecord<M extends keyof RequestMappings = keyof RequestMappings> = {
-  [ K in M ]: (...params: RequestMappings[K]) => ResponseMappings[K] extends boolean ? void : (Promise<ResponseMappings[K]> | ResponseMappings[K])
+  [ K in M ]: (...params: RequestMappings[K]) => Promise<ResponseMappings[K]> | ResponseMappings[K]
 }
 
 export default class Router {
@@ -45,13 +45,13 @@ export default class Router {
   async routeMessage <M extends keyof RequestMappings>(request: Request<M>) {
     let response: Response<M> = {
       id: request.id,
-      result: false,
+      result: undefined,
     }
 
     const methodHandler = this.mappings[request.method]
 
     try {
-      response.result = (await methodHandler(...request.params) ?? true) as ResponseMappings[M]
+      response.result = await methodHandler(...request.params)
     } catch (error) {
       if (typeof error === 'string') {
         response.error = error
