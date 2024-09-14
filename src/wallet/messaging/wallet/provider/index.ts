@@ -72,7 +72,7 @@ export default class Provider extends EventEmitter {
     id: number,
     event: E,
     data: EventMappings[E] | false,
-    error?: number
+    error?: string
   ) {
     if (!this.port || !this.granted) return
 
@@ -102,7 +102,7 @@ export default class Provider extends EventEmitter {
         if (transaction) {
           this.submitEvent(request.id, 'transact', transaction)
         } else {
-          this.submitEvent(request.id, 'transact', false, 0)
+          this.submitEvent(request.id, 'transact', false, 'User rejected the request.')
           this.account.transactions.off('transaction', appendTransaction)
         }
       })

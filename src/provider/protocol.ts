@@ -9,7 +9,7 @@ export interface AccountInfo {
   networkId: string
 }
 
-export interface CustomInput {
+export interface Input {
   address: string
   outpoint: string
   index: number,
@@ -19,7 +19,7 @@ export interface CustomInput {
 
 export interface RequestMappings {
   'account': []
-  'transact': [[ string, string ][], string?, CustomInput[]?] // outputs, fee, inputs
+  'transact': [[ string, string ][], string?, Input[]?]
 }
 
 export interface Request<M extends keyof RequestMappings = keyof RequestMappings> {
@@ -74,7 +74,7 @@ export interface EventMessage<M extends keyof EventMappings = keyof EventMapping
   id: number
   event: M
   data: EventMappings[M] | false
-  error?: number
+  error?: string
 }
 
 export type Event<M extends keyof EventMappings = keyof EventMappings> = {
