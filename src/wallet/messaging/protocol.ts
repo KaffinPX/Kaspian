@@ -1,6 +1,7 @@
 import { Status } from "../kaspa/wallet"
 import { UTXO } from "../kaspa/account"
 import { CustomInput, CustomSignature } from "../kaspa/account/transactions"
+import { PriorityBuckets } from "../kaspa/node"
 
 export interface RequestMappings {
   'wallet:status': []
@@ -12,11 +13,12 @@ export interface RequestMappings {
   'wallet:reset': []
   'node:connect': [ string ]
   'node:connection': [],
+  'node:priorityBuckets': []
   'node:submit': [ string[] ]
   'account:addresses': []
   'account:balance': []
   'account:utxos': []
-  'account:create': [[ string, string ][], string, CustomInput[]? ]
+  'account:create': [[ string, string ][], number, string, CustomInput[]? ]
   'account:sign': [ string[], string, CustomSignature[]? ]
   'account:submitContextful': [ string[] ]
   'account:scan': []
@@ -41,6 +43,7 @@ export interface ResponseMappings {
   'wallet:reset': boolean
   "node:connect": boolean
   'node:connection': boolean
+  'node:priorityBuckets': PriorityBuckets
   'node:submit': string[]
   'account:addresses': [ string[], string[] ]
   'account:balance': number,

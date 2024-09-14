@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react"
 import { i18n } from "webextension-polyfill"
-import { SendToBack, PlusIcon, MinusIcon } from "lucide-react"
+import { SendToBack, PlusIcon, MinusIcon, TargetIcon } from "lucide-react"
 import Sign from "./Send/Sign"
 import Submit from "./Send/Submit"
 import { Button } from "@/components/ui/button"
@@ -31,13 +31,14 @@ export default function SendDrawer () {
 
   const [ outputs, setOutputs ] = useState<[ string, string ][]>(JSON.parse(params.get('outputs') ?? `[[ "", "" ]]`))
   const [ fee ] = useState(params.get('fee') ?? "0")
+  const [ feeRate, setFeerate ] = useState(1)
   const [ inputs ] = useState<CustomInput[]>(JSON.parse(params.get('inputs') ?? `[]`))
   const [ transactions, setTransactions ] = useState<string[]>()
   const [ error, setError ] = useState("")
   const [ tab, setTab ] = useState(Tabs.Creation)
  
   const initiateSend = useCallback(() => {
-    request('account:create', [ outputs, fee, inputs ]).then((transactions) => {
+    request('account:create', [ outputs, feeRate, fee, inputs ]).then((transactions) => {
       setTransactions(transactions)
       setTab(Tabs.Sign)
     }).catch((err) => {
@@ -150,6 +151,35 @@ export default function SendDrawer () {
                   <MinusIcon />
                 </Button>
               </div>
+            </div>
+            <div className="flex items-center gap-1 h-6 -mt-4">
+              <TargetIcon size={18} />
+              <p className="font-semibold text-sm">
+                Priority
+              </p>
+              <Button className="h-full w-20 text-sm" variant="outline" onClick={({ currentTarget }) => {
+                if (currentTarget.innerText === 'default') {
+                  request('node:priorityBuckets', []).then((buckets) => {
+                    setFeerate(buckets.slow.feeRate)
+                    currentTarget.innerText = 'slow'
+                  })
+                } else if (currentTarget.innerText === 'slow') {
+                  request('node:priorityBuckets', []).then((buckets) => {
+                    setFeerate(buckets.standard.feeRate)
+                    currentTarget.innerText = 'standard'
+                  })
+                } else if (currentTarget.innerText === 'standard') {
+                  request('node:priorityBuckets', []).then((buckets) => {
+                    setFeerate(buckets.slow.feeRate)
+                    currentTarget.innerText = 'fast'
+                  })
+                } else if (currentTarget.innerText === 'fast') {
+                  setFeerate(1)
+                  currentTarget.innerText = 'default'
+                }
+              }}>
+                default
+              </Button>
             </div>
             <Button className={"gap-2"} disabled={!!transactions} onClick={initiateSend}>
               <SendToBack />

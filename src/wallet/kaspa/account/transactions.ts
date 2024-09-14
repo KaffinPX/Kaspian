@@ -37,7 +37,7 @@ export default class Transactions extends EventEmitter {
     this.accountId = accountId
   }
 
-  async create (outputs: [ string, string ][], fee: string, customs?: CustomInput[]) {
+  async create (outputs: [ string, string ][], feeRate: number, fee: string, customs?: CustomInput[]) {
     let priorityEntries: IUtxoEntry[] = []
 
     if (customs && customs.length > 0) {
@@ -53,10 +53,11 @@ export default class Transactions extends EventEmitter {
 
     const { transactions } = await createTransactions({
       priorityEntries,
-      entries: this.context,
+      entries: this.context, 
       outputs: outputs.map(output => ({ address: output[0], amount: kaspaToSompi(output[1])! })),
       changeAddress: this.addresses.changeAddresses[this.addresses.changeAddresses.length - 1],
-      priorityFee: kaspaToSompi(fee)!,
+      feeRate,
+      priorityFee: kaspaToSompi(fee)!
     })
 
     await this.addresses.increment(0, 1)

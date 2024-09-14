@@ -1,5 +1,7 @@
 import { EventEmitter } from "events"
-import { RpcClient, ConnectStrategy, Transaction, Resolver, NetworkId } from "@/../wasm"
+import { RpcClient, ConnectStrategy, Transaction, Resolver, NetworkId, IFeerateBucket } from "@/../wasm"
+
+export type PriorityBuckets = Record<'slow' | 'standard' | 'fast', { feeRate: number; seconds: number }>
 
 export default class Node extends EventEmitter {
   kaspa: RpcClient
@@ -14,6 +16,21 @@ export default class Node extends EventEmitter {
 
   get connected () {
     return this.kaspa.isConnected
+  }
+
+  async getPriorityBuckets () {
+    const { estimate } = await this.kaspa.getFeeEstimate({})
+
+    const getBucketEstimate = (bucket: IFeerateBucket) => ({
+      feeRate: bucket.feerate,
+      seconds: bucket.estimatedSeconds,
+    })
+  
+    return {
+      slow: getBucketEstimate(estimate.lowBuckets[0]),
+      standard: getBucketEstimate(estimate.normalBuckets[0]),
+      fast: getBucketEstimate(estimate.priorityBucket)
+    }
   }
 
   async submit (transactions: string[]) {

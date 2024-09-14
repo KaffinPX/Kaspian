@@ -48,7 +48,7 @@ export default class Account extends EventEmitter  {
   get UTXOs () {
     const mapUTXO = (utxo: UtxoEntryReference, mature: boolean) => ({
       amount: Number(utxo.amount) / 1e8,
-      transaction: utxo.getTransactionId(),
+      transaction: utxo.outpoint.transactionId,
       mature
     })
 
@@ -89,8 +89,9 @@ export default class Account extends EventEmitter  {
     })
 
     this.processor.addEventListener('pending', async (event) => {
+      // @ts-ignore
       const utxos = event.data.data.utxoEntries
-
+      // @ts-ignore
       if (utxos.some(utxo => utxo.address?.toString() === this.addresses.receiveAddresses[this.addresses.receiveAddresses.length - 1])) {
         await this.addresses.increment(1, 0)
       }
