@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input"
 import { Dialog } from "@/components/ui/dialog"
 import useURLParams from "@/hooks/useURLParams"
 import useKaspa from "@/hooks/useKaspa"
-import { CustomInput } from "@/provider/protocol"
+import { Input as KaspaInput } from "@/provider/protocol"
 
 export enum Tabs {
   Creation,
@@ -29,10 +29,10 @@ export default function SendDrawer () {
   const { kaspa, request } = useKaspa()
   const [ hash, params ] = useURLParams()
 
-  const [ outputs, setOutputs ] = useState<[ string, string ][]>(JSON.parse(params.get('outputs') ?? `[[ "", "" ]]`))
-  const [ fee ] = useState(params.get('fee') ?? "0")
+  const [ inputs ] = useState<KaspaInput[]>(JSON.parse(params.get('inputs')!) || [])
+  const [ outputs, setOutputs ] = useState<[ string, string ][]>(JSON.parse(params.get('outputs')!) || [["", ""]])
   const [ feeRate, setFeerate ] = useState(1)
-  const [ inputs ] = useState<CustomInput[]>(JSON.parse(params.get('inputs') ?? `[]`))
+  const [ fee ] = useState(params.get('fee') ?? "0")
   const [ transactions, setTransactions ] = useState<string[]>()
   const [ error, setError ] = useState("")
   const [ tab, setTab ] = useState(Tabs.Creation)
@@ -152,7 +152,7 @@ export default function SendDrawer () {
                 </Button>
               </div>
             </div>
-            <div className="flex items-center gap-1 h-6 -mt-4">
+            <div className="flex items-center gap-1 h-6 -mt-3">
               <TargetIcon size={18} />
               <p className="font-semibold text-sm">
                 Priority
@@ -181,7 +181,7 @@ export default function SendDrawer () {
                 default
               </Button>
             </div>
-            <Button className={"gap-2"} disabled={!!transactions} onClick={initiateSend}>
+            <Button className={"gap-2"} disabled={!!transactions} onClick={initiateSend} autoFocus>
               <SendToBack />
               {i18n.getMessage('send')}
             </Button>

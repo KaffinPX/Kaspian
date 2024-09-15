@@ -78,7 +78,7 @@ export interface EventMessage<M extends keyof EventMappings = keyof EventMapping
 }
 
 export type Event<M extends keyof EventMappings = keyof EventMappings> = {
-  [ K in M]: EventMessage<K>
+  [ K in M ]: EventMessage<K>
 }[ M ]
 
 export function isEvent (message: any): message is Event {
