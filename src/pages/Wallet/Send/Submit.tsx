@@ -45,7 +45,6 @@ export default function Submit ({ transactions, onSubmitted }: {
             setIds(ids)
             onSubmitted()
           }).catch((err) => {
-            console.log(err)
             currentTarget.disabled = false
           })
         }}>

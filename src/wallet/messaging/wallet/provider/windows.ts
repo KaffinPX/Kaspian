@@ -54,7 +54,7 @@ export default class Windows {
 
     browser.windows.onFocusChanged.addListener((windowId) => {
       for (const id of this.windows.keys()) {
-        if (windowId !== id) browser.windows.remove(id)
+        // if (windowId !== id) browser.windows.remove(id)
       }
     })
   }
