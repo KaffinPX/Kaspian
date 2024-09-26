@@ -34,12 +34,18 @@ export const KaspaContext = createContext<{
   request: <M extends keyof RequestMappings>(method: M, params: RequestMappings[M]) => Promise<ResponseMappings[M]>
 } | undefined>(undefined)
 
-type Action<K extends keyof IKaspa> = { type: K, payload: IKaspa[K] }
+type Action<K extends keyof IKaspa> = {
+  type: K;
+  payload: IKaspa[K] | ((oldState: IKaspa) => IKaspa[K])
+}
 
-function kaspaReducer(state: IKaspa, action: Action<keyof IKaspa>): IKaspa {
-  return {
-    ...state,
-    [action.type]: action.payload
+function kaspaReducer (state: IKaspa, action: Action<keyof IKaspa>): IKaspa {
+  const { type, payload } = action
+
+  if (typeof payload === 'function') {
+    return { ...state, [ type ]: payload(state) }
+  } else {
+    return { ...state, [ type ]: payload }
   }
 }
 
@@ -99,10 +105,10 @@ export function KaspaProvider ({ children }: { children: ReactNode }) {
           case 'account:addresses':
             dispatch({
               type: 'addresses',
-              payload: [
-                kaspa.addresses[0].concat(message.data[0]),
-                kaspa.addresses[1].concat(message.data[1])
-              ]
+              payload: ({ addresses }) => [
+                addresses[0].concat(message.data[0]),
+                addresses[1].concat(message.data[1]),
+              ],
             })
             break
           case 'provider:connection':
