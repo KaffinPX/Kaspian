@@ -74,7 +74,6 @@ export default class Account extends EventEmitter  {
         }
       }
 
-      foundIndex += 1 // Reserves a fresh address for usage
       await this.addresses.increment(isReceive ? foundIndex : 0, isReceive ? 0 : foundIndex)
     }
   
