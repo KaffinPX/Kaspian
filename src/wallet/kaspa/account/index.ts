@@ -26,6 +26,8 @@ export default class Account extends EventEmitter  {
     this.transactions = new Transactions(node.kaspa, this.context, this.addresses)
 
     node.on('network', async (networkId: string) => {
+      await this.addresses.changeNetwork(networkId)
+
       if (this.processor.isActive) {
         await this.processor.stop()
         this.processor.setNetworkId(networkId)
@@ -33,8 +35,6 @@ export default class Account extends EventEmitter  {
       } else {
         this.processor.setNetworkId(networkId)
       }
-
-      await this.addresses.changeNetwork(networkId)
     })
 
     this.registerProcessor()
@@ -92,7 +92,7 @@ export default class Account extends EventEmitter  {
       // @ts-ignore
       const utxos = event.data.data.utxoEntries
       // @ts-ignore
-      if (utxos.some(utxo => utxo.address?.toString() === this.addresses.receiveAddresses[this.addresses.receiveAddresses.length - 1])) {
+      if (utxos.some(utxo => utxo.address?.toString() === this.addresses.receiveAddresses[this.addresses.receiveAddresses.length - 1])) { // TBD: switch to hasAddress
         await this.addresses.increment(1, 0)
       }
     })

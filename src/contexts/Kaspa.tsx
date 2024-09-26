@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode, useCallback, useRef } from "react"
+import { createContext, useReducer, ReactNode, useCallback, useRef } from "react"
 import { runtime, type Runtime } from "webextension-polyfill"
 import { Status } from "@/wallet/kaspa/wallet"
 import { Request, Response, Event, RequestMappings, ResponseMappings, isEvent } from "@/wallet/messaging/protocol"
@@ -34,14 +34,35 @@ export const KaspaContext = createContext<{
   request: <M extends keyof RequestMappings>(method: M, params: RequestMappings[M]) => Promise<ResponseMappings[M]>
 } | undefined>(undefined)
 
-export function KaspaProvider ({ children }: {
-  children: ReactNode
-}) {
-  const [ kaspa, setState ] = useState(defaultState)
+type Action<K extends keyof IKaspa> = { type: K, payload: IKaspa[K] }
+
+function kaspaReducer(state: IKaspa, action: Action<keyof IKaspa>): IKaspa {
+  return {
+    ...state,
+    [action.type]: action.payload
+  }
+}
+
+export function KaspaProvider ({ children }: { children: ReactNode }) {
+  const [ kaspa, dispatch ] = useReducer(kaspaReducer, defaultState)
 
   const connectionRef = useRef<Runtime.Port | null>(null)
   const messagesRef = useRef(new Map<number, MessageEntry<any>>())
   const nonceRef = useRef(0)
+
+  const request = useCallback(<M extends keyof RequestMappings>(method: M, params: RequestMappings[M]) => {
+    const message: Request<M> = {
+      id: ++nonceRef.current,
+      method,
+      params
+    }
+
+    return new Promise<ResponseMappings[M]>((resolve, reject) => {
+      messagesRef.current.set(message.id, { resolve, reject, message })
+
+      getConnection().postMessage(message)
+    })
+  }, [])
 
   const getConnection = useCallback(() => {
     if (connectionRef.current) return connectionRef.current
@@ -62,27 +83,30 @@ export function KaspaProvider ({ children }: {
       } else {
         switch (message.event) {
           case 'node:connection':
-            updateState('addresses', await request('account:addresses', []))
-            updateState('connected', message.data)
+            dispatch({ type: 'addresses', payload: await request('account:addresses', []) })
+            dispatch({ type: 'connected', payload: message.data })
             break
           case 'node:network':
-            updateState('addresses', await request('account:addresses', []))
+            dispatch({ type: 'addresses', payload: await request('account:addresses', []) })
             break
           case 'wallet:status':
-            updateState('status', message.data)
+            dispatch({ type: 'status', payload: message.data })
             break
           case 'account:balance':
-            updateState('balance', message.data);
-            updateState('utxos', await request('account:utxos', []))
+            dispatch({ type: 'balance', payload: message.data })
+            dispatch({ type: 'utxos', payload: await request('account:utxos', []) })
             break
           case 'account:addresses':
-            updateState('addresses', (addresses) => [
-              addresses[0].concat(message.data[0]),
-              addresses[1].concat(message.data[1]),
-            ])
+            dispatch({
+              type: 'addresses',
+              payload: [
+                kaspa.addresses[0].concat(message.data[0]),
+                kaspa.addresses[1].concat(message.data[1])
+              ]
+            })
             break
           case 'provider:connection':
-            updateState('provider', message.data)
+            dispatch({ type: 'provider', payload: message.data })
             break
         }
       }
@@ -101,38 +125,15 @@ export function KaspaProvider ({ children }: {
     connectionRef.current = connection
 
     return connection
-  }, [])
-
-  const request = useCallback(<M extends keyof RequestMappings>(method: M, params: RequestMappings[M]) => {
-    const message: Request<M> = {
-      id: ++nonceRef.current,
-      method,
-      params
-    }
-
-    return new Promise<ResponseMappings[M]>((resolve, reject) => {
-      messagesRef.current.set(message.id, { resolve, reject, message })
-
-      getConnection().postMessage(message)
-    })
-  }, [])
+  }, [ kaspa.addresses ])
 
   const load = useCallback(async () => {
-    setState({
-      status: await request('wallet:status', []),
-      connected: await request('node:connection', []),
-      balance: await request('account:balance', []),
-      utxos: await request('account:utxos', []),
-      addresses: await request('account:addresses', []),
-      provider: await request('provider:connection', [])
-    })
-  }, [])
-  
-  const updateState = useCallback(<K extends keyof IKaspa>(key: K, value: IKaspa[K] | ((prevState: IKaspa[K]) => IKaspa[K])) => {
-    setState((prevState) => ({
-      ...prevState,
-      [ key ]: typeof value === 'function' ? value(prevState[key]) : value
-    }))
+    dispatch({ type: 'status', payload: await request('wallet:status', []) })
+    dispatch({ type: 'connected', payload: await request('node:connection', []) })
+    dispatch({ type: 'balance', payload: await request('account:balance', []) })
+    dispatch({ type: 'utxos', payload: await request('account:utxos', []) })
+    dispatch({ type: 'addresses', payload: await request('account:addresses', []) })
+    dispatch({ type: 'provider', payload: await request('provider:connection', []) })
   }, [])
   
   return (
