@@ -9,7 +9,7 @@ type MappingsRecord<M extends keyof RequestMappings = keyof RequestMappings> = {
 }
 
 export default class Router {
-  mappings: MappingsRecord
+  private mappings: MappingsRecord
 
   constructor ({ wallet, node, account, provider }: { 
     wallet: Wallet,
@@ -42,7 +42,7 @@ export default class Router {
     }  
   }
 
-  async routeMessage <M extends keyof RequestMappings>(request: Request<M>) {
+  async route <M extends keyof RequestMappings>(request: Request<M>) {
     let response: Response<M> = {
       id: request.id,
       result: undefined,

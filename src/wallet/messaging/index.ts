@@ -11,7 +11,8 @@ export default class RPC {
   provider: Provider
   notifier: Notifier
   router: Router
-  ports: Set<browser.Runtime.Port> = new Set()
+
+  private ports: Set<browser.Runtime.Port> = new Set()
  
   constructor ({ wallet, node, account }: { 
     wallet: Wallet,
@@ -29,21 +30,25 @@ export default class RPC {
     browser.runtime.onConnect.addListener((port) => {
       if (port.sender?.id !== browser.runtime.id) return port.disconnect()
 
-      if (port.name === '@kaspian/provider') {
-        this.provider.askAccess(port)
-      } else if (port.name === '@kaspian/client') {
+      if (port.name === '@kaspian/client') {
         this.permitPort(port)
-      }
+      } else if (port.name === '@kaspian/provider') {
+        this.provider.askAccess(port)
+      } else port.disconnect()
     })
 
-    this.streamEvents()
+    this.notifier.registerCallback((event) => {
+      for (const port of this.ports) {
+        port.postMessage(event)
+      }
+    })
   }
 
   private permitPort (port: browser.Runtime.Port) {
     this.ports.add(port)
 
     const onMessageListener = async (request: Request) => {
-      const response = await this.router.routeMessage(request)
+      const response = await this.router.route(request)
 
       port.postMessage(response)
     }
@@ -54,14 +59,6 @@ export default class RPC {
       port.onMessage.removeListener(onMessageListener)
 
       this.ports.delete(port)
-    })
-  }
-
-  private streamEvents () {
-    this.notifier.registerCallback((event) => {
-      for (const port of this.ports) {
-        port.postMessage(event)
-      }
     })
   }
 }

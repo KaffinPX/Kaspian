@@ -5,7 +5,7 @@ import type { EventMessage, EventMappings } from "../protocol"
 import Provider from "./provider"
 
 export default class Notifications {
-  callback: ((event: EventMessage) => void) | undefined
+  private callback: ((event: EventMessage) => void) | undefined
 
   constructor({ wallet, node, account, provider }: { 
     wallet: Wallet
