@@ -48,16 +48,16 @@ export default class Router {
       result: undefined,
     }
 
-    const methodHandler = this.mappings[request.method]
+    const requestedMethod = this.mappings[request.method]
 
     try {
-      response.result = await methodHandler(...request.params)
-    } catch (error) {
-      if (typeof error === 'string') {
-        response.error = error
-      } else if (error instanceof Error) {
-        response.error = error.message
-      }
+      response.result = await requestedMethod(...request.params)
+    } catch (err) {
+      if (err instanceof Error) {
+        response.error = err.message
+      } else if (typeof err === 'string') {
+        response.error = err
+      } else throw err
     }
     
     return response
