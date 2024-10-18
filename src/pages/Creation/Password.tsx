@@ -1,4 +1,4 @@
-import { KeyIcon } from "lucide-react"
+import { KeyIcon, XIcon, CheckIcon } from "lucide-react"
 import { useState, useMemo } from "react"
 
 enum PasswordErrors {
@@ -53,27 +53,27 @@ export default function Password ({ onSet }: {
         <button className="btn btn-xs" onClick={() => setIsHidden(!isHidden)}>
           {isHidden ? "Show" : "Hide"}
         </button>
-        <div className="flex flex-col gap-0.5">
-          <label>
-            {errors.has(PasswordErrors.TooShort) ? "❌ " : "✅ "}
-            At least 8 characters long.
-          </label>
-          <label>
-            {errors.has(PasswordErrors.UpperCase) ? "❌ " : "✅ "}
-            At least one uppercase letter.
-          </label>
-          <label>
-            {errors.has(PasswordErrors.LowerCase) ? "❌ " : "✅ "} 
-            At least one lowercase letter.
-          </label>
-          <label>
-            {errors.has(PasswordErrors.Number) ? "❌ " : "✅ "} 
-            At least one number.
-          </label>
-          <label>
-            {errors.has(PasswordErrors.SpecialCharacter) ? "❌ " : "✅ "} 
-            At least one special character.
-          </label>
+        <div className="flex flex-col">
+          <Requirement 
+            condition={errors.has(PasswordErrors.TooShort)} 
+            label="At least 8 characters long." 
+          />
+          <Requirement 
+            condition={errors.has(PasswordErrors.UpperCase)} 
+            label="At least one uppercase letter." 
+          />
+          <Requirement 
+            condition={errors.has(PasswordErrors.LowerCase)} 
+            label="At least one lowercase letter." 
+          />
+          <Requirement 
+            condition={errors.has(PasswordErrors.Number)} 
+            label="At least one number." 
+          />
+          <Requirement 
+            condition={errors.has(PasswordErrors.SpecialCharacter)} 
+            label="At least one special character." 
+          />
         </div>
       </div>
       <button className="btn btn-primary" disabled={!!errors.size} onClick={() => onSet(password)}>
@@ -82,3 +82,15 @@ export default function Password ({ onSet }: {
     </main>
   )
 }
+
+const Requirement = ({ condition, label }: {
+  condition: boolean,
+  label: string
+}) => {
+  return (
+    <label className={`flex flex-row items-center ${condition ? "text-red-500" : "text-green-500"}`}>
+      {condition ? <XIcon /> : <CheckIcon />}
+      {label}
+    </label>
+  );
+};

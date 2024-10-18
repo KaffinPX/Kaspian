@@ -35,7 +35,7 @@ export default function Import ({ onSubmit }: {
           </h1>
         </div>
         <p className="font-semibold text-center">
-          Enter mnemonic, theq key of a wallet.
+          Enter mnemonic, the key of a wallet.
         </p>
       </div>
       <div className="grid grid-cols-3 gap-1">
