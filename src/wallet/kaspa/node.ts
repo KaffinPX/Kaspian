@@ -1,4 +1,5 @@
 import { EventEmitter } from "events"
+import SessionStorage from "@/storage/SessionStorage"
 import { RpcClient, ConnectStrategy, Transaction, Resolver, NetworkId, IFeerateBucket } from "@/../wasm"
 
 export type PriorityBuckets = Record<'slow' | 'standard' | 'fast', { feeRate: number; seconds: number }>
@@ -11,7 +12,9 @@ export default class Node extends EventEmitter {
     super()
 
     this.kaspa = new RpcClient()
+
     this.registerEvents()
+    this.listen()
   }
 
   get connected () {
@@ -84,6 +87,14 @@ export default class Node extends EventEmitter {
 
     this.kaspa.addEventListener('disconnect', () => {
       this.emit('connection', false)
+    })
+  }
+
+  private listen () {
+    SessionStorage.subscribeChanges(async (key, newValue) => {
+      if (key !== 'session' || newValue) return
+
+      await this.kaspa.disconnect()
     })
   }
 }

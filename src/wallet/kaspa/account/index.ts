@@ -38,7 +38,7 @@ export default class Account extends EventEmitter  {
     })
 
     this.registerProcessor()
-    this.listenSession()
+    this.listen()
   }
 
   get balance () {
@@ -101,7 +101,7 @@ export default class Account extends EventEmitter  {
     })
   }
 
-  private listenSession () {
+  private listen () {
     SessionStorage.subscribeChanges(async (key, newValue) => {
       if (key !== 'session') return
 
