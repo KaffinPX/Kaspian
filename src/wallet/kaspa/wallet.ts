@@ -38,11 +38,11 @@ export default class Wallet extends EventEmitter {
     return phrase
   }
 
-  async import (mnemonics: string, password: string) {
-    if (!Mnemonic.validate(mnemonics)) throw Error('Invalid mnemonic')
+  async import (mnemonic: string, password: string) {
+    if (!Mnemonic.validate(mnemonic)) throw Error('Invalid mnemonic')
   
     await LocalStorage.set("wallet", {
-      encryptedKey: encryptXChaCha20Poly1305(mnemonics, password),
+      encryptedKey: encryptXChaCha20Poly1305(mnemonic, password),
       accounts: [{
         name: "Wallet",
         receiveCount: 1,
