@@ -23,7 +23,7 @@ export default function Landing() {
       if (kaspa.status === Status.Uninitialized) {
         navigate("/creation")
       } else if (kaspa.status === Status.Locked) {
-        navigate("/:3")
+        navigate("/unlock")
       } else if (kaspa.status === Status.Unlocked) {
         navigate("/:3")
       }

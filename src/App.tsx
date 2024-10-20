@@ -3,6 +3,7 @@ import { SettingsProvider } from './contexts/Settings'
 import { KaspaProvider } from './contexts/Kaspa'
 import Landing from './pages/Landing'
 import Creation from './pages/Creation'
+import Unlock from './pages/Unlock'
 
 function App () {
   return (
@@ -12,6 +13,7 @@ function App () {
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/creation" element={<Creation />} />
+            <Route path="/unlock" element={<Unlock />} />
           </Routes>
         </MemoryRouter>
       </KaspaProvider>
