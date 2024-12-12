@@ -13,19 +13,20 @@ export default function Create({ mnemonic, onSaved }: {
             Backup words
           </h1>
         </div>
-        <p className="font-semibold text-center">
-          Write mnemonic into a safe place, may be needed in future.
+        <p className="font-semibold text-center tracking-tighter">
+          Write mnemonic into a safe place, will be needed in future.
         </p>
       </div>
       <div className="grid grid-cols-3 gap-1">
         {mnemonic.split(' ').map((word, index) => (
-          <label className="flex input input-bordered items-center gap-1 h-10">
+          <label
+            key={index}
+            className="flex input input-bordered items-center gap-1 h-8"
+          >
             {index + 1}
             <input
-              key={index}
               value={word}
-              placeholder={`Word ${index + 1}`}
-              className="font-mono"
+              className="font-mono max-w-full"
               disabled
             />
           </label>

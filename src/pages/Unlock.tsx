@@ -1,5 +1,5 @@
 import useKaspa from "@/hooks/useKaspa"
-import { HandMetalIcon } from "lucide-react"
+import { HandIcon } from "lucide-react"
 import { useCallback, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -22,12 +22,12 @@ export default function Unlock () {
     <main className="flex flex-col justify-between min-h-screen px-8 py-8">
       <div className="flex flex-col gap-1">
         <div className="flex flex-row items-center justify-center gap-2">
-          <HandMetalIcon strokeWidth={3} size={28}/>
+          <HandIcon strokeWidth={3} size={28}/>
           <h1 className="text-4xl font-extrabold tracking-tight">
-            Welcome back!
+            Welcome!
           </h1>
         </div>
-        <p className="font-semibold text-center">
+        <p className="font-semibold text-center tracking-tighter">
           To enjoy all features of Kaspian, please unlock your wallet first.
         </p>
       </div>
@@ -44,7 +44,7 @@ export default function Unlock () {
         </button>
       </div>
       <div className="flex flex-col gap-1">
-        <button className="btn btn-primary">Unlock</button>
+        <button className="btn btn-primary" onClick={unlockWallet}>Unlock</button>
       </div>
     </main>
   )

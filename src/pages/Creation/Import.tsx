@@ -19,8 +19,8 @@ export default function Import ({ onSubmit }: {
     const words = e.clipboardData.getData('text').split(' ')
 
     if (words.length === 24) {
-      e.preventDefault()
       setMnemonic(words)
+      e.preventDefault()
       e.currentTarget.blur()
     }
   }, [])
@@ -31,11 +31,11 @@ export default function Import ({ onSubmit }: {
         <div className="flex flex-row items-center justify-center gap-2">
           <SquareAsteriskIcon strokeWidth={3} size={28}/>
           <h1 className="text-4xl font-extrabold tracking-tight">
-            Import a wallet
+            Import wallet
           </h1>
         </div>
-        <p className="font-semibold text-center">
-          Enter mnemonic, the key of a wallet.
+        <p className="font-semibold text-center tracking-tighter">
+          Enter mnemonic words, the key of a wallet.
         </p>
       </div>
       <div className="grid grid-cols-3 gap-1">
@@ -43,9 +43,9 @@ export default function Import ({ onSubmit }: {
           <input
             key={index}
             value={word}
-            placeholder={`Word ${index + 1}`}
+            placeholder={`${index + 1}`}
             type="password"
-            className="input input-bordered h-10 font-mono"
+            className="input input-bordered h-8 font-mono"
             onFocus={(e) => e.currentTarget.type = 'text'}
             onBlur={(e) => e.currentTarget.type = 'password'}
             onChange={(e) => changeMnemonicWord(index, e.target.value)}

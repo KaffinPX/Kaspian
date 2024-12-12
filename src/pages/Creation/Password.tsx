@@ -30,15 +30,15 @@ export default function Password ({ onSet }: {
   }, [ password ])
 
   return (
-    <main className="flex flex-col justify-between min-h-screen px-8 py-8">
+    <main className="flex flex-col justify-between min-h-screen px-6 py-8">
       <div className="flex flex-col gap-1">
         <div className="flex flex-row items-center justify-center gap-2">
           <KeyIcon strokeWidth={3} size={28}/>
           <h1 className="text-4xl font-extrabold tracking-tight">
-            Set a password
+            Set password
           </h1>
         </div>
-        <p className="font-semibold text-center">
+        <p className="font-semibold text-center tracking-tighter">
           Will be used for encryption of mnemonic.
         </p>
       </div>

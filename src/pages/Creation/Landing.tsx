@@ -5,7 +5,7 @@ export default function Landing({ forward }: {
   forward: (tab: Tabs) => void
 }) {
   return (
-    <main className="flex flex-col justify-between min-h-screen px-8 py-8">
+    <main className="flex flex-col justify-between min-h-screen px-8 py-6">
       <img src={Icon} className="rounded-full"/>
       <h1 className="text-4xl font-extrabold tracking-tight text-center">
         Welcome to Kaspian Wallet!
