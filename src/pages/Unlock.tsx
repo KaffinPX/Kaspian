@@ -1,5 +1,4 @@
 import useKaspa from "@/hooks/useKaspa"
-import { HandIcon } from "lucide-react"
 import { useCallback, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -8,44 +7,44 @@ export default function Unlock () {
   const navigate = useNavigate()
 
   const [ password, setPassword ] = useState("")
-  const [ isHidden, setIsHidden ] = useState(true)
+  const [ error, setError ] = useState(false)
 
   const unlockWallet = useCallback(() => {
     request('wallet:unlock', [ password ]).then(() => {
       navigate("/")
-    }).catch((err) => {
-      // TODO: error handling :3
+    }).catch(() => {
+      setError(true)
     })
   }, [ password ])
 
   return (
-    <main className="flex flex-col justify-between min-h-screen px-8 py-8">
-      <div className="flex flex-col gap-1">
-        <div className="flex flex-row items-center justify-center gap-2">
-          <HandIcon strokeWidth={3} size={28}/>
-          <h1 className="text-4xl font-extrabold tracking-tight">
-            Welcome!
-          </h1>
+    <main className="flex flex-col min-h-screen px-3 py-4">
+      <div className="navbar gap-4">
+        <div className="navbar-start">
+          <button className="btn btn-outline text-3xl">Kaspian</button>
         </div>
-        <p className="font-semibold text-center tracking-tighter">
-          To enjoy all features of Kaspian, please unlock your wallet first.
-        </p>
+        <div className="navbar-end">
+          <select className="select w-28">
+            <option disabled selected>Account #1</option>
+          </select>
+        </div>
       </div>
-      <div className="flex flex-col items-center gap-2">
+      <fieldset className="fieldset border p-4 rounded-box mt-13">
+        <legend className="fieldset-legend">Unlock wallet</legend>
+        <label className="fieldset-label">Password</label>
         <input
-          type={isHidden ? 'password' : 'text'}
+          type={'password'}
           placeholder={'Password'}
           value={password}
-          className="input input-bordered w-full"
-          onChange={(e) => setPassword(e.target.value)}
+          className={`input input-bordered w-full ${error ? "input-error" : ""}`}
+          onChange={(e) => { 
+            if (error) setError(false)
+            setPassword(e.target.value)
+          }}
         />
-        <button className="btn btn-xs" onClick={() => setIsHidden(!isHidden)}>
-          {isHidden ? "Show" : "Hide"}
-        </button>
-      </div>
-      <div className="flex flex-col gap-1">
-        <button className="btn btn-primary" onClick={unlockWallet}>Unlock</button>
-      </div>
+        <button className="btn btn-primary mt-3" onClick={unlockWallet}>Unlock</button>
+        <button className="btn btn-ghost">Forgot password</button>
+      </fieldset>
     </main>
   )
 }

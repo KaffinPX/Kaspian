@@ -28,7 +28,7 @@ export default function Wallet () {
       <div className="flex flex-col gap-1">
         <div className="navbar">
           <div className="navbar-start">
-            <button className="btn btn-outline text-4xl">Kaspian</button>
+            <button className="btn btn-outline text-3xl">Kaspian</button>
           </div>
           <div className="navbar-end">
             <button className="btn btn-circle" onClick={() => request('wallet:lock', [])}>
