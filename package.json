@@ -12,30 +12,26 @@
   "author": "Kaspian devs",
   "license": "GPL-3",
   "devDependencies": {
-    "@crxjs/vite-plugin": "^2.0.0-beta.23",
     "@types/bun": "^1.1.5",
     "@types/chrome": "^0.0.254",
     "@types/node": "^20.10.5",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@types/webextension-polyfill": "^0.10.7",
-    "@typescript-eslint/eslint-plugin": "^6.15.0",
-    "@typescript-eslint/parser": "^6.15.0",
     "@vitejs/plugin-react": "^4.2.1",
-    "autoprefixer": "^10.4.16",
-    "daisyui": "^4.12.10",
-    "postcss": "^8.4.32",
-    "prettier": "3.1.1",
-    "tailwindcss": "^3.3.6",
+    "@crxjs/vite-plugin": "^2.0.0-beta.23",
+    "daisyui": "^5.0.0-beta.1",
+    "tailwindcss": "^4.0.0-beta.8",
     "typescript": "^5.6.2",
     "vite": "^5.1.1"
   },
   "dependencies": {
     "events": "^3.3.0",
-    "lucide-react": "^0.299.0",
     "react": "^18.3.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.2",
+    "@tailwindcss/vite": "^4.0.0-beta.8",
+    "lucide-react": "^0.299.0",
     "webextension-polyfill": "^0.10.0"
   }
 }

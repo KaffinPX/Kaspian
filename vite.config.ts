@@ -1,8 +1,8 @@
 import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react"
-import tailwindcss from "tailwindcss"
 import { ManifestV3Export, crx } from "@crxjs/vite-plugin"
-import * as path from "path"
+import tailwindcss from '@tailwindcss/vite'
+import path from "path"
 
 const manifest: ManifestV3Export = {
   manifest_version: 3,
@@ -40,15 +40,14 @@ const manifest: ManifestV3Export = {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [ react(), crx({ manifest }) ],
+  plugins: [ 
+    react(),
+    tailwindcss(),
+    crx({ manifest })
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src")
-    }
-  },
-  css: {
-    postcss: {
-      plugins: [ tailwindcss ]
     }
   },
   server: {
