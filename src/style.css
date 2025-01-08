@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @plugin "daisyui" {
   themes: cupcake --default;
-  root: ":root";
+  exclude: rootscrollgutter;
 }
 
 #root {

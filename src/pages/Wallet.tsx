@@ -6,6 +6,7 @@ import { SendToBack, ReceiptIcon, LogOutIcon } from "lucide-react"
 import { useEffect } from "react"
 import { useNavigate } from 'react-router-dom'
 import { Status } from "@/wallet/kaspa/wallet"
+import Receive from "./Wallet/Receive"
 
 export default function Wallet () {
   const { kaspa, request } = useKaspa()
@@ -50,7 +51,10 @@ export default function Wallet () {
                 <SendToBack />
                 Send
               </button>
-              <button className="btn">
+              <button className="btn" onClick={() => {
+                // @ts-ignore
+                document.getElementById('receive_modal').showModal()
+              }}>
                 <ReceiptIcon />
                 Receive
               </button>
@@ -58,6 +62,7 @@ export default function Wallet () {
           </div>
         </div>
       </div>
+      <Receive />
     </main>
   )
 }

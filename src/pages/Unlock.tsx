@@ -29,8 +29,11 @@ export default function Unlock () {
           </select>
         </div>
       </div>
-      <fieldset className="fieldset border p-4 rounded-box mt-13">
-        <legend className="fieldset-legend">Unlock wallet</legend>
+      <h1 className="text-3xl text-center font-extrabold tracking-tight">
+        Welcome back, Kaspian!
+      </h1>
+      <fieldset className="fieldset border p-4 rounded-box mt-8">
+        <legend className="fieldset-legend">Unlock account</legend>
         <label className="fieldset-label">Password</label>
         <input
           type={'password'}
@@ -43,7 +46,7 @@ export default function Unlock () {
           }}
         />
         <button className="btn btn-primary mt-3" onClick={unlockWallet}>Unlock</button>
-        <button className="btn btn-ghost">Forgot password</button>
+        <button className="btn btn-ghost" onClick={() => alert("Currently not implemented.")}>Forgot password</button>
       </fieldset>
     </main>
   )
