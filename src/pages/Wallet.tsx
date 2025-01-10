@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { Status } from "@/wallet/kaspa/wallet"
 import SendModal from "./Wallet/Send"
 import ReceiveModal from "./Wallet/Receive"
+import SettingsMenu from "./Wallet/Settings"
 
 export default function Wallet () {
   const { kaspa, request } = useKaspa()
@@ -32,7 +33,8 @@ export default function Wallet () {
           <div className="navbar-start">
             <button className="btn btn-outline text-3xl">Kaspian</button>
           </div>
-          <div className="navbar-end">
+          <div className="navbar-end gap-1">
+            <SettingsMenu />
             <button className="btn btn-circle" onClick={() => request('wallet:lock', [])}>
               <LogOutIcon />
             </button>

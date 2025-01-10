@@ -17,7 +17,7 @@ export default function Finalize ({ transactions }: {
         <button className="btn btn-dash" onClick={() => {
           window.open(`https://explorer.kaspa.org/txs/${id}`)
         }}>
-          Show it on explorer
+          View it on explorer
         </button>
       )}
       {!id && (
