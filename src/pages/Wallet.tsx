@@ -66,6 +66,7 @@ export default function Wallet () {
           </div>
         </div>
       </div>
+      <div className={`self-end status status-xl ${kaspa.connected ? 'status-success' : 'status-error'}`}></div>
       <SendModal />
       <ReceiveModal />
     </main>
