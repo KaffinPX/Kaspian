@@ -76,6 +76,7 @@ export default class Transactions extends EventEmitter {
     const signedTransactions: Transaction[] = []
 
     for (const transaction of transactions) {
+      console.log(transaction)
       const parsedTransaction = Transaction.deserializeFromSafeJSON(transaction)
       const privateKeys = []
 

@@ -20,6 +20,7 @@ export default class Wallet extends EventEmitter {
   }
   
   private async sync () {
+    console.log('synchronizing...')
     const wallet = await LocalStorage.get('wallet', undefined)
 
     if (!wallet) {
@@ -95,7 +96,7 @@ export default class Wallet extends EventEmitter {
     })
 
     LocalStorage.subscribeChanges(async (key, newValue) => {
-      if (key !== 'wallet') return
+      if (key !== 'wallet' || this.status === Status.Unlocked) return
 
       this.status = newValue ? Status.Locked : Status.Uninitialized
       this.emit('status', this.status)

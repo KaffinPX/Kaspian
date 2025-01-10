@@ -6,7 +6,8 @@ import { SendToBack, ReceiptIcon, LogOutIcon } from "lucide-react"
 import { useEffect } from "react"
 import { useNavigate } from 'react-router-dom'
 import { Status } from "@/wallet/kaspa/wallet"
-import Receive from "./Wallet/Receive"
+import SendModal from "./Wallet/Send"
+import ReceiveModal from "./Wallet/Receive"
 
 export default function Wallet () {
   const { kaspa, request } = useKaspa()
@@ -37,7 +38,7 @@ export default function Wallet () {
             </button>
           </div>
         </div>
-        <div className="card bg-primary text-primary-contents">
+        <div className="card bg-primary card-border card-lg shadow-sm">
           <div className="card-body items-center text-center gap-3">
             <div>
               <h2 className="card-title font-extrabold gap-0 h-8">
@@ -47,7 +48,10 @@ export default function Wallet () {
               <p className="font-bold font-mono">{currencies[settings.currency]} {(kaspa.balance * price).toFixed(2)}</p>
             </div>
             <div className="card-actions">
-              <button className="btn">
+              <button className="btn" onClick={() => {
+                // @ts-ignore
+                document.getElementById('send_modal').showModal()
+              }}>
                 <SendToBack />
                 Send
               </button>
@@ -62,7 +66,8 @@ export default function Wallet () {
           </div>
         </div>
       </div>
-      <Receive />
+      <SendModal />
+      <ReceiveModal />
     </main>
   )
 }

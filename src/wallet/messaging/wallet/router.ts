@@ -53,6 +53,8 @@ export default class Router {
     try {
       response.result = await requestedMethod(...request.params)
     } catch (err) {
+      console.error(err)
+
       if (err instanceof Error) {
         response.error = err.message
       } else if (typeof err === 'string') {

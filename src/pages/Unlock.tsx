@@ -14,7 +14,7 @@ export default function Unlock () {
       navigate("/")
     }).catch(() => {
       setError(true)
-    })
+    }).finally(() => setPassword(""))
   }, [ password ])
 
   return (
@@ -46,7 +46,7 @@ export default function Unlock () {
           }}
         />
         <button className="btn btn-primary mt-3" onClick={unlockWallet}>Unlock</button>
-        <button className="btn btn-ghost" onClick={() => alert("Currently not implemented.")}>Forgot password</button>
+        <button className="btn btn-ghost" onClick={() => alert("Currently not implemented.")}>Forget password</button>
       </fieldset>
     </main>
   )
