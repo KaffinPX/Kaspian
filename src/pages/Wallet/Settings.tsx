@@ -1,19 +1,19 @@
 import { currencies } from "@/contexts/Settings"
 import useKaspa from "@/hooks/useKaspa"
 import useSettings from "@/hooks/useSettings"
-import { SettingsIcon, NetworkIcon, HammerIcon, DollarSignIcon, SearchIcon } from "lucide-react"
+import { SettingsIcon, NetworkIcon, HammerIcon, DollarSignIcon, SearchIcon, WholeWordIcon } from "lucide-react"
 
-export default function Receive () {
+export default function Settings () {
   const { kaspa } = useKaspa()
   const { settings, updateSetting } = useSettings()
-
 
   return (
     <div className="dropdown dropdown-end">
       <button tabIndex={0} className="btn btn-circle">
         <SettingsIcon />
       </button>
-      <ul tabIndex={0} className="dropdown-content menu bg-base-200 rounded-box z-[1] w-52 shadow">
+      <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-60 shadow-md">
+        <div className="divider">General</div>
         <button className="btn" onClick={() => {
           const tickers = Object.keys(currencies)
           const currentIndex = tickers.indexOf(settings.currency)
@@ -24,6 +24,7 @@ export default function Receive () {
           <DollarSignIcon />
           Currency: {settings.currency}
         </button>
+        <div className="divider">Wallet</div>
         <button className="btn">
           <NetworkIcon />
           Change Node
@@ -32,12 +33,14 @@ export default function Receive () {
           <SearchIcon />
           Scan Addresses
         </button>
-        <li>
-          <button className="btn btn-error">
-            <HammerIcon />
-            Reset Wallet
-          </button>
-        </li>
+        <button className="btn">
+          <WholeWordIcon />
+          Export Wallet
+        </button>
+        <button className="btn btn-error mt-3">
+          <HammerIcon />
+          Reset Wallet
+        </button>
       </ul>
     </div>
   )

@@ -24,8 +24,8 @@ export default function Unlock () {
           <button className="btn btn-outline text-3xl">Kaspian</button>
         </div>
         <div className="navbar-end">
-          <select className="select w-28">
-            <option disabled selected>Account #1</option>
+          <select className="select w-28" defaultValue="Account #1">
+            <option disabled>Account #1</option>
           </select>
         </div>
       </div>

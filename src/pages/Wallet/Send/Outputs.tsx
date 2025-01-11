@@ -8,7 +8,7 @@ export default function Outputs ({ outputs, setOutputs, readOnly }: {
   readOnly: boolean
 }) {
   return (
-    <ul className="list p-2 overflow-y-scroll h-24 items-center">
+    <ul className="list p-2 overflow-y-auto h-24 items-center">
       {outputs.map((output, id) => {
         return (
           <li className="list-row items-center shadow-sm">
