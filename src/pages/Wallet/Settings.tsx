@@ -1,11 +1,24 @@
 import { currencies } from "@/contexts/Settings"
 import useKaspa from "@/hooks/useKaspa"
 import useSettings from "@/hooks/useSettings"
-import { SettingsIcon, NetworkIcon, HammerIcon, DollarSignIcon, SearchIcon, WholeWordIcon } from "lucide-react"
+import { SettingsIcon, NetworkIcon, HammerIcon, DollarSignIcon, SearchIcon, XIcon } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export default function Settings () {
-  const { kaspa } = useKaspa()
+  const { request } = useKaspa()
   const { settings, updateSetting } = useSettings()
+
+  const [ count, setCount ] = useState<number>()
+
+  useEffect(() => {
+    if (count === undefined || count <= 0) return
+
+    const timer = setInterval(() => {
+      setCount(prevCount => prevCount ? prevCount - 1 : 0)
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [ count ])
 
   return (
     <div className="dropdown dropdown-end">
@@ -33,14 +46,29 @@ export default function Settings () {
           <SearchIcon />
           Scan Addresses
         </button>
-        <button className="btn">
-          <WholeWordIcon />
-          Export Wallet
-        </button>
-        <button className="btn btn-error mt-3">
-          <HammerIcon />
-          Reset Wallet
-        </button>
+        {typeof count === 'undefined' && (
+          <button className="btn btn-error mt-3" onClick={() => {
+            setCount(10)
+          }}>
+            <HammerIcon />
+            Reset Wallet
+          </button>
+        )}
+        {typeof count !== 'undefined' && (
+          <div className="flex flex-row gap-1 mt-3">
+            <button className="btn btn-error" disabled={count !== 0} onClick={() => {
+              request('wallet:reset', [])
+            }}>
+              <HammerIcon />
+              Are you sure? ({count})
+            </button>
+            <button className="btn btn-circle" onClick={() => {
+              setCount(undefined)
+            }}>
+              <XIcon />
+            </button>
+          </div>
+        )}
       </ul>
     </div>
   )

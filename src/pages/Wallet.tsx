@@ -44,7 +44,7 @@ export default function Wallet () {
           <div className="card-body items-center text-center gap-3">
             <div>
               <h2 className="card-title font-extrabold gap-0 h-8">
-                <img className="h-11" src="https://kaspa.org/wp-content/uploads/2023/06/Kaspa-Icon-White.svg" />
+                <img className="h-12" src="https://kaspa.org/wp-content/uploads/2023/06/Kaspa-Icon-White.svg" />
                 {kaspa.balance.toFixed(4)} KAS
               </h2>
               <p className="font-bold font-mono">{currencies[settings.currency]} {(kaspa.balance * price).toFixed(2)}</p>
