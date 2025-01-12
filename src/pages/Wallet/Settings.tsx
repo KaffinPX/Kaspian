@@ -3,6 +3,7 @@ import useKaspa from "@/hooks/useKaspa"
 import useSettings from "@/hooks/useSettings"
 import { SettingsIcon, NetworkIcon, HammerIcon, DollarSignIcon, SearchIcon, XIcon } from "lucide-react"
 import { useEffect, useState } from "react"
+import { runtime } from "webextension-polyfill"
 
 export default function Settings () {
   const { request } = useKaspa()
@@ -69,6 +70,9 @@ export default function Settings () {
             </button>
           </div>
         )}
+        <p className="mt-2 text-center font-bold">
+          Kaspian {runtime.getManifest().version}
+        </p>
       </ul>
     </div>
   )
