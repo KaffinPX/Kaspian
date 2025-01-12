@@ -23,8 +23,8 @@ export default class Windows {
       top: location[0],
       left: location[1],
       type: 'popup',
-      width: 365,
-      height: 610,
+      width: 340,
+      height: 548,
       focused: true
     })
 

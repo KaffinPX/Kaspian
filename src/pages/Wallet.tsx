@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { Status } from "@/wallet/kaspa/wallet"
 import SendModal from "./Wallet/Send"
 import ReceiveModal from "./Wallet/Receive"
+import ConnectModal from "./Wallet/Connect"
 import SettingsMenu from "./Wallet/Settings"
 
 export default function Wallet () {
@@ -71,6 +72,7 @@ export default function Wallet () {
       <div className={`self-end status status-xl ${kaspa.connected ? 'status-success' : 'status-error'}`}></div>
       <SendModal />
       <ReceiveModal />
+      <ConnectModal />
     </main>
   )
 }

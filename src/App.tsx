@@ -1,4 +1,4 @@
-import { HashRouter, Route, Routes } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { SettingsProvider } from './contexts/Settings'
 import { KaspaProvider } from './contexts/Kaspa'
 import Landing from './pages/Landing'
@@ -10,14 +10,14 @@ function App () {
   return (
     <SettingsProvider>
       <KaspaProvider>
-        <HashRouter>
+        <MemoryRouter>
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/creation" element={<Creation />} />
             <Route path="/unlock" element={<Unlock />} />
             <Route path="/wallet" element={<Wallet />} />
           </Routes>
-        </HashRouter>
+        </MemoryRouter>
       </KaspaProvider>
     </SettingsProvider>
   )
