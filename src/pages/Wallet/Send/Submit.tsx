@@ -1,10 +1,12 @@
 import useKaspa from "@/hooks/useKaspa"
+import { Input } from "@/provider/protocol"
 import { PenIcon } from "lucide-react"
 import { useState } from "react"
 
-export default function Finalize ({ transactions, prompt }: {
+export default function Finalize ({ transactions, inputs, closeAfter }: {
   transactions: string[]
-  prompt: boolean
+  inputs: Input[]
+  closeAfter: boolean
 }) {
   const { request } = useKaspa()
 
@@ -34,9 +36,9 @@ export default function Finalize ({ transactions, prompt }: {
             }}
           />
           <button className="btn btn-outline" onClick={async () => {
-            request('account:sign', [ transactions, password ]).then(signedTransactions => {
+            request('account:sign', [ transactions, password, inputs ]).then(signedTransactions => {
               request('account:submitContextful', [ signedTransactions ]).then((ids) => {
-                if (prompt) window.close()
+                if (closeAfter) window.close()
                 setId(ids[ids.length - 1])
               })
             }).catch(() => {

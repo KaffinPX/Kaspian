@@ -41,7 +41,7 @@ export default function Send () {
           </button>
         )}
         {transactions && (
-          <Submit transactions={transactions} prompt={hash === 'transact'} />
+          <Submit transactions={transactions} inputs={inputs} closeAfter={hash === 'transact'} />
         )}
       </div>
       <form method="dialog" className="modal-backdrop">
