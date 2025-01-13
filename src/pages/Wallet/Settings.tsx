@@ -66,8 +66,14 @@ export default function Settings () {
             </select>
           </label>
           <div className="divider">Account</div>
-          <div className="badge badge-accent badge-md w-full">Receive addresses: {kaspa.addresses[0].length}</div>
-          <div className="badge badge-accent badge-md w-full">Change addresses: {kaspa.addresses[0].length}</div>
+          <div className="flex justify-between px-4 py-2 badge badge-warning w-full">
+            <span className="font-medium">Receive addresses</span>
+            <p className="tabular-nums font-mono">{kaspa.addresses[0].length}</p>
+          </div>
+          <div className="flex justify-between px-4 py-2 badge badge-warning w-full">
+            <span className="font-medium">Change addresses</span>
+            <p className="tabular-nums font-mono">{kaspa.addresses[1].length}</p>
+          </div>
           <button className="btn" onClick={({ currentTarget }) => {
             currentTarget.disabled = true
 
