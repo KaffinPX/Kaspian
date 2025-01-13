@@ -58,7 +58,7 @@ export default class Account extends EventEmitter  {
     return [ ...pendingUTXOs, ...matureUTXOs ]
   }
 
-  async scan (steps = 50, count = 10) {
+  async scan (steps = 50, count = 20) {
     const scanAddresses = async (isReceive: boolean, startIndex: number) => {
       let foundIndex = 0
 
