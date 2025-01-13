@@ -74,11 +74,15 @@ export default class Account extends EventEmitter  {
         }
       }
 
-      await this.addresses.increment(isReceive ? foundIndex : 0, isReceive ? 0 : foundIndex)
+      return foundIndex
     }
   
-    await scanAddresses(true, this.addresses.receiveAddresses.length)
-    await scanAddresses(false, this.addresses.changeAddresses.length)
+    const receiveCount = await scanAddresses(true, this.addresses.receiveAddresses.length)
+    const changeCount = await scanAddresses(false, this.addresses.changeAddresses.length)
+
+    if (receiveCount !== 0 || changeCount !== 0) {
+      await this.addresses.increment(receiveCount, changeCount)
+    }
   }
 
   private registerProcessor () {

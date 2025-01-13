@@ -4,7 +4,7 @@ import type Account from "../../kaspa/account"
 import type { EventMessage, EventMappings } from "../protocol"
 import Provider from "./provider"
 
-export default class Notifications {
+export default class Notifications { // TBD: maybe move provider events handling here and isolate provider access to Account
   private callback: ((event: EventMessage) => void) | undefined
 
   constructor({ wallet, node, account, provider }: { 
