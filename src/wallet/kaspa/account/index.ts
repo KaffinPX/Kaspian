@@ -64,14 +64,14 @@ export default class Account extends EventEmitter  {
 
       for (let index = 0; index < steps; index++) {
         const addresses = await this.addresses.derive(isReceive, startIndex, startIndex + count)
-        startIndex += count
-    
         const { entries } = await this.processor.rpc.getUtxosByAddresses(addresses)
         const entryIndex = addresses.findIndex((address) => entries.some((entry) => entry.address?.toString() === address))
 
         if (entryIndex !== -1) { 
-          foundIndex = startIndex - count + entryIndex
+          foundIndex = startIndex + entryIndex + 1
         }
+
+        startIndex += count
       }
 
       return foundIndex
