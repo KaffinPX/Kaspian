@@ -11,7 +11,7 @@ export default function Outputs ({ outputs, setOutputs, readOnly }: {
     <ul className="list p-2 overflow-y-auto h-24 items-center">
       {outputs.map((output, id) => {
         return (
-          <li className="list-row items-center shadow-sm">
+          <li key={id} className="list-row items-center shadow-sm">
             <div className="flex flex-col gap-1">
               <input 
                 className="input input-xs tracking-tighter"
