@@ -20,7 +20,6 @@ export default class Wallet extends EventEmitter {
   }
   
   private async sync () {
-    console.log('synchronizing...')
     const wallet = await LocalStorage.get('wallet', undefined)
 
     if (!wallet) {
