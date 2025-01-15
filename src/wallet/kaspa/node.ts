@@ -59,11 +59,7 @@ export default class Node extends EventEmitter {
     }
 
     await this.kaspa.connect({
-      blockAsyncConnect: true,
       url: nodeAddress.startsWith('ws') ? nodeAddress : undefined,
-      strategy: ConnectStrategy.Retry,
-      timeoutDuration: 2000,
-      retryInterval: 1000,
     })
 
     const { isSynced, hasUtxoIndex, networkId } = await this.kaspa.getServerInfo()
