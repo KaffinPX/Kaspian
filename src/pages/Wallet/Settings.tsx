@@ -33,7 +33,7 @@ export default function Settings () {
         <label htmlFor="settings-drawer" className="drawer-overlay"></label>
         <ul className="menu bg-base-200 text-base-content rounded-l-box min-h-full w-60 p-4">
           <div className="collapse shadow-md">
-            <input type="radio" name="my-accordion-1" defaultChecked />
+            <input type="radio" name="settings-accordion" defaultChecked />
             <div className="collapse-title font-bold">General</div>
             <div className="collapse-content">
               <button className="btn" onClick={() => {
@@ -49,7 +49,7 @@ export default function Settings () {
             </div>
           </div>
           <div className="collapse shadow-md">
-            <input type="radio" name="my-accordion-1" />
+            <input type="radio" name="settings-accordion" />
             <div className="collapse-title font-bold">Network</div>
             <div className="collapse-content">
               <label className="form-control w-full max-w-xs">
@@ -75,7 +75,7 @@ export default function Settings () {
             </div>
           </div>
           <div className="collapse shadow-md">
-            <input type="radio" name="my-accordion-1" />
+            <input type="radio" name="settings-accordion" />
             <div className="collapse-title font-bold">Account</div>
             <div className="collapse-content">
               <div className="flex justify-between py-2 badge badge-warning w-full">
@@ -100,7 +100,7 @@ export default function Settings () {
           </div>
 
           <div className="collapse shadow-md">
-            <input type="radio" name="my-accordion-1" />
+            <input type="radio" name="settings-accordion" />
             <div className="collapse-title font-bold">Wallet</div>
             <div className="collapse-content">
               {typeof count === 'undefined' && (
