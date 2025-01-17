@@ -1,11 +1,12 @@
 import useKaspa from "@/hooks/useKaspa"
 import { Input } from "@/provider/protocol"
 import { PenIcon } from "lucide-react"
-import { useState } from "react"
+import { useMemo, useState } from "react"
+import { ITransactionInput, ITransactionOutput } from "wasm"
 
-export default function Finalize ({ transactions, inputs, closeAfter }: {
-  transactions: string[]
+export default function Finalization ({ inputs, transactions, closeAfter }: {
   inputs: Input[]
+  transactions: string[]
   closeAfter: boolean
 }) {
   const { request } = useKaspa()
@@ -14,8 +15,23 @@ export default function Finalize ({ transactions, inputs, closeAfter }: {
   const [ id, setId ] = useState<string>()
   const [ error, setError ] = useState(false)
 
+  const fee = useMemo(() => {
+    const transaction = JSON.parse(transactions[transactions.length - 1])
+    
+    const inputValue = transaction.inputs.reduce((acc: bigint, input: ITransactionInput) => {
+      return acc + BigInt(input.utxo!.amount)
+    }, 0n)
+
+    const outputValue = transaction.outputs.reduce((acc: bigint, output: ITransactionOutput) => {
+      return acc + BigInt(output.value)
+    }, 0n)
+    
+    return Number(inputValue - outputValue) / 1e8
+  }, [ transactions ])
+
   return (
     <>
+      <h5 className="badge text-xs font-bold">Fee: {fee}~ KAS</h5>
       {id && (
         <button className="btn btn-dash" onClick={() => {
           window.open(`https://explorer.kaspa.org/txs/${id}`)
