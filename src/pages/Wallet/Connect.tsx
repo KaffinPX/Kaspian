@@ -7,7 +7,7 @@ export default function Receive () {
   const [ hash, params ] = useURLParams()
 
   return (
-    <dialog id="connect_modal" className={`modal modal-bottom ${hash === 'connect' ? 'modal-open' : ''}`}>
+    <dialog id="connect_modal" className={`modal modal-bottom sm:modal-middle ${hash === 'connect' ? 'modal-open' : ''}`}>
       <div className="modal-box flex flex-col gap-1 text-center">
         <h3 className="text-2xl font-extrabold tracking-tight">Connect</h3>
         <textarea className="textarea resize-none overflow-hidden" disabled>{params.get("url")}</textarea>

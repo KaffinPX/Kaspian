@@ -14,7 +14,7 @@ export default function Send () {
   const [ transactions, setTransactions ] = useState<string[]>()
 
   return (
-    <dialog id="send_modal" className={`modal modal-bottom ${hash === 'transact' ? 'modal-open' : ''}`}>
+    <dialog id="send_modal" className={`modal modal-bottom sm:modal-middle ${hash === 'transact' ? 'modal-open' : ''}`}>
       <div className="modal-box flex flex-col gap-2 items-center h-68">
         <div className="flex flex-row gap-2">
           <h3 className="text-2xl font-extrabold tracking-tight">Send KAS</h3>

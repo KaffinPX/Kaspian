@@ -5,7 +5,7 @@ export default function Receive () {
   const { kaspa } = useKaspa()
 
   return (
-    <dialog id="receive_modal" className="modal modal-bottom">
+    <dialog id="receive_modal" className="modal modal-bottom sm:modal-middle">
       <div className="modal-box flex flex-col gap-2 text-center">
         <h3 className="text-2xl font-extrabold tracking-tight">Receive KAS</h3>
         <div className="bg-base-200 rounded-box p-4 w-min mx-auto gap-2">

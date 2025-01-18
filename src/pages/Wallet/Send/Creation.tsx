@@ -11,7 +11,7 @@ export default function Creation ({ inputs, outputs, setTransactions }: {
   setTransactions: React.Dispatch<React.SetStateAction<string[] | undefined>>
 }) {
   const { request } = useKaspa()
-  const [, params ] = useURLParams() // TODO: consider fetching from main page?
+  const [, params ] = useURLParams()
 
   const [ feeRate, setFeeRate ] = useState(1)
   const [ priorityFee ] = useState(params.get('fee') ?? "0")
