@@ -10,6 +10,7 @@ import SendModal from "./Wallet/Send"
 import ReceiveModal from "./Wallet/Receive"
 import ConnectModal from "./Wallet/Connect"
 import SettingsMenu from "./Wallet/Settings"
+import browser from "webextension-polyfill"
 
 export default function Wallet () {
   const { kaspa, request } = useKaspa()
@@ -32,7 +33,9 @@ export default function Wallet () {
       <div className="flex flex-col gap-1">
         <div className="navbar">
           <div className="navbar-start">
-            <button className="btn btn-outline text-3xl">Kaspian</button>
+            <button className="btn btn-outline text-3xl" onClick={() => {
+              window.open(browser.runtime.getURL('index.html'))
+            }}>Kaspian</button>
           </div>
           <div className="navbar-end gap-1">
             <SettingsMenu />
