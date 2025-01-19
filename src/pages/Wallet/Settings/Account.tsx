@@ -50,7 +50,7 @@ export default function Account () {
               <PlusIcon />
               Add Node
             </button>
-            <div tabIndex={0} className="dropdown-content card card-sm bg-base-100 z-1 w-50">
+            <div tabIndex={0} className="dropdown-content card card-sm bg-base-200 z-1 w-48">
               <div className="card-body gap-1">
                 <input
                   className="input input-xs"
