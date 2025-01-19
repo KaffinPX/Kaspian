@@ -53,24 +53,6 @@ export function SettingsProvider({ children }: {
     LocalStorage.set("settings", settings)
   }, [ settings ])
 
-  useEffect(() => { // TODO: Migrate to daisyUI
-    const root = window.document.documentElement
-
-    root.classList.remove("light", "dark")
-
-    if (settings['theme'] === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light"
-
-      // root.classList.add(systemTheme)
-      return
-    }
-
-    // root.classList.add(settings['theme'])
-  }, [ settings['theme'] ])
-
   const load = useCallback(async () => {
     const storedSettings = await LocalStorage.get('settings', defaultSettings)
 
