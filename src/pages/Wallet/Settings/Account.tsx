@@ -1,10 +1,23 @@
 import useKaspa from "@/hooks/useKaspa"
 import useSettings from "@/hooks/useSettings"
-import { PlusIcon, SearchIcon } from "lucide-react"
+import { PlusIcon, SearchIcon, SaveIcon } from "lucide-react"
+import { useMemo, useState } from "react"
 
 export default function Account () {
   const { kaspa, request } = useKaspa()
   const { settings, updateSetting } = useSettings()
+
+  const [ name, setName ] = useState("")
+  const [ address, setAddress ] = useState("")
+  
+  const addressValidity = useMemo(() => {
+    try {
+      const parsedUrl = new URL(address)
+      return parsedUrl.protocol === "ws:" || parsedUrl.protocol === "wss:"
+    } catch (e) {
+      return false
+    }
+  }, [ address ])
 
   return (
     <div className="collapse shadow-md">
@@ -32,10 +45,43 @@ export default function Account () {
               })}
             </select>
           </label>
-          <button className="btn btn-outline w-full" disabled>
-            <PlusIcon />
-            Add Node
-          </button>
+          <div className="dropdown dropdown-center w-full">
+            <button className="btn btn-outline w-full" tabIndex={0}>
+              <PlusIcon />
+              Add Node
+            </button>
+            <div tabIndex={0} className="dropdown-content card card-sm bg-base-100 z-1 w-50">
+              <div className="card-body gap-1">
+                <input
+                  className="input input-xs"
+                  value={name}
+                  type={"text"}
+                  placeholder="Name"
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <input
+                  className="input input-xs"
+                  value={address} 
+                  type={"text"} 
+                  placeholder="Address (WebSockets)"
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+                <button className="btn btn-xs" disabled={name === "" || !addressValidity} onClick={() => {
+                  updateSetting('nodes', [
+                    ...settings.nodes, {
+                      name,
+                      address,
+                      locked: false
+                  }])
+                  setName("")
+                  setAddress("")
+                }}>
+                  <SaveIcon size={16}/>
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
         <div>
           <div className="flex justify-between py-2 badge w-full">
