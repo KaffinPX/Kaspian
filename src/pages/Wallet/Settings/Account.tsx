@@ -32,56 +32,55 @@ export default function Account () {
                 {kaspa.connected ? 'Connected' : 'Disconnected'}
               </div>
             </div>
-            <select className="select select-ghost" value={settings.selectedNode} onChange={(e) => {
-              const id = parseInt(e.target.value)
+            <div className="join">
+              <select className="select join-item" value={settings.selectedNode} onChange={(e) => {
+                const id = parseInt(e.target.value)
 
-              updateSetting('selectedNode', id)
-              request('node:connect', [ settings.nodes[id].address ])
-            }}>
-              {settings.nodes.map((node, id) => {
-                return (
-                  <option key={id} value={id}>{node.name} - {node.address}</option>
-                )
-              })}
-            </select>
-          </label>
-          <div className="dropdown dropdown-center w-full">
-            <button className="btn btn-outline w-full" tabIndex={0}>
-              <PlusIcon />
-              Add Node
-            </button>
-            <div tabIndex={0} className="dropdown-content card card-sm bg-base-200 z-1 w-48">
-              <div className="card-body gap-1">
-                <input
-                  className="input input-xs"
-                  value={name}
-                  type={"text"}
-                  placeholder="Name"
-                  onChange={(e) => setName(e.target.value)}
-                />
-                <input
-                  className="input input-xs"
-                  value={address} 
-                  type={"text"} 
-                  placeholder="Address (WebSockets)"
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-                <button className="btn btn-xs" disabled={name === "" || !addressValidity} onClick={() => {
-                  updateSetting('nodes', [
-                    ...settings.nodes, {
-                      name,
-                      address,
-                      locked: false
-                  }])
-                  setName("")
-                  setAddress("")
-                }}>
-                  <SaveIcon size={16}/>
-                  Save
-                </button>
-              </div>
+                updateSetting('selectedNode', id)
+                request('node:connect', [ settings.nodes[id].address ])
+              }}>
+                {settings.nodes.map((node, id) => {
+                  return (
+                    <option key={id} value={id}>{node.name} - {node.address}</option>
+                  )
+                })}
+              </select>
+              <details className="dropdown dropdown-end">
+                <summary className="btn btn-primary join-item">
+                  <PlusIcon />
+                </summary>
+                <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-48 shadow-sm gap-1 mt-1">
+                  <input
+                    className="input input-xs"
+                    value={name}
+                    type={"text"}
+                    placeholder="Name"
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <input
+                    className="input input-xs"
+                    value={address} 
+                    type={"text"} 
+                    placeholder="URL"
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                  <button className="btn btn-xs" disabled={name === "" || !addressValidity} onClick={() => {
+                    updateSetting('nodes', [
+                      ...settings.nodes, {
+                        name,
+                        address,
+                        locked: false
+                    }])
+                    setName("")
+                    setAddress("")
+                  }}>
+                    <PlusIcon />
+                    Add Node
+                  </button>
+                </ul>
+              </details>
             </div>
-          </div>
+          </label>
         </div>
         <div>
           <div className="flex justify-between py-2 badge w-full">
@@ -92,7 +91,7 @@ export default function Account () {
             <span className="font-medium text-xs">Change addresses</span>
             <p className="tabular-nums font-mono">{kaspa.addresses[1].length}</p>
           </div>
-          <button className="btn btn-outline w-full" onClick={({ currentTarget }) => {
+          <button className="btn btn-primary w-full" onClick={({ currentTarget }) => {
             currentTarget.disabled = true
 
             request('account:scan', []).then(() => {
