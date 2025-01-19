@@ -13,8 +13,6 @@ Introducing Kaspian, a self-custodial Kaspa wallet with built-in merchant tool a
 - [x] Receive with QR code generation
 - [x] Provider api
 - [x] Themes
-- [x] Internationalization
-
 
 ## Installation
 
