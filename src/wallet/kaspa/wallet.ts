@@ -16,6 +16,7 @@ export default class Wallet extends EventEmitter {
     super()
 
     this.sync().then(() => readyCallback())
+    this.listen()
   }
   
   private async sync () {
@@ -28,22 +29,20 @@ export default class Wallet extends EventEmitter {
 
       this.status = session ? Status.Unlocked : Status.Locked;
     }
-
-    this.emit('status', this.status)
   }
 
   async create (password: string) {
-    const mnemonic = Mnemonic.random(24)
-    await this.import(mnemonic.phrase, password)
+    const { phrase } = Mnemonic.random(24)
+    await this.import(phrase, password)
 
-    return mnemonic.phrase
+    return phrase
   }
 
-  async import (mnemonics: string, password: string) {
-    if (!Mnemonic.validate(mnemonics)) throw Error('Invalid mnemonic')
+  async import (mnemonic: string, password: string) {
+    if (!Mnemonic.validate(mnemonic)) throw Error('Invalid mnemonic')
   
     await LocalStorage.set("wallet", {
-      encryptedKey: encryptXChaCha20Poly1305(mnemonics, password),
+      encryptedKey: encryptXChaCha20Poly1305(mnemonic, password),
       accounts: [{
         name: "Wallet",
         receiveCount: 1,
@@ -52,7 +51,6 @@ export default class Wallet extends EventEmitter {
     })
 
     await this.unlock(0, password)
-    await this.sync()
   }
 
   async unlock (id: number, password: string) {
@@ -69,8 +67,6 @@ export default class Wallet extends EventEmitter {
       publicKey: publicKey.toString(),
       encryptedKey: encryptXChaCha20Poly1305(extendedKey.toString(), password)
     })
-
-    await this.sync()
   }
 
   async export (password: string) {
@@ -83,12 +79,26 @@ export default class Wallet extends EventEmitter {
 
   async lock () {
     await SessionStorage.remove('session')
-    await this.sync()
   }
 
   async reset () {
     await SessionStorage.clear()
     await LocalStorage.remove('wallet')
-    await this.sync()
+  }
+
+  private listen () {
+    SessionStorage.subscribeChanges(async (key, newValue) => {
+      if (key !== 'session') return
+
+      this.status = newValue ? Status.Unlocked : Status.Locked
+      this.emit('status', this.status)
+    })
+
+    LocalStorage.subscribeChanges(async (key, newValue) => {
+      if (key !== 'wallet' || this.status === Status.Unlocked) return
+
+      this.status = newValue ? Status.Locked : Status.Uninitialized
+      this.emit('status', this.status)
+    })
   }
 }

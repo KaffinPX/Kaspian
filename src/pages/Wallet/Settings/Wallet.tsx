@@ -1,64 +1,50 @@
-import { i18n } from "webextension-polyfill"
-import NodePopup from "@/pages/Wallet/Settings/Wallet/Node"
-import ExportPopup from "@/pages/Wallet/Settings/Wallet/Export"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import useKaspa from "@/hooks/useKaspa"
-import useSettings from "@/hooks/useSettings"
+import { HammerIcon, XIcon } from "lucide-react"
+import { useEffect, useState } from "react"
 
-export default function Network () {
-  const { settings, updateSetting } = useSettings()
-  const { kaspa, request } = useKaspa()
+export default function Wallet () {
+  const { request } = useKaspa()
+
+  const [ count, setCount ] = useState<number>()
+
+  useEffect(() => {
+    if (count === undefined || count <= 0) return
+
+    const timer = setInterval(() => {
+      setCount(prevCount => prevCount ? prevCount - 1 : 0)
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [ count ])
 
   return (
-    <AccordionItem value="wallet">
-      <AccordionTrigger>{i18n.getMessage('wallet')}</AccordionTrigger>
-      <AccordionContent>
-        <div className={"flex flex-col gap-2"}>
-          <div className={"px-3"}>
-            <h3 className={"flex gap-2 font-bold"}>
-              {i18n.getMessage('node')}
-              <Badge variant={"outline"} className={kaspa.connected ? "text-green-500" : 'text-red-500'}>
-                {kaspa.connected ? i18n.getMessage('connected') : i18n.getMessage('disconnected')}
-              </Badge>
-            </h3>
-            <h4>{i18n.getMessage('nodeDescription')}</h4>
+    <div className="collapse shadow-md">
+      <input type="radio" name="settings-accordion" />
+      <div className="collapse-title text-base font-bold">Wallet</div>
+      <div className="collapse-content">
+        {typeof count === 'undefined' && (
+          <button className="btn btn-error w-full" onClick={() => {
+            setCount(10)
+          }}>
+            <HammerIcon />
+            Reset Wallet
+          </button>
+        )}
+        {typeof count !== 'undefined' && (
+          <div className="flex flex-row gap-1">
+            <button className="btn btn-error w-40" disabled={count !== 0} onClick={() => {
+              request('wallet:reset', [])
+            }}>
+              Are you sure? ({count})
+            </button>
+            <button className="btn btn-circle" onClick={() => {
+              setCount(undefined)
+            }}>
+              <XIcon />
+            </button>
           </div>
-          <div className={"flex gap-1 mx-1"}>
-            <Select defaultValue={settings.selectedNode.toString()} 
-              onValueChange={async (id) => {
-                await updateSetting('selectedNode', parseInt(id))
-                await request('node:connect', [ settings.nodes[parseInt(id)].address ])
-              }}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="h-64">
-                {settings.nodes.map((node, id) => {
-                  return (
-                    <SelectItem key={id} value={id.toString()}>
-                      {node.name}
-                      <p className={"text-xs"}>{node.address}</p>
-                    </SelectItem>
-                  )
-                })}
-              </SelectContent>
-            </Select>
-            <NodePopup />
-          </div>
-          <div className={"px-3"}>
-            <h3 className={"flex gap-2 font-bold"}>
-              {i18n.getMessage('mnemonic')}
-            </h3>
-            <h4>{i18n.getMessage('mnemonicDescription')}</h4>
-          </div>
-          <div className={"flex gap-1 mx-1"}>
-            <ExportPopup />
-          </div>
-        </div>
-      </AccordionContent>
-    </AccordionItem>
+        )}
+      </div>
+    </div>
   )
 }

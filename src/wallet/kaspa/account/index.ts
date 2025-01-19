@@ -38,7 +38,7 @@ export default class Account extends EventEmitter  {
     })
 
     this.registerProcessor()
-    this.listenSession()
+    this.listen()
   }
 
   get balance () {
@@ -58,27 +58,31 @@ export default class Account extends EventEmitter  {
     return [ ...pendingUTXOs, ...matureUTXOs ]
   }
 
-  async scan (steps = 50, count = 10) {
+  async scan (steps = 50, count = 20) {
     const scanAddresses = async (isReceive: boolean, startIndex: number) => {
       let foundIndex = 0
 
       for (let index = 0; index < steps; index++) {
         const addresses = await this.addresses.derive(isReceive, startIndex, startIndex + count)
-        startIndex += count
-    
         const { entries } = await this.processor.rpc.getUtxosByAddresses(addresses)
         const entryIndex = addresses.findIndex((address) => entries.some((entry) => entry.address?.toString() === address))
 
         if (entryIndex !== -1) { 
-          foundIndex = startIndex - count + entryIndex
+          foundIndex = startIndex + entryIndex + 1
         }
+
+        startIndex += count
       }
 
-      await this.addresses.increment(isReceive ? foundIndex : 0, isReceive ? 0 : foundIndex)
+      return foundIndex
     }
   
-    await scanAddresses(true, this.addresses.receiveAddresses.length)
-    await scanAddresses(false, this.addresses.changeAddresses.length)
+    const receiveCount = await scanAddresses(true, this.addresses.receiveAddresses.length)
+    const changeCount = await scanAddresses(false, this.addresses.changeAddresses.length)
+
+    if (receiveCount !== 0 || changeCount !== 0) {
+      await this.addresses.increment(receiveCount, changeCount)
+    }
   }
 
   private registerProcessor () {
@@ -101,7 +105,7 @@ export default class Account extends EventEmitter  {
     })
   }
 
-  private listenSession () {
+  private listen () {
     SessionStorage.subscribeChanges(async (key, newValue) => {
       if (key !== 'session') return
 

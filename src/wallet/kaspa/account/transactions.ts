@@ -61,7 +61,6 @@ export default class Transactions extends EventEmitter {
     })
 
     await this.addresses.increment(0, 1)
-
     for (const transaction of transactions) {
       this.transactions.set(transaction.id, transaction)
     }

@@ -1,55 +1,28 @@
-import { useState } from "react"
-import { i18n } from "webextension-polyfill"
-import QRCode from "react-qr-code"
-import { ReceiptIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger
-} from "@/components/ui/sheet"
-import { Input } from "@/components/ui/input"
 import useKaspa from "@/hooks/useKaspa"
+import QRCode from "react-qr-code"
 
-export default function SendDrawer () {
+export default function Receive () {
   const { kaspa } = useKaspa()
 
-  const [ amount, setAmount ] = useState("")
-
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button className={"gap-2"}>
-          <ReceiptIcon />
-          {i18n.getMessage('receive')}
-        </Button>
-      </SheetTrigger>
-      <SheetContent side={"bottom"} className={"h-[60%]"}>
-        <div className="mx-auto">
-          <SheetHeader>
-            <SheetTitle>{i18n.getMessage('receive')}</SheetTitle>
-            <SheetDescription>{i18n.getMessage('receiveDescription')}</SheetDescription>
-          </SheetHeader>
-          <div className="flex flex-col p-4 pb-0 items-center gap-5">
-          <div className="h-max w-36 bg-white p-1">
-            <QRCode
-              style={{ height: "auto", width: "100%" }}
-              value={`${kaspa.addresses[0][kaspa.addresses[0].length - 1]}?${amount ? `amount=${amount}` : ''}`}
-            />
-          </div>
-          <Input
-            type={"number"}
-            placeholder={i18n.getMessage('amount')}
-            value={amount}
-            min={0}
-            onChange={(e) => setAmount(e.target.value)}
+    <dialog id="receive_modal" className="modal modal-bottom sm:modal-middle">
+      <div className="modal-box flex flex-col gap-2 text-center">
+        <h3 className="text-2xl font-extrabold tracking-tight">Receive KAS</h3>
+        <div className="bg-base-200 rounded-box p-4 w-min mx-auto gap-2">
+          <QRCode
+            style={{ height: "auto", width: "155px" }}
+            value={`${kaspa.addresses[0][kaspa.addresses[0].length - 1]}`}
           />
-          </div>
         </div>
-      </SheetContent>
-    </Sheet>
+        <textarea 
+          className="textarea resize-none overflow-hidden mx-auto"
+          value={kaspa.addresses[0][kaspa.addresses[0].length - 1]}
+          disabled
+        />
+      </div>
+      <form method="dialog" className="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
   )
 }

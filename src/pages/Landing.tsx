@@ -1,9 +1,9 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { Status } from "@/wallet/kaspa/wallet"
 import useSettings from "../hooks/useSettings"
 import useKaspa from "../hooks/useKaspa"
 import usePromise from "../hooks/usePromise"
+import { Status } from "@/wallet/kaspa/wallet"
 
 export default function Landing() {
   const settings = useSettings()
@@ -21,7 +21,7 @@ export default function Landing() {
   useEffect(() => {
     if (loadedSettings && loadedKaspa) {
       if (kaspa.status === Status.Uninitialized) {
-        navigate("/create")
+        navigate("/creation")
       } else if (kaspa.status === Status.Locked) {
         navigate("/unlock")
       } else if (kaspa.status === Status.Unlocked) {

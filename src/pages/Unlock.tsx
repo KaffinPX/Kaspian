@@ -1,57 +1,48 @@
+import useKaspa from "@/hooks/useKaspa"
 import { useCallback, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { i18n } from "webextension-polyfill"
-import { UnlockKeyhole } from "lucide-react"
-import Heading from "@/components/Heading"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import useKaspa from "@/hooks/useKaspa"
 
-export default function UnlockWallet() {
-  const navigate = useNavigate()
+export default function Unlock () {
   const { request } = useKaspa()
+  const navigate = useNavigate()
 
   const [ password, setPassword ] = useState("")
-  const [ error, setError ] = useState("")
+  const [ error, setError ] = useState(false)
 
   const unlockWallet = useCallback(() => {
     request('wallet:unlock', [ password ]).then(() => {
       navigate("/")
-    }).catch((err) => {
-      setError(err)
-    })
+    }).catch(() => {
+      setError(true)
+    }).finally(() => setPassword(""))
   }, [ password ])
 
   return (
-    <main className={"flex flex-col justify-between min-h-screen py-6"}>
-      <Heading
-        title={"Kaspian"}
-        subtitle={i18n.getMessage('unlockIntro')}
-      />
-      <div className={"mx-auto"}>
-        <Input
-          type={"password"}
-          placeholder={i18n.getMessage('password')}
-          className={"w-72"}
+    <main className="flex flex-col min-h-screen px-3 py-4">
+      <div className="navbar">
+        <select className="select" defaultValue="Account #1">
+          <option disabled>Account #1</option>
+        </select>
+      </div>
+      <h1 className="text-3xl text-center font-extrabold tracking-tight">
+        Welcome back, Kaspian!
+      </h1>
+      <fieldset className="fieldset border p-4 rounded-box mt-8">
+        <legend className="fieldset-legend">Unlock account</legend>
+        <label className="fieldset-label">Password</label>
+        <input
+          type={'password'}
+          placeholder={'Password'}
           value={password}
-          error={error}
-          onChange={e => {
-            if (error) setError("")
+          className={`input input-bordered w-full ${error ? "input-error" : ""}`}
+          onChange={(e) => { 
+            if (error) setError(false)
             setPassword(e.target.value)
           }}
-          onKeyUp={e => {
-            if (e.key !== 'Enter' || password === "") return
-            unlockWallet()
-          }}
-          autoFocus
         />
-      </div>
-      <div className={"mx-auto"}>
-        <Button className={"gap-2"} disabled={password === ""} onClick={unlockWallet}>
-          <UnlockKeyhole />
-          {i18n.getMessage('unlock')}
-        </Button>
-      </div>
+        <button className="btn btn-primary mt-3" onClick={unlockWallet}>Unlock</button>
+        <button className="btn btn-ghost" onClick={() => alert("Currently not implemented.")}>Forget password</button>
+      </fieldset>
     </main>
   )
 }

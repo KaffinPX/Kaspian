@@ -1,42 +1,32 @@
-import { runtime, i18n } from "webextension-polyfill"
 import { SettingsIcon } from "lucide-react"
-import GeneralTab from "@/pages/Wallet/Settings/General"
-import WalletTab from "@/pages/Wallet/Settings/Wallet"
-import AccountTab from "@/pages/Wallet/Settings/Account"
-import ResetPopup from "@/pages/Wallet/Settings/General/Reset"
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  SheetFooter
-} from "@/components/ui/sheet"
-import { Button } from "@/components/ui/button"
-import { Accordion } from "@/components/ui/accordion"
+import { runtime } from "webextension-polyfill"
+import GeneralCategory from "./Settings/General"
+import AccountCategory from "./Settings/Account"
+import WalletCategory from "./Settings/Wallet"
 
 export default function Settings () {
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button size={"icon"} variant={"outline"}>
+    <div className="drawer drawer-end z-[1] w-max">
+      <input id="settings-drawer" type="checkbox" className="drawer-toggle" />
+      <div className="drawer-content justify-end">
+        <label htmlFor="settings-drawer" className="btn btn-circle drawer-button">
           <SettingsIcon />
-        </Button>
-      </SheetTrigger>
-      <SheetContent side={"right"} className="flex flex-col w-[80%]">
-        <SheetHeader>
-          <SheetTitle>{i18n.getMessage('settings')}</SheetTitle>
-        </SheetHeader>
-        <Accordion type="single" defaultValue={"general"} className="w-full">
-          <GeneralTab />
-          <WalletTab />
-          <AccountTab />
-        </Accordion>
-        <SheetFooter className="gap-2">
-          Kaspian {runtime.getManifest().version}
-          <ResetPopup />
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
+        </label>
+      </div>
+      <div className="drawer-side align-middle">
+        <label htmlFor="settings-drawer" className="drawer-overlay"></label>
+        <ul className="menu bg-base-300 text-base-content rounded-l-box min-h-full w-62 p-4">
+          <h3 className="text-xl font-extrabold tracking-tight text-center">
+            Settings
+          </h3>
+          <GeneralCategory />
+          <AccountCategory />
+          <WalletCategory />
+          <p className="fixed bottom-4 font-bold">
+            Kaspian {runtime.getManifest().version}
+          </p>
+        </ul>
+      </div>
+    </div>
   )
 }

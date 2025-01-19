@@ -1,6 +1,42 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "daisyui" {
+  exclude: rootscrollgutter;
+}
+
+@plugin "daisyui/theme" {
+  name: "kaspian";
+  default: true;
+  prefersdark: false;
+  color-scheme: "dark";
+  --color-base-100: oklch(22% 0.019 237.69);
+  --color-base-200: oklch(20% 0.019 237.69);
+  --color-base-300: oklch(18% 0.019 237.69);
+  --color-base-content: oklch(96% 0.016 293.756);
+  --color-primary: oklch(58% 0.233 277.117);
+  --color-primary-content: oklch(14.94% 0.031 39.947);
+  --color-secondary: oklch(72.537% 0.177 2.72);
+  --color-secondary-content: oklch(14.507% 0.035 2.72);
+  --color-accent: oklch(71.294% 0.166 299.844);
+  --color-accent-content: oklch(14.258% 0.033 299.844);
+  --color-neutral: oklch(26% 0.019 237.69);
+  --color-neutral-content: oklch(70% 0.019 237.69);
+  --color-info: oklch(85.559% 0.085 206.015);
+  --color-info-content: oklch(17.111% 0.017 206.015);
+  --color-success: oklch(85.56% 0.085 144.778);
+  --color-success-content: oklch(17.112% 0.017 144.778);
+  --color-warning: oklch(85.569% 0.084 74.427);
+  --color-warning-content: oklch(17.113% 0.016 74.427);
+  --color-error: oklch(85.511% 0.078 16.886);
+  --color-error-content: oklch(17.102% 0.015 16.886);
+  --radius-selector: 1rem;
+  --radius-field: 2rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 2px;
+  --depth: 0;
+  --noise: 0;
+}
 
 #root {
   display: flex;
@@ -9,75 +45,5 @@
 }
 
 main {
-  min-width: 365px;
-  max-width: 410px;
-  height: 592px;
-}
-
-@layer base {
-  :root {
-    --background: 220 15% 95%; /* Light Blue-Gray */
-    --foreground: 220 15% 20%; /* Dark Blue-Gray */
-    --card: 220 15% 90%; /* Light Blue-Gray */
-    --card-foreground: 220 15% 30%; /* Medium Blue-Gray */
-    --popover: 220 15% 95%; /* Light Blue-Gray */
-    --popover-foreground: 220 15% 20%; /* Dark Blue-Gray */
-    --primary: 200 60% 75%; /* Soft Pastel Blue */
-    --primary-foreground: 0 0% 100%; /* Pure White */
-    --secondary: 180 40% 70%; /* Soft Cyan */
-    --secondary-foreground: 220 15% 20%; /* Dark Blue-Gray */
-    --muted: 200 20% 80%; /* Muted Blue */
-    --muted-foreground: 220 15% 40%; /* Medium Blue-Gray */
-    --accent: 340 70% 65%; /* Softer Vivid Pink */
-    --accent-foreground: 0 0% 100%; /* Pure White */
-    --destructive: 0 70% 50%; /* Bright Red */
-    --destructive-foreground: 0 0% 100%; /* Pure White */
-    --border: 220 20% 60%; /* Medium Blue-Gray */
-    --input: 220 20% 90%; /* Light Blue-Gray */
-    --ring: 200 60% 75%; /* Soft Pastel Blue */
-    --radius: 1rem; /* Slightly larger border radius */
-  }
-  .dark {
-    --background: 220 5% 5%; /* Very Dark Gray */
-    --foreground: 220 15% 90%; /* Light Blue-Gray */
-    --card: 220 5% 10%; /* Very Dark Gray */
-    --card-foreground: 220 15% 90%; /* Light Blue-Gray */
-    --popover: 220 5% 15%; /* Dark Gray */
-    --popover-foreground: 220 15% 90%; /* Light Blue-Gray */
-    --primary: 200 60% 40%; /* Darker Pastel Blue */
-    --primary-foreground: 0 0% 100%; /* Pure White */
-    --secondary: 180 40% 40%; /* Soft Cyan */
-    --secondary-foreground: 0 0% 100%; /* Pure White */
-    --muted: 200 20% 30%; /* Muted Blue */
-    --muted-foreground: 220 15% 60%; /* Medium Blue-Gray */
-    --accent: 340 70% 55%; /* Softer Vivid Pink */
-    --accent-foreground: 0 0% 100%; /* Pure White */
-    --destructive: 0 70% 50%; /* Bright Red */
-    --destructive-foreground: 0 0% 100%; /* Pure White */
-    --border: 0 0% 20%; /* Dark Gray */
-    --input: 220 20% 30%; /* Very Dark Blue-Gray */
-    --ring: 200 60% 40%; /* Darker Pastel Blue */
-    --radius: 1rem; /* Slightly larger border radius */
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-@layer utilities {
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  /* Hide scrollbar for IE, Edge and Firefox */
-  .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
+  max-width: 460px;
 }
