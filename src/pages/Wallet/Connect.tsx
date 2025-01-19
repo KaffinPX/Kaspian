@@ -8,9 +8,9 @@ export default function Receive () {
 
   return (
     <dialog id="connect_modal" className={`modal modal-bottom sm:modal-middle ${hash === 'connect' ? 'modal-open' : ''}`}>
-      <div className="modal-box flex flex-col gap-1 text-center">
+      <div className="modal-box flex flex-col gap-2 text-center">
         <h3 className="text-2xl font-extrabold tracking-tight">Connect</h3>
-        <textarea className="textarea resize-none overflow-hidden" disabled>{params.get("url")}</textarea>
+        <textarea className="textarea resize-none overflow-hidden w-full" disabled>{params.get("url")}</textarea>
         <button className={"btn"} onClick={() => {
           request('provider:connect', [ params.get('url')! ]).then(() => {
             window.close()
