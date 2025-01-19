@@ -1,8 +1,11 @@
 import useKaspa from "@/hooks/useKaspa"
+import { useState } from "react"
 import QRCode from "react-qr-code"
 
 export default function Receive () {
   const { kaspa } = useKaspa()
+
+  const [ amount, setAmount ] = useState("")
 
   return (
     <dialog id="receive_modal" className="modal modal-bottom sm:modal-middle">
@@ -11,14 +14,24 @@ export default function Receive () {
         <div className="bg-base-200 rounded-box p-4 w-min mx-auto gap-2">
           <QRCode
             style={{ height: "auto", width: "155px" }}
-            value={`${kaspa.addresses[0][kaspa.addresses[0].length - 1]}`}
+            value={`${kaspa.addresses[0][kaspa.addresses[0].length - 1]}?${amount ? `amount=${amount}` : ''}`}
           />
         </div>
-        <textarea 
-          className="textarea resize-none overflow-hidden mx-auto"
-          value={kaspa.addresses[0][kaspa.addresses[0].length - 1]}
-          disabled
-        />
+        <div>
+          <textarea 
+            className="textarea textarea-xs w-full tracking-tighter min-h-0 resize-none overflow-hidden"
+            value={kaspa.addresses[0][kaspa.addresses[0].length - 1]}
+            disabled
+          />
+          <input
+            type="number"
+            min={0}
+            className="input input-xs w-36 input-ghost text-center"
+            placeholder="Amount (as Kaspa)"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+        </div>
       </div>
       <form method="dialog" className="modal-backdrop">
         <button>close</button>
