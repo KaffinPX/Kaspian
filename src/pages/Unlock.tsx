@@ -19,15 +19,10 @@ export default function Unlock () {
 
   return (
     <main className="flex flex-col min-h-screen px-3 py-4">
-      <div className="navbar gap-4">
-        <div className="navbar-start">
-          <button className="btn btn-outline text-3xl">Kaspian</button>
-        </div>
-        <div className="navbar-end">
-          <select className="select w-28" defaultValue="Account #1">
-            <option disabled>Account #1</option>
-          </select>
-        </div>
+      <div className="navbar">
+        <select className="select" defaultValue="Account #1">
+          <option disabled>Account #1</option>
+        </select>
       </div>
       <h1 className="text-3xl text-center font-extrabold tracking-tight">
         Welcome back, Kaspian!
