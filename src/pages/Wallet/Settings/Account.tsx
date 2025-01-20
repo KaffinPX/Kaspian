@@ -51,20 +51,20 @@ export default function Account () {
                 </summary>
                 <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-48 shadow-sm gap-1 mt-1">
                   <input
-                    className="input input-xs"
+                    className="input input-xs rounded-xl "
                     value={name}
                     type={"text"}
                     placeholder="Name"
                     onChange={(e) => setName(e.target.value)}
                   />
                   <input
-                    className="input input-xs"
+                    className="input input-xs rounded-xl"
                     value={address} 
                     type={"text"} 
                     placeholder="URL"
                     onChange={(e) => setAddress(e.target.value)}
                   />
-                  <button className="btn btn-xs" disabled={name === "" || !addressValidity} onClick={() => {
+                  <button className="btn btn-xs rounded-xl" disabled={name === "" || !addressValidity} onClick={() => {
                     updateSetting('nodes', [
                       ...settings.nodes, {
                         name,
