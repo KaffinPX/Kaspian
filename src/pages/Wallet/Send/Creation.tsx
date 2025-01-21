@@ -1,9 +1,9 @@
-import useKaspa from "@/hooks/useKaspa"
 import { useCallback, useState } from "react"
+import { SendIcon } from "lucide-react"
 import { Output } from "./Outputs"
 import { Input } from "@/provider/protocol"
+import useKaspa from "@/hooks/useKaspa"
 import useURLParams from "@/hooks/useURLParams"
-import { SendIcon } from "lucide-react"
 
 export default function Creation ({ inputs, outputs, setTransactions }: {
   inputs: Input[],

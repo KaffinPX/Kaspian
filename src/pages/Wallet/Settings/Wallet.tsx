@@ -1,6 +1,6 @@
-import useKaspa from "@/hooks/useKaspa"
-import { HammerIcon, XIcon, EyeIcon, Eye } from "lucide-react"
 import { useEffect, useState } from "react"
+import { HammerIcon, XIcon } from "lucide-react"
+import useKaspa from "@/hooks/useKaspa"
 
 export default function Wallet () {
   const { request } = useKaspa()

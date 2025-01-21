@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { XIcon } from "lucide-react"
-import Outputs, { type Output } from "./Send/Outputs"
-import Finalization from "./Send/Finalization"
 import useURLParams from "@/hooks/useURLParams"
 import { Input } from "@/provider/protocol"
+import Outputs, { type Output } from "./Send/Outputs"
 import Creation from "./Send/Creation"
+import Finalization from "./Send/Finalization"
 
 export default function Send () {
   const [ hash, params ] = useURLParams()

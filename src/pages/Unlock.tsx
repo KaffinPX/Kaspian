@@ -1,6 +1,6 @@
-import useKaspa from "@/hooks/useKaspa"
 import { useCallback, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import useKaspa from "@/hooks/useKaspa"
 
 export default function Unlock () {
   const { request } = useKaspa()

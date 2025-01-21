@@ -1,5 +1,5 @@
-import { SettingsIcon } from "lucide-react"
 import { runtime } from "webextension-polyfill"
+import { SettingsIcon } from "lucide-react"
 import GeneralCategory from "./Settings/General"
 import AccountCategory from "./Settings/Account"
 import WalletCategory from "./Settings/Wallet"

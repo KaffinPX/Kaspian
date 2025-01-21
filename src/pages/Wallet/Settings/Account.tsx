@@ -1,7 +1,7 @@
+import { useMemo, useState } from "react"
+import { PlusIcon, SearchIcon } from "lucide-react"
 import useKaspa from "@/hooks/useKaspa"
 import useSettings from "@/hooks/useSettings"
-import { PlusIcon, SearchIcon, SaveIcon } from "lucide-react"
-import { useMemo, useState } from "react"
 
 export default function Account () {
   const { kaspa, request } = useKaspa()

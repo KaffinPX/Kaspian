@@ -1,6 +1,6 @@
+import { DollarSignIcon } from "lucide-react"
 import { currencies } from "@/contexts/Settings"
 import useSettings from "@/hooks/useSettings"
-import { DollarSignIcon } from "lucide-react"
 
 export default function General () {
   const { settings, updateSetting } = useSettings()

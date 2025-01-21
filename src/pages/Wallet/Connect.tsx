@@ -1,6 +1,6 @@
+import { CableIcon } from "lucide-react"
 import useKaspa from "@/hooks/useKaspa"
 import useURLParams from "@/hooks/useURLParams"
-import { CableIcon } from "lucide-react"
 
 export default function Receive () {
   const { request } = useKaspa()

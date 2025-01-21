@@ -1,6 +1,6 @@
-import useKaspa from "@/hooks/useKaspa"
 import { useState } from "react"
 import QRCode from "react-qr-code"
+import useKaspa from "@/hooks/useKaspa"
 
 export default function Receive () {
   const { kaspa } = useKaspa()

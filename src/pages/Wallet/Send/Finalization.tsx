@@ -1,8 +1,8 @@
-import useKaspa from "@/hooks/useKaspa"
-import { Input } from "@/provider/protocol"
-import { PenIcon } from "lucide-react"
 import { useMemo, useState } from "react"
-import { ITransactionInput, ITransactionOutput } from "wasm"
+import { PenIcon } from "lucide-react"
+import type { ITransactionInput, ITransactionOutput } from "wasm"
+import { Input } from "@/provider/protocol"
+import useKaspa from "@/hooks/useKaspa"
 
 export default function Finalization ({ inputs, transactions, closeAfter }: {
   inputs: Input[]

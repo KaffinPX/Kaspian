@@ -1,16 +1,16 @@
-import useKaspa from "@/hooks/useKaspa"
+import { useEffect } from "react"
+import browser from "webextension-polyfill"
+import { useNavigate } from 'react-router-dom'
+import { SendToBack, ReceiptIcon, LogOutIcon } from "lucide-react"
+import { Status } from "@/wallet/kaspa/wallet"
 import { currencies } from "@/contexts/Settings"
+import useKaspa from "@/hooks/useKaspa"
 import useSettings from "@/hooks/useSettings"
 import useCoingecko from "@/hooks/useCoingecko"
-import { SendToBack, ReceiptIcon, LogOutIcon } from "lucide-react"
-import { useEffect } from "react"
-import { useNavigate } from 'react-router-dom'
-import { Status } from "@/wallet/kaspa/wallet"
 import SendModal from "./Wallet/Send"
 import ReceiveModal from "./Wallet/Receive"
 import ConnectModal from "./Wallet/Connect"
 import SettingsMenu from "./Wallet/Settings"
-import browser from "webextension-polyfill"
 
 export default function Wallet () {
   const { kaspa, request } = useKaspa()
