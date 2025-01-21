@@ -6,7 +6,7 @@ export default function Import ({ onSubmit }: {
 }) {
   const [ mnemonic, setMnemonic ] = useState<string[]>(Array(24).fill(""))
 
-  const changeMnemonicWord = useCallback((index: number, word: string) => {
+  const changeWord = useCallback((index: number, word: string) => {
     setMnemonic((prevWords) => {
       const updatedWords = [ ...prevWords ]
       updatedWords[index] = word
@@ -15,7 +15,7 @@ export default function Import ({ onSubmit }: {
     })
   }, [])
 
-  const parsePastedMnemonic = useCallback((e: React.ClipboardEvent<HTMLInputElement>) => {
+  const handlePasted = useCallback((e: React.ClipboardEvent<HTMLInputElement>) => {
     const words = e.clipboardData.getData('text').split(' ')
 
     if (words.length === 24) {
@@ -48,12 +48,12 @@ export default function Import ({ onSubmit }: {
             className="input input-bordered h-8 font-mono"
             onFocus={(e) => e.currentTarget.type = 'text'}
             onBlur={(e) => e.currentTarget.type = 'password'}
-            onChange={(e) => changeMnemonicWord(index, e.target.value)}
-            onPaste={parsePastedMnemonic}
+            onChange={(e) => changeWord(index, e.target.value)}
+            onPaste={handlePasted}
           />
         ))}
       </div>
-      <button className="btn btn-primary" disabled={mnemonic.some(word => word === "")}onClick={() => onSubmit(mnemonic.join(' '))}>
+      <button className="btn btn-primary" disabled={mnemonic.some(word => word === "")} onClick={() => onSubmit(mnemonic.join(' '))}>
          Next
       </button>
     </main>

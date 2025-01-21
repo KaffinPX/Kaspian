@@ -1,4 +1,3 @@
-import Icon from "../../../public/favicon.png?url"
 import { Tabs } from "../Creation"
 
 export default function Landing({ forward }: { 
@@ -6,7 +5,7 @@ export default function Landing({ forward }: {
 }) {
   return (
     <main className="flex flex-col justify-between min-h-screen px-8 py-6">
-      <img src={Icon} className="rounded-full"/>
+      <img src="/favicon.png" className="rounded-full"/>
       <h1 className="text-4xl font-extrabold tracking-tight text-center">
         Welcome to Kaspian Wallet!
       </h1>
