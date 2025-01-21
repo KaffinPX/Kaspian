@@ -11,9 +11,9 @@ export default function Receive () {
     <dialog id="receive_modal" className="modal modal-bottom sm:modal-middle">
       <div className="modal-box flex flex-col gap-2 text-center">
         <h3 className="text-2xl font-extrabold tracking-tight">Receive KAS</h3>
-        <div className="bg-base-200 rounded-box p-4 w-min mx-auto gap-2">
+        <div className="bg-base-200 rounded-box p-3 w-min mx-auto">
           <QRCode
-            style={{ height: "auto", width: "155px" }}
+            style={{ height: "auto", width: "140px" }}
             value={`${kaspa.addresses[0][kaspa.addresses[0].length - 1]}?${amount ? `amount=${amount}` : ''}`}
           />
         </div>

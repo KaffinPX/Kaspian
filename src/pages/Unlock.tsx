@@ -41,7 +41,7 @@ export default function Unlock () {
           }}
         />
         <button className="btn btn-primary mt-3" onClick={unlockWallet}>Unlock</button>
-        <button className="btn btn-ghost" onClick={() => alert("Currently not implemented.")}>Forget password</button>
+        <button className="btn btn-ghost" onClick={() => alert("The extension can be uninstalled and reinstalled to reset it.")}>Forgot password?</button>
       </fieldset>
     </main>
   )
