@@ -39,6 +39,11 @@ export default function Unlock () {
             if (error) setError(false)
             setPassword(e.target.value)
           }}
+          onKeyUp={e => {
+            if (e.key !== 'Enter' || password === "") return
+            unlockWallet()
+          }}
+          autoFocus
         />
         <button className="btn btn-primary mt-3" onClick={unlockWallet}>Unlock</button>
         <button className="btn btn-ghost" onClick={() => alert("The extension can be uninstalled and reinstalled to reset it.")}>Forgot password?</button>
