@@ -5,7 +5,6 @@ import useKaspa from "@/hooks/useKaspa"
 export default function Wallet () {
   const { request } = useKaspa()
 
-  const [ password, setPassword ] = useState("")
   const [ count, setCount ] = useState<number>()
 
   useEffect(() => {
