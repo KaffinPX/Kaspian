@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react"
-import { SendIcon } from "lucide-react"
+import { RabbitIcon, SendIcon } from "lucide-react"
 import { Output } from "./Outputs"
 import { Input } from "@/provider/protocol"
 import useKaspa from "@/hooks/useKaspa"
@@ -27,8 +27,11 @@ export default function Creation ({ inputs, outputs, setTransactions }: {
 
   return (
     <>
-      <div className="flex flex-row items-center gap-1 p-1">
-        <p className="font-semibold">Priority {feeRate !== 1 ? `(${feeRate})` : ""}</p>
+      <div className="flex flex-row items-center gap-1">
+        <div className="flex flex-col items-center">
+          <RabbitIcon size={12}/>
+          <p className="font-semibold">Priority {feeRate !== 1 ? `(${feeRate})` : ""}</p>
+        </div>
         <form className="filter">
           <input className="btn btn-xs btn-square" type="reset" value="×" onChange={handleFeeChange} />
           <input className="btn btn-xs btn-error" type="radio" name="fee" aria-label="Slow" onChange={handleFeeChange} />
