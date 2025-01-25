@@ -30,10 +30,10 @@ export default function Creation ({ inputs, outputs, setTransactions }: {
       <div className="flex flex-row items-center gap-1">
         <div className="flex flex-col items-center">
           <RabbitIcon size={12}/>
-          <p className="font-semibold">Priority {feeRate !== 1 ? `(${feeRate})` : ""}</p>
+          <p className="font-semibold">Priority {feeRate !== 1 ? `(${feeRate.toFixed(1)})` : ""}</p>
         </div>
         <form className="filter">
-          <input className="btn btn-xs btn-square" type="reset" value="×" onChange={handleFeeChange} />
+          <input className="btn btn-xs btn-square" type="reset" value="×" onClick={() => setFeeRate(1)} />
           <input className="btn btn-xs btn-error" type="radio" name="fee" aria-label="Slow" onChange={handleFeeChange} />
           <input className="btn btn-xs btn-warning" type="radio" name="fee" aria-label="Standard" onChange={handleFeeChange} />
           <input className="btn btn-xs btn-success" type="radio" name="fee" aria-label="Fast" onChange={handleFeeChange} />
