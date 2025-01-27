@@ -23,7 +23,7 @@ const manifest: ManifestV3Export = {
     js: [ "src/provider" ],
     run_at: "document_start"
   }],
-  permissions: [ "storage", "alarms", "notifications" ],
+  permissions: [ "storage" ],
   // this is an ID for firefox, but the `ManifestV3Export` type doesn't have it
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
