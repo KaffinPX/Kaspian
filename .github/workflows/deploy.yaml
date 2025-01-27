@@ -4,7 +4,6 @@ on:
   release:
     types: [ published ]
 
-
 jobs:
   build:
     name: Build
@@ -34,3 +33,4 @@ jobs:
           upload_url: ${{ github.event.release.upload_url }}
           asset_path: "dist/"
           asset_name: "unpacked-extension"
+          asset_content_type: application/zip
