@@ -25,12 +25,14 @@ jobs:
         run: bun install
       - name: Build Kaspian
         run: bun run build
+      - name: Prepare Release Asset
+        run: zip -r dist.zip dist
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: "dist/"
-          asset_name: "unpacked-extension"
+          asset_path: dist.zip
+          asset_name: unpacked-extension
           asset_content_type: application/zip
