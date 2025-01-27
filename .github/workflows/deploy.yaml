@@ -1,21 +1,11 @@
-name: Tests
+name: Build and upload assets
 
-on: [ push, pull_request ]
+on:
+  release:
+    types: [ published ]
+
 
 jobs:
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use bun
-        uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: 1.0.31
-      - name: Install Dependencies
-        run: bun install --production
-      - name: Run tests
-        run: bun run test
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -36,8 +26,11 @@ jobs:
         run: bun install
       - name: Build Kaspian
         run: bun run build
-      - name: Upload Dist as Artifact 
-        uses: actions/upload-artifact@v4
-        with: 
-          name: unpacked-extension
-          path: dist/
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: "dist/"
+          asset_name: "unpacked-extension"
