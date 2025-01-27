@@ -72,6 +72,9 @@ export default function Wallet () {
           </div>
         </div>
       </div>
+      <span className="fixed bottom-3 text-xs w-64 font-extralight tracking-tighter text-center">
+        As with all early-stage products there are risks associated with using it and users assume the full responsibility for these risks. You should not deposit any money you are not comfortable losing.
+      </span>
       <div className={`self-end status status-xl ${kaspa.connected ? 'status-success' : 'status-error'}`}></div>
       <SendModal />
       <ReceiveModal />
